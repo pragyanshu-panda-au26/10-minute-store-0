@@ -1,0 +1,148 @@
+/**
+ * Serializers to convert Prisma rows into the JSON shape the client expects.
+ * The client works in rupees (numbers), the DB stores paise (integers).
+ */
+import type { Product, Category, Subcategory, Order, OrderItem, Coupon, Banner, Address, Customer } from "@prisma/client";
+import { toRupees } from "@/lib/money";
+
+export type SerializedProduct = ReturnType<typeof serializeProduct>;
+export function serializeProduct(
+  p: Product & { subcategory?: Subcategory | null }
+) {
+  return {
+    id: p.id,
+    sku: p.sku,
+    name: p.name,
+    description: p.description ?? "",
+    category: p.categoryId,
+    subcategory: p.subcategory?.name ?? null,
+    subcategoryId: p.subcategoryId ?? null,
+    price: toRupees(p.price),
+    originalPrice: p.originalPrice ? toRupees(p.originalPrice) : null,
+    costPrice: p.costPrice ? toRupees(p.costPrice) : null,
+    stock: p.stock,
+    weight: p.weight,
+    imageUrl: p.imageUrl,
+    rating: p.rating,
+    deliveryTime: `${p.deliveryMinutes} mins`,
+    tags: p.tags,
+    isActive: p.isActive,
+  };
+}
+
+export function serializeCategory(
+  c: Category & { subcategories?: Subcategory[] }
+) {
+  return {
+    id: c.id,
+    name: c.name,
+    icon: c.icon,
+    sortOrder: c.sortOrder,
+    isActive: c.isActive,
+    subcategories: (c.subcategories ?? [])
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((s) => s.name),
+  };
+}
+
+export function serializeOrder(
+  o: Order & { items: (OrderItem & { product?: Product | null })[] }
+) {
+  return {
+    id: o.id,
+    orderNumber: o.orderNumber,
+    customerId: o.customerId,
+    customerName: o.customerNameSnap,
+    customerPhone: o.customerPhoneSnap,
+    deliveryAddress: o.deliveryAddress,
+    status: o.status,
+    subtotal: toRupees(o.subtotal),
+    discount: toRupees(o.discount),
+    deliveryFee: toRupees(o.deliveryFee),
+    total: toRupees(o.total),
+    totalPrice: toRupees(o.total),
+    totalItems: o.items.reduce((n, i) => n + i.quantity, 0),
+    paymentMethod: o.paymentMethod,
+    paymentStatus: o.paymentStatus,
+    couponCode: o.couponCode,
+    razorpayOrderId: o.razorpayOrderId,
+    createdAt: o.createdAt.toISOString(),
+    updatedAt: o.updatedAt.toISOString(),
+    deliveredAt: o.deliveredAt?.toISOString() ?? null,
+    cancelledAt: o.cancelledAt?.toISOString() ?? null,
+    geocoordinates: o.lat != null && o.lng != null ? { lat: o.lat, lng: o.lng } : null,
+    items: o.items.map((it) => ({
+      id: it.id,
+      productId: it.productId,
+      name: it.nameSnap,
+      imageUrl: it.imageSnap ?? undefined,
+      weight: it.weightSnap ?? undefined,
+      price: toRupees(it.unitPrice),
+      quantity: it.quantity,
+    })),
+  };
+}
+
+export function serializeCoupon(c: Coupon) {
+  return {
+    id: c.id,
+    code: c.code,
+    description: c.description ?? "",
+    type: c.type,
+    // Percent coupons store `value` as a percentage (0-100), everything else in paise.
+    value: c.type === "percent" ? c.value : toRupees(c.value),
+    maxDiscount: c.maxDiscount != null ? toRupees(c.maxDiscount) : null,
+    minOrder: toRupees(c.minOrder),
+    usageLimit: c.usageLimit,
+    timesUsed: c.timesUsed,
+    isActive: c.isActive,
+    validFrom: c.validFrom.toISOString(),
+    validUntil: c.validUntil?.toISOString() ?? null,
+  };
+}
+
+export function serializeBanner(b: Banner) {
+  return {
+    id: b.id,
+    title: b.title,
+    subtitle: b.subtitle ?? "",
+    badge: b.badge ?? "",
+    code: b.code ?? "",
+    imageUrl: b.imageUrl,
+    linkUrl: b.linkUrl ?? "",
+    sortOrder: b.sortOrder,
+    isActive: b.isActive,
+  };
+}
+
+export function serializeAddress(a: Address) {
+  return {
+    id: a.id,
+    label: a.label,
+    houseNo: a.houseNo,
+    area: a.area,
+    city: a.city,
+    pincode: a.pincode,
+    lat: a.lat ?? undefined,
+    lng: a.lng ?? undefined,
+    isDefault: a.isDefault,
+  };
+}
+
+export function serializeCustomer(
+  c: Customer & { _count?: { orders: number }; orders?: Pick<Order, "total">[] }
+) {
+  const totalSpent = c.orders
+    ? c.orders.reduce((n, o) => n + o.total, 0)
+    : 0;
+  return {
+    id: c.id,
+    name: c.name ?? "Customer",
+    phone: c.phone,
+    email: c.email ?? "",
+    isBlocked: c.isBlocked,
+    totalOrders: c._count?.orders ?? c.orders?.length ?? 0,
+    totalSpent: toRupees(totalSpent),
+    joinedDate: c.createdAt.toISOString().slice(0, 10),
+  };
+}
