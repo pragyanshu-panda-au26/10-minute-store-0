@@ -20,6 +20,9 @@ export interface Address {
   isDefault?: boolean;
   lat?: number;
   lng?: number;
+  landmark?: string;
+  contactName?: string;
+  contactPhone?: string;
 }
 
 export interface UserProfile {

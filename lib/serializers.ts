@@ -2,18 +2,46 @@
  * Serializers to convert Prisma rows into the JSON shape the client expects.
  * The client works in rupees (numbers), the DB stores paise (integers).
  */
-import type { Product, Category, Subcategory, Order, OrderItem, Coupon, Banner, Address, Customer } from "@prisma/client";
+import type {
+  Product,
+  ProductVariant,
+  Category,
+  Subcategory,
+  Order,
+  OrderItem,
+  Coupon,
+  Banner,
+  Address,
+  Customer,
+} from "@prisma/client";
 import { toRupees } from "@/lib/money";
 
 export type SerializedProduct = ReturnType<typeof serializeProduct>;
 export function serializeProduct(
-  p: Product & { subcategory?: Subcategory | null }
+  p: Product & { subcategory?: Subcategory | null; variants?: ProductVariant[] }
 ) {
+  const variants = (p.variants ?? [])
+    .slice()
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .map((v) => ({
+      id: v.id,
+      sku: v.sku,
+      label: v.label,
+      price: toRupees(v.price),
+      originalPrice: v.originalPrice ? toRupees(v.originalPrice) : null,
+      stock: v.stock,
+      imageUrl: v.imageUrl ?? null,
+      sortOrder: v.sortOrder,
+      isDefault: v.isDefault,
+    }));
+
   return {
     id: p.id,
     sku: p.sku,
     name: p.name,
     description: p.description ?? "",
+    brand: p.brand ?? null,
+    isVeg: p.isVeg,
     category: p.categoryId,
     subcategory: p.subcategory?.name ?? null,
     subcategoryId: p.subcategoryId ?? null,
@@ -25,8 +53,10 @@ export function serializeProduct(
     imageUrl: p.imageUrl,
     rating: p.rating,
     deliveryTime: `${p.deliveryMinutes} mins`,
+    deliveryMinutes: p.deliveryMinutes,
     tags: p.tags,
     isActive: p.isActive,
+    variants, // [] when the product has no explicit variants (backward-compat)
   };
 }
 
@@ -59,6 +89,8 @@ export function serializeOrder(
     subtotal: toRupees(o.subtotal),
     discount: toRupees(o.discount),
     deliveryFee: toRupees(o.deliveryFee),
+    handlingFee: toRupees(o.handlingFee),
+    tip: toRupees(o.tip),
     total: toRupees(o.total),
     totalPrice: toRupees(o.total),
     totalItems: o.items.reduce((n, i) => n + i.quantity, 0),
@@ -66,6 +98,7 @@ export function serializeOrder(
     paymentStatus: o.paymentStatus,
     couponCode: o.couponCode,
     razorpayOrderId: o.razorpayOrderId,
+    notes: o.notes ?? "",
     createdAt: o.createdAt.toISOString(),
     updatedAt: o.updatedAt.toISOString(),
     deliveredAt: o.deliveredAt?.toISOString() ?? null,
@@ -74,6 +107,7 @@ export function serializeOrder(
     items: o.items.map((it) => ({
       id: it.id,
       productId: it.productId,
+      variantId: it.variantId ?? null,
       name: it.nameSnap,
       imageUrl: it.imageSnap ?? undefined,
       weight: it.weightSnap ?? undefined,
@@ -125,6 +159,9 @@ export function serializeAddress(a: Address) {
     pincode: a.pincode,
     lat: a.lat ?? undefined,
     lng: a.lng ?? undefined,
+    landmark: a.landmark ?? "",
+    contactName: a.contactName ?? "",
+    contactPhone: a.contactPhone ?? "",
     isDefault: a.isDefault,
   };
 }

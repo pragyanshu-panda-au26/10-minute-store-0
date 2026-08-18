@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ShieldAlert,
   Loader2,
@@ -15,6 +15,24 @@ import { useUserStore } from "@/store/useUserStore";
 
 interface GatedServiceabilityModalProps {
   onServiceableConfirmed: (storeId: string) => void;
+}
+
+// ─── Serviceability cache ──────────────────────────────────────
+// Persist a successful check so users don't get prompted on every
+// reload / route change. Cleared automatically after 24h or if the
+// user ends up out-of-zone (so they can retry).
+const CACHE_KEY = "satyug_serviceability_v2";
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+
+interface CachedServiceability {
+  storeId: string;
+  storeName?: string;
+  lat: number;
+  lng: number;
+  distanceKm?: number;
+  etaMinutes?: number | null;
+  label?: string;
+  checkedAt: number;
 }
 
 export default function GatedServiceabilityModal({
@@ -38,6 +56,46 @@ export default function GatedServiceabilityModal({
   const [isHttpOrigin, setIsHttpOrigin] = useState(false);
 
   const { setGpsLocation } = useUserStore();
+
+  /**
+   * On mount: check localStorage for a fresh (< 24h) serviceable result and
+   * skip the entire GPS + serviceability flow. This is what stops the modal
+   * from re-prompting for location on every reload / route change.
+   *
+   * If the cache is stale or missing, fall through and let the user tap the
+   * "Allow location" button.
+   */
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return;
+      const cached = JSON.parse(raw) as CachedServiceability;
+      const age = Date.now() - cached.checkedAt;
+      if (
+        !cached.storeId ||
+        !Number.isFinite(cached.lat) ||
+        !Number.isFinite(cached.lng) ||
+        age > CACHE_TTL_MS
+      ) {
+        localStorage.removeItem(CACHE_KEY);
+        return;
+      }
+      // Restore the last-known location into the user store & unlock the app
+      setGpsLocation(cached.lat, cached.lng, cached.label || "Saved Location");
+      setServiceableInfo({
+        store_id: cached.storeId,
+        store_name: cached.storeName || "",
+        distance_km: cached.distanceKm ?? 0,
+        eta_minutes: cached.etaMinutes ?? null,
+      });
+      onServiceableConfirmed(cached.storeId);
+      setPhase("serviceable");
+    } catch (err) {
+      console.warn("[serviceability] cache read failed:", err);
+      localStorage.removeItem(CACHE_KEY);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Pass (latitude, longitude) to backend /api/check-serviceability API call
   const handleVerifyCoordinates = async (
@@ -66,9 +124,28 @@ export default function GatedServiceabilityModal({
         setGpsLocation(lat, lng, addressLabel || "Current Location");
         onServiceableConfirmed(data.store_id);
 
+        // Persist to localStorage so the next page load doesn't re-prompt
+        try {
+          const payload: CachedServiceability = {
+            storeId: data.store_id,
+            storeName: data.store_name,
+            lat,
+            lng,
+            distanceKm: data.distance_km,
+            etaMinutes: data.eta_minutes,
+            label: addressLabel,
+            checkedAt: Date.now(),
+          };
+          localStorage.setItem(CACHE_KEY, JSON.stringify(payload));
+        } catch {
+          // Storage full / disabled — non-fatal
+        }
+
         setPhase("serviceable");
       } else {
         setPhase("out_of_zone");
+        // Clear any stale cache so future loads re-check
+        try { localStorage.removeItem(CACHE_KEY); } catch {}
         if (data.reason === "out_of_zone") {
           setErrorMsg(
             `Your location (${lat.toFixed(4)}, ${lng.toFixed(4)}) is ${data.distance_km || "several"} km away from our active 3 km Paradip delivery hub.`

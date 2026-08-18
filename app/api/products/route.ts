@@ -25,7 +25,10 @@ export const GET = handler(async (req: NextRequest) => {
           }
         : {}),
     },
-    include: { subcategory: true },
+    include: {
+      subcategory: true,
+      variants: { orderBy: { sortOrder: "asc" } },
+    },
     orderBy: [{ isActive: "desc" }, { createdAt: "desc" }],
   });
 

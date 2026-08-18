@@ -40,18 +40,21 @@ model Admin {
 }
 
 model Address {
-  id         String   @id @default(cuid())
-  customerId String
-  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  label      String // "Home" | "Work" | "Other"
-  houseNo    String
-  area       String
-  city       String
-  pincode    String
-  lat        Float?
-  lng        Float?
-  isDefault  Boolean  @default(false)
-  createdAt  DateTime @default(now())
+  id           String   @id @default(cuid())
+  customerId   String
+  customer     Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  label        String // "Home" | "Work" | "Other"
+  houseNo      String // house / flat / floor number
+  area         String // street, area, sector, locality (from reverse geocoding)
+  city         String
+  pincode      String
+  lat          Float?
+  lng          Float?
+  landmark     String? // "Near XYZ Park", "Opposite ABC Store"
+  contactName  String? // person receiving the delivery (may not be the account holder)
+  contactPhone String? // call-at-delivery number
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
 
   @@index([customerId])
 }
@@ -88,6 +91,8 @@ model Product {
   sku             String       @unique
   name            String
   description     String?
+  brand           String? // "Amul", "Britannia" — for the brand filter
+  isVeg           Boolean      @default(true) // veg-only filter chip; false = non-veg / egg
   categoryId      String
   category        Category     @relation(fields: [categoryId], references: [id])
   subcategoryId   String?
@@ -105,12 +110,39 @@ model Product {
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
+  variants        ProductVariant[]
   orderItems      OrderItem[]
   inventoryTxs    InventoryTx[]
 
   @@index([categoryId])
   @@index([subcategoryId])
   @@index([isActive])
+  @@index([brand])
+}
+
+/**
+ * A single Product can have multiple SKUs — 250 g pack, 500 g pack, family pack, etc.
+ * If a product has ZERO variants, the product itself acts as the sole variant
+ * (backward-compat with older single-SKU catalog items).
+ */
+model ProductVariant {
+  id            String   @id @default(cuid())
+  sku           String   @unique
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  label         String // "500 g", "1 L Family Pack", "Small"
+  price         Int // paise
+  originalPrice Int? // paise (MRP)
+  stock         Int      @default(0)
+  imageUrl      String? // optional — falls back to product image
+  sortOrder     Int      @default(0)
+  isDefault     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  orderItems OrderItem[]
+
+  @@index([productId])
 }
 
 model InventoryTx {
@@ -165,6 +197,8 @@ model Order {
   subtotal           Int // paise
   discount           Int           @default(0)
   deliveryFee        Int           @default(0)
+  handlingFee        Int           @default(0) // small packaging / convenience fee, paise
+  tip                Int           @default(0) // customer's optional tip to the owner, paise
   total              Int
   paymentMethod      PaymentMethod
   paymentStatus      PaymentStatus @default(pending)
@@ -172,7 +206,7 @@ model Order {
   razorpayOrderId    String?       @unique
   razorpayPaymentId  String?
   refundAmount       Int           @default(0)
-  notes              String?
+  notes              String? // delivery instructions ("don't ring bell", etc.)
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
   deliveredAt        DateTime?
@@ -185,16 +219,18 @@ model Order {
 }
 
 model OrderItem {
-  id        String  @id @default(cuid())
-  orderId   String
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId String
-  product   Product @relation(fields: [productId], references: [id])
-  nameSnap  String
-  imageSnap String?
-  weightSnap String?
-  unitPrice Int // paise at time of order
-  quantity  Int
+  id         String          @id @default(cuid())
+  orderId    String
+  order      Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product         @relation(fields: [productId], references: [id])
+  variantId  String? // null = the product itself (no explicit variant)
+  variant    ProductVariant? @relation(fields: [variantId], references: [id])
+  nameSnap   String
+  imageSnap  String?
+  weightSnap String? // snapshot of variant.label OR product.weight
+  unitPrice  Int // paise at time of order
+  quantity   Int
 
   @@index([orderId])
 }

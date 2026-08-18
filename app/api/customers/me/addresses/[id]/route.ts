@@ -14,6 +14,9 @@ const patchSchema = z.object({
   pincode: z.string().min(4).max(10).optional(),
   lat: z.number().optional().nullable(),
   lng: z.number().optional().nullable(),
+  landmark: z.string().max(200).optional().nullable(),
+  contactName: z.string().max(80).optional().nullable(),
+  contactPhone: z.string().max(20).optional().nullable(),
   isDefault: z.boolean().optional(),
 });
 

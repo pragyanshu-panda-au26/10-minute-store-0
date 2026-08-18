@@ -23,6 +23,9 @@ const createSchema = z.object({
   pincode: z.string().min(4).max(10),
   lat: z.number().optional(),
   lng: z.number().optional(),
+  landmark: z.string().max(200).optional(),
+  contactName: z.string().max(80).optional(),
+  contactPhone: z.string().max(20).optional(),
   isDefault: z.boolean().optional(),
 });
 

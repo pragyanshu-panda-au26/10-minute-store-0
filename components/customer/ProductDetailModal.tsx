@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Product, useCartStore } from "@/store/useCartStore";
+import { Product, ProductVariantLite, useCartStore } from "@/store/useCartStore";
 import { ExtendedProduct } from "@/lib/dummyData";
 import {
   X,
@@ -28,19 +28,38 @@ export default function ProductDetailModal({
   const { items, addItem, decreaseQuantity } = useCartStore();
   const [imageError, setImageError] = useState(false);
 
+  // ─── Variant selection ─────────────────────────────────────
+  // If the product has explicit variants, show a picker. Otherwise the base
+  // product acts as the sole "variant" (backward-compat).
+  const variants: ProductVariantLite[] = (product as any)?.variants ?? [];
+  const hasVariants = variants.length > 0;
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
+    hasVariants
+      ? (variants.find((v) => v.isDefault) ?? variants[0]).id
+      : null
+  );
+  const selectedVariant = hasVariants
+    ? variants.find((v) => v.id === selectedVariantId) ?? variants[0]
+    : null;
+
   if (!product) return null;
 
-  const cartItem = items.find((i) => i.product.id === product.id);
+  // Effective display values — variant wins if selected.
+  const effectivePrice = selectedVariant?.price ?? product.price;
+  const effectiveOriginal = selectedVariant?.originalPrice ?? product.originalPrice;
+  const effectiveWeight = selectedVariant?.label ?? product.weight;
+  const effectiveStock = selectedVariant?.stock ?? product.stock ?? 25;
+
+  const cartItem = items.find(
+    (i) => i.product.id === product.id && (i.variantId ?? null) === (selectedVariantId ?? null)
+  );
   const quantity = cartItem ? cartItem.quantity : 0;
 
-  const discount = product.originalPrice
-    ? Math.round(
-        ((product.originalPrice - product.price) / product.originalPrice) * 100
-      )
+  const discount = effectiveOriginal
+    ? Math.round(((effectiveOriginal - effectivePrice) / effectiveOriginal) * 100)
     : 0;
 
-  const stockCount = product.stock ?? 25;
-  const isOutOfStock = stockCount <= 0;
+  const isOutOfStock = effectiveStock <= 0;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -99,12 +118,45 @@ export default function ProductDetailModal({
                 <h2 className="mt-1 text-lg font-black text-slate-900 leading-tight">
                   {product.name}
                 </h2>
-                {product.weight && (
+                {effectiveWeight && (
                   <p className="text-xs font-semibold text-slate-500 mt-0.5">
-                    Unit: {product.weight}
+                    Pack: {effectiveWeight}
                   </p>
                 )}
               </div>
+
+              {/* Variant chips — only shown when the product has 2+ variants */}
+              {hasVariants && variants.length > 1 && (
+                <div className="space-y-1.5">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Choose pack
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {variants.map((v) => {
+                      const active = v.id === selectedVariantId;
+                      const oos = v.stock <= 0;
+                      return (
+                        <button
+                          key={v.id}
+                          type="button"
+                          onClick={() => setSelectedVariantId(v.id)}
+                          disabled={oos}
+                          className={`rounded-xl px-3 py-1.5 text-xs font-bold border transition-all ${
+                            active
+                              ? "border-emerald-600 bg-emerald-50 text-emerald-800"
+                              : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
+                          } ${oos ? "opacity-50 line-through" : ""}`}
+                        >
+                          {v.label}
+                          <span className={`ml-1.5 text-[10px] font-black ${active ? "text-emerald-700" : "text-slate-500"}`}>
+                            ₹{v.price}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
               {/* Rating & Speed */}
               <div className="flex items-center gap-2">
@@ -126,12 +178,19 @@ export default function ProductDetailModal({
               <div className="pt-2 border-t border-slate-100">
                 <div className="flex items-baseline gap-2">
                   <span className="text-2xl font-black text-slate-900">
-                    ₹{product.price}
+                    ₹{effectivePrice}
                   </span>
-                  {product.originalPrice && (
-                    <span className="text-xs text-slate-400 line-through">
-                      ₹{product.originalPrice}
-                    </span>
+                  {effectiveOriginal && effectiveOriginal > effectivePrice && (
+                    <>
+                      <span className="text-xs text-slate-400 line-through">
+                        ₹{effectiveOriginal}
+                      </span>
+                      {discount > 0 && (
+                        <span className="text-[11px] font-black text-emerald-700">
+                          {discount}% OFF
+                        </span>
+                      )}
+                    </>
                   )}
                 </div>
 
@@ -145,7 +204,7 @@ export default function ProductDetailModal({
                   ) : (
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">
                       <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
-                      In Stock ({stockCount} available)
+                      In Stock ({effectiveStock} available)
                     </span>
                   )}
                 </div>
@@ -230,7 +289,7 @@ export default function ProductDetailModal({
               </button>
             ) : quantity === 0 ? (
               <button
-                onClick={() => addItem(product)}
+                onClick={() => addItem(product, selectedVariant)}
                 className="flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 text-xs font-extrabold text-white shadow-md shadow-emerald-600/30 hover:bg-emerald-500 active:scale-95 transition-all"
               >
                 <Plus className="h-4 w-4" /> Add to Basket
@@ -247,7 +306,7 @@ export default function ProductDetailModal({
                   {quantity}
                 </span>
                 <button
-                  onClick={() => addItem(product)}
+                  onClick={() => addItem(product, selectedVariant)}
                   className="px-3 py-2.5 text-xs font-bold hover:bg-emerald-700 rounded-r-xl"
                 >
                   <Plus className="h-4 w-4" />

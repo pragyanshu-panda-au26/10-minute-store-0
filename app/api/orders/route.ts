@@ -59,6 +59,7 @@ export const GET = handler(async (req: NextRequest) => {
 
 const itemSchema = z.object({
   productId: z.string(),
+  variantId: z.string().optional().nullable(),
   quantity: z.number().int().positive().max(50),
 });
 
@@ -71,11 +72,15 @@ const createSchema = z.object({
   paymentMethod: z.enum(["cod", "razorpay"]),
   customerName: z.string().max(80).optional(),
   customerPhone: z.string().max(20).optional(),
-  notes: z.string().max(400).optional(),
+  notes: z.string().max(400).optional(), // delivery instructions
+  // Blinkit-style extras
+  tip: z.number().int().nonnegative().max(100000).optional(), // rupees
+  handlingFee: z.number().int().nonnegative().max(10000).optional(), // rupees (usually server-set)
 });
 
 const DELIVERY_FEE_DEFAULT = toPaise(19); // ₹19 flat fee
 const FREE_ABOVE = toPaise(199);
+const HANDLING_FEE_DEFAULT = toPaise(2); // ₹2 packaging / convenience fee
 
 export const POST = handler(async (req: NextRequest) => {
   const auth = await requireAuth(req, "customer");
@@ -102,13 +107,22 @@ export const POST = handler(async (req: NextRequest) => {
 
   if (customer.isBlocked) return fail("Account is blocked", 403);
 
-  // Fetch products referenced
+  // Fetch products + variants referenced
   const productIds = body.items.map((i) => i.productId);
+  const variantIds = body.items
+    .map((i) => i.variantId)
+    .filter((v): v is string => Boolean(v));
   let products: any[] = [];
+  let variants: any[] = [];
   try {
     products = await prisma.product.findMany({
       where: { id: { in: productIds }, isActive: true },
     });
+    if (variantIds.length > 0) {
+      variants = await prisma.productVariant.findMany({
+        where: { id: { in: variantIds } },
+      });
+    }
   } catch (e) {}
 
   // Fallback to file DB products if Prisma products query empty
@@ -118,14 +132,35 @@ export const POST = handler(async (req: NextRequest) => {
   }
 
   const productMap = new Map(products.map((p) => [p.id, p]));
+  const variantMap = new Map(variants.map((v) => [v.id, v]));
 
-  // Validate stock & compute subtotal (server-side, in paise)
+  /** Resolve unit price (paise) for a line item — prefers variant, falls back to product. */
+  const resolveUnitPricePaise = (
+    item: { productId: string; variantId?: string | null }
+  ): { paise: number; label: string; image?: string | null } | null => {
+    if (item.variantId) {
+      const v = variantMap.get(item.variantId);
+      if (v && v.productId === item.productId) {
+        return {
+          paise: v.price, // always in paise from DB
+          label: v.label,
+          image: v.imageUrl,
+        };
+      }
+    }
+    const p = productMap.get(item.productId);
+    if (!p) return null;
+    // File-DB fallback stores rupees (< 1000), Prisma stores paise
+    const paise = p.price > 1000 ? p.price : toPaise(p.price);
+    return { paise, label: p.weight, image: p.imageUrl };
+  };
+
+  // Validate + compute subtotal (paise)
   let subtotal = 0;
   for (const item of body.items) {
-    const p = productMap.get(item.productId);
-    if (!p) return fail(`Product ${item.productId} is unavailable.`, 400);
-    const unitPricePaise = p.price > 1000 ? p.price : toPaise(p.price);
-    subtotal += unitPricePaise * item.quantity;
+    const resolved = resolveUnitPricePaise(item);
+    if (!resolved) return fail(`Product ${item.productId} is unavailable.`, 400);
+    subtotal += resolved.paise * item.quantity;
   }
 
   let discount = 0;
@@ -140,7 +175,11 @@ export const POST = handler(async (req: NextRequest) => {
     }
   }
 
-  const totalPaise = subtotal - discount + deliveryFee;
+  // Handling fee is server-controlled (client can't override). Waived when free-delivery threshold hit.
+  const handlingFee = subtotal >= FREE_ABOVE ? 0 : HANDLING_FEE_DEFAULT;
+  // Tip is client-controlled (0..N), clamped
+  const tipPaise = body.tip != null ? toPaise(Math.max(0, Math.min(body.tip, 1000))) : 0;
+  const totalPaise = subtotal - discount + deliveryFee + handlingFee + tipPaise;
   const orderNum = generateOrderNumber();
   let createdOrder: any = null;
 
@@ -160,6 +199,8 @@ export const POST = handler(async (req: NextRequest) => {
           subtotal,
           discount,
           deliveryFee,
+          handlingFee,
+          tip: tipPaise,
           total: totalPaise,
           paymentMethod: body.paymentMethod,
           paymentStatus: body.paymentMethod === "razorpay" ? "paid" : "pending",
@@ -168,13 +209,14 @@ export const POST = handler(async (req: NextRequest) => {
           items: {
             create: body.items.map((item) => {
               const p = productMap.get(item.productId)!;
-              const unitPricePaise = p.price > 1000 ? p.price : toPaise(p.price);
+              const resolved = resolveUnitPricePaise(item)!;
               return {
                 productId: p.id,
+                variantId: item.variantId ?? null,
                 nameSnap: p.name,
-                imageSnap: p.imageUrl,
-                weightSnap: p.weight,
-                unitPrice: unitPricePaise,
+                imageSnap: resolved.image ?? p.imageUrl,
+                weightSnap: resolved.label,
+                unitPrice: resolved.paise,
                 quantity: item.quantity,
               };
             }),

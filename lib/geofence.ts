@@ -53,9 +53,9 @@ function defaultStore(): StoreConfig {
   return {
     id: process.env.STORE_ID || "STORE_PARADIP_MAIN",
     name: process.env.STORE_NAME || "Satyug 10-Minute Store · Paradip",
-    // 20°17'15.7"N 86°36'32.8"E
-    lat: num(process.env.STORE_LAT, 20 + 17 / 60 + 15.7 / 3600),
-    lng: num(process.env.STORE_LNG, 86 + 36 / 60 + 32.8 / 3600),
+    // Exact dark-store GPS pin — measured on-site.
+    lat: num(process.env.STORE_LAT, 20.2876869),
+    lng: num(process.env.STORE_LNG, 86.6091121),
     radiusKm: num(process.env.DELIVERY_RADIUS_KM, 3),
     etaMinutes: num(process.env.DELIVERY_ETA_MINUTES, 10),
   };

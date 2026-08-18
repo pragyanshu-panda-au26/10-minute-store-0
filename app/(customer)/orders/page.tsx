@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useOrderStore } from "@/store/useOrderStore";
 import { useCartStore } from "@/store/useCartStore";
+import { useProductStore } from "@/store/useProductStore";
 import { AdminOrder } from "@/lib/adminDummyData";
 import MobileBottomNav from "@/components/customer/MobileBottomNav";
 import {
@@ -25,26 +26,55 @@ export default function OrderHistoryPage() {
   const router = useRouter();
   const { orders, loading, fetchOrders } = useOrderStore();
   const { addItem } = useCartStore();
+  const { products, fetchProducts } = useProductStore();
   const [selectedInvoiceOrder, setSelectedInvoiceOrder] = useState<AdminOrder | null>(null);
+  const [reorderMsg, setReorderMsg] = useState<string | null>(null);
 
   useEffect(() => {
     fetchOrders();
-  }, [fetchOrders]);
+    // Load current catalog so reorder resolves against fresh prices + stock
+    if (products.length === 0) fetchProducts();
+  }, [fetchOrders, fetchProducts, products.length]);
 
+  /**
+   * Reorder: for each line in the historical order, find the matching product
+   * in the CURRENT catalog and add it to cart. Skip anything missing or
+   * out of stock, and report the result so the user knows.
+   */
   const handleReorder = (order: AdminOrder) => {
-    order.items.forEach((item) => {
-      addItem({
-        id: item.productId || item.id,
-        name: item.name,
-        price: item.price,
-        category: "Reordered",
-        imageUrl:
-          item.imageUrl ||
-          "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=500&auto=format&fit=crop&q=80",
-      });
-    });
-    alert(`Added ${order.items.length} items from Order #${order.orderNumber || order.id} to your basket!`);
-    router.push("/cart");
+    const productMap = new Map(products.map((p) => [p.id, p]));
+    let added = 0;
+    const skipped: string[] = [];
+
+    for (const item of order.items) {
+      const productId = (item as any).productId || item.id;
+      const p = productMap.get(productId);
+      if (!p || (p.stock ?? 0) <= 0) {
+        skipped.push(item.name);
+        continue;
+      }
+      // Try to match the historical variant if it still exists
+      const historicalVariantId = (item as any).variantId as string | undefined;
+      const variant = historicalVariantId
+        ? p.variants?.find((v) => v.id === historicalVariantId)
+        : null;
+      // Add `quantity` copies
+      for (let i = 0; i < item.quantity; i++) {
+        addItem(p as any, (variant as any) ?? null);
+      }
+      added++;
+    }
+
+    if (added === 0) {
+      setReorderMsg("None of those items are available right now.");
+      return;
+    }
+    setReorderMsg(
+      skipped.length > 0
+        ? `Added ${added} item${added === 1 ? "" : "s"}. Skipped: ${skipped.join(", ")}.`
+        : `Added ${added} item${added === 1 ? "" : "s"} to your basket.`
+    );
+    setTimeout(() => router.push("/cart"), 600);
   };
 
   return (
@@ -67,6 +97,19 @@ export default function OrderHistoryPage() {
 
       {/* Main Content */}
       <main className="mx-auto max-w-xl px-4 py-4 space-y-4">
+        {reorderMsg && (
+          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-3 text-xs font-bold text-emerald-800 flex items-start justify-between gap-2">
+            <span>{reorderMsg}</span>
+            <button
+              type="button"
+              onClick={() => setReorderMsg(null)}
+              className="text-emerald-700 hover:text-emerald-900"
+              aria-label="Dismiss"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        )}
         {loading && orders.length === 0 ? (
           <div className="flex items-center justify-center py-16 text-slate-400 text-xs gap-2">
             <Loader2 className="h-4 w-4 animate-spin text-emerald-600" /> Loading your orders…

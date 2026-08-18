@@ -8,6 +8,9 @@ import { useUserStore } from "@/store/useUserStore";
 import { useOrderStore } from "@/store/useOrderStore";
 import MobileBottomNav from "@/components/customer/MobileBottomNav";
 import AuthModal from "@/components/customer/AuthModal";
+import AddressFormModal from "@/components/customer/AddressFormModal";
+import AddressPicker from "@/components/customer/AddressPicker";
+import CheckoutBillCard from "@/components/customer/CheckoutBillCard";
 import {
   ArrowLeft,
   QrCode,
@@ -35,6 +38,10 @@ export default function CheckoutPage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [confirmedOrderId, setConfirmedOrderId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+  const [tip, setTip] = useState(0);
+  const [deliveryNotes, setDeliveryNotes] = useState("");
 
   const { items, getTotalItems, getTotalPrice, getDiscountAmount, clearCart, appliedPromo } =
     useCartStore();
@@ -51,7 +58,12 @@ export default function CheckoutPage() {
   const subtotal = getTotalPrice();
   const promoDiscount = getDiscountAmount();
   const deliveryFee = subtotal >= 199 || subtotal === 0 ? 0 : 19;
-  const grandTotal = Math.max(0, subtotal + deliveryFee - promoDiscount);
+  // Handling fee mirrors server logic (₹2 default, waived when free-delivery unlocked).
+  const handlingFee = subtotal >= 199 || subtotal === 0 ? 0 : 2;
+  const grandTotal = Math.max(
+    0,
+    subtotal + deliveryFee + handlingFee - promoDiscount + tip
+  );
 
   const openRazorpay = async (orderId: string) => {
     // 1. Ask our server to create a Razorpay order
@@ -119,12 +131,18 @@ export default function CheckoutPage() {
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: items.map((it) => ({ productId: it.product.id, quantity: it.quantity })),
+          items: items.map((it) => ({
+            productId: it.product.id,
+            variantId: it.variantId ?? null,
+            quantity: it.quantity,
+          })),
           deliveryAddress: fullAddress,
           lat: activeAddr.lat,
           lng: activeAddr.lng,
           couponCode: appliedPromo?.code ?? null,
           paymentMethod: selectedMethod,
+          tip,
+          notes: deliveryNotes || undefined,
         }),
       });
       const data = await res.json();
@@ -230,13 +248,60 @@ export default function CheckoutPage() {
               </div>
             )}
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-1 shadow-xs">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                Delivering to
-              </h3>
-              <p className="text-sm font-bold text-slate-900">{activeAddr.label}</p>
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xs">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                  Delivering to
+                </h3>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsPickerOpen(true)}
+                    className="text-[11px] font-black text-emerald-700 hover:text-emerald-800"
+                  >
+                    Change
+                  </button>
+                  <span className="text-slate-300">·</span>
+                  <button
+                    type="button"
+                    onClick={() => setIsAddressModalOpen(true)}
+                    className="text-[11px] font-black text-emerald-700 hover:text-emerald-800"
+                  >
+                    + Add new
+                  </button>
+                </div>
+              </div>
+              <p className="mt-1 text-sm font-bold text-slate-900">{activeAddr.label}</p>
               <p className="text-xs text-slate-600">{fullAddress}</p>
+              {activeAddr.landmark && (
+                <p className="text-xs text-slate-500 mt-0.5">
+                  <span className="font-semibold">Landmark:</span> {activeAddr.landmark}
+                </p>
+              )}
+              {activeAddr.contactPhone && (
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Contact: {activeAddr.contactName || "—"} ·{" "}
+                  <a href={`tel:${activeAddr.contactPhone}`} className="text-emerald-700 font-semibold">
+                    {activeAddr.contactPhone}
+                  </a>
+                </p>
+              )}
             </div>
+
+            {/* Blinkit-style: tip + delivery instructions + bill breakdown */}
+            <CheckoutBillCard
+              bill={{
+                subtotal,
+                deliveryFee,
+                handlingFee,
+                discount: promoDiscount,
+                couponCode: appliedPromo?.code ?? null,
+              }}
+              tip={tip}
+              onTipChange={setTip}
+              notes={deliveryNotes}
+              onNotesChange={setDeliveryNotes}
+            />
 
             {/* Payment options */}
             <div className="rounded-3xl border border-slate-200 bg-white p-5 space-y-3 shadow-xs">
@@ -356,6 +421,24 @@ export default function CheckoutPage() {
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
+      />
+
+      <AddressFormModal
+        isOpen={isAddressModalOpen}
+        onClose={() => setIsAddressModalOpen(false)}
+        onSaved={(addr) => {
+          // freshly-saved address is auto-set active by useUserStore.addAddress
+          setIsAddressModalOpen(false);
+        }}
+      />
+
+      <AddressPicker
+        isOpen={isPickerOpen}
+        onClose={() => setIsPickerOpen(false)}
+        onAddNew={() => {
+          setIsPickerOpen(false);
+          setIsAddressModalOpen(true);
+        }}
       />
 
       <MobileBottomNav />

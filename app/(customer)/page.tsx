@@ -12,6 +12,15 @@ import ProductDetailModal from "@/components/customer/ProductDetailModal";
 import ServiceabilityModal from "@/components/customer/ServiceabilityModal";
 import GatedServiceabilityModal from "@/components/customer/GatedServiceabilityModal";
 import MobileBottomNav from "@/components/customer/MobileBottomNav";
+import InstallAppButton from "@/components/customer/InstallAppButton";
+import SmartSearchBar from "@/components/customer/SmartSearchBar";
+import SortFilterBar, {
+  applySortFilters,
+  DEFAULT_FILTERS,
+  DEFAULT_SORT,
+  Filters,
+  SortKey,
+} from "@/components/customer/SortFilterBar";
 import { CATEGORIES, ExtendedProduct } from "@/lib/dummyData";
 import { useProductStore } from "@/store/useProductStore";
 import { useUserStore } from "@/store/useUserStore";
@@ -22,6 +31,8 @@ export default function CustomerPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>("All Items");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [sortKey, setSortKey] = useState<SortKey>(DEFAULT_SORT);
+  const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
 
   // Modals state
   const [selectedPdpProduct, setSelectedPdpProduct] = useState<ExtendedProduct | null>(null);
@@ -50,7 +61,7 @@ export default function CustomerPage() {
   };
 
   // Filter products by category, subcategory & search query
-  const filteredProducts = (products as ExtendedProduct[]).filter((product) => {
+  const searchAndCategoryFiltered = (products as ExtendedProduct[]).filter((product) => {
     const matchesCategory =
       selectedCategory === "all" || product.category === selectedCategory;
     const matchesSubcategory =
@@ -60,11 +71,15 @@ export default function CustomerPage() {
       searchQuery.trim() === "" ||
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      ((product as any).brand || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
       (product.tags &&
         product.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())));
 
     return matchesCategory && matchesSubcategory && matchesSearch;
   });
+
+  // Sort + user filters on top
+  const filteredProducts = applySortFilters(searchAndCategoryFiltered, sortKey, filters);
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 pb-28 transition-colors">
@@ -154,17 +169,36 @@ export default function CustomerPage() {
               onSelectSubcategory={setSelectedSubcategory}
             />
 
-            {/* Section Heading */}
-            <div className="mb-4 flex items-center justify-between">
-              <div>
-                <h2 className="text-lg font-extrabold text-slate-900 dark:text-white">
-                  {CATEGORIES.find((c) => c.id === selectedCategory)?.name ||
-                    "Products"}
+            {/* Search bar */}
+            <div className="mb-3">
+              <SmartSearchBar
+                value={searchQuery}
+                onChange={setSearchQuery}
+                products={products as ExtendedProduct[]}
+              />
+            </div>
+
+            {/* Section heading + sort/filter row */}
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <h2 className="text-lg font-extrabold text-slate-900 dark:text-white truncate">
+                  {CATEGORIES.find((c) => c.id === selectedCategory)?.name || "Products"}
                 </h2>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Showing {filteredProducts.length} items
+                  {filteredProducts.length}{" "}
+                  {filteredProducts.length === 1 ? "item" : "items"}
                 </p>
               </div>
+            </div>
+
+            <div className="mb-4">
+              <SortFilterBar
+                products={searchAndCategoryFiltered}
+                sort={sortKey}
+                onSortChange={setSortKey}
+                filters={filters}
+                onFiltersChange={setFilters}
+              />
             </div>
 
             {loading && products.length === 0 && (
@@ -234,6 +268,7 @@ export default function CustomerPage() {
       />
 
       {/* Mobile Bottom Navigation Bar */}
+      <InstallAppButton />
       <MobileBottomNav />
     </div>
   );
