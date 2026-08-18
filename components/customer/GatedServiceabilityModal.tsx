@@ -85,47 +85,108 @@ export default function GatedServiceabilityModal({
   };
 
   // Triggered directly by user TAP / CLICK event
-  const handleRequestBrowserLocation = () => {
+  const handleRequestBrowserLocation = async () => {
     setErrorMsg(null);
     setIsHttpOrigin(false);
 
-    if (typeof window !== "undefined" && navigator.geolocation) {
-      setPhase("loading");
-
-      // Check if accessed over non-secure HTTP LAN IP (e.g., http://192.168.255.14:3000)
-      const isHttpNonLocalhost =
-        window.location.protocol === "http:" &&
-        window.location.hostname !== "localhost" &&
-        window.location.hostname !== "127.0.0.1";
-
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          handleVerifyCoordinates(
-            pos.coords.latitude,
-            pos.coords.longitude,
-            "Live GPS Location"
-          );
-        },
-        (err) => {
-          console.warn("Geolocation permission error:", err.code, err.message);
-          setPhase("out_of_zone");
-
-          if (isHttpNonLocalhost || err.code === 1) {
-            setIsHttpOrigin(true);
-            setErrorMsg(
-              "Mobile browsers (iOS Safari & Android Chrome) restrict native GPS on HTTP IP connections. Tap below to test with Paradip Hub coordinates."
-            );
-          } else {
-            setErrorMsg(
-              "Location permission was denied or timed out. Please allow location permissions in your browser or enter your address below."
-            );
-          }
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-      );
-    } else {
+    if (typeof window === "undefined" || !navigator.geolocation) {
       setPhase("out_of_zone");
       setErrorMsg("HTML5 Geolocation API is not supported by your mobile browser.");
+      return;
+    }
+
+    setPhase("loading");
+
+    const isHttpNonLocalhost =
+      window.location.protocol === "http:" &&
+      window.location.hostname !== "localhost" &&
+      window.location.hostname !== "127.0.0.1";
+
+    // Small helper: promisified getCurrentPosition with configurable options.
+    const getPosition = (opts: PositionOptions) =>
+      new Promise<GeolocationPosition>((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject, opts)
+      );
+
+    /**
+     * Two-stage strategy — high-accuracy GPS on phones can take 15–30 s to
+     * acquire a fresh fix indoors, so we:
+     *   1) Try FAST low-accuracy Wi-Fi/cell fix (≤6 s). Good to ~500 m,
+     *      plenty for a 3 km delivery zone check.
+     *   2) If that fails, try HIGH-accuracy GPS with a generous timeout
+     *      (25 s) and accept a fix cached up to 5 minutes old.
+     *
+     * The previous config (`enableHighAccuracy: true`, `timeout: 10000`,
+     * `maximumAge: 0`) was too strict and timed out even after the user
+     * had granted permission.
+     */
+    let pos: GeolocationPosition | null = null;
+    let lastErr: GeolocationPositionError | null = null;
+
+    try {
+      pos = await getPosition({
+        enableHighAccuracy: false,
+        timeout: 6000,
+        maximumAge: 5 * 60 * 1000,
+      });
+    } catch (err) {
+      lastErr = err as GeolocationPositionError;
+      // Only retry with high-accuracy if this wasn't a permission denial
+      if (lastErr.code !== 1) {
+        try {
+          pos = await getPosition({
+            enableHighAccuracy: true,
+            timeout: 25000,
+            maximumAge: 5 * 60 * 1000,
+          });
+          lastErr = null;
+        } catch (err2) {
+          lastErr = err2 as GeolocationPositionError;
+        }
+      }
+    }
+
+    if (pos) {
+      handleVerifyCoordinates(
+        pos.coords.latitude,
+        pos.coords.longitude,
+        "Live GPS Location"
+      );
+      return;
+    }
+
+    // We failed — show a message that matches the real error code.
+    console.warn(
+      "[geolocation] failed:",
+      lastErr?.code,
+      lastErr?.message
+    );
+    setPhase("out_of_zone");
+
+    if (lastErr?.code === 1) {
+      // PERMISSION_DENIED
+      setIsHttpOrigin(isHttpNonLocalhost);
+      setErrorMsg(
+        isHttpNonLocalhost
+          ? "Mobile browsers block GPS on http:// LAN URLs. Use https:// (npm run dev:https), a tunnel (cloudflared), or enter your address below."
+          : "You blocked location permission. Reset it: browser settings → Site settings → Location → Allow — then retry."
+      );
+    } else if (lastErr?.code === 2) {
+      // POSITION_UNAVAILABLE — no GPS lock (indoors, airplane mode, no signal)
+      setErrorMsg(
+        "Your device couldn't get a GPS fix — try moving near a window, enabling Wi-Fi (it helps positioning), or enter your address below."
+      );
+    } else if (lastErr?.code === 3) {
+      // TIMEOUT
+      setErrorMsg(
+        "GPS lookup timed out. This usually means poor GPS signal indoors. Tap retry, or enter your address below."
+      );
+    } else {
+      setErrorMsg(
+        `Location error${lastErr ? ` (code ${lastErr.code})` : ""}: ${
+          lastErr?.message ?? "unknown"
+        }. Try again or enter your address below.`
+      );
     }
   };
 
