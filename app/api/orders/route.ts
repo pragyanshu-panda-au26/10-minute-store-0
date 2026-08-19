@@ -62,9 +62,16 @@ export const GET = handler(async (req: NextRequest) => {
     console.warn("Prisma orders query failed, falling back to file DB:", err);
   }
 
-  // Fallback / sync with persistent file DB
+  // Fallback / sync with persistent file DB.
+  // IMPORTANT: for a customer request, filter by customerId so we never leak
+  // other customers' orders when the Prisma query returns nothing (or when
+  // the file DB has records the Prisma DB doesn't).
   const db = getDb();
-  const fileOrders = db.orders || [];
+  const allFileOrders = db.orders || [];
+  const fileOrders =
+    auth.role === "customer"
+      ? allFileOrders.filter((o: any) => o.customerId === auth.userId)
+      : allFileOrders;
 
   if (orders.length === 0 && fileOrders.length > 0) {
     orders = fileOrders;
@@ -143,8 +150,16 @@ export const POST = handler(async (req: NextRequest) => {
     console.warn("[orders] store settings read failed, assuming open:", err);
   }
 
-  const userPhone = body.customerPhone || auth.phone || "+918860269736";
-  const userName = body.customerName || "Aarav Sharma";
+  // Never fall back to a hardcoded name/phone — a stray order should carry
+  // whatever identity the authenticated session actually holds, otherwise
+  // Order #123 gets stamped with someone else's personal details. If we can't
+  // resolve a phone at all, refuse the order — placing one without a callback
+  // number is broken by construction.
+  const userPhone = body.customerPhone || auth.phone;
+  if (!userPhone) {
+    return fail("A verified phone number is required to place an order.", 400);
+  }
+  const userName = body.customerName || auth.name || "Customer";
 
   // Ensure Customer record exists in Prisma DB before order placement
   let customer;
@@ -258,7 +273,11 @@ export const POST = handler(async (req: NextRequest) => {
           tip: tipPaise,
           total: totalPaise,
           paymentMethod: body.paymentMethod,
-          paymentStatus: body.paymentMethod === "razorpay" ? "paid" : "pending",
+          // Razorpay orders start as "pending" and only flip to "paid" once
+// /api/checkout/razorpay/verify confirms the signature. Pre-marking them
+// as paid at creation meant a cancelled or failed payment still showed up
+// in the customer's history with a green PAID badge.
+paymentStatus: "pending",
           couponCode: body.couponCode ?? null,
           notes: body.notes,
           items: {
@@ -310,7 +329,11 @@ export const POST = handler(async (req: NextRequest) => {
       totalPrice: toRupees(totalPaise),
       totalItems: body.items.reduce((n, i) => n + i.quantity, 0),
       paymentMethod: body.paymentMethod,
-      paymentStatus: body.paymentMethod === "razorpay" ? "paid" : "pending",
+      // Razorpay orders start as "pending" and only flip to "paid" once
+// /api/checkout/razorpay/verify confirms the signature. Pre-marking them
+// as paid at creation meant a cancelled or failed payment still showed up
+// in the customer's history with a green PAID badge.
+paymentStatus: "pending",
       couponCode: body.couponCode ?? null,
       createdAt: new Date().toISOString(),
       items: body.items.map((item) => {

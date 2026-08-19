@@ -178,13 +178,18 @@ export default function TrackOrderPage({
                   </p>
                 </div>
               </div>
-              <a
-                href={`tel:+91${(order.customerPhone ?? "").replace(/\D/g, "").slice(-10)}`}
-                className="hidden sm:flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-600 text-white hover:bg-emerald-500"
-                aria-label="Call store"
-              >
-                <Phone className="h-4 w-4" />
-              </a>
+              {process.env.NEXT_PUBLIC_STORE_PHONE ? (
+                <a
+                  href={`tel:${process.env.NEXT_PUBLIC_STORE_PHONE.replace(/\s/g, "")}`}
+                  className="hidden sm:flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-600 text-white hover:bg-emerald-500"
+                  aria-label="Call store"
+                >
+                  <Phone className="h-4 w-4" />
+                </a>
+              ) : null}
+              {/* Previously this dialed order.customerPhone — i.e. the customer's
+                  own number — which meant "Call store" actually called the caller.
+                  Now it only appears when NEXT_PUBLIC_STORE_PHONE is configured. */}
             </div>
 
             {/* Delivery address */}

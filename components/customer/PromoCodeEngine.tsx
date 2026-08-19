@@ -8,13 +8,15 @@ export default function PromoCodeEngine() {
   const [inputCode, setInputCode] = useState("");
   const [msg, setMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-  const { appliedPromo, applyPromoCode, removePromoCode } = useCartStore();
+  const { appliedPromo, applyServerPromo, removePromoCode } = useCartStore();
 
-  const handleApply = (e: React.FormEvent) => {
+  const handleApply = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputCode.trim()) return;
 
-    const res = applyPromoCode(inputCode);
+    // Server-validated — see cart store note. Prevents the UI from ever
+    // "applying" a promo the server won't actually honor.
+    const res = await applyServerPromo(inputCode);
     if (res.success) {
       setMsg({ type: "success", text: res.message });
       setInputCode("");
@@ -23,8 +25,8 @@ export default function PromoCodeEngine() {
     }
   };
 
-  const handleQuickApply = (code: string) => {
-    const res = applyPromoCode(code);
+  const handleQuickApply = async (code: string) => {
+    const res = await applyServerPromo(code);
     if (res.success) {
       setMsg({ type: "success", text: res.message });
     } else {

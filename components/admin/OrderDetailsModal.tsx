@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AdminOrder, OrderStatus } from "@/lib/adminDummyData";
+import { staticMapUrl } from "@/lib/googleMaps";
 import {
   X,
   MapPin,
@@ -49,9 +50,13 @@ export default function OrderDetailsModal({
   if (!order) return null;
 
   const orderKey = order.orderNumber ?? order.id;
+  const hasCoords = Number.isFinite(order.geocoordinates?.lat) && Number.isFinite(order.geocoordinates?.lng);
   const lat = order.geocoordinates?.lat ?? 20.2961;
   const lng = order.geocoordinates?.lng ?? 85.8245;
   const googleMapsRoutingUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+  // Only render the static-map thumbnail when we actually have real coords —
+  // avoids pinning the customer's map on our fallback Bhubaneswar center.
+  const mapThumbUrl = hasCoords ? staticMapUrl({ lat, lng, zoom: 16 }) : null;
 
   // WhatsApp deep-link — strip everything except digits, drop leading zero, prepend country code if missing
   const waDigits = (order.customerPhone || "").replace(/\D/g, "").replace(/^0+/, "");
@@ -221,6 +226,26 @@ export default function OrderDetailsModal({
               <MapPin className="h-4 w-4 text-rose-400 flex-shrink-0 mt-0.5" />
               <span className="font-medium text-slate-200">{order.deliveryAddress}</span>
             </div>
+
+            {/* Static Google Map thumbnail — clickable → opens directions. */}
+            {mapThumbUrl && (
+              <a
+                href={googleMapsRoutingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block overflow-hidden rounded-xl border border-slate-800 hover:border-blue-500/60 transition-colors"
+                title="Open directions in Google Maps"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={mapThumbUrl}
+                  alt="Delivery location on map"
+                  loading="lazy"
+                  className="w-full h-32 object-cover"
+                />
+              </a>
+            )}
+
             <div className="pt-2 flex flex-wrap gap-2">
               <a
                 href={googleMapsRoutingUrl}

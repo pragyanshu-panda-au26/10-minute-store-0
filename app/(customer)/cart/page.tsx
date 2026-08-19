@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/useCartStore";
-import { useUserStore } from "@/store/useUserStore";
+import { useUserStore, formatAddress } from "@/store/useUserStore";
+import { computeBill, FREE_ABOVE } from "@/lib/pricing";
 import PromoCodeEngine from "@/components/customer/PromoCodeEngine";
 import MobileBottomNav from "@/components/customer/MobileBottomNav";
 import {
@@ -34,19 +35,23 @@ export default function CartPage() {
 
   const { getActiveAddress } = useUserStore();
   const activeAddr = getActiveAddress();
-  const fullAddress = `${activeAddr.houseNo}, ${activeAddr.area}, ${activeAddr.city} - ${activeAddr.pincode}`;
+  const fullAddress = formatAddress(activeAddr);
 
   const totalItems = getTotalItems();
   const subtotal = getTotalPrice();
 
-  const deliveryThreshold = 199;
+  // Shared bill helper — must match the drawer, the checkout page, and the
+  // server order route so the customer sees ONE consistent total everywhere.
+  const deliveryThreshold = FREE_ABOVE;
   const promoDiscount = getDiscountAmount();
-  const deliveryFee =
-    subtotal >= deliveryThreshold || subtotal === 0 || appliedPromo?.type === "free_shipping"
-      ? 0
-      : 25;
-  const handlingFee = subtotal > 0 ? 5 : 0;
-  const grandTotal = Math.max(0, subtotal + deliveryFee + handlingFee - promoDiscount);
+  const bill = computeBill({
+    subtotal,
+    couponType: appliedPromo?.type ?? null,
+    couponValue: appliedPromo?.value ?? 0,
+  });
+  const deliveryFee = bill.deliveryFee;
+  const handlingFee = bill.handlingFee;
+  const grandTotal = bill.total;
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-28">

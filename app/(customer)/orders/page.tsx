@@ -130,7 +130,11 @@ export default function OrderHistoryPage() {
           </div>
         ) : (
           orders.map((ord) => {
-            const isPaid = ord.paymentStatus === "paid" || ord.paymentMethod === "razorpay";
+            // Only trust the explicit paymentStatus flag. The previous
+            // `|| paymentMethod === "razorpay"` fallback labeled every Razorpay
+            // order PAID even when payment had failed / been cancelled and the
+            // signature never verified.
+            const isPaid = ord.paymentStatus === "paid";
             return (
               <div
                 key={ord.id}
@@ -265,7 +269,15 @@ export default function OrderHistoryPage() {
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-slate-700">Payment Status:</p>
-                  <p className="text-emerald-700 font-bold uppercase">{selectedInvoiceOrder.paymentStatus || "PAID"}</p>
+                  <p
+                    className={`font-bold uppercase ${
+                      selectedInvoiceOrder.paymentStatus === "paid"
+                        ? "text-emerald-700"
+                        : "text-amber-700"
+                    }`}
+                  >
+                    {selectedInvoiceOrder.paymentStatus || "PENDING"}
+                  </p>
                   <p className="text-slate-500 capitalize">{selectedInvoiceOrder.paymentMethod || "online"}</p>
                 </div>
               </div>

@@ -1,11 +1,11 @@
 "use client";
 
-import { use } from "react";
+import { use, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { PRODUCTS, ExtendedProduct } from "@/lib/dummyData";
 import { useCartStore } from "@/store/useCartStore";
+import { useProductStore } from "@/store/useProductStore";
 import MobileBottomNav from "@/components/customer/MobileBottomNav";
 import {
   ArrowLeft,
@@ -18,6 +18,8 @@ import {
   Minus,
   ShieldCheck,
   ShoppingBag,
+  Loader2,
+  SearchX,
 } from "lucide-react";
 
 export default function ProductDetailPage({
@@ -28,11 +30,50 @@ export default function ProductDetailPage({
   const { id } = use(params);
   const router = useRouter();
   const { items, addItem, decreaseQuantity, getTotalItems } = useCartStore();
+  const { products, loading, fetchProducts } = useProductStore();
 
-  const product = PRODUCTS.find((p) => p.id === id) || PRODUCTS[0];
-  const cartItem = items.find((i) => i.product.id === product.id);
+  // Pull from the live catalog so prices, stock and availability match what
+  // the rest of the app sees. Previously this page used a static `PRODUCTS`
+  // dump from lib/dummyData AND, worse, silently fell back to `PRODUCTS[0]`
+  // for unknown ids — landing users on a completely different product.
+  useEffect(() => {
+    if (products.length === 0) fetchProducts();
+  }, [fetchProducts, products.length]);
+
+  const product = products.find((p) => p.id === id) ?? null;
+  const cartItem = product ? items.find((i) => i.product.id === product.id) : undefined;
   const quantity = cartItem ? cartItem.quantity : 0;
   const totalCartItems = getTotalItems();
+
+  if (loading && !product) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center text-slate-500 gap-2 text-sm">
+        <Loader2 className="h-4 w-4 animate-spin text-emerald-600" />
+        Loading product…
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-slate-50 text-slate-900 px-4 py-16">
+        <div className="mx-auto max-w-md rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm space-y-3">
+          <SearchX className="mx-auto h-10 w-10 text-slate-400" />
+          <h2 className="text-base font-black text-slate-900">Product not found</h2>
+          <p className="text-xs text-slate-500">
+            This item may have been removed from the catalog.
+          </p>
+          <Link
+            href="/"
+            className="inline-block rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-md hover:bg-emerald-500"
+          >
+            Back to store
+          </Link>
+        </div>
+        <MobileBottomNav />
+      </div>
+    );
+  }
 
   const discount = product.originalPrice
     ? Math.round(
@@ -40,8 +81,11 @@ export default function ProductDetailPage({
       )
     : 0;
 
-  const stockCount = product.stock ?? 25;
-  const isOutOfStock = stockCount <= 0;
+  // A missing stock value from the catalog should be treated as "unknown",
+  // not silently defaulted to 25 — that lied to customers whenever a product
+  // hadn't been given an explicit stock number.
+  const stockCount = product.stock ?? null;
+  const isOutOfStock = stockCount !== null && stockCount <= 0;
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-28">
@@ -138,7 +182,7 @@ export default function ProductDetailPage({
             ) : (
               <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3.5 py-1.5 text-xs font-bold text-emerald-800">
                 <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                In Stock ({stockCount} available)
+                {stockCount !== null ? `In Stock (${stockCount} available)` : "In Stock"}
               </span>
             )}
           </div>
@@ -156,40 +200,49 @@ export default function ProductDetailPage({
           </div>
         )}
 
-        {product.nutritionalInfo && (
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 space-y-3 shadow-sm">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <Flame className="h-4 w-4 text-amber-500" />
-              Nutritional Overview (per 100g)
-            </h3>
-            <div className="grid grid-cols-4 gap-2 text-center">
-              <div className="rounded-2xl bg-slate-50 p-3 border border-slate-100">
-                <p className="text-[10px] text-slate-400 uppercase font-bold">Energy</p>
-                <p className="text-xs font-extrabold text-slate-900 mt-0.5">
-                  {product.nutritionalInfo.calories}
-                </p>
-              </div>
-              <div className="rounded-2xl bg-slate-50 p-3 border border-slate-100">
-                <p className="text-[10px] text-slate-400 uppercase font-bold">Protein</p>
-                <p className="text-xs font-extrabold text-slate-900 mt-0.5">
-                  {product.nutritionalInfo.protein}
-                </p>
-              </div>
-              <div className="rounded-2xl bg-slate-50 p-3 border border-slate-100">
-                <p className="text-[10px] text-slate-400 uppercase font-bold">Carbs</p>
-                <p className="text-xs font-extrabold text-slate-900 mt-0.5">
-                  {product.nutritionalInfo.carbs}
-                </p>
-              </div>
-              <div className="rounded-2xl bg-slate-50 p-3 border border-slate-100">
-                <p className="text-[10px] text-slate-400 uppercase font-bold">Fat</p>
-                <p className="text-xs font-extrabold text-slate-900 mt-0.5">
-                  {product.nutritionalInfo.fat}
-                </p>
+        {(() => {
+          // Live catalog products don't guarantee a nutritionalInfo field;
+          // narrow with an any-cast so this optional section can still render
+          // when the underlying record happens to carry it.
+          const nutri = (product as any).nutritionalInfo as
+            | { calories?: string; protein?: string; carbs?: string; fat?: string }
+            | undefined;
+          if (!nutri) return null;
+          return (
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 space-y-3 shadow-sm">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <Flame className="h-4 w-4 text-amber-500" />
+                Nutritional Overview (per 100g)
+              </h3>
+              <div className="grid grid-cols-4 gap-2 text-center">
+                <div className="rounded-2xl bg-slate-50 p-3 border border-slate-100">
+                  <p className="text-[10px] text-slate-400 uppercase font-bold">Energy</p>
+                  <p className="text-xs font-extrabold text-slate-900 mt-0.5">
+                    {nutri.calories}
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-slate-50 p-3 border border-slate-100">
+                  <p className="text-[10px] text-slate-400 uppercase font-bold">Protein</p>
+                  <p className="text-xs font-extrabold text-slate-900 mt-0.5">
+                    {nutri.protein}
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-slate-50 p-3 border border-slate-100">
+                  <p className="text-[10px] text-slate-400 uppercase font-bold">Carbs</p>
+                  <p className="text-xs font-extrabold text-slate-900 mt-0.5">
+                    {nutri.carbs}
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-slate-50 p-3 border border-slate-100">
+                  <p className="text-[10px] text-slate-400 uppercase font-bold">Fat</p>
+                  <p className="text-xs font-extrabold text-slate-900 mt-0.5">
+                    {nutri.fat}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         {/* Satyug Quality Guarantee */}
         <div className="flex items-center gap-3 rounded-3xl bg-emerald-50 p-4 border border-emerald-200/80 text-xs text-emerald-900">

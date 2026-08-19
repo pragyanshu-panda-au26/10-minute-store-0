@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { DELIVERY_FEE } from "@/lib/pricing";
 
 export interface Product {
   id: string;
@@ -97,7 +98,16 @@ interface CartStore {
   decreaseQuantity: (productId: string, variantId?: string | null) => void;
   removeItem: (productId: string, variantId?: string | null) => void;
   clearCart: () => void;
+  /** Client-only fallback used by dev/offline paths. Prefer applyServerPromo. */
   applyPromoCode: (code: string) => { success: boolean; message: string };
+  /**
+   * Server-backed validation via /api/coupons/validate. Ensures the promo the
+   * user picks is one the server will actually honor at order creation —
+   * previously the client-side list included promos (e.g. WELCOME20 percent)
+   * that the server order route ignored, so the customer saw a discount that
+   * silently disappeared at charge time.
+   */
+  applyServerPromo: (code: string) => Promise<{ success: boolean; message: string }>;
   removePromoCode: () => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
@@ -198,6 +208,41 @@ export const useCartStore = create<CartStore>((set, get) => ({
     return { success: true, message: `Coupon ${promo.code} applied successfully!` };
   },
 
+  applyServerPromo: async (codeStr) => {
+    const cleanCode = codeStr.trim().toUpperCase();
+    const subtotal = get().getTotalPrice();
+    try {
+      const res = await fetch("/api/coupons/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: cleanCode, subtotal }),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        return { success: false, message: data.message || "Invalid promo code" };
+      }
+      // Build a PromoCode entry that matches what the discount helper expects.
+      // The server always returns type in { flat, percent, free_shipping }.
+      const promo: PromoCode = {
+        code: data.code,
+        type: data.type,
+        // For flat coupons we store the resolved discount in rupees so the
+        // cart shows the same number as the server; percent/free_shipping
+        // just carry a symbolic value.
+        value: data.type === "flat" ? Math.round(data.discount) : data.value ?? 0,
+        minOrder: 0,
+        description: data.description || "",
+      };
+      set({ appliedPromo: promo });
+      return { success: true, message: `Coupon ${promo.code} applied.` };
+    } catch (err: any) {
+      // Fall back to the built-in list only if we truly can't reach the server —
+      // gives the app a working offline coupon path without silently accepting
+      // a coupon the server would reject.
+      return get().applyPromoCode(codeStr);
+    }
+  },
+
   removePromoCode: () => set({ appliedPromo: null }),
 
   getTotalItems: () =>
@@ -222,7 +267,11 @@ export const useCartStore = create<CartStore>((set, get) => ({
       return Math.min(calc, 100);
     }
     if (promo.type === "free_shipping") {
-      return 25; // Delivery fee credit
+      // Credit whatever delivery fee actually applies (0 above the free-delivery
+      // threshold, otherwise the current DELIVERY_FEE). Previously hardcoded
+      // ₹25, which was both stale AND larger than the ₹19 the server actually
+      // charged — customers got a phantom ₹6 extra off.
+      return subtotal >= 199 ? 0 : DELIVERY_FEE;
     }
     return 0;
   },

@@ -434,9 +434,10 @@ export default function AdminSettingsPage() {
                   )}
                 </div>
                 <p className="text-[11px] text-slate-400">
-                  Click on the map to add vertices. Drag a green dot to move it, or tap it to remove it. When
-                  a polygon is saved with ≥3 vertices, it <strong>wins over</strong> the circular radius above.
-                  Dashed circle = the current radius fallback.
+                  Click on the map to add vertices. Drag a vertex handle to reshape,
+                  or <strong>right-click</strong> a vertex to remove it. When a polygon is saved with
+                  ≥3 vertices, it <strong>wins over</strong> the circular radius above.
+                  Grey circle = the current radius fallback.
                 </p>
 
                 <DeliveryPolygonDrawer

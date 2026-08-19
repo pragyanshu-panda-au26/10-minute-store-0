@@ -57,8 +57,8 @@ const statusSchema = z.object({
  * Admin-only: transition status. On "delivered"/"cancelled" we stamp timestamps.
  */
 export const PATCH = handler(async (req: NextRequest, { params }: Params) => {
-  const auth = await requireAuth(req, "admin");
-  if (auth instanceof NextResponse) return auth;
+  const auth = await getAuth(req);
+  if (!auth) return fail("Authentication required", 401);
 
   const { id } = await params;
   const body = await parseJson(req, statusSchema);
@@ -73,6 +73,18 @@ export const PATCH = handler(async (req: NextRequest, { params }: Params) => {
     });
 
     if (existing) {
+      // Customers may only cancel their OWN order, and only while it's still
+      // pending and unpaid — this lets the checkout page clean up an order
+      // whose Razorpay flow was dismissed or failed. Any other transition
+      // remains admin-only.
+      if (auth.role !== "admin") {
+        const isSelf = existing.customerId === auth.userId;
+        const isPendingUnpaid =
+          existing.status === "pending" && existing.paymentStatus !== "paid";
+        if (!isSelf || body.status !== "cancelled" || !isPendingUnpaid) {
+          return fail("Forbidden", 403);
+        }
+      }
       const updated = await prisma.$transaction(async (tx) => {
         if (body.status === "cancelled" && existing.status !== "cancelled") {
           for (const item of existing.items) {

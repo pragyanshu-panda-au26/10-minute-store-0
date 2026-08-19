@@ -1,66 +1,32 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Polygon,
-  Marker,
-  useMapEvents,
-  Circle,
-} from "react-leaflet";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
+import { useEffect, useRef, useState } from "react";
+import { AlertCircle } from "lucide-react";
+import { loadGoogleMaps, GOOGLE_MAPS_BROWSER_KEY } from "@/lib/googleMaps";
 
 /**
- * Admin-only polygon zone drawer, built on Leaflet + OSM tiles (free).
+ * Admin-only delivery-zone polygon editor built on the Google Maps JS API.
  *
  * Interactions:
- *   - Click empty map area → adds a new vertex at the tap point.
- *   - Drag a vertex → moves it (polygon reshapes live).
- *   - Click an existing vertex → removes it. (Polygon needs ≥3 vertices,
- *     so the 4th-vertex click just removes it; clicking a vertex when only
- *     3 remain will drop below the minimum and clear the polygon.)
- *   - "Clear" button in the parent (not here) → passes an empty array.
+ *   - Click empty map area  → adds a new vertex at the tap point.
+ *   - Drag a vertex handle  → moves it (polygon reshapes live).
+ *   - Right-click a vertex  → removes it. (Polygon needs ≥3 vertices; we
+ *     silently allow going below and simply hide the polygon fill until
+ *     ≥3 vertices exist again.)
  *
- * The parent controls `polygon` state and the callback fires on every change.
+ * The reference circle drawn with `center` + `radiusKm` shows the fallback
+ * radius zone that applies when the polygon is cleared.
  *
- * The `center` + `radiusKm` inputs draw a reference circle so the admin
- * can see what the fallback zone would be if they clear the polygon.
- *
- * IMPORTANT: import via `next/dynamic({ ssr: false })` — Leaflet reads
- * `window` at import time.
+ * Requires NEXT_PUBLIC_GOOGLE_MAPS_API_KEY with "Maps JavaScript API" +
+ * "Drawing library" enabled. When the key is missing we render a helpful
+ * placeholder so the settings page still boots.
  */
 interface DeliveryPolygonDrawerProps {
-  polygon: [number, number][]; // [[lng, lat], ...]
+  polygon: [number, number][]; // [[lng, lat], ...] — GeoJSON order
   onChange: (poly: [number, number][]) => void;
   center: { lat: number; lng: number };
   radiusKm: number;
   className?: string;
-}
-
-const vertexIcon = L.divIcon({
-  html: `<div style="
-    width:16px;height:16px;border-radius:50%;
-    background:#059669;border:3px solid #ffffff;
-    box-shadow:0 1px 4px rgba(0,0,0,0.4);
-  "></div>`,
-  className: "polygon-vertex",
-  iconSize: [16, 16],
-  iconAnchor: [8, 8],
-});
-
-function ClickCatcher({
-  onAdd,
-}: {
-  onAdd: (lat: number, lng: number) => void;
-}) {
-  useMapEvents({
-    click(e) {
-      onAdd(e.latlng.lat, e.latlng.lng);
-    },
-  });
-  return null;
 }
 
 export default function DeliveryPolygonDrawer({
@@ -70,96 +36,173 @@ export default function DeliveryPolygonDrawer({
   radiusKm,
   className,
 }: DeliveryPolygonDrawerProps) {
-  // Leaflet Polygon wants [lat, lng]; we store [lng, lat] (GeoJSON).
-  const positions = useMemo<[number, number][]>(
-    () => polygon.map(([lng, lat]) => [lat, lng]),
-    [polygon]
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<any>(null);
+  const polygonRef = useRef<any>(null);
+  const circleRef = useRef<any>(null);
+  const listenersRef = useRef<any[]>([]);
+  const onChangeRef = useRef(onChange);
+  // Suppress reacting to polygon path events triggered by our own props sync.
+  const isSyncingRef = useRef(false);
+  const [error, setError] = useState<string | null>(
+    GOOGLE_MAPS_BROWSER_KEY
+      ? null
+      : "Map disabled: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set."
   );
 
-  const markerRefs = useRef<Record<number, L.Marker | null>>({});
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
-  const addVertex = (lat: number, lng: number) => {
-    onChange([...polygon, [lng, lat]]);
-  };
+  // Init map + polygon once
+  useEffect(() => {
+    if (!containerRef.current || !GOOGLE_MAPS_BROWSER_KEY) return;
+    let cancelled = false;
 
-  const moveVertex = (idx: number, lat: number, lng: number) => {
-    const next = polygon.slice();
-    next[idx] = [lng, lat];
-    onChange(next);
-  };
+    loadGoogleMaps(["drawing", "geometry"])
+      .then((google) => {
+        if (cancelled || !containerRef.current) return;
 
-  const removeVertex = (idx: number) => {
-    const next = polygon.filter((_, i) => i !== idx);
-    onChange(next);
-  };
+        const map = new google.maps.Map(containerRef.current, {
+          center,
+          zoom: 14,
+          gestureHandling: "greedy",
+          streetViewControl: false,
+          mapTypeControl: false,
+          fullscreenControl: false,
+          clickableIcons: false,
+        });
+        mapRef.current = map;
 
-  return (
-    <div
-      className={
-        className ?? "h-72 w-full overflow-hidden rounded-2xl border border-slate-800"
-      }
-    >
-      <MapContainer
-        center={[center.lat, center.lng]}
-        zoom={14}
-        scrollWheelZoom
-        style={{ height: "100%", width: "100%" }}
+        // Reference radius fallback zone (dashed)
+        circleRef.current = new google.maps.Circle({
+          map,
+          center,
+          radius: radiusKm * 1000,
+          strokeColor: "#64748b",
+          strokeOpacity: 0.9,
+          strokeWeight: 1,
+          fillOpacity: 0.04,
+          clickable: false,
+          // Google doesn't support dash arrays natively on Circle — this is
+          // the closest visual approximation without pulling in Symbol paths.
+        });
+
+        // Editable polygon — start with what the parent gave us.
+        polygonRef.current = new google.maps.Polygon({
+          map,
+          paths: polygon.map(([lng, lat]) => ({ lat, lng })),
+          strokeColor: "#059669",
+          strokeWeight: 2,
+          fillColor: "#059669",
+          fillOpacity: 0.18,
+          editable: true,
+          draggable: false,
+          clickable: true,
+        });
+
+        // Right-click on a vertex removes it.
+        polygonRef.current.addListener("rightclick", (e: any) => {
+          if (e.vertex == null) return;
+          const path = polygonRef.current.getPath();
+          if (path.getLength() <= 0) return;
+          path.removeAt(e.vertex);
+        });
+
+        // Clicks on empty map area add a new vertex.
+        listenersRef.current.push(
+          map.addListener("click", (e: any) => {
+            if (!e?.latLng) return;
+            const path = polygonRef.current.getPath();
+            path.push(e.latLng);
+          })
+        );
+
+        // Any change to the polygon's path emits back to the parent as
+        // [lng, lat] tuples (GeoJSON ordering — same as the DB).
+        const emit = () => {
+          if (isSyncingRef.current) return;
+          const path = polygonRef.current.getPath();
+          const next: [number, number][] = [];
+          for (let i = 0; i < path.getLength(); i++) {
+            const p = path.getAt(i);
+            next.push([p.lng(), p.lat()]);
+          }
+          onChangeRef.current(next);
+        };
+
+        const path = polygonRef.current.getPath();
+        listenersRef.current.push(path.addListener("set_at", emit));
+        listenersRef.current.push(path.addListener("insert_at", emit));
+        listenersRef.current.push(path.addListener("remove_at", emit));
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        setError(err?.message ?? "Failed to load Google Maps");
+      });
+
+    return () => {
+      cancelled = true;
+      listenersRef.current.forEach((l) => {
+        try {
+          l.remove?.();
+        } catch {}
+      });
+      listenersRef.current = [];
+      polygonRef.current?.setMap(null);
+      circleRef.current?.setMap(null);
+      mapRef.current = null;
+    };
+    // Intentionally init-once; subsequent prop updates handled below.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Sync incoming polygon prop (e.g. Clear button, or an external reset)
+  // into the map without re-creating the map instance.
+  useEffect(() => {
+    const poly = polygonRef.current;
+    if (!poly) return;
+    const path = poly.getPath();
+    // Compare quickly to avoid clobbering a live edit.
+    const current: [number, number][] = [];
+    for (let i = 0; i < path.getLength(); i++) {
+      const p = path.getAt(i);
+      current.push([p.lng(), p.lat()]);
+    }
+    const same =
+      current.length === polygon.length &&
+      current.every(([lng, lat], i) => lng === polygon[i][0] && lat === polygon[i][1]);
+    if (same) return;
+
+    isSyncingRef.current = true;
+    poly.setPath(polygon.map(([lng, lat]) => ({ lat, lng })));
+    isSyncingRef.current = false;
+  }, [polygon]);
+
+  // Sync the reference circle when center / radius change.
+  useEffect(() => {
+    const circle = circleRef.current;
+    const map = mapRef.current;
+    if (!circle || !map) return;
+    circle.setCenter(center);
+    circle.setRadius(radiusKm * 1000);
+    map.panTo(center);
+  }, [center.lat, center.lng, radiusKm]);
+
+  const wrapperClass =
+    className ?? "h-72 w-full overflow-hidden rounded-2xl border border-slate-800 relative";
+
+  if (error) {
+    return (
+      <div
+        className={`${wrapperClass} flex flex-col items-center justify-center gap-1.5 bg-slate-950 text-center px-4`}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          maxZoom={19}
-        />
+        <AlertCircle className="h-5 w-5 text-amber-400" />
+        <p className="text-[11px] font-bold text-slate-200">Map unavailable</p>
+        <p className="text-[10px] text-slate-400 leading-snug">{error}</p>
+      </div>
+    );
+  }
 
-        {/* Reference: circular radius zone (dashed) */}
-        <Circle
-          center={[center.lat, center.lng]}
-          radius={radiusKm * 1000}
-          pathOptions={{
-            color: "#64748b",
-            weight: 1,
-            dashArray: "6 6",
-            fillOpacity: 0.04,
-          }}
-        />
-
-        {/* The drawn polygon (only shown once ≥3 vertices) */}
-        {positions.length >= 3 && (
-          <Polygon
-            positions={positions}
-            pathOptions={{
-              color: "#059669",
-              weight: 2,
-              fillColor: "#059669",
-              fillOpacity: 0.18,
-            }}
-          />
-        )}
-
-        {/* Each vertex — draggable + click-to-delete */}
-        {positions.map((pos, idx) => (
-          <Marker
-            key={idx}
-            position={pos}
-            icon={vertexIcon}
-            draggable
-            eventHandlers={{
-              click: () => removeVertex(idx),
-              dragend: () => {
-                const m = markerRefs.current[idx];
-                if (!m) return;
-                const p = m.getLatLng();
-                moveVertex(idx, p.lat, p.lng);
-              },
-            }}
-            ref={(m) => {
-              markerRefs.current[idx] = m as L.Marker | null;
-            }}
-          />
-        ))}
-
-        <ClickCatcher onAdd={addVertex} />
-      </MapContainer>
-    </div>
-  );
+  return <div ref={containerRef} className={wrapperClass} />;
 }

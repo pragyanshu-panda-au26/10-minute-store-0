@@ -267,36 +267,35 @@ export default function GatedServiceabilityModal({
     }
   };
 
-  // Geocode manual address entry
+  // Geocode manual address entry via our server route (Google → Nominatim
+  // fallback). Calling Nominatim from the browser was rejected in review:
+  // Nominatim requires a User-Agent header, which the browser fetch spec
+  // forbids setting — anonymous requests get rate-limited / blocked.
   const handleGeocodeManualAddress = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!manualAddressInput.trim()) return;
+    const q = manualAddressInput.trim();
+    if (!q) return;
 
     setIsGeocoding(true);
+    setErrorMsg(null);
     try {
       const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-          manualAddressInput.trim()
-        )}`
+        `/api/geocode/forward?q=${encodeURIComponent(q)}&countryCode=in`
       );
-      if (res.ok) {
-        const results = await res.json();
-        if (results && results.length > 0) {
-          const lat = parseFloat(results[0].lat);
-          const lon = parseFloat(results[0].lon);
-          await handleVerifyCoordinates(
-            lat,
-            lon,
-            manualAddressInput.trim()
-          );
-          setIsGeocoding(false);
-          return;
-        }
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setErrorMsg(
+          data?.message ||
+            "Could not geocode that address. Try a more specific one, or tap the Paradip Store button below."
+        );
+        return;
       }
-      alert("Could not geocode address. Please try entering Paradip Port.");
+      await handleVerifyCoordinates(data.lat, data.lng, data.display_name || q);
     } catch (err) {
       console.error("Geocoding failed:", err);
-      alert("Geocoding failed. Try selecting the Paradip Store button.");
+      setErrorMsg(
+        "Geocoding failed — check your connection, or tap the Paradip Store button below."
+      );
     } finally {
       setIsGeocoding(false);
     }

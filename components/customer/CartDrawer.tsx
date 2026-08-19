@@ -4,7 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/useCartStore";
-import { useUserStore } from "@/store/useUserStore";
+import { useUserStore, formatAddress } from "@/store/useUserStore";
+import { computeBill, FREE_ABOVE } from "@/lib/pricing";
 import AuthModal from "@/components/customer/AuthModal";
 import {
   ShoppingBag,
@@ -32,20 +33,29 @@ export default function CartDrawer() {
     decreaseQuantity,
     getTotalItems,
     getTotalPrice,
+    getDiscountAmount,
+    appliedPromo,
   } = useCartStore();
 
   const { isLoggedIn, profile, getActiveAddress } = useUserStore();
   const activeAddr = getActiveAddress();
-  const fullDeliveryAddress = `${activeAddr.houseNo}, ${activeAddr.area}, ${activeAddr.city} - ${activeAddr.pincode}`;
+  const fullDeliveryAddress = formatAddress(activeAddr);
 
   const totalItems = getTotalItems();
   const subtotal = getTotalPrice();
 
-  // Delivery fee calculations — must match server /api/orders logic
-  const deliveryThreshold = 199;
-  const deliveryFee = subtotal >= deliveryThreshold || subtotal === 0 ? 0 : 19;
-  const handlingFee = 0;
-  const grandTotal = subtotal + deliveryFee + handlingFee;
+  // Shared bill helper — same math as the checkout page AND the server route
+  // so the number in this drawer matches what the customer is finally charged.
+  const bill = computeBill({
+    subtotal,
+    couponType: appliedPromo?.type ?? null,
+    couponValue: appliedPromo?.value ?? 0,
+  });
+  const deliveryThreshold = FREE_ABOVE;
+  const deliveryFee = bill.deliveryFee;
+  const handlingFee = bill.handlingFee;
+  const promoDiscount = getDiscountAmount();
+  const grandTotal = bill.total;
 
   if (totalItems === 0) return null;
 

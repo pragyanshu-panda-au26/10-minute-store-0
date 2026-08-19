@@ -10,6 +10,16 @@ import { persist, createJSONStorage } from "zustand/middleware";
  * the store hydrates from the server and starts using the server as truth.
  */
 
+/**
+ * Render an Address into a single "line" for display, gracefully skipping
+ * blank city / pincode / area segments (a GPS-derived address may have them
+ * empty until the user reverse-geocodes or edits the address).
+ */
+export function formatAddress(addr: Pick<Address, "houseNo" | "area" | "city" | "pincode">): string {
+  const cityLine = [addr.city, addr.pincode].filter((s) => (s || "").trim()).join(" - ");
+  return [addr.houseNo, addr.area, cityLine].filter((s) => (s || "").trim()).join(", ");
+}
+
 export interface Address {
   id: string;
   label: string;
@@ -221,13 +231,17 @@ export const useUserStore = create<UserStore>()(
 
       setGpsLocation: (lat, lng, areaName) => {
         const fixedGpsId = "gps_current";
+        // Never stamp a hardcoded city/pincode over a real GPS fix — that
+        // would print "Bhubaneswar 751024" on a delivery going to Paradip
+        // (or anywhere else). Leave them blank so the reverse-geocode step
+        // (or the user editing the address) fills them in with real values.
         const gpsAddress: Address = {
           id: fixedGpsId,
           label: "Current GPS Location",
           houseNo: `GPS Pin (${lat.toFixed(4)}, ${lng.toFixed(4)})`,
-          area: areaName || "Bhubaneswar",
-          city: "Bhubaneswar, Odisha",
-          pincode: "751024",
+          area: areaName || "",
+          city: "",
+          pincode: "",
           lat,
           lng,
         };

@@ -81,7 +81,7 @@ export default function ProfilePage() {
 
         <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Your account</h1>
         <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mt-0.5 font-mono">
-          {profile.phone || "8860269736"}
+          {profile.phone || "Not signed in"}
         </p>
       </div>
 

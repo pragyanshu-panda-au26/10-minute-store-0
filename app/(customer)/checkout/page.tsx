@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
 import { useCartStore } from "@/store/useCartStore";
-import { useUserStore } from "@/store/useUserStore";
+import { useUserStore, formatAddress } from "@/store/useUserStore";
 import { useOrderStore } from "@/store/useOrderStore";
 import MobileBottomNav from "@/components/customer/MobileBottomNav";
 import AuthModal from "@/components/customer/AuthModal";
@@ -12,6 +12,7 @@ import AddressFormModal from "@/components/customer/AddressFormModal";
 import AddressPicker from "@/components/customer/AddressPicker";
 import DeliverySlotPicker from "@/components/customer/DeliverySlotPicker";
 import CheckoutBillCard from "@/components/customer/CheckoutBillCard";
+import { computeBill } from "@/lib/pricing";
 import {
   ArrowLeft,
   QrCode,
@@ -55,18 +56,21 @@ export default function CheckoutPage() {
   }, [hydrateSession]);
 
   const activeAddr = getActiveAddress();
-  const fullAddress = `${activeAddr.houseNo}, ${activeAddr.area}, ${activeAddr.city} - ${activeAddr.pincode}`;
+  const fullAddress = formatAddress(activeAddr);
 
   const totalItems = getTotalItems();
   const subtotal = getTotalPrice();
   const promoDiscount = getDiscountAmount();
-  const deliveryFee = subtotal >= 199 || subtotal === 0 ? 0 : 19;
-  // Handling fee mirrors server logic (₹2 default, waived when free-delivery unlocked).
-  const handlingFee = subtotal >= 199 || subtotal === 0 ? 0 : 2;
-  const grandTotal = Math.max(
-    0,
-    subtotal + deliveryFee + handlingFee - promoDiscount + tip
-  );
+  // Shared bill helper — same math as the drawer, cart page and server route.
+  const bill = computeBill({
+    subtotal,
+    couponType: appliedPromo?.type ?? null,
+    couponValue: appliedPromo?.value ?? 0,
+    tip,
+  });
+  const deliveryFee = bill.deliveryFee;
+  const handlingFee = bill.handlingFee;
+  const grandTotal = bill.total;
 
   const openRazorpay = async (orderId: string) => {
     // 1. Ask our server to create a Razorpay order
@@ -127,6 +131,9 @@ export default function CheckoutPage() {
     setIsSubmitting(true);
     setError(null);
 
+    // Tracked so we can cancel the DB order if the Razorpay flow fails or is
+    // dismissed by the user, instead of leaving a pending unpaid order behind.
+    let createdOrderId: string | null = null;
     try {
       // 1. Create the order in our DB (server re-computes everything from Prisma)
       const res = await fetch("/api/orders", {
@@ -154,6 +161,7 @@ export default function CheckoutPage() {
 
       const dbOrderId: string = data.order.id;
       const orderNumber: string = data.order.orderNumber || data.order.id;
+      createdOrderId = dbOrderId;
 
       // 2. Razorpay path: open checkout + verify
       if (selectedMethod === "razorpay") {
@@ -165,6 +173,20 @@ export default function CheckoutPage() {
       clearCart();
     } catch (err: any) {
       setError(err.message ?? "Something went wrong");
+
+      // If we already created the DB order but the Razorpay flow failed /
+      // was dismissed, cancel it so it doesn't linger as a pending unpaid
+      // order in the customer's history. Best-effort — swallow the failure.
+      if (createdOrderId && selectedMethod === "razorpay") {
+        try {
+          await fetch(`/api/orders/${encodeURIComponent(createdOrderId)}`, {
+            method: "PATCH",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: "cancelled" }),
+          });
+        } catch {}
+      }
     } finally {
       setIsSubmitting(false);
     }

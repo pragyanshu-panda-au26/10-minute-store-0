@@ -18,7 +18,7 @@ import {
 export default function AuthPage() {
   const router = useRouter();
   const [step, setStep] = useState<"login" | "otp" | "success">("login");
-  const [phone, setPhone] = useState("+91 88602 69736");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
@@ -47,10 +47,12 @@ export default function AuthPage() {
       } else {
         setServerMsg(data.message || "Failed to send Twilio SMS OTP");
       }
-    } catch (err) {
-      setServerMsg("Twilio SMS gateway connected.");
-      setStep("otp");
-      setTimeout(() => inputRefs.current[0]?.focus(), 100);
+    } catch (err: any) {
+      // Real network / server failure — surface it to the user instead of
+      // pretending the OTP was sent (previous behavior masked the failure and
+      // advanced to the OTP step, where nothing the user typed could ever
+      // verify).
+      setServerMsg(err?.message || "Could not reach OTP service. Check your connection and retry.");
     } finally {
       setLoading(false);
     }
@@ -157,7 +159,7 @@ export default function AuthPage() {
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="+91 88602 69736"
+                    placeholder="+91 98765 43210"
                     className="w-full rounded-xl border border-slate-200 bg-slate-50 p-2.5 pl-9 text-xs font-semibold text-slate-900 focus:border-blue-500 focus:outline-none"
                   />
                 </div>
@@ -250,7 +252,13 @@ export default function AuthPage() {
           )}
 
           {serverMsg && (
-            <p className="mt-2 text-center text-[11px] font-semibold text-blue-700">
+            <p
+              className={`mt-2 text-center text-[11px] font-semibold ${
+                /fail|invalid|error|could not|denied|expired/i.test(serverMsg)
+                  ? "text-rose-700"
+                  : "text-blue-700"
+              }`}
+            >
               {serverMsg}
             </p>
           )}
