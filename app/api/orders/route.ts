@@ -6,6 +6,8 @@ import { toPaise, toRupees } from "@/lib/money";
 import { serializeOrder } from "@/lib/serializers";
 import { getDb, saveDb } from "@/lib/db";
 import { AdminOrder } from "@/lib/adminDummyData";
+import { computeOpenState, getStoreSettings } from "@/lib/storeSettings";
+import { validateSlotBooking } from "@/lib/deliverySlots";
 
 /**
  * GET /api/orders
@@ -20,6 +22,11 @@ export const GET = handler(async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const status = searchParams.get("status") as any;
   const limit = Math.min(parseInt(searchParams.get("limit") ?? "50", 10) || 50, 200);
+  const q = searchParams.get("q")?.trim();
+  const fromStr = searchParams.get("from");
+  const toStr = searchParams.get("to");
+  const from = fromStr ? new Date(fromStr) : null;
+  const to = toStr ? new Date(toStr) : null;
 
   let orders: any[] = [];
 
@@ -28,6 +35,23 @@ export const GET = handler(async (req: NextRequest) => {
       where: {
         ...(auth.role === "customer" ? { customerId: auth.userId } : {}),
         ...(status ? { status } : {}),
+        ...(from || to
+          ? {
+              createdAt: {
+                ...(from ? { gte: from } : {}),
+                ...(to ? { lte: to } : {}),
+              },
+            }
+          : {}),
+        ...(q
+          ? {
+              OR: [
+                { orderNumber: { contains: q, mode: "insensitive" } },
+                { customerPhoneSnap: { contains: q } },
+                { customerNameSnap: { contains: q, mode: "insensitive" } },
+              ],
+            }
+          : {}),
       },
       include: { items: true },
       orderBy: { createdAt: "desc" },
@@ -76,6 +100,8 @@ const createSchema = z.object({
   // Blinkit-style extras
   tip: z.number().int().nonnegative().max(100000).optional(), // rupees
   handlingFee: z.number().int().nonnegative().max(10000).optional(), // rupees (usually server-set)
+  // Slot booking (optional — omit for instant delivery)
+  scheduledFor: z.string().datetime().optional().nullable(),
 });
 
 const DELIVERY_FEE_DEFAULT = toPaise(19); // ₹19 flat fee
@@ -88,6 +114,34 @@ export const POST = handler(async (req: NextRequest) => {
 
   const body = await parseJson(req, createSchema);
   if (body instanceof NextResponse) return body;
+
+  // Store must be open to accept new orders. Admin toggles via /admin/settings.
+  // Also: if a slot is requested, it must be valid + have capacity.
+  let scheduledForDate: Date | null = null;
+  try {
+    const settings = await getStoreSettings();
+    const openState = computeOpenState(settings);
+
+    // If a slot is booked we allow orders EVEN while the store is closed —
+    // slot orders are for future fulfillment. Instant orders still require open.
+    if (body.scheduledFor) {
+      scheduledForDate = new Date(body.scheduledFor);
+      if (!Number.isFinite(scheduledForDate.getTime())) {
+        return fail("Invalid scheduledFor timestamp", 400);
+      }
+      const rejection = await validateSlotBooking(scheduledForDate, settings);
+      if (rejection) return fail(rejection, 409);
+    } else if (!openState.open) {
+      return fail(
+        openState.reason || "Store is currently closed. Please try again shortly.",
+        503
+      );
+    }
+  } catch (err) {
+    // If we can't read settings (rare — DB blip), assume open rather than
+    // blocking customers. The store owner will notice via other channels.
+    console.warn("[orders] store settings read failed, assuming open:", err);
+  }
 
   const userPhone = body.customerPhone || auth.phone || "+918860269736";
   const userName = body.customerName || "Aarav Sharma";
@@ -195,6 +249,7 @@ export const POST = handler(async (req: NextRequest) => {
           deliveryAddress: body.deliveryAddress,
           lat: body.lat,
           lng: body.lng,
+          scheduledFor: scheduledForDate,
           status: "pending",
           subtotal,
           discount,

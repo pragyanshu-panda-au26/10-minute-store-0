@@ -4,6 +4,7 @@ import { z } from "zod";
 import { fail, handler, ok, parseJson } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 import { setAuthCookie, signJwtToken } from "@/lib/auth";
+import { isMasterOtpAccepted, isTestPhone } from "@/lib/testOtp";
 
 /**
  * POST /api/verify-otp
@@ -35,12 +36,17 @@ export const POST = handler(async (req: NextRequest) => {
   const phone = normalizePhone(body.phone);
   const otp = body.otp.trim();
 
-  // Dev-mode master OTP bypass (never active in production)
-  const master = process.env.DEV_OTP_MASTER_CODE;
-  const isMasterMatch =
-    process.env.NODE_ENV !== "production" && master && otp === master;
+  // Master OTP bypass — dev mode OR test-phone allowlist. See lib/testOtp.ts.
+  const bypass = isMasterOtpAccepted(phone, otp);
+  if (bypass) {
+    console.log(
+      `[verify-otp] master OTP accepted for ${phone} (${
+        process.env.NODE_ENV !== "production" ? "dev" : "test-phone allowlist"
+      })`
+    );
+  }
 
-  if (!isMasterMatch) {
+  if (!bypass) {
     const challenge = await prisma.otpChallenge.findFirst({
       where: { phone },
       orderBy: { createdAt: "desc" },

@@ -13,6 +13,9 @@ import {
   PackageCheck,
   Boxes,
   XCircle,
+  Search,
+  Calendar,
+  X,
 } from "lucide-react";
 
 interface OrdersViewProps {
@@ -31,8 +34,27 @@ const BADGES: Record<OrderStatus, { className: string; label: string; Icon: any 
 
 export default function OrdersView({ orders, onSelectOrder }: OrdersViewProps) {
   const [filterStatus, setFilterStatus] = useState<"all" | OrderStatus>("all");
+  const [searchQ, setSearchQ] = useState("");
+  const [dateFrom, setDateFrom] = useState<string>(""); // YYYY-MM-DD
+  const [dateTo, setDateTo] = useState<string>("");
 
-  const filteredOrders = orders.filter((order) => filterStatus === "all" || order.status === filterStatus);
+  const q = searchQ.trim().toLowerCase();
+  const fromTs = dateFrom ? new Date(dateFrom + "T00:00:00").getTime() : null;
+  const toTs = dateTo ? new Date(dateTo + "T23:59:59").getTime() : null;
+
+  const filteredOrders = orders.filter((order) => {
+    if (filterStatus !== "all" && order.status !== filterStatus) return false;
+    if (q) {
+      const hay = `${order.orderNumber ?? ""} ${order.id} ${order.customerName} ${order.customerPhone}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    if (fromTs || toTs) {
+      const ts = new Date(order.createdAt).getTime();
+      if (fromTs && ts < fromTs) return false;
+      if (toTs && ts > toTs) return false;
+    }
+    return true;
+  });
 
   const getStatusBadge = (status: OrderStatus) => {
     const b = BADGES[status];
@@ -65,6 +87,53 @@ export default function OrdersView({ orders, onSelectOrder }: OrdersViewProps) {
             </span>
           </div>
           <p className="text-xs text-slate-400">All incoming orders — you deliver them yourself.</p>
+        </div>
+      </div>
+
+      {/* Search + date range */}
+      <div className="flex flex-col sm:flex-row gap-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+          <input
+            type="search"
+            value={searchQ}
+            onChange={(e) => setSearchQ(e.target.value)}
+            placeholder="Search by order #, name, phone…"
+            className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 pl-9 pr-9 text-xs text-white placeholder:text-slate-500 focus:border-emerald-500 focus:outline-none"
+          />
+          {searchQ && (
+            <button
+              onClick={() => setSearchQ("")}
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-slate-400 hover:bg-slate-800"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          )}
+        </div>
+        <div className="flex items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-950 px-2 py-1.5">
+          <Calendar className="h-3.5 w-3.5 text-slate-500 ml-1" />
+          <input
+            type="date"
+            value={dateFrom}
+            onChange={(e) => setDateFrom(e.target.value)}
+            className="bg-transparent text-xs text-white focus:outline-none"
+          />
+          <span className="text-slate-600 text-xs">→</span>
+          <input
+            type="date"
+            value={dateTo}
+            onChange={(e) => setDateTo(e.target.value)}
+            className="bg-transparent text-xs text-white focus:outline-none"
+          />
+          {(dateFrom || dateTo) && (
+            <button
+              onClick={() => { setDateFrom(""); setDateTo(""); }}
+              className="rounded-full p-1 text-slate-400 hover:bg-slate-800"
+              aria-label="Clear date filter"
+            >
+              <X className="h-3 w-3" />
+            </button>
+          )}
         </div>
       </div>
 
@@ -113,6 +182,18 @@ export default function OrdersView({ orders, onSelectOrder }: OrdersViewProps) {
                     <MapPin className="h-3.5 w-3.5 text-rose-400 flex-shrink-0" />
                     <span className="truncate">{order.deliveryAddress}</span>
                   </p>
+                  {order.scheduledFor && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40 px-2 py-0.5 text-[10px] font-black">
+                      <Clock className="h-3 w-3" />
+                      Scheduled · {new Date(order.scheduledFor).toLocaleString("en-IN", {
+                        weekday: "short",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
+                    </span>
+                  )}
                 </div>
                 <div className="mt-4 rounded-xl bg-slate-950/60 p-3 border border-slate-800/80">
                   <div className="flex items-center justify-between text-xs mb-1.5">

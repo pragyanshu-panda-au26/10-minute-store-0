@@ -99,6 +99,7 @@ export function serializeOrder(
     couponCode: o.couponCode,
     razorpayOrderId: o.razorpayOrderId,
     notes: o.notes ?? "",
+    scheduledFor: (o as any).scheduledFor ? (o as any).scheduledFor.toISOString() : null,
     createdAt: o.createdAt.toISOString(),
     updatedAt: o.updatedAt.toISOString(),
     deliveredAt: o.deliveredAt?.toISOString() ?? null,

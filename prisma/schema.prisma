@@ -207,6 +207,9 @@ model Order {
   razorpayPaymentId  String?
   refundAmount       Int           @default(0)
   notes              String? // delivery instructions ("don't ring bell", etc.)
+  // Slot booking — null = "deliver now" (instant). Set when the customer
+  // picks a specific slot at checkout; slot is [scheduledFor, scheduledFor + slotDurationMinutes).
+  scheduledFor       DateTime?
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
   deliveredAt        DateTime?
@@ -216,6 +219,7 @@ model Order {
   @@index([customerId])
   @@index([status])
   @@index([createdAt])
+  @@index([scheduledFor])
 }
 
 model OrderItem {
@@ -300,6 +304,40 @@ model OtpChallenge {
 
   @@index([phone])
   @@index([expiresAt])
+}
+
+/**
+ * Singleton store-wide configuration. The app enforces one row via
+ * `where: { id: "singleton" }` — the seed / API always uses that id.
+ *
+ * `weeklyHours` is a JSON blob keyed by day-of-week (0 = Sunday … 6 = Sat):
+ *   { "0": { open: "09:00", close: "22:00", closed: false }, ... }
+ * A day marked `closed: true` overrides the times entirely.
+ *
+ * `isOpen` is a manual master switch — even if within business hours,
+ * if `isOpen === false` the storefront blocks orders. Use for lunch breaks,
+ * emergencies, vacation.
+ */
+model StoreSetting {
+  id                 String   @id @default("singleton")
+  isOpen             Boolean  @default(true) // manual override
+  closedMessage      String? // e.g. "We're closed for Diwali — back tomorrow!"
+  weeklyHours        Json     @default("{}") // see comment above
+  etaMinutesOverride Int? // temp bump ("we're busy, +5 min today")
+  // Live-editable geofence override (falls back to env vars in lib/geofence.ts)
+  storeLat           Float?
+  storeLng           Float?
+  deliveryRadiusKm   Float?
+  // Drawn delivery polygon — when present, WINS over the circular radius above.
+  // JSON: [[lng, lat], [lng, lat], ...] — a single closed ring (last==first).
+  deliveryPolygon    Json?
+  // Slot-based delivery config
+  slotEnabled          Boolean @default(false) // if false, only "deliver now" is offered
+  slotDurationMinutes  Int     @default(60) // slot length; 30 / 60 / 90 typical
+  slotCapacity         Int     @default(20) // max orders per slot
+  slotLeadMinutes      Int     @default(30) // earliest slot must start at least N min from now
+  updatedAt          DateTime @updatedAt
+  createdAt          DateTime @default(now())
 }
 
 model AbandonedCart {

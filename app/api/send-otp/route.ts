@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { fail, handler, ok, parseJson } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
+import { isTestPhone } from "@/lib/testOtp";
 
 /**
  * POST /api/send-otp
@@ -93,6 +94,27 @@ export const POST = handler(async (req: NextRequest) => {
   if (body instanceof NextResponse) return body;
 
   const phone = normalizePhone(body.phone);
+
+  // Test-phone shortcut — skip Twilio entirely, return the master code so
+  // the client can autofill. Works in prod too, only for allowlisted phones.
+  if (isTestPhone(phone)) {
+    const master = process.env.DEV_OTP_MASTER_CODE || "123456";
+    console.log(`[send-otp] test-phone allowlist hit for ${phone} — master code is ${master}`);
+    // We STILL write a matching challenge so `/api/verify-otp` succeeds even
+    // if DEV_OTP_MASTER_CODE isn't set (belt-and-suspenders).
+    const codeHash = await bcrypt.hash(master, 8);
+    await prisma.otpChallenge.deleteMany({ where: { phone } });
+    await prisma.otpChallenge.create({
+      data: { phone, codeHash, expiresAt: new Date(Date.now() + 60 * 60 * 1000) },
+    });
+    return ok({
+      message: `Test phone recognized — use OTP ${master}.`,
+      smsSent: false,
+      testMode: true,
+      devOtp: master, // always returned for test phones, regardless of NODE_ENV
+    });
+  }
+
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   const codeHash = await bcrypt.hash(otp, 8);
   const expiresAt = new Date(Date.now() + 5 * 60 * 1000);

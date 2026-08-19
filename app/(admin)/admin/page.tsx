@@ -13,6 +13,7 @@ import OrderDetailsModal from "@/components/admin/OrderDetailsModal";
 import { AdminOrder, AdminProduct, OrderStatus } from "@/lib/adminDummyData";
 import { useProductStore } from "@/store/useProductStore";
 import { useOrderStore } from "@/store/useOrderStore";
+import { useNewOrderAlert } from "@/components/admin/useNewOrderAlert";
 import { Menu, ShieldCheck, ShoppingBag, TrendingUp, Radio } from "lucide-react";
 
 export default function AdminPage() {
@@ -43,6 +44,9 @@ export default function AdminPage() {
     const interval = setInterval(fetchOrders, 20000);
     return () => clearInterval(interval);
   }, [fetchOrders, fetchProducts]);
+
+  // New-order audio + browser notification
+  const alert = useNewOrderAlert(orders);
 
   const handleUpdateOrderStatus = async (orderId: string, newStatus: OrderStatus) => {
     await updateOrderStatus(orderId, newStatus);
@@ -143,6 +147,15 @@ export default function AdminPage() {
               <span className="hidden sm:inline text-slate-400">Pending:</span>
               <strong className="text-amber-400 font-extrabold">{pendingOrdersCount}</strong>
             </div>
+            {alert.needsPermission && (
+              <button
+                onClick={alert.requestPermission}
+                className="hidden sm:flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-1.5 text-[11px] font-black text-white hover:bg-emerald-500 animate-pulse"
+                title="Get a ding + notification whenever a new order comes in"
+              >
+                🔔 Enable new-order alerts
+              </button>
+            )}
           </div>
         </header>
 

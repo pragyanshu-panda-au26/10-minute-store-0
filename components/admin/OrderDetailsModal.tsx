@@ -17,6 +17,10 @@ import {
   XCircle,
   RotateCcw,
   Boxes,
+  MessageCircle,
+  Printer,
+  IndianRupee,
+  Banknote,
 } from "lucide-react";
 
 interface OrderDetailsModalProps {
@@ -49,6 +53,20 @@ export default function OrderDetailsModal({
   const lng = order.geocoordinates?.lng ?? 85.8245;
   const googleMapsRoutingUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
 
+  // WhatsApp deep-link — strip everything except digits, drop leading zero, prepend country code if missing
+  const waDigits = (order.customerPhone || "").replace(/\D/g, "").replace(/^0+/, "");
+  const waNumber = waDigits.length === 10 ? `91${waDigits}` : waDigits;
+  const waMessage = encodeURIComponent(
+    `Hi ${order.customerName?.split(" ")[0] || "there"}! This is your Satyug order #${orderKey} — total ₹${order.totalPrice}. Everything on track!`
+  );
+  const whatsappUrl = waNumber ? `https://wa.me/${waNumber}?text=${waMessage}` : null;
+
+  const isCod = (order as any).paymentMethod === "cod";
+  const isPaid = (order as any).paymentStatus === "paid";
+  const isRefunded = (order as any).paymentStatus === "refunded";
+  const canMarkPaid = isCod && !isPaid && !isRefunded;
+  const canRefund = isPaid && !isRefunded && order.status !== "cancelled";
+
   const handleStatusChange = async (newStatus: OrderStatus) => {
     setIsUpdating(true);
     try {
@@ -58,6 +76,61 @@ export default function OrderDetailsModal({
     } finally {
       setIsUpdating(false);
     }
+  };
+
+  const handleMarkPaid = async () => {
+    if (!confirm(`Mark COD order #${orderKey} as paid?\nOnly do this AFTER you've collected ₹${order.totalPrice} cash.`)) return;
+    setIsUpdating(true);
+    try {
+      const res = await fetch(`/api/orders/${encodeURIComponent(orderKey)}/mark-paid`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message);
+      setRefundMsg(`Cash of ₹${order.totalPrice} recorded as received.`);
+    } catch (err: any) {
+      alert(err.message ?? "Failed to mark paid");
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleRefund = async () => {
+    const raw = prompt(
+      `Refund how much (₹)? Max ₹${order.totalPrice}. Leave blank for full refund.`,
+      String(order.totalPrice)
+    );
+    if (raw === null) return;
+    const amount = raw.trim() ? Number(raw) : undefined;
+    if (raw.trim() && (!Number.isFinite(amount!) || amount! <= 0)) {
+      alert("Enter a valid amount.");
+      return;
+    }
+    setIsUpdating(true);
+    try {
+      const res = await fetch(`/api/orders/${encodeURIComponent(orderKey)}/refund`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(amount ? { amount } : {}),
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message);
+      setRefundMsg(
+        `Refund of ₹${data.refunded} issued via ${isCod ? "cash (recorded)" : "Razorpay to source"}.`
+      );
+    } catch (err: any) {
+      alert(err.message ?? "Refund failed");
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handlePrint = () => {
+    // Uses the CSS `@media print` block below — hides everything except
+    // the .receipt-print block, so the browser only prints the receipt.
+    if (typeof window !== "undefined") window.print();
   };
 
   const handleCancelAndRefund = async () => {
@@ -97,6 +170,19 @@ export default function OrderDetailsModal({
               <p className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
                 <Clock className="h-3 w-3 text-slate-500" /> Placed {new Date(order.createdAt).toLocaleString()}
               </p>
+              {order.scheduledFor && (
+                <p className="text-[11px] text-purple-300 font-bold flex items-center gap-1 mt-1">
+                  <Clock className="h-3 w-3" />
+                  Scheduled for {new Date(order.scheduledFor).toLocaleString("en-IN", {
+                    weekday: "short",
+                    day: "numeric",
+                    month: "short",
+                    hour: "numeric",
+                    minute: "2-digit",
+                    hour12: true,
+                  })}
+                </p>
+              )}
             </div>
           </div>
 
@@ -135,15 +221,57 @@ export default function OrderDetailsModal({
               <MapPin className="h-4 w-4 text-rose-400 flex-shrink-0 mt-0.5" />
               <span className="font-medium text-slate-200">{order.deliveryAddress}</span>
             </div>
-            <div className="pt-2">
+            <div className="pt-2 flex flex-wrap gap-2">
               <a
                 href={googleMapsRoutingUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-xs font-extrabold text-white shadow-md shadow-blue-600/30 hover:bg-blue-500 active:scale-95"
+                className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-3 py-2 text-xs font-extrabold text-white shadow-md shadow-blue-600/30 hover:bg-blue-500 active:scale-95"
               >
-                <Navigation className="h-4 w-4" /> Navigate with Google Maps
+                <Navigation className="h-4 w-4" /> Navigate
               </a>
+              {whatsappUrl && (
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#25D366] px-3 py-2 text-xs font-extrabold text-white shadow-md hover:bg-[#20b358] active:scale-95"
+                >
+                  <MessageCircle className="h-4 w-4" /> WhatsApp
+                </a>
+              )}
+              <a
+                href={`tel:${order.customerPhone}`}
+                className="inline-flex items-center gap-2 rounded-xl bg-slate-800 px-3 py-2 text-xs font-extrabold text-white hover:bg-slate-700 active:scale-95"
+              >
+                <Phone className="h-4 w-4" /> Call
+              </a>
+              <button
+                onClick={handlePrint}
+                className="inline-flex items-center gap-2 rounded-xl bg-slate-800 px-3 py-2 text-xs font-extrabold text-white hover:bg-slate-700 active:scale-95"
+              >
+                <Printer className="h-4 w-4" /> Print
+              </button>
+              {canMarkPaid && (
+                <button
+                  onClick={handleMarkPaid}
+                  disabled={isUpdating}
+                  className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-3 py-2 text-xs font-extrabold text-white shadow-md hover:bg-emerald-500 disabled:opacity-60 active:scale-95"
+                >
+                  {isUpdating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Banknote className="h-4 w-4" />}
+                  Cash received (₹{order.totalPrice})
+                </button>
+              )}
+              {canRefund && (
+                <button
+                  onClick={handleRefund}
+                  disabled={isUpdating}
+                  className="inline-flex items-center gap-2 rounded-xl bg-amber-600 px-3 py-2 text-xs font-extrabold text-white shadow-md hover:bg-amber-500 disabled:opacity-60 active:scale-95"
+                >
+                  {isUpdating ? <Loader2 className="h-4 w-4 animate-spin" /> : <IndianRupee className="h-4 w-4" />}
+                  Refund
+                </button>
+              )}
             </div>
           </div>
 
@@ -211,6 +339,60 @@ export default function OrderDetailsModal({
                 Cancel & Refund (₹{order.totalPrice})
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── Print-only receipt (58 mm thermal) ─────────────
+          Hidden on screen; only visible during `window.print()`. The
+          @media-print styles below hide EVERYTHING except this block. */}
+      <div className="hidden print:block receipt-print">
+        <style>{`
+          @media print {
+            @page { size: 58mm auto; margin: 4mm; }
+            body { background: white !important; }
+            body > *:not(.receipt-print-root) { display: none !important; }
+            .receipt-print-root { display: block !important; position: fixed; inset: 0; z-index: 9999; background: white; color: black; font-family: 'Courier New', monospace; font-size: 11px; padding: 2mm; }
+            .receipt-print { display: block !important; }
+          }
+        `}</style>
+        <div className="receipt-print-root">
+          <div style={{ textAlign: "center", fontWeight: 900, fontSize: 14 }}>
+            SATYUG 10-MIN STORE
+          </div>
+          <div style={{ textAlign: "center", fontSize: 10, marginBottom: 6 }}>
+            Order #{orderKey}
+          </div>
+          <div style={{ borderTop: "1px dashed black", margin: "4px 0" }} />
+          <div>
+            <div><strong>To:</strong> {order.customerName}</div>
+            <div>{order.customerPhone}</div>
+            <div style={{ marginTop: 2 }}>{order.deliveryAddress}</div>
+          </div>
+          <div style={{ borderTop: "1px dashed black", margin: "4px 0" }} />
+          <div>
+            {order.items.map((it) => (
+              <div key={it.id} style={{ display: "flex", justifyContent: "space-between" }}>
+                <span>{it.quantity}× {it.name}</span>
+                <span>₹{it.price * it.quantity}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ borderTop: "1px dashed black", margin: "4px 0" }} />
+          <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 900, fontSize: 12 }}>
+            <span>TOTAL</span>
+            <span>₹{order.totalPrice}</span>
+          </div>
+          <div style={{ marginTop: 2, fontSize: 10 }}>
+            Payment: {(order as any).paymentMethod?.toUpperCase() ?? "COD"} ·{" "}
+            {(order as any).paymentStatus?.toUpperCase() ?? "PENDING"}
+          </div>
+          <div style={{ borderTop: "1px dashed black", margin: "4px 0" }} />
+          <div style={{ textAlign: "center", fontSize: 9, marginTop: 4 }}>
+            Placed {new Date(order.createdAt).toLocaleString()}
+          </div>
+          <div style={{ textAlign: "center", fontSize: 9, marginTop: 8 }}>
+            Thank you! 🙏
           </div>
         </div>
       </div>

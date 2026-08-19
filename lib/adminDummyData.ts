@@ -70,6 +70,8 @@ export interface AdminOrder {
   totalItems: number;
   items: AdminOrderItem[];
   status: OrderStatus;
+  /** ISO string of the customer-chosen slot start, or null for instant. */
+  scheduledFor?: string | null;
   createdAt: string;
   paymentStatus?: PaymentStatus;
   paymentMethod?: PaymentMethod;

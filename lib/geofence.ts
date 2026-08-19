@@ -201,20 +201,54 @@ export function storeGeoJSON(store: StoreConfig) {
   };
 }
 
+/**
+ * Merge live DB overrides on top of env-configured stores. Callers pass
+ * `overrides` from `getStoreSettings()` — the admin settings page updates
+ * these at runtime without redeploying.
+ */
+export interface StoreOverride {
+  storeLat?: number | null;
+  storeLng?: number | null;
+  deliveryRadiusKm?: number | null;
+  etaMinutesOverride?: number | null;
+  /** Drawn polygon ring [[lng, lat], ...] — WINS over the circular radius. */
+  deliveryPolygon?: [number, number][] | null;
+}
+
+function applyOverrides(stores: StoreConfig[], o?: StoreOverride | null): StoreConfig[] {
+  if (!o) return stores;
+  const primary = stores[0];
+  if (!primary) return stores;
+  const patched: StoreConfig = {
+    ...primary,
+    lat: o.storeLat ?? primary.lat,
+    lng: o.storeLng ?? primary.lng,
+    radiusKm: o.deliveryRadiusKm ?? primary.radiusKm,
+    etaMinutes: o.etaMinutesOverride ?? primary.etaMinutes,
+  };
+  return [patched, ...stores.slice(1)];
+}
+
 // ─── The one function every caller (API + client) uses ─────────
 /**
  * Check whether (lat, lng) is inside ANY configured store's delivery zone.
  * Returns the closest serviceable store. Belt-and-suspenders: uses BOTH the
  * polygon (ray casting) and the radius (Haversine) — either satisfies.
+ *
+ * `overrides` (from DB StoreSetting) win over env defaults.
  */
-export function checkServiceability(lat: number, lng: number): ServiceabilityResult {
+export function checkServiceability(
+  lat: number,
+  lng: number,
+  overrides?: StoreOverride | null
+): ServiceabilityResult {
   if (
     !Number.isFinite(lat) ||
     !Number.isFinite(lng) ||
     Math.abs(lat) > 90 ||
     Math.abs(lng) > 180
   ) {
-    const s = getStores()[0];
+    const s = applyOverrides(getStores(), overrides)[0];
     return {
       serviceable: false,
       store_id: s.id,
@@ -227,18 +261,28 @@ export function checkServiceability(lat: number, lng: number): ServiceabilityRes
     };
   }
 
-  const stores = getStores();
+  const stores = applyOverrides(getStores(), overrides);
+  // If admin has drawn a custom polygon, it authoritatively defines the zone
+  // — the circular radius becomes irrelevant.
+  const drawn = overrides?.deliveryPolygon;
+  const hasDrawn = Array.isArray(drawn) && drawn.length >= 3;
+
   let best: { store: StoreConfig; distance: number; inside: boolean } | null = null;
 
   for (const store of stores) {
     const distance = haversineKm({ lat: store.lat, lng: store.lng }, { lat, lng });
-    const polygon = generateCirclePolygon(
-      { lat: store.lat, lng: store.lng },
-      store.radiusKm
-    );
-    const insidePolygon = isPointInPolygon({ lat, lng }, polygon);
-    const insideRadius = distance <= store.radiusKm;
-    const inside = insidePolygon || insideRadius;
+    let inside: boolean;
+    if (hasDrawn) {
+      inside = isPointInPolygon({ lat, lng }, drawn as [number, number][]);
+    } else {
+      const polygon = generateCirclePolygon(
+        { lat: store.lat, lng: store.lng },
+        store.radiusKm
+      );
+      const insidePolygon = isPointInPolygon({ lat, lng }, polygon);
+      const insideRadius = distance <= store.radiusKm;
+      inside = insidePolygon || insideRadius;
+    }
 
     // Prefer any serviceable store; among those, the closest by distance.
     if (

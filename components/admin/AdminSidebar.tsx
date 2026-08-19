@@ -27,7 +27,8 @@ export type AdminTab =
   | "customers"
   | "coupons"
   | "banners"
-  | "delivery_rules";
+  | "delivery_rules"
+  | "settings";
 
 interface AdminSidebarProps {
   activeTab: AdminTab;
@@ -58,6 +59,7 @@ export default function AdminSidebar({
     { id: "coupons", href: "/admin/coupons", label: "Coupon Engine", icon: Tag },
     { id: "banners", href: "/admin/banners", label: "Hero Banners", icon: ImageIcon },
     { id: "delivery_rules", href: "/admin/delivery-rules", label: "Delivery Rules & Zone", icon: Sliders },
+    { id: "settings", href: "/admin/settings", label: "Store Settings", icon: Sliders, color: "bg-emerald-500/20 text-emerald-400" },
   ];
 
   return (

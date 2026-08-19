@@ -10,6 +10,7 @@ import MobileBottomNav from "@/components/customer/MobileBottomNav";
 import AuthModal from "@/components/customer/AuthModal";
 import AddressFormModal from "@/components/customer/AddressFormModal";
 import AddressPicker from "@/components/customer/AddressPicker";
+import DeliverySlotPicker from "@/components/customer/DeliverySlotPicker";
 import CheckoutBillCard from "@/components/customer/CheckoutBillCard";
 import {
   ArrowLeft,
@@ -42,6 +43,8 @@ export default function CheckoutPage() {
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const [tip, setTip] = useState(0);
   const [deliveryNotes, setDeliveryNotes] = useState("");
+  // null = deliver now / instant; ISO string = scheduled slot start
+  const [scheduledFor, setScheduledFor] = useState<string | null>(null);
 
   const { items, getTotalItems, getTotalPrice, getDiscountAmount, clearCart, appliedPromo } =
     useCartStore();
@@ -143,6 +146,7 @@ export default function CheckoutPage() {
           paymentMethod: selectedMethod,
           tip,
           notes: deliveryNotes || undefined,
+          scheduledFor: scheduledFor || undefined,
         }),
       });
       const data = await res.json();
@@ -287,6 +291,13 @@ export default function CheckoutPage() {
                 </p>
               )}
             </div>
+
+            {/* Slot picker (self-hides if the store hasn't enabled slots) */}
+            <DeliverySlotPicker
+              value={scheduledFor}
+              onChange={setScheduledFor}
+              instantEta="10 min"
+            />
 
             {/* Blinkit-style: tip + delivery instructions + bill breakdown */}
             <CheckoutBillCard
