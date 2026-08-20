@@ -49,16 +49,35 @@ export default function CustomerHeader({
                     </Link>
                   </div>
 
-                  {/* Delivery Location Trigger */}
+                  {/* Delivery Location Trigger.
+                      For a GPS entry the store fires a reverse-geocode after
+                      it captures the coords; the label rewrites from
+                      "Detecting address…" to something like
+                      "Patia, Bhubaneswar" as soon as it resolves.
+                      We show the label as the primary line and only append a
+                      secondary "area, city" line for named addresses (Home,
+                      Work …) where those fields are separate from the label. */}
                   <button
                     onClick={() => setIsLocationModalOpen(true)}
                     className="flex items-center gap-1 text-[11px] text-slate-900 font-extrabold hover:underline text-left group cursor-pointer"
                   >
-                    <span suppressHydrationWarning className="font-black uppercase tracking-wider text-slate-900">
-                      {activeAddr.label} -
-                    </span>
-                    <span suppressHydrationWarning className="truncate text-slate-900 max-w-[130px] sm:max-w-[180px] font-bold">
-                      {activeAddr.area}, {activeAddr.city}
+                    <span
+                      suppressHydrationWarning
+                      className="truncate text-slate-900 max-w-[190px] sm:max-w-[260px] font-bold"
+                    >
+                      {(() => {
+                        const label = activeAddr.label?.trim() || "";
+                        const areaCity = [activeAddr.area, activeAddr.city]
+                          .filter((s) => (s || "").trim())
+                          .join(", ");
+                        // Prefer whichever line has real content; avoid
+                        // rendering "Home - " with an empty tail, or the
+                        // label twice when it already contains the area/city.
+                        if (label && areaCity && !label.includes(areaCity)) {
+                          return `${label} · ${areaCity}`;
+                        }
+                        return label || areaCity || "Set your location";
+                      })()}
                     </span>
                     <ChevronDown className="h-3.5 w-3.5 text-slate-950 flex-shrink-0" />
                   </button>

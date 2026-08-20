@@ -241,12 +241,12 @@ export const useUserStore = create<UserStore>()(
         const fixedGpsId = "gps_current";
         // Never stamp a hardcoded city/pincode over a real GPS fix — that
         // would print "Bhubaneswar 751024" on a delivery going to Paradip
-        // (or anywhere else). Leave them blank so the reverse-geocode step
-        // (or the user editing the address) fills them in with real values.
+        // (or anywhere else). Show a short placeholder immediately and let
+        // the background reverse-geocode below rewrite it into a real address.
         const gpsAddress: Address = {
           id: fixedGpsId,
-          label: "Current GPS Location",
-          houseNo: `GPS Pin (${lat.toFixed(4)}, ${lng.toFixed(4)})`,
+          label: "Detecting address…",
+          houseNo: "",
           area: areaName || "",
           city: "",
           pincode: "",
@@ -263,6 +263,58 @@ export const useUserStore = create<UserStore>()(
             activeAddressId: fixedGpsId,
           },
         });
+
+        // Fire-and-forget reverse-geocode enrichment. Uses the same
+        // /api/geocode/reverse route as the address form (Google Geocoding
+        // API with a Nominatim fallback), so the header displays the real
+        // street/area/city + pincode as soon as it resolves. Failures are
+        // silent — the placeholder GPS entry stays usable if the request
+        // errors or the network is offline.
+        (async () => {
+          try {
+            const res = await fetch(`/api/geocode/reverse?lat=${lat}&lng=${lng}`);
+            const data = await res.json();
+            if (!data.success) return;
+
+            // Only patch if the same GPS pin is still the one on record —
+            // the user may have picked a different saved address in the
+            // meantime, and we don't want to overwrite that.
+            const p = get().profile;
+            const current = p.addresses.find((a) => a.id === fixedGpsId);
+            if (!current || current.lat !== lat || current.lng !== lng) return;
+
+            // Build a short human-readable label ("Patia, Bhubaneswar") —
+            // full formatted_address goes into houseNo as a searchable
+            // fallback when the granular fields are thin.
+            const shortLabel =
+              [data.area, data.cityOnly || data.city].filter(Boolean).join(", ") ||
+              data.display_name ||
+              "Current location";
+
+            // GPS-derived entries always defer to the reverse-geocoded values.
+            // The callers pass placeholder strings ("Live GPS Location",
+            // "Current Location") as areaName just to have _something_ on
+            // screen while the API resolves — those must not survive.
+            const enriched: Address = {
+              ...current,
+              label: shortLabel,
+              houseNo: data.houseNo || data.display_name || "",
+              area: data.area || "",
+              city: data.city || data.cityOnly || "",
+              pincode: data.pincode || "",
+            };
+            set({
+              profile: {
+                ...p,
+                addresses: p.addresses.map((a) => (a.id === fixedGpsId ? enriched : a)),
+              },
+            });
+          } catch (err) {
+            // Non-fatal — the placeholder GPS entry is still usable.
+            console.warn("[useUserStore] reverse-geocode enrichment failed:", err);
+          }
+        })();
+
         return gpsAddress;
       },
 
