@@ -88,9 +88,7 @@ export default function TrackOrderPage({
             <h1 className="text-base font-black text-white">
               Order #{order?.orderNumber ?? id}
             </h1>
-            <span className="flex items-center gap-1 rounded-full bg-emerald-950 px-2 py-0.5 text-[10px] font-bold text-emerald-400 border border-emerald-800">
-              ● LIVE
-            </span>
+            {/* LIVE badge removed — we only poll status, no rider GPS. */}
           </div>
           <div className="w-10" />
         </div>
@@ -137,8 +135,15 @@ export default function TrackOrderPage({
               <div className="relative flex justify-between items-start pt-2">
                 <div className="absolute left-4 right-4 top-6 h-1 bg-slate-800 -z-0" />
                 <div
+                  // Fill runs from the first step's centre to the current step's.
+                  // The trailing `- 0px` in the old calc was leftover unfinished
+                  // code that always resolved to 0 either way.
                   className="absolute left-4 top-6 h-1 bg-emerald-500 transition-all duration-500 -z-0"
-                  style={{ width: `calc(${((activeStep - 1) / (steps.length - 1)) * 100}% - ${(activeStep - 1) === 0 ? 0 : 0}px)` }}
+                  style={{
+                    width: `calc(${
+                      ((Math.max(0, activeStep - 1)) / (steps.length - 1)) * 100
+                    }% )`,
+                  }}
                 />
 
                 {steps.map((s, idx) => {

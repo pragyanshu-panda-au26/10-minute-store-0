@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useUserStore, Address } from "@/store/useUserStore";
+import { useUserStore } from "@/store/useUserStore";
 import { useThemeStore } from "@/store/useThemeStore";
 import MobileBottomNav from "@/components/customer/MobileBottomNav";
 import LocationPickerModal from "@/components/customer/LocationPickerModal";
@@ -11,39 +11,32 @@ import {
   ArrowLeft,
   User,
   ShoppingBag,
-  Wallet,
   HelpCircle,
   Smartphone,
   Sun,
   Moon,
   EyeOff,
   BookOpen,
-  Utensils,
-  Heart,
-  FileText,
-  Gift,
-  ClipboardList,
-  CreditCard,
-  Award,
-  Sparkles,
-  Share2,
-  Info,
-  Store,
-  ShieldCheck,
-  Bell,
   ChevronRight,
   LogOut,
 } from "lucide-react";
 
+/**
+ * Profile / account screen.
+ *
+ * Only rows backed by real functionality are rendered. The following rows were
+ * removed because they were pure hover/cursor placeholders with no click
+ * handler and no destination:
+ *   Bookmarked recipes, Wishlist, GST details, E-gift cards, Prescriptions,
+ *   10minute Money, Payment settings, Claim Gift card, Rewards,
+ *   Feeding India, Donation receipt, Share app, About us, Sell on 10minute,
+ *   Account privacy, Notification preferences.
+ * The "10minute Money" quick-action tile at the top was removed with them,
+ * and the top action grid collapsed from 3 tiles to 2.
+ */
 export default function ProfilePage() {
   const router = useRouter();
-  const {
-    profile,
-    addAddress,
-    updateAddress,
-    deleteAddress,
-    signOut,
-  } = useUserStore();
+  const { profile, signOut } = useUserStore();
 
   const { theme, setTheme, initTheme } = useThemeStore();
 
@@ -53,7 +46,6 @@ export default function ProfilePage() {
 
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [sensitiveItemsHidden, setSensitiveItemsHidden] = useState(true);
-  const [walletBalance] = useState(50);
 
   const handleSignOut = () => {
     if (confirm("Are you sure you want to sign out of your 10minute account?")) {
@@ -66,7 +58,6 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-slate-100/70 dark:bg-slate-950 text-slate-900 dark:text-slate-100 pb-32 transition-colors">
       {/* Yellow Top Banner & Profile Header */}
       <div className="relative bg-gradient-to-b from-[#F8CB46] via-[#F8CB46]/40 to-slate-100/70 dark:to-slate-950 pt-4 pb-6 px-4 text-center">
-        {/* Top Circular Back Button */}
         <button
           onClick={() => router.back()}
           className="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-sm hover:bg-slate-50 active:scale-95 transition-all cursor-pointer border border-slate-200 dark:border-slate-800"
@@ -74,7 +65,6 @@ export default function ProfilePage() {
           <ArrowLeft className="h-4 w-4" />
         </button>
 
-        {/* Large Centered Avatar */}
         <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-white dark:bg-slate-900 shadow-md border-4 border-white dark:border-slate-800 text-slate-800 dark:text-slate-100 my-2">
           <User className="h-12 w-12 text-slate-800 dark:text-slate-200" />
         </div>
@@ -86,9 +76,8 @@ export default function ProfilePage() {
       </div>
 
       <main className="mx-auto max-w-xl px-4 space-y-4 -mt-1">
-        {/* TOP 3 QUICK ACTION CARDS GRID */}
-        <div className="grid grid-cols-3 gap-2.5">
-          {/* 1. Your Orders */}
+        {/* TOP QUICK ACTION CARDS — 2 tiles now that 10minute Money is gone. */}
+        <div className="grid grid-cols-2 gap-2.5">
           <Link
             href="/orders"
             className="flex flex-col items-center justify-center rounded-2xl bg-white dark:bg-slate-900 p-3.5 shadow-xs border border-slate-200/60 dark:border-slate-800 hover:border-slate-300 transition-all cursor-pointer active:scale-95"
@@ -99,18 +88,6 @@ export default function ProfilePage() {
             <span className="text-xs font-bold text-slate-900 dark:text-white">Your orders</span>
           </Link>
 
-          {/* 2. 10minute Money */}
-          <div
-            onClick={() => alert(`Your 10minute Money Wallet balance is ₹${walletBalance}`)}
-            className="flex flex-col items-center justify-center rounded-2xl bg-white dark:bg-slate-900 p-3.5 shadow-xs border border-slate-200/60 dark:border-slate-800 hover:border-slate-300 transition-all cursor-pointer active:scale-95"
-          >
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 mb-1.5">
-              <Wallet className="h-5 w-5" />
-            </div>
-            <span className="text-xs font-bold text-slate-900 dark:text-white truncate">10minute Mon...</span>
-          </div>
-
-          {/* 3. Need Help */}
           <Link
             href="/support"
             className="flex flex-col items-center justify-center rounded-2xl bg-white dark:bg-slate-900 p-3.5 shadow-xs border border-slate-200/60 dark:border-slate-800 hover:border-slate-300 transition-all cursor-pointer active:scale-95"
@@ -124,7 +101,6 @@ export default function ProfilePage() {
 
         {/* APP SETTINGS & PREFERENCES CARDS */}
         <div className="space-y-2.5">
-          {/* App Update Card */}
           <div className="flex items-center justify-between rounded-2xl bg-white dark:bg-slate-900 p-4 shadow-xs border border-slate-200/60 dark:border-slate-800">
             <div className="flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
@@ -140,7 +116,7 @@ export default function ProfilePage() {
             </span>
           </div>
 
-          {/* APPEARANCE THEME SELECTOR ROW (LIGHT / DARK SWITCH) */}
+          {/* Appearance theme switch */}
           <div className="flex items-center justify-between rounded-2xl bg-white dark:bg-slate-900 p-4 shadow-xs border border-slate-200/60 dark:border-slate-800">
             <div className="flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-amber-500 dark:text-purple-400">
@@ -154,7 +130,6 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* LIGHT vs DARK Mode Selector Segment */}
             <div className="flex items-center rounded-xl bg-slate-100 dark:bg-slate-800 p-1 border border-slate-200 dark:border-slate-700">
               <button
                 type="button"
@@ -183,7 +158,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Sensitive Items Toggle Card */}
+          {/* Sensitive items visibility toggle (local UI-only preference) */}
           <div className="flex items-center justify-between rounded-2xl bg-white dark:bg-slate-900 p-4 shadow-xs border border-slate-200/60 dark:border-slate-800">
             <div className="flex items-start gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5">
@@ -218,7 +193,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* SECTION 1: YOUR INFORMATION */}
+        {/* YOUR INFORMATION — only the working "Address book" row remains. */}
         <div className="space-y-1.5">
           <h2 className="px-1 text-xs font-extrabold text-slate-900 dark:text-white">Your information</h2>
           <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800/80 shadow-xs overflow-hidden text-xs font-bold text-slate-800 dark:text-slate-200">
@@ -232,154 +207,14 @@ export default function ProfilePage() {
               </div>
               <ChevronRight className="h-4 w-4 text-slate-400" />
             </button>
-
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <Utensils className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>Bookmarked recipes</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <Heart className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>Your wishlist</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <FileText className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>GST details</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <Gift className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>E-gift cards</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <ClipboardList className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>Your prescriptions</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
           </div>
         </div>
 
-        {/* SECTION 2: PAYMENT AND COUPONS */}
+        {/* ACCOUNT — sign out only. Every other Other-Information row was
+            a dead placeholder; see file-level comment. */}
         <div className="space-y-1.5">
-          <h2 className="px-1 text-xs font-extrabold text-slate-900 dark:text-white">Payment and coupons</h2>
-          <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800/80 shadow-xs overflow-hidden text-xs font-bold text-slate-800 dark:text-slate-200">
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <Wallet className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>10minute Money</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <CreditCard className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>Payment settings</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <Gift className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>Claim Gift card</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <Award className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>Your collected rewards</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-          </div>
-        </div>
-
-        {/* SECTION 3: VELOZ FOUNDATION */}
-        <div className="space-y-1.5">
-          <h2 className="px-1 text-xs font-extrabold text-slate-900 dark:text-white">Veloz Foundation</h2>
-          <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800/80 shadow-xs overflow-hidden text-xs font-bold text-slate-800 dark:text-slate-200">
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <Sparkles className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>Feeding India impact</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <FileText className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>Get donation receipt</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-          </div>
-        </div>
-
-        {/* SECTION 4: OTHER INFORMATION */}
-        <div className="space-y-1.5">
-          <h2 className="px-1 text-xs font-extrabold text-slate-900 dark:text-white">Other Information</h2>
-          <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800/80 shadow-xs overflow-hidden text-xs font-bold text-slate-800 dark:text-slate-200">
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <Share2 className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>Share the app</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <Info className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>About us</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <Store className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>Sell on 10minute</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <ShieldCheck className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>Account privacy</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-
-            <div className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors cursor-pointer">
-              <div className="flex items-center gap-3">
-                <Bell className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>Notification preferences</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </div>
-
-            {/* Sign Out Row */}
+          <h2 className="px-1 text-xs font-extrabold text-slate-900 dark:text-white">Account</h2>
+          <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 shadow-xs overflow-hidden text-xs font-bold text-slate-800 dark:text-slate-200">
             <button
               onClick={handleSignOut}
               className="w-full flex items-center justify-between p-3.5 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors text-left cursor-pointer"
@@ -393,7 +228,6 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* LEGAL DISCLAIMER FOOTER */}
         <div className="text-center pt-2 pb-4 space-y-1">
           <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400">10minute store v18.19.0</p>
           <p className="text-[10px] text-slate-400 dark:text-slate-500">
@@ -402,7 +236,6 @@ export default function ProfilePage() {
         </div>
       </main>
 
-      {/* Location Picker Sheet */}
       <LocationPickerModal
         isOpen={isLocationModalOpen}
         onClose={() => setIsLocationModalOpen(false)}

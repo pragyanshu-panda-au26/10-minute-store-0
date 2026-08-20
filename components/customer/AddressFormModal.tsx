@@ -95,15 +95,33 @@ export default function AddressFormModal({
 
   const initialFetchedRef = useRef(false);
 
-  // On open — auto-fetch GPS + reverse geocode if we don't already have data.
+  // Auto-detect GPS every time the modal is opened for a NEW address (not an
+  // edit). Previously the ref latched to `true` after the first successful
+  // detect, so if the user closed the modal and reopened it during the same
+  // session no location was ever fetched again — they'd stare at a blank
+  // form with no map. Reset the guard when the modal closes so the next
+  // open re-runs the detect flow, and only skip re-firing while the same
+  // open is in-flight.
   useEffect(() => {
-    if (!isOpen) return;
-    if (isEdit) return; // editing an existing one: don't overwrite
+    if (!isOpen) {
+      initialFetchedRef.current = false;
+      return;
+    }
+    if (isEdit) return;
     if (initialFetchedRef.current) return;
     initialFetchedRef.current = true;
     void detectLocation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
+
+  // Sensible default coordinates for the pin so the map always renders and
+  // is immediately draggable — even before GPS resolves (or if the user
+  // denied permission). We pick the app's serviceable centre so a stray
+  // pin is at worst inside the delivery zone.
+  const DEFAULT_LAT = 20.2961; // Bhubaneswar / Odisha central area
+  const DEFAULT_LNG = 85.8245;
+  const mapLat = lat ?? DEFAULT_LAT;
+  const mapLng = lng ?? DEFAULT_LNG;
 
   const detectLocation = async () => {
     setError(null);
@@ -304,28 +322,38 @@ export default function AddressFormModal({
 
         {/* Scrollable form body */}
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
-          {/* Draggable-pin map — only shown once we have coords */}
-          {lat != null && lng != null && (
-            <div className="space-y-1">
-              <div className="flex items-center justify-between">
-                <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                  Confirm exact location
-                </p>
-                <span className="flex items-center gap-1 text-[10px] font-semibold text-slate-500">
-                  <MoveDiagonal className="h-3 w-3" /> Drag pin to adjust
-                </span>
-              </div>
-              <AddressPinMap
-                lat={lat}
-                lng={lng}
-                onMove={async (newLat, newLng) => {
-                  setLat(newLat);
-                  setLng(newLng);
-                  await reverseGeocode(newLat, newLng);
-                }}
-              />
+          {/* Draggable-pin map — ALWAYS rendered so the drag/tap interaction
+              is available from the moment the modal opens, even before GPS
+              has resolved. Before, we only mounted the map after coordinates
+              arrived, so a denied/timed-out GPS meant the user never saw a
+              map at all and "drag to adjust" wasn't offered. */}
+          <div className="space-y-1">
+            <div className="flex items-center justify-between">
+              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                {lat != null && lng != null
+                  ? "Confirm exact location"
+                  : "Pick your delivery point"}
+              </p>
+              <span className="flex items-center gap-1 text-[10px] font-semibold text-slate-500">
+                <MoveDiagonal className="h-3 w-3" /> Drag pin or tap the map
+              </span>
             </div>
-          )}
+            <AddressPinMap
+              lat={mapLat}
+              lng={mapLng}
+              onMove={async (newLat, newLng) => {
+                setLat(newLat);
+                setLng(newLng);
+                await reverseGeocode(newLat, newLng);
+              }}
+            />
+            {lat == null && lng == null && (
+              <p className="text-[10px] text-slate-500">
+                Showing a default map. Tap “Detect” above to use your GPS, or
+                drop the pin manually.
+              </p>
+            )}
+          </div>
 
           {/* Label chips */}
           <div>

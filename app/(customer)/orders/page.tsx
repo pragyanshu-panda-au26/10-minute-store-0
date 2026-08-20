@@ -58,11 +58,14 @@ export default function OrderHistoryPage() {
       const variant = historicalVariantId
         ? p.variants?.find((v) => v.id === historicalVariantId)
         : null;
-      // Add `quantity` copies
-      for (let i = 0; i < item.quantity; i++) {
+      // Add `quantity` copies — only count a real add. An item with
+      // quantity 0 (or a coerced NaN) would otherwise still bump `added`.
+      const times = Math.max(0, Math.floor(item.quantity || 0));
+      if (times === 0) continue;
+      for (let i = 0; i < times; i++) {
         addItem(p as any, (variant as any) ?? null);
       }
-      added++;
+      added += times;
     }
 
     if (added === 0) {
@@ -74,7 +77,9 @@ export default function OrderHistoryPage() {
         ? `Added ${added} item${added === 1 ? "" : "s"}. Skipped: ${skipped.join(", ")}.`
         : `Added ${added} item${added === 1 ? "" : "s"} to your basket.`
     );
-    setTimeout(() => router.push("/cart"), 600);
+    // Navigate immediately — the previous 600 ms setTimeout was a race with
+    // any other tap the user made in that window (route change vs. click).
+    router.push("/cart");
   };
 
   return (
@@ -206,7 +211,7 @@ export default function OrderHistoryPage() {
                     className="flex items-center gap-1 text-xs font-black text-emerald-600 hover:text-emerald-700"
                   >
                     <Truck className="h-4 w-4" />
-                    <span>Track Live GPS</span>
+                    <span>Track order</span>
                     <ChevronRight className="h-3.5 w-3.5" />
                   </Link>
 
@@ -311,20 +316,32 @@ export default function OrderHistoryPage() {
                 </tbody>
               </table>
 
-              <div className="space-y-1.5 text-xs text-slate-600 pt-2 border-t border-slate-200">
-                <div className="flex justify-between">
-                  <span>Item Subtotal</span>
-                  <span>₹{selectedInvoiceOrder.totalPrice}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>GST (5% Included)</span>
-                  <span>₹{Math.round(selectedInvoiceOrder.totalPrice * 0.05)}</span>
-                </div>
-                <div className="flex justify-between font-black text-sm text-slate-900 pt-2 border-t">
-                  <span>Grand Total Paid</span>
-                  <span className="text-emerald-700">₹{selectedInvoiceOrder.totalPrice}</span>
-                </div>
-              </div>
+              {(() => {
+                // Split the total into pre-tax base + 5% GST *actually included*
+                // in the total, so the arithmetic on-screen adds up. The old
+                // version showed total AND "GST (5%)" as separate numeric lines
+                // even though Grand Total equaled the pre-GST subtotal — the
+                // rows didn't sum to the total.
+                const total = selectedInvoiceOrder.totalPrice;
+                const gstInclusive = Math.round((total * 5) / 105);
+                const baseInclusive = total - gstInclusive;
+                return (
+                  <div className="space-y-1.5 text-xs text-slate-600 pt-2 border-t border-slate-200">
+                    <div className="flex justify-between">
+                      <span>Item Subtotal (excl. GST)</span>
+                      <span>₹{baseInclusive}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>GST @ 5%</span>
+                      <span>₹{gstInclusive}</span>
+                    </div>
+                    <div className="flex justify-between font-black text-sm text-slate-900 pt-2 border-t">
+                      <span>Grand Total Paid (incl. GST)</span>
+                      <span className="text-emerald-700">₹{total}</span>
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
 
             <div className="mt-4">

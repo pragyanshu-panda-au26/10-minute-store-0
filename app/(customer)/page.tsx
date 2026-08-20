@@ -9,7 +9,6 @@ import BannerCarousel from "@/components/customer/BannerCarousel";
 import CategoryHierarchy from "@/components/customer/CategoryHierarchy";
 import MobileCategoryGrid from "@/components/customer/MobileCategoryGrid";
 import ProductDetailModal from "@/components/customer/ProductDetailModal";
-import ServiceabilityModal from "@/components/customer/ServiceabilityModal";
 import GatedServiceabilityModal from "@/components/customer/GatedServiceabilityModal";
 import MobileBottomNav from "@/components/customer/MobileBottomNav";
 import InstallAppButton from "@/components/customer/InstallAppButton";
@@ -36,8 +35,6 @@ export default function CustomerPage() {
 
   // Modals state
   const [selectedPdpProduct, setSelectedPdpProduct] = useState<ExtendedProduct | null>(null);
-  const [isServiceabilityOpen, setIsServiceabilityOpen] = useState(false);
-  const [activeStoreId, setActiveStoreId] = useState<string | null>(null);
 
   // Live product catalog — fetched after location verification
   const { products, loading, error, fetchProducts } = useProductStore();
@@ -50,8 +47,10 @@ export default function CustomerPage() {
     initTheme();
   }, [hydrateSession, initTheme]);
 
-  const handleServiceableConfirmed = (storeId: string) => {
-    setActiveStoreId(storeId);
+  const handleServiceableConfirmed = (_storeId: string) => {
+    // Store-scoped catalogs aren't wired up yet — for now every serviceable
+    // location gets the same live catalog. When per-store products land,
+    // thread `_storeId` through to fetchProducts().
     fetchProducts();
   };
 
@@ -260,12 +259,9 @@ export default function CustomerPage() {
         onClose={() => setSelectedPdpProduct(null)}
       />
 
-      {/* Serviceability Check Modal */}
-      <ServiceabilityModal
-        isOpen={isServiceabilityOpen}
-        onClose={() => setIsServiceabilityOpen(false)}
-        currentAddressStr={`${activeAddr.houseNo}, ${activeAddr.area}, ${activeAddr.city}`}
-      />
+      {/* The manual ServiceabilityModal / GatedServiceabilityModal were dead
+          — the state that would open them was never set. Removed. Location
+          gating lives in the header + address flow now. */}
 
       {/* Mobile Bottom Navigation Bar */}
       <InstallAppButton />

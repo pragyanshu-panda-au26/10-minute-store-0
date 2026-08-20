@@ -41,7 +41,8 @@ export interface UserProfile {
   phone: string;
   email: string;
   addresses: Address[];
-  activeAddressId: string;
+  // null while the customer has no saved addresses (fresh account or guest).
+  activeAddressId: string | null;
 }
 
 interface UserStore {
@@ -61,26 +62,30 @@ interface UserStore {
   signOut: () => Promise<void>;
 }
 
-const GUEST_ADDRESSES: Address[] = [
-  {
-    id: "addr_guest",
-    label: "Home",
-    houseNo: "Flat 402, Royal Palms",
-    area: "Patia",
-    city: "Bhubaneswar, Odisha",
-    pincode: "751024",
-    isDefault: true,
-    lat: 20.2961,
-    lng: 85.8245,
-  },
-];
+/**
+ * An EMPTY placeholder address. Rendered as `— Add delivery address —` in the
+ * checkout / cart. Used only when the address list is empty — never persisted,
+ * never sent to the server. Previously we shipped a hardcoded "Flat 402,
+ * Royal Palms, Patia, Bhubaneswar" here, which meant every guest and every
+ * signed-in customer with no saved address saw somebody else's address
+ * pre-filled at checkout.
+ */
+const EMPTY_ADDRESS: Address = {
+  id: "addr_empty",
+  label: "No address selected",
+  houseNo: "",
+  area: "",
+  city: "",
+  pincode: "",
+};
+const GUEST_ADDRESSES: Address[] = [];
 
 const GUEST_PROFILE: UserProfile = {
   name: "Guest",
   phone: "",
   email: "",
   addresses: GUEST_ADDRESSES,
-  activeAddressId: "addr_guest",
+  activeAddressId: null,
 };
 
 async function api<T>(path: string, init?: RequestInit): Promise<T> {
@@ -130,7 +135,7 @@ export const useUserStore = create<UserStore>()(
           addresses.find((a) => a.id === currentActive)?.id ??
           addresses.find((a) => a.isDefault)?.id ??
           addresses[0]?.id ??
-          "addr_guest";
+          null;
         set({
           isLoggedIn: true,
           profile: {
@@ -209,7 +214,7 @@ export const useUserStore = create<UserStore>()(
           profile: {
             ...get().profile,
             addresses: remaining,
-            activeAddressId: currentActive === id ? remaining[0]?.id ?? "" : currentActive,
+            activeAddressId: currentActive === id ? remaining[0]?.id ?? null : currentActive,
           },
         });
         if (!get().isLoggedIn) return;
@@ -226,7 +231,10 @@ export const useUserStore = create<UserStore>()(
       getActiveAddress: () => {
         const { addresses, activeAddressId } = get().profile;
         const found = addresses.find((a) => a.id === activeAddressId);
-        return found || addresses[0] || GUEST_ADDRESSES[0];
+        // Fall through to EMPTY_ADDRESS (blank fields, "No address selected"
+        // label) rather than a fake demo address so the checkout UI can show
+        // an "Add address" prompt instead of pretending one exists.
+        return found || addresses[0] || EMPTY_ADDRESS;
       },
 
       setGpsLocation: (lat, lng, areaName) => {
@@ -263,6 +271,18 @@ export const useUserStore = create<UserStore>()(
           await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
         } catch {}
         set({ isLoggedIn: false, profile: GUEST_PROFILE });
+        // Wipe the persisted snapshot too — otherwise the next visit on a
+        // shared browser rehydrates the previous account's name / phone /
+        // addresses before the server session says "guest".
+        try {
+          if (typeof window !== "undefined") {
+            localStorage.removeItem("satyug_user_profile_v2");
+            // Also drop the cart — a new user on the same device shouldn't
+            // inherit the previous user's basket.
+            localStorage.removeItem("satyug_cart_v1");
+            localStorage.removeItem("satyug_live_active_cart");
+          }
+        } catch {}
       },
     }),
     {

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { DELIVERY_FEE } from "@/lib/pricing";
 
 export interface Product {
@@ -116,7 +117,9 @@ interface CartStore {
   getItemQuantity: (productId: string, variantId?: string | null) => number;
 }
 
-export const useCartStore = create<CartStore>((set, get) => ({
+export const useCartStore = create<CartStore>()(
+  persist(
+    (set, get) => ({
   items: [],
   appliedPromo: null,
 
@@ -128,11 +131,33 @@ export const useCartStore = create<CartStore>((set, get) => ({
       (item) => cartLineKey(item.product.id, item.variantId) === key
     );
 
+    // Cap quantity at whatever stock the variant/product declares — no cap
+    // when the field is missing. Previously the store happily incremented
+    // past stock, which then bounced at checkout with a confusing server
+    // error (or oversold silently while the fallback DB was in play).
+    const stockCap =
+      variant && typeof variant.stock === "number"
+        ? variant.stock
+        : typeof product.stock === "number"
+          ? product.stock
+          : null;
+
     let updatedItems: CartItem[] = [];
     if (existingIndex > -1) {
-      updatedItems = [...currentItems];
-      updatedItems[existingIndex].quantity += 1;
+      const existing = currentItems[existingIndex];
+      if (stockCap !== null && existing.quantity >= stockCap) {
+        // Nothing to do — already at max. Skip the state churn so subscribers
+        // don't re-render for a no-op.
+        return;
+      }
+      // Non-mutating update — replace the object so memoized consumers see a
+      // new reference. Previously we mutated `updatedItems[i].quantity += 1`
+      // on the copied array, leaving the item's object identity unchanged.
+      updatedItems = currentItems.map((item, i) =>
+        i === existingIndex ? { ...item, quantity: item.quantity + 1 } : item
+      );
     } else {
+      if (stockCap !== null && stockCap <= 0) return; // out of stock
       updatedItems = [
         ...currentItems,
         {
@@ -291,4 +316,21 @@ export const useCartStore = create<CartStore>((set, get) => ({
     );
     return item ? item.quantity : 0;
   },
-}));
+    }),
+    {
+      // Persists the basket across page reloads. Previously the store lived
+      // only in memory and a refresh wiped the cart — the localStorage key
+      // `satyug_live_active_cart` was written for the abandoned-cart channel
+      // but never rehydrated back into state.
+      name: "satyug_cart_v1",
+      storage: createJSONStorage(() => localStorage),
+      // Only the items + applied promo need to survive a refresh. Functions
+      // in the store are recreated on load, so we don't (and can't) persist
+      // them.
+      partialize: (state) => ({
+        items: state.items,
+        appliedPromo: state.appliedPromo,
+      }),
+    }
+  )
+);

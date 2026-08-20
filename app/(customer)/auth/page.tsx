@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/useUserStore";
 import MobileBottomNav from "@/components/customer/MobileBottomNav";
@@ -26,6 +26,15 @@ export default function AuthPage() {
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const { applySession } = useUserStore();
+
+  // After a successful OTP verify, land the user on the storefront instead of
+  // parking them on a "click to continue" screen. Short delay keeps the
+  // "authenticated" tick visible long enough to feel intentional.
+  useEffect(() => {
+    if (step !== "success") return;
+    const t = setTimeout(() => router.replace("/"), 700);
+    return () => clearTimeout(t);
+  }, [step, router]);
 
   const handleSendTwilioOtp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,6 +114,10 @@ export default function AuthPage() {
       if (data.success) {
         applySession(data.user);
         setStep("success");
+        // Auto-redirect to the home page after a brief confirmation flash —
+        // the "Return to Storefront" button is still there as a fallback if
+        // the redirect gets blocked or the user prefers to tap it.
+        setTimeout(() => router.push("/"), 900);
       } else {
         setServerMsg(data.message || "Invalid OTP code");
       }
@@ -236,17 +249,17 @@ export default function AuthPage() {
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
                 <CheckCircle2 className="h-10 w-10" />
               </div>
-              <h2 className="text-xl font-black text-slate-900">
-                Twilio Authenticated!
-              </h2>
+              <h2 className="text-xl font-black text-slate-900">Signed in!</h2>
               <p className="text-xs text-slate-500">
-                Your mobile phone has been authenticated via Twilio SMS.
+                Redirecting you to the storefront…
               </p>
+              {/* Fallback in case the auto-redirect doesn't fire (e.g. the
+                  user disabled JS between OTP send and verify). */}
               <button
-                onClick={() => router.push("/")}
+                onClick={() => router.replace("/")}
                 className="w-full rounded-2xl bg-slate-900 py-3 text-xs font-bold text-white hover:bg-slate-800"
               >
-                Return to Storefront
+                Go now
               </button>
             </div>
           )}

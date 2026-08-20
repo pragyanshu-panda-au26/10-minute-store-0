@@ -20,16 +20,28 @@ export default function ProductCard({ product, onSelect }: ProductCardProps) {
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
 
-  const handleCardClick = (e: React.MouseEvent) => {
+  const handleCardClick = () => {
     if (onSelect) onSelect();
   };
 
-  const handleAddTouch = (e: React.MouseEvent | React.TouchEvent) => {
+  // Respect the underlying stock. `undefined` means "unknown / uncapped"
+  // (legacy dummy data path), so we only block when we have a real number.
+  const stock = typeof product.stock === "number" ? product.stock : null;
+  const isOutOfStock = stock !== null && stock <= 0;
+  const atMax = stock !== null && quantity >= stock;
+
+  // Single-source-of-truth handlers. We deliberately DO NOT wire both onClick
+  // AND onTouchEnd — mobile browsers synthesize a click after touchend and
+  // that used to double-increment quantity on every tap. onClick alone works
+  // on touch devices; we call preventDefault on the touch to suppress the
+  // 300ms delay and any duplicate synthesized click.
+  const handleAdd = (e: React.SyntheticEvent) => {
     e.stopPropagation();
+    if (isOutOfStock || atMax) return;
     addItem(product);
   };
 
-  const handleMinusTouch = (e: React.MouseEvent | React.TouchEvent) => {
+  const handleMinus = (e: React.SyntheticEvent) => {
     e.stopPropagation();
     decreaseQuantity(product.id);
   };
@@ -118,19 +130,22 @@ export default function ProductCard({ product, onSelect }: ProductCardProps) {
             {quantity === 0 ? (
               <button
                 type="button"
-                onClick={handleAddTouch}
-                onTouchEnd={handleAddTouch}
-                className="flex items-center gap-1 rounded-xl border border-emerald-600 bg-emerald-50/90 px-3.5 py-1.5 text-xs font-black text-emerald-700 shadow-2xs transition-all hover:bg-emerald-600 hover:text-white active:scale-90 cursor-pointer touch-manipulation"
+                onClick={handleAdd}
+                disabled={isOutOfStock}
+                className={`flex items-center gap-1 rounded-xl border px-3.5 py-1.5 text-xs font-black shadow-2xs transition-all active:scale-90 cursor-pointer touch-manipulation ${
+                  isOutOfStock
+                    ? "border-slate-300 bg-slate-100 text-slate-400 cursor-not-allowed"
+                    : "border-emerald-600 bg-emerald-50/90 text-emerald-700 hover:bg-emerald-600 hover:text-white"
+                }`}
               >
                 <Plus className="h-3.5 w-3.5" />
-                ADD
+                {isOutOfStock ? "OUT" : "ADD"}
               </button>
             ) : (
               <div className="flex items-center rounded-xl bg-emerald-600 text-white shadow-md">
                 <button
                   type="button"
-                  onClick={handleMinusTouch}
-                  onTouchEnd={handleMinusTouch}
+                  onClick={handleMinus}
                   className="flex h-7 w-7 items-center justify-center hover:bg-emerald-700 rounded-l-xl active:scale-90 cursor-pointer touch-manipulation"
                 >
                   <Minus className="h-3.5 w-3.5" />
@@ -140,9 +155,10 @@ export default function ProductCard({ product, onSelect }: ProductCardProps) {
                 </span>
                 <button
                   type="button"
-                  onClick={handleAddTouch}
-                  onTouchEnd={handleAddTouch}
-                  className="flex h-7 w-7 items-center justify-center hover:bg-emerald-700 rounded-r-xl active:scale-90 cursor-pointer touch-manipulation"
+                  onClick={handleAdd}
+                  disabled={atMax}
+                  title={atMax ? `Only ${stock} in stock` : undefined}
+                  className="flex h-7 w-7 items-center justify-center hover:bg-emerald-700 rounded-r-xl active:scale-90 cursor-pointer touch-manipulation disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <Plus className="h-3.5 w-3.5" />
                 </button>

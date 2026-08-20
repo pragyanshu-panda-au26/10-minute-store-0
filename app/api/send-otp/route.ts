@@ -104,11 +104,15 @@ export const POST = handler(async (req: NextRequest) => {
     // if DEV_OTP_MASTER_CODE isn't set (belt-and-suspenders).
     const codeHash = await bcrypt.hash(master, 8);
     await prisma.otpChallenge.deleteMany({ where: { phone } });
+    // Align the challenge TTL with the copy sent to the user. The old value
+    // was 60 minutes while the SMS copy elsewhere said "Valid for 5 minutes",
+    // confusing QA and support. Test-phone challenges now share the same
+    // 5-minute TTL as normal OTPs.
     await prisma.otpChallenge.create({
-      data: { phone, codeHash, expiresAt: new Date(Date.now() + 60 * 60 * 1000) },
+      data: { phone, codeHash, expiresAt: new Date(Date.now() + 5 * 60 * 1000) },
     });
     return ok({
-      message: `Test phone recognized — use OTP ${master}.`,
+      message: `Test phone recognized — use OTP ${master}. Valid for 5 minutes.`,
       smsSent: false,
       testMode: true,
       devOtp: master, // always returned for test phones, regardless of NODE_ENV
@@ -124,7 +128,16 @@ export const POST = handler(async (req: NextRequest) => {
   await prisma.otpChallenge.create({ data: { phone, codeHash, expiresAt } });
 
   const smsResult = await trySendSms(phone, otp);
-  const isDev = process.env.NODE_ENV !== "production";
+
+  // "Return the OTP in the response" is a local-dev convenience. Previously
+  // gated only on `NODE_ENV !== "production"`, which also fires on every
+  // preview/staging deploy and inline-leaks the code to real users. Tighten
+  // to true local development: NODE_ENV === "development" AND the request
+  // came from localhost. In every other environment, callers get the OTP
+  // via SMS only.
+  const host = req.headers.get("host") || "";
+  const isLocalhost = /^(localhost|127\.0\.0\.1|\[::1\])(:|$)/i.test(host);
+  const isDev = process.env.NODE_ENV === "development" && isLocalhost;
 
   // No Twilio configured — the challenge is stored, the OTP is in the server
   // logs, and (in dev) we return it in the response so the client can autofill.

@@ -36,14 +36,35 @@ export default function SupportPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [issueMsg, setIssueMsg] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Actually POST the ticket to /api/support so it lands in the admin queue.
+  // Previously the form only flipped a local flag and pretended the ticket
+  // was sent — nothing was persisted anywhere.
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
+    if (submitting) return;
+    setSubmitting(true);
+    setErrorMsg(null);
+    try {
+      const res = await fetch("/api/support", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: issueMsg }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || "Could not submit your ticket. Try again in a moment.");
+      }
+      setSubmitted(true);
       setIssueMsg("");
-    }, 2500);
+    } catch (err: any) {
+      setErrorMsg(err?.message ?? "Something went wrong.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -109,9 +130,20 @@ export default function SupportPage() {
           </h2>
 
           {submitted ? (
-            <div className="flex items-center gap-2 rounded-2xl bg-emerald-100 p-4 text-xs font-bold text-emerald-800">
-              <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-              <span>Support ticket submitted! Our team will call you within 5 mins.</span>
+            <div className="space-y-2">
+              <div className="flex items-start gap-2 rounded-2xl bg-emerald-100 p-4 text-xs font-bold text-emerald-800">
+                <CheckCircle2 className="h-5 w-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                <span>
+                  Ticket received. Our team reviews new tickets during store hours
+                  and will get back to you on the number registered to your account.
+                </span>
+              </div>
+              <button
+                onClick={() => setSubmitted(false)}
+                className="text-[11px] font-bold text-emerald-700 underline"
+              >
+                Submit another ticket
+              </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-3">
@@ -123,11 +155,16 @@ export default function SupportPage() {
                 placeholder="Describe your issue or order inquiry..."
                 className="w-full rounded-2xl border border-slate-200 bg-slate-50 p-3 text-xs font-semibold text-slate-900 focus:border-emerald-500 focus:outline-none"
               />
+              {errorMsg && (
+                <p className="text-[11px] font-semibold text-rose-600">{errorMsg}</p>
+              )}
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 rounded-2xl bg-slate-900 py-3.5 text-xs font-bold text-white shadow-md hover:bg-slate-800"
+                disabled={submitting}
+                className="w-full flex items-center justify-center gap-2 rounded-2xl bg-slate-900 py-3.5 text-xs font-bold text-white shadow-md hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <Send className="h-4 w-4" /> Submit Support Ticket
+                <Send className="h-4 w-4" />
+                {submitting ? "Submitting…" : "Submit Support Ticket"}
               </button>
             </form>
           )}

@@ -57,6 +57,12 @@ export default function CheckoutPage() {
 
   const activeAddr = getActiveAddress();
   const fullAddress = formatAddress(activeAddr);
+  // A real address needs the minimum three fields the order API validates.
+  // Empty placeholder / GUEST fallback fails this check, so the Pay button
+  // stays disabled and the address card renders the "Add address" prompt.
+  const hasRealAddress = Boolean(
+    activeAddr.houseNo && activeAddr.area && activeAddr.city
+  );
 
   const totalItems = getTotalItems();
   const subtotal = getTotalPrice();
@@ -127,6 +133,12 @@ export default function CheckoutPage() {
       return;
     }
     if (items.length === 0) return;
+    // Force an address before we let the customer pay — the empty placeholder
+    // would otherwise POST an incomplete deliveryAddress to /api/orders.
+    if (!hasRealAddress) {
+      setIsAddressModalOpen(true);
+      return;
+    }
 
     setIsSubmitting(true);
     setError(null);
@@ -279,38 +291,56 @@ export default function CheckoutPage() {
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
                   Delivering to
                 </h3>
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setIsPickerOpen(true)}
-                    className="text-[11px] font-black text-emerald-700 hover:text-emerald-800"
-                  >
-                    Change
-                  </button>
-                  <span className="text-slate-300">·</span>
+                {hasRealAddress && (
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setIsPickerOpen(true)}
+                      className="text-[11px] font-black text-emerald-700 hover:text-emerald-800"
+                    >
+                      Change
+                    </button>
+                    <span className="text-slate-300">·</span>
+                    <button
+                      type="button"
+                      onClick={() => setIsAddressModalOpen(true)}
+                      className="text-[11px] font-black text-emerald-700 hover:text-emerald-800"
+                    >
+                      + Add new
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {hasRealAddress ? (
+                <>
+                  <p className="mt-1 text-sm font-bold text-slate-900">{activeAddr.label}</p>
+                  <p className="text-xs text-slate-600">{fullAddress}</p>
+                  {activeAddr.landmark && (
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      <span className="font-semibold">Landmark:</span> {activeAddr.landmark}
+                    </p>
+                  )}
+                  {activeAddr.contactPhone && (
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      Contact: {activeAddr.contactName || "—"} ·{" "}
+                      <a href={`tel:${activeAddr.contactPhone}`} className="text-emerald-700 font-semibold">
+                        {activeAddr.contactPhone}
+                      </a>
+                    </p>
+                  )}
+                </>
+              ) : (
+                <div className="mt-2 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-center">
+                  <p className="text-xs text-slate-600">No delivery address on file yet.</p>
                   <button
                     type="button"
                     onClick={() => setIsAddressModalOpen(true)}
-                    className="text-[11px] font-black text-emerald-700 hover:text-emerald-800"
+                    className="mt-2 inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-black text-white shadow-sm hover:bg-emerald-500"
                   >
-                    + Add new
+                    + Add delivery address
                   </button>
                 </div>
-              </div>
-              <p className="mt-1 text-sm font-bold text-slate-900">{activeAddr.label}</p>
-              <p className="text-xs text-slate-600">{fullAddress}</p>
-              {activeAddr.landmark && (
-                <p className="text-xs text-slate-500 mt-0.5">
-                  <span className="font-semibold">Landmark:</span> {activeAddr.landmark}
-                </p>
-              )}
-              {activeAddr.contactPhone && (
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Contact: {activeAddr.contactName || "—"} ·{" "}
-                  <a href={`tel:${activeAddr.contactPhone}`} className="text-emerald-700 font-semibold">
-                    {activeAddr.contactPhone}
-                  </a>
-                </p>
               )}
             </div>
 
@@ -438,6 +468,11 @@ export default function CheckoutPage() {
               ) : !isLoggedIn ? (
                 <>
                   Sign in to pay ₹{grandTotal}
+                  <ChevronRight className="h-4 w-4" />
+                </>
+              ) : !hasRealAddress ? (
+                <>
+                  Add delivery address
                   <ChevronRight className="h-4 w-4" />
                 </>
               ) : (

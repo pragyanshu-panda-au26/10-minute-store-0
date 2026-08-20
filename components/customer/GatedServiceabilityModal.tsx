@@ -53,7 +53,8 @@ export default function GatedServiceabilityModal({
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [manualAddressInput, setManualAddressInput] = useState("");
   const [isGeocoding, setIsGeocoding] = useState(false);
-  const [isHttpOrigin, setIsHttpOrigin] = useState(false);
+  // (Removed unused `isHttpOrigin` state — the value it tracked was never
+  // read; the http-vs-https hint already lives inline in errorMsg copy.)
 
   const { setGpsLocation } = useUserStore();
 
@@ -164,7 +165,6 @@ export default function GatedServiceabilityModal({
   // Triggered directly by user TAP / CLICK event
   const handleRequestBrowserLocation = async () => {
     setErrorMsg(null);
-    setIsHttpOrigin(false);
 
     if (typeof window === "undefined" || !navigator.geolocation) {
       setPhase("out_of_zone");
@@ -242,7 +242,6 @@ export default function GatedServiceabilityModal({
 
     if (lastErr?.code === 1) {
       // PERMISSION_DENIED
-      setIsHttpOrigin(isHttpNonLocalhost);
       setErrorMsg(
         isHttpNonLocalhost
           ? "Mobile browsers block GPS on http:// LAN URLs. Use https:// (npm run dev:https), a tunnel (cloudflared), or enter your address below."
@@ -353,18 +352,24 @@ export default function GatedServiceabilityModal({
                 <Compass className="h-4 w-4 text-slate-950" /> Allow Location Permission (GPS)
               </button>
 
-              <button
-                onClick={() =>
-                  handleVerifyCoordinates(
-                    GEOFENCE_CENTER.lat,
-                    GEOFENCE_CENTER.lng,
-                    "Paradip Store Hub"
-                  )
-                }
-                className="w-full flex items-center justify-center gap-1.5 rounded-2xl border border-slate-800 bg-slate-950 py-2.5 text-xs font-bold text-emerald-400 hover:bg-slate-800 transition-all cursor-pointer"
-              >
-                <MapPin className="h-3.5 w-3.5 text-emerald-400" /> Test Paradip Store Hub ({GEOFENCE_CENTER.lat.toFixed(4)}, {GEOFENCE_CENTER.lng.toFixed(4)})
-              </button>
+              {/* Bypass button — dev/QA only. In production this let anyone
+                  fake their location to the geofence centre and skip the
+                  serviceability check with one tap. Gated on NODE_ENV so the
+                  bundle doesn't ship it to real users. */}
+              {process.env.NODE_ENV !== "production" && (
+                <button
+                  onClick={() =>
+                    handleVerifyCoordinates(
+                      GEOFENCE_CENTER.lat,
+                      GEOFENCE_CENTER.lng,
+                      "Paradip Store Hub"
+                    )
+                  }
+                  className="w-full flex items-center justify-center gap-1.5 rounded-2xl border border-slate-800 bg-slate-950 py-2.5 text-xs font-bold text-emerald-400 hover:bg-slate-800 transition-all cursor-pointer"
+                >
+                  <MapPin className="h-3.5 w-3.5 text-emerald-400" /> Test Paradip Store Hub ({GEOFENCE_CENTER.lat.toFixed(4)}, {GEOFENCE_CENTER.lng.toFixed(4)})
+                </button>
+              )}
             </div>
           </div>
         )}

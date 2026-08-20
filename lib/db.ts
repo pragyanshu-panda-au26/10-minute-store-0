@@ -50,6 +50,17 @@ export interface DatabaseSchema {
     imageUrl: string;
     isActive: boolean;
   }[];
+  supportTickets?: SupportTicket[];
+}
+
+export interface SupportTicket {
+  id: string;
+  customerId?: string | null;
+  customerPhone?: string | null;
+  customerName?: string | null;
+  message: string;
+  status: "open" | "resolved";
+  createdAt: string; // ISO
 }
 
 const INITIAL_DB: DatabaseSchema = {
@@ -76,6 +87,7 @@ const INITIAL_DB: DatabaseSchema = {
   customers: [],
   coupons: [],
   banners: [],
+  supportTickets: [],
 };
 
 // Detect environments where we cannot / should not write to disk.
@@ -105,6 +117,7 @@ function loadFromDisk(): DatabaseSchema {
     if (!parsed.abandonedCarts) parsed.abandonedCarts = INITIAL_ABANDONED_CARTS;
     if (!parsed.darkStores) parsed.darkStores = INITIAL_DARK_STORES;
     if (!parsed.orders) parsed.orders = [];
+    if (!parsed.supportTickets) parsed.supportTickets = [];
     return parsed;
   } catch (err) {
     console.warn("[lib/db] failed to load from disk, using in-memory defaults:", err);
