@@ -27,6 +27,11 @@ export interface StoreSettingsShape {
   // Drawn polygon overrides the radius when present. GeoJSON-style ring:
   //   [[lng, lat], [lng, lat], ..., [lng, lat]]  (last vertex should equal first)
   deliveryPolygon: [number, number][] | null;
+  // Live-editable pricing — all paise. Server-side order pricing reads these
+  // on every checkout, so owner changes here take effect immediately.
+  deliveryFeeDefault: number;
+  freeAboveThreshold: number;
+  handlingFeeDefault: number;
   // Slot-based delivery
   slotEnabled: boolean;
   slotDurationMinutes: number;
@@ -66,6 +71,9 @@ export async function getStoreSettings(): Promise<StoreSettingsShape> {
     storeLng: row.storeLng,
     deliveryRadiusKm: row.deliveryRadiusKm,
     deliveryPolygon: (row.deliveryPolygon as [number, number][] | null) ?? null,
+    deliveryFeeDefault: row.deliveryFeeDefault,
+    freeAboveThreshold: row.freeAboveThreshold,
+    handlingFeeDefault: row.handlingFeeDefault,
     slotEnabled: row.slotEnabled,
     slotDurationMinutes: row.slotDurationMinutes,
     slotCapacity: row.slotCapacity,
@@ -94,6 +102,15 @@ export async function updateStoreSettings(
       ...(patch.deliveryPolygon !== undefined
         ? { deliveryPolygon: patch.deliveryPolygon as any }
         : {}),
+      ...(patch.deliveryFeeDefault !== undefined
+        ? { deliveryFeeDefault: patch.deliveryFeeDefault }
+        : {}),
+      ...(patch.freeAboveThreshold !== undefined
+        ? { freeAboveThreshold: patch.freeAboveThreshold }
+        : {}),
+      ...(patch.handlingFeeDefault !== undefined
+        ? { handlingFeeDefault: patch.handlingFeeDefault }
+        : {}),
       ...(patch.slotEnabled !== undefined ? { slotEnabled: patch.slotEnabled } : {}),
       ...(patch.slotDurationMinutes !== undefined
         ? { slotDurationMinutes: patch.slotDurationMinutes }
@@ -113,6 +130,9 @@ export async function updateStoreSettings(
     storeLng: row.storeLng,
     deliveryRadiusKm: row.deliveryRadiusKm,
     deliveryPolygon: (row.deliveryPolygon as [number, number][] | null) ?? null,
+    deliveryFeeDefault: row.deliveryFeeDefault,
+    freeAboveThreshold: row.freeAboveThreshold,
+    handlingFeeDefault: row.handlingFeeDefault,
     slotEnabled: row.slotEnabled,
     slotDurationMinutes: row.slotDurationMinutes,
     slotCapacity: row.slotCapacity,

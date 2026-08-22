@@ -49,6 +49,10 @@ const patchSchema = z.object({
     .max(200)
     .nullable()
     .optional(),
+  // Fee config — paise. Caps prevent typo blowups (₹1000 delivery fee).
+  deliveryFeeDefault: z.number().int().min(0).max(100000).optional(),
+  freeAboveThreshold: z.number().int().min(0).max(10000000).optional(),
+  handlingFeeDefault: z.number().int().min(0).max(100000).optional(),
   // Slot config
   slotEnabled: z.boolean().optional(),
   slotDurationMinutes: z.number().int().min(15).max(240).optional(),

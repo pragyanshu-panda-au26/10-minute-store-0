@@ -8,6 +8,39 @@
     --safe-b: env(safe-area-inset-bottom, 0px);
     --safe-t: env(safe-area-inset-top, 0px);
   }
+
+  /* ── Global focus-visible ring (a11y audit §1) ──────────────
+     Tailwind's preflight zeroes out the browser default focus
+     outline. Without a replacement, keyboard users see NO focus
+     indicator on any button, link, or interactive element —
+     WCAG 2.4.7 fails outright.
+     One rule catches every focusable element (buttons, links,
+     inputs, custom [tabindex] widgets); component-level rings
+     can still override when a designed variant is needed. */
+  *:focus-visible {
+    outline: 2px solid oklch(0.68 0.19 155);   /* emerald-500-ish, matches accent */
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  /* ── Global reduced-motion (a11y audit §7) ───────────────
+     Twenty-plus components run `animate-*` unconditionally.
+     For customers with vestibular disorders — or anyone who
+     has toggled Reduce Motion at the OS level — the honest
+     answer is to collapse every transition/animation to a
+     single frame. Components that must still animate (e.g.
+     progress spinners for load state) can opt back in with
+     an explicit media query in their own styles. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer utilities {

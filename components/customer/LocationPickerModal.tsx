@@ -134,7 +134,13 @@ export default function LocationPickerModal({
         </div>
 
         {toastMsg && (
-          <div className="flex items-center gap-2 rounded-xl bg-emerald-100 dark:bg-emerald-950 p-3 text-xs font-bold text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+          // role=status + aria-live=polite so the message is announced to
+          // screen readers without stealing focus (audit §8, toast-a11y).
+          <div
+            role="status"
+            aria-live="polite"
+            className="flex items-center gap-2 rounded-xl bg-emerald-100 dark:bg-emerald-950 p-3 text-xs font-bold text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800"
+          >
             <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
             <span>{toastMsg}</span>
           </div>

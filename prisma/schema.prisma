@@ -200,6 +200,11 @@ model Order {
   deliveryAddress    String // full formatted address snapshot
   lat                Float?
   lng                Float?
+  // Client-supplied idempotency key — a stable random id the storefront sends
+  // once per Place Order tap. Rapid double-taps (or the "the payment sheet
+  // reopened but I already got a success" retry) resolve to the same row
+  // instead of creating a duplicate order.
+  idempotencyKey     String?       @unique
   status             OrderStatus   @default(pending)
   subtotal           Int // paise
   discount           Int           @default(0)
@@ -289,17 +294,10 @@ model Banner {
 // Ops / analytics
 // ─────────────────────────────────────────────────────────────
 
-model DeliveryZone {
-  id           String   @id @default(cuid())
-  name         String
-  pincode      String   @unique
-  isServed     Boolean  @default(true)
-  etaMinutes   Int      @default(10)
-  minOrder     Int      @default(0) // paise
-  deliveryFee  Int      @default(0) // paise, free above threshold
-  freeAbove    Int?
-  createdAt    DateTime @default(now())
-}
+// NOTE: DeliveryZone (pincode-tiered fees) was removed as unused —
+// single-store model uses StoreSetting.deliveryRadiusKm / deliveryPolygon.
+// Restore this model + prisma/seed.ts's zones block together if pincode
+// tiers come back.
 
 model OtpChallenge {
   id        String   @id @default(cuid())
@@ -338,6 +336,12 @@ model StoreSetting {
   // Drawn delivery polygon — when present, WINS over the circular radius above.
   // JSON: [[lng, lat], [lng, lat], ...] — a single closed ring (last==first).
   deliveryPolygon    Json?
+  // Fee configuration — all in paise. Server reads these on every order-create
+  // so a change here immediately affects the next checkout without a redeploy.
+  // Historically these lived as compile-time constants in the orders route.
+  deliveryFeeDefault    Int     @default(1900) // ₹19 — flat fee when below freeAboveThreshold
+  freeAboveThreshold    Int     @default(19900) // ₹199 — subtotal at which delivery + handling are waived
+  handlingFeeDefault    Int     @default(200) // ₹2 packaging / convenience fee
   // Slot-based delivery config
   slotEnabled          Boolean @default(false) // if false, only "deliver now" is offered
   slotDurationMinutes  Int     @default(60) // slot length; 30 / 60 / 90 typical

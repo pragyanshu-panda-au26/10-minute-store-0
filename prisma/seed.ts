@@ -132,19 +132,11 @@ async function main() {
     });
   }
 
-  console.log("→ Seeding delivery zones…");
-  const zones = [
-    { name: "Patia",       pincode: "751024", etaMinutes: 10, deliveryFee: toPaise(19), freeAbove: toPaise(199) },
-    { name: "Chandaka",    pincode: "751024", etaMinutes: 12, deliveryFee: toPaise(19), freeAbove: toPaise(199) },
-    { name: "Nayapalli",   pincode: "751012", etaMinutes: 15, deliveryFee: toPaise(29), freeAbove: toPaise(299) },
-  ];
-  for (const z of zones) {
-    await prisma.deliveryZone.upsert({
-      where: { pincode: z.pincode },
-      update: z,
-      create: z,
-    });
-  }
+  // NOTE: DeliveryZone was removed — a single Kirana serves a single circular
+  // (or drawn-polygon) zone via StoreSetting.deliveryRadiusKm and
+  // StoreSetting.deliveryPolygon. Pincode-tiered fees never shipped, so we
+  // stopped seeding them. If you re-add multi-zone / multi-pincode pricing,
+  // restore the model + this seed block together.
 
   console.log("→ Seeding admin user…");
   const adminEmail = process.env.ADMIN_SEED_EMAIL || "admin@satyug.local";

@@ -19,13 +19,84 @@ import {
   Radio,
 } from "lucide-react";
 
+/** "Just now", "3 min ago", "2 h ago", "1 d ago" — for compact timestamps. */
+function relativeTime(iso: string): string {
+  const then = new Date(iso).getTime();
+  const now = Date.now();
+  const s = Math.max(0, Math.floor((now - then) / 1000));
+  if (s < 30) return "Just now";
+  if (s < 60) return `${s}s ago`;
+  const m = Math.floor(s / 60);
+  if (m < 60) return `${m} min ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  const d = Math.floor(h / 24);
+  return `${d}d ago`;
+}
+
 export default function AbandonedCartsView() {
-  const [carts, setCarts] = useState<AbandonedCart[]>(INITIAL_ABANDONED_CARTS);
+  // Server-persisted rows come first; the localStorage/BroadcastChannel path
+  // below is layered on top to show the CURRENT open tab's cart as a "live"
+  // row even before the debounced tracker POSTs it.
+  const [carts, setCarts] = useState<AbandonedCart[]>([]);
   const [selectedCart, setSelectedCart] = useState<AbandonedCart | null>(null);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
   const [livePulse, setLivePulse] = useState(false);
 
   const { profile } = useUserStore();
+
+  // Load the server-persisted rows on mount + poll every 30 s. The volume is
+  // small enough (one row per shopper, capped at 100) that polling beats SSE
+  // in operational simplicity.
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      try {
+        const res = await fetch("/api/abandoned-carts?limit=100", {
+          credentials: "include",
+          cache: "no-store",
+        });
+        const data = await res.json();
+        if (cancelled || !data.success) return;
+        const rows: AbandonedCart[] = (data.carts ?? []).map((r: any) => ({
+          id: r.id,
+          customerName: r.customerName || "Anonymous shopper",
+          customerPhone: r.customerPhone || "",
+          customerEmail: r.customerEmail || "",
+          items: Array.isArray(r.items)
+            ? r.items.map((it: any) => ({
+                id: it.productId,
+                name: it.name,
+                price: it.priceRupees,
+                quantity: it.quantity,
+                weight: it.weight || "1 unit",
+              }))
+            : [],
+          totalValue: r.totalRupees,
+          totalItems: r.totalItems,
+          lastActiveStep: r.lastActiveStep,
+          abandonedTimeAgo: relativeTime(r.updatedAt),
+          recoveryPingSent: r.recoveryPingSent,
+          geocoordinates:
+            r.lat != null && r.lng != null ? { lat: r.lat, lng: r.lng } : undefined,
+        }));
+        setCarts((prev) => {
+          // Keep the ephemeral live_active_cart row if the tracker hasn't
+          // POSTed yet — merging preserves it while replacing everything else.
+          const live = prev.find((c) => c.id === "live_active_cart");
+          return live ? [live, ...rows] : rows;
+        });
+      } catch {
+        // Silent — 30 s later we try again.
+      }
+    };
+    load();
+    const iv = setInterval(load, 30_000);
+    return () => {
+      cancelled = true;
+      clearInterval(iv);
+    };
+  }, []);
 
   // Subscribe to Live BroadcastChannel & LocalStorage for instant Real-time Abandoned Cart Sync!
   useEffect(() => {

@@ -19,10 +19,14 @@ interface GatedServiceabilityModalProps {
 
 // ─── Serviceability cache ──────────────────────────────────────
 // Persist a successful check so users don't get prompted on every
-// reload / route change. Cleared automatically after 24h or if the
-// user ends up out-of-zone (so they can retry).
+// reload / route change. TTL is short (1 h): the owner can change
+// the radius at any moment, and a stale cached "yes" would keep a
+// now-out-of-zone customer clicking Buy on orders the server will
+// refuse. On a fresh page load we ALSO revalidate in the background
+// (see below) so a shrinking radius is picked up within one refresh
+// instead of waiting for the whole hour to elapse.
 const CACHE_KEY = "satyug_serviceability_v2";
-const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const CACHE_TTL_MS = 60 * 60 * 1000;
 
 // Session-only flag: user tapped "Just browsing" — don't re-prompt until
 // they either navigate away or hit an action that needs an address (add
@@ -108,6 +112,32 @@ export default function GatedServiceabilityModal({
       });
       onServiceableConfirmed(cached.storeId);
       setPhase("serviceable");
+
+      // Background revalidate — the customer's coordinates haven't moved, but
+      // the delivery radius could have changed since we cached this result.
+      // Non-blocking: the UI stays unlocked while the check runs. Only if the
+      // server now says out-of-zone do we drop the cache and re-prompt.
+      void (async () => {
+        try {
+          const res = await fetch(
+            `/api/check-serviceability?lat=${cached.lat}&lng=${cached.lng}`,
+            { cache: "no-store" }
+          );
+          const data = await res.json();
+          const stillServiceable =
+            res.ok && data && (data.serviceable === true || data.serviceable === "true");
+          if (!stillServiceable) {
+            localStorage.removeItem(CACHE_KEY);
+            setPhase("out_of_zone");
+            setErrorMsg(
+              data?.message ||
+                "Delivery zone changed and your saved address is no longer covered."
+            );
+          }
+        } catch {
+          // Network error — keep the cached decision, we'll try again on next mount.
+        }
+      })();
     } catch (err) {
       console.warn("[serviceability] cache read failed:", err);
       localStorage.removeItem(CACHE_KEY);

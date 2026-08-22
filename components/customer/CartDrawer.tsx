@@ -7,6 +7,7 @@ import { useCartStore } from "@/store/useCartStore";
 import { useUserStore, formatAddress } from "@/store/useUserStore";
 import { computeBill, FREE_ABOVE } from "@/lib/pricing";
 import AuthModal from "@/components/customer/AuthModal";
+import { useAbandonedCartTracker } from "@/components/customer/useAbandonedCartTracker";
 import {
   ShoppingBag,
   X,
@@ -26,6 +27,10 @@ export default function CartDrawer() {
   const [isOpen, setIsOpen] = useState(false);
   const isSubmitting = false;
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+  // Abandoned-cart telemetry — a lingering-in-the-drawer shopper is the
+  // biggest recoverable segment, so record the snapshot from here.
+  useAbandonedCartTracker({ step: "Basket Drawer" });
 
   const {
     items,

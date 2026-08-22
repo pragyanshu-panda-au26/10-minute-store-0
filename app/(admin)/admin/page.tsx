@@ -1,44 +1,38 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AdminSidebar, { AdminTab } from "@/components/admin/AdminSidebar";
+import AdminSidebar from "@/components/admin/AdminSidebar";
 import DashboardOverview from "@/components/admin/DashboardOverview";
-import KanbanOrderBoard from "@/components/admin/KanbanOrderBoard";
-import InventoryView from "@/components/admin/InventoryView";
-import CustomerManagement from "@/components/admin/CustomerManagement";
-import CouponManagement from "@/components/admin/CouponManagement";
-import BannerManagement from "@/components/admin/BannerManagement";
-import DeliveryRulesView from "@/components/admin/DeliveryRulesView";
 import OrderDetailsModal from "@/components/admin/OrderDetailsModal";
-import { AdminOrder, AdminProduct, OrderStatus } from "@/lib/adminDummyData";
+import { AdminOrder, OrderStatus } from "@/lib/adminDummyData";
 import { useProductStore } from "@/store/useProductStore";
 import { useOrderStore } from "@/store/useOrderStore";
 import { useNewOrderAlert } from "@/components/admin/useNewOrderAlert";
 import { Menu, ShieldCheck, ShoppingBag, TrendingUp, Radio } from "lucide-react";
 
+/**
+ * /admin — dashboard hub. Every other admin surface (orders board, inventory,
+ * customers, coupons, banners, delivery rules, abandoned carts, dark stores,
+ * support, settings) lives on its own route under /admin/<slug>. The sidebar
+ * navigates to those pages via <Link>, so this route just needs to be the
+ * dashboard. The old in-page tab-switch has been retired — it was dead code
+ * once each tab got its own page.
+ */
 export default function AdminPage() {
-  const [activeTab, setActiveTab] = useState<AdminTab>("dashboard");
   const [selectedOrder, setSelectedOrder] = useState<AdminOrder | null>(null);
   const [isOpenMobile, setIsOpenMobile] = useState(false);
 
   const {
     orders,
     loading: ordersLoading,
-    fetchOrders,
     subscribeAdminStream,
     updateOrderStatus,
   } = useOrderStore();
 
-  const {
-    products,
-    fetchProducts,
-    createProduct,
-    updateProduct,
-    deleteProduct,
-    updateStock,
-  } = useProductStore();
+  const { products, fetchProducts } = useProductStore();
 
-  // SSE for orders (live, no polling), one-shot fetch for products.
+  // SSE for orders (live, no polling), one-shot fetch for products so the
+  // low-stock and revenue summaries render without a spinner.
   useEffect(() => {
     fetchProducts({ includeInactive: true });
     return subscribeAdminStream();
@@ -49,35 +43,12 @@ export default function AdminPage() {
 
   const handleUpdateOrderStatus = async (orderId: string, newStatus: OrderStatus) => {
     await updateOrderStatus(orderId, newStatus);
-    if (selectedOrder && (selectedOrder.id === orderId || selectedOrder.orderNumber === orderId)) {
+    if (
+      selectedOrder &&
+      (selectedOrder.id === orderId || selectedOrder.orderNumber === orderId)
+    ) {
       setSelectedOrder((prev) => (prev ? { ...prev, status: newStatus } : null));
     }
-  };
-
-  const handleAddProduct = async (newProduct: Omit<AdminProduct, "id">) => {
-    await createProduct({
-      name: newProduct.name,
-      category: newProduct.category,
-      subcategoryId: null,
-      price: newProduct.price,
-      originalPrice: newProduct.originalPrice,
-      costPrice: newProduct.costPrice,
-      stock: newProduct.stock,
-      weight: newProduct.weight,
-      imageUrl: newProduct.imageUrl,
-      tags: newProduct.tags,
-    });
-  };
-  const handleUpdateProduct = async (id: string, updatedFields: Partial<AdminProduct>) => {
-    await updateProduct(id, updatedFields as any);
-  };
-  const handleDeleteProduct = async (id: string) => {
-    if (confirm("Deactivate this product? Existing orders will keep their history.")) {
-      await deleteProduct(id);
-    }
-  };
-  const handleUpdateStock = async (productId: string, newStock: number) => {
-    await updateStock(productId, newStock);
   };
 
   const pendingOrdersCount = orders.filter((o) => o.status === "pending").length;
@@ -86,26 +57,11 @@ export default function AdminPage() {
     .filter((o) => o.status === "delivered" || o.status === "out_for_delivery")
     .reduce((acc, o) => acc + o.totalPrice, 0);
 
-  const adminProducts: AdminProduct[] = products.map((p) => ({
-    id: p.id,
-    sku: p.sku,
-    name: p.name,
-    category: p.category,
-    subcategory: p.subcategory ?? undefined,
-    price: p.price,
-    originalPrice: p.originalPrice ?? undefined,
-    costPrice: p.costPrice ?? undefined,
-    stock: p.stock ?? 0,
-    imageUrl: p.imageUrl,
-    weight: p.weight || "1 unit",
-    tags: p.tags,
-  }));
-
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex">
       <AdminSidebar
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        activeTab="dashboard"
+        setActiveTab={() => {}}
         pendingOrdersCount={pendingOrdersCount}
         lowStockCount={lowStockCount}
         isOpenMobile={isOpenMobile}
@@ -159,29 +115,7 @@ export default function AdminPage() {
         </header>
 
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
-          {activeTab === "dashboard" && (
-            <DashboardOverview orders={orders} onSelectOrder={setSelectedOrder} />
-          )}
-          {activeTab === "orders" && (
-            <KanbanOrderBoard
-              orders={orders}
-              onSelectOrder={setSelectedOrder}
-              onUpdateStatus={handleUpdateOrderStatus}
-            />
-          )}
-          {activeTab === "inventory" && (
-            <InventoryView
-              products={adminProducts}
-              onAddProduct={handleAddProduct}
-              onUpdateProduct={handleUpdateProduct}
-              onDeleteProduct={handleDeleteProduct}
-              onUpdateStock={handleUpdateStock}
-            />
-          )}
-          {activeTab === "customers" && <CustomerManagement />}
-          {activeTab === "coupons" && <CouponManagement />}
-          {activeTab === "banners" && <BannerManagement />}
-          {activeTab === "delivery_rules" && <DeliveryRulesView />}
+          <DashboardOverview orders={orders} onSelectOrder={setSelectedOrder} />
         </main>
 
         <footer className="border-t border-slate-900 bg-slate-950 py-4 px-6 text-center text-[11px] text-slate-500">

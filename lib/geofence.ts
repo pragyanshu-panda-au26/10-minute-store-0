@@ -76,13 +76,26 @@ export function getStores(): StoreConfig[] {
   return [defaultStore()];
 }
 
-// ─── Legacy single-store exports (still populated at module load) ────────
+// ─── Legacy single-store exports (frozen at module load — DO NOT read from
+// server code) ──────────────────────────────────────────────────────────
+//
+// These are compile-time snapshots of the env-configured defaults. Server
+// code MUST use `getStores()` + `checkServiceability()` so live DB overrides
+// (radius / centre changes via the admin panel) win. The client bundles
+// these as static fallbacks for map-centering when JS boot has no other
+// coordinates to work from — that's the only legitimate consumer today.
 const _initial = defaultStore();
+/** @deprecated Server code: use `getStores()[0].id`. Client uses this for a static default. */
 export const STORE_ID = _initial.id;
+/** @deprecated Server code: use `getStores()[0].name`. */
 export const STORE_NAME = _initial.name;
+/** @deprecated Server code: use `getStores()[0]` for a live-overridable centre. */
 export const STORE_CENTER = { lat: _initial.lat, lng: _initial.lng };
+/** @deprecated Server code: use `getStoreSettings().deliveryRadiusKm` or `getStores()[0].radiusKm`. */
 export const DELIVERY_RADIUS_KM = _initial.radiusKm;
+/** @deprecated Server code: use `getStoreSettings().etaMinutesOverride` or `getStores()[0].etaMinutes`. */
 export const DELIVERY_ETA_MINUTES = _initial.etaMinutes;
+/** @deprecated Server code: use `getStores()` + `getStoreSettings()`. Client-only fallback map centre. */
 export const GEOFENCE_CENTER = {
   lat: _initial.lat,
   lng: _initial.lng,
@@ -168,12 +181,17 @@ export function isPointInPolygon(
 }
 
 // ─── Ready-to-use exports for the CURRENT default store ─────────
+// Same rule as above: these are module-load snapshots. Server code should
+// call `storeGeoJSON(getStores()[0])` (or the version with settings merged)
+// so admin edits to the radius show up. Keeping them exported for the
+// customer bundle's initial-render fallback map.
+/** @deprecated Server code: `generateCirclePolygon` on live-merged store. */
 export const DELIVERY_POLYGON: [number, number][] = generateCirclePolygon(
   STORE_CENTER,
   DELIVERY_RADIUS_KM,
   _sides
 );
-
+/** @deprecated Server code: use `storeGeoJSON(store)` with a live-merged store. */
 export const DELIVERY_GEOJSON = {
   type: "Feature" as const,
   properties: {

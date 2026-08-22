@@ -16,6 +16,7 @@ import { CheckoutSkeleton } from "@/components/customer/Skeleton";
 import { computeBill } from "@/lib/pricing";
 import { useOrderPushSubscription } from "@/components/customer/useOrderPushSubscription";
 import OrderPlacedCelebration from "@/components/customer/OrderPlacedCelebration";
+import { useAbandonedCartTracker } from "@/components/customer/useAbandonedCartTracker";
 import {
   ArrowLeft,
   QrCode,
@@ -49,6 +50,14 @@ export default function CheckoutPage() {
   const [deliveryNotes, setDeliveryNotes] = useState("");
   // null = deliver now / instant; ISO string = scheduled slot start
   const [scheduledFor, setScheduledFor] = useState<string | null>(null);
+
+  // Abandoned-cart step depends on whether the shopper is looking at the
+  // address block or the payment block. Simple heuristic: no payment kicked
+  // off yet ⇒ delivery step; once the button is pressed the tracker's cart
+  // is emptied on success anyway.
+  useAbandonedCartTracker({
+    step: isSubmitting ? "Payment Gateway" : "Delivery Address Selection",
+  });
 
   const { items, getTotalItems, getTotalPrice, getDiscountAmount, clearCart, appliedPromo } =
     useCartStore();
@@ -154,12 +163,25 @@ export default function CheckoutPage() {
     // Tracked so we can cancel the DB order if the Razorpay flow fails or is
     // dismissed by the user, instead of leaving a pending unpaid order behind.
     let createdOrderId: string | null = null;
+    // Idempotency key — one stable id per Place Order tap. If the browser
+    // retries (double-tap, brief network glitch and the button becomes
+    // clickable again, back-and-forward navigation), the server resolves
+    // repeat POSTs to the same order row instead of creating duplicates.
+    // Regenerated on every fresh tap so a follow-up attempt after a real
+    // failure still creates a new order.
+    const idempotencyKey =
+      typeof crypto !== "undefined" && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : `chk_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
     try {
       // 1. Create the order in our DB (server re-computes everything from Prisma)
       const res = await fetch("/api/orders", {
         method: "POST",
         credentials: "include",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Idempotency-Key": idempotencyKey,
+        },
         body: JSON.stringify({
           items: items.map((it) => ({
             productId: it.product.id,
@@ -174,6 +196,7 @@ export default function CheckoutPage() {
           tip,
           notes: deliveryNotes || undefined,
           scheduledFor: scheduledFor || undefined,
+          idempotencyKey,
         }),
       });
       const data = await res.json();

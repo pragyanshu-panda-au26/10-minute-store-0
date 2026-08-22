@@ -3,7 +3,6 @@ import { z } from "zod";
 import { fail, getAuth, handler, ok, parseJson, requireAuth } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 import { serializeOrder } from "@/lib/serializers";
-import { getDb, saveDb } from "@/lib/db";
 import { orderStatusEmail, sendEmail } from "@/lib/email";
 import { sendOrderSms, OrderSmsStatus } from "@/lib/sms";
 import { sendPushToCustomer } from "@/lib/push";
@@ -15,33 +14,28 @@ export const GET = handler(async (req: NextRequest, { params }: Params) => {
   if (!auth) return fail("Authentication required", 401);
 
   const { id } = await params;
-  let orderResult: any = null;
 
+  // Prisma is the single source of truth on read. The old file-DB fallback
+  // was ephemeral per serverless instance — a hit there meant the tab across
+  // the browser could show a different order state than this one.
+  let prismaOrder;
   try {
-    const prismaOrder = await prisma.order.findFirst({
-      where: {
-        OR: [{ id }, { orderNumber: id }],
-      },
+    prismaOrder = await prisma.order.findFirst({
+      where: { OR: [{ id }, { orderNumber: id }] },
       include: { items: true },
     });
-    if (prismaOrder) {
-      orderResult = serializeOrder(prismaOrder);
-    }
   } catch (err) {
-    console.warn("Prisma order lookup failed:", err);
+    console.error("[/api/orders/:id] Prisma lookup failed:", err);
+    return fail("Orders service temporarily unavailable. Please try again.", 503);
+  }
+  if (!prismaOrder) return fail("Order not found", 404);
+
+  // Customers may only read their own orders.
+  if (auth.role !== "admin" && prismaOrder.customerId !== auth.userId) {
+    return fail("Order not found", 404);
   }
 
-  // Fallback file DB lookup
-  if (!orderResult) {
-    const fileOrders = getDb().orders || [];
-    const found = fileOrders.find((o) => o.id === id || o.orderNumber === id);
-    if (found) {
-      orderResult = found;
-    }
-  }
-
-  if (!orderResult) return fail("Order not found", 404);
-  return ok({ order: orderResult });
+  return ok({ order: serializeOrder(prismaOrder) });
 });
 
 const statusSchema = z.object({
@@ -58,6 +52,17 @@ const statusSchema = z.object({
 /**
  * PATCH /api/orders/:id
  * Admin-only: transition status. On "delivered"/"cancelled" we stamp timestamps.
+ *
+ * The one authorized customer path is self-cancel while the order is still
+ * pending + unpaid (Razorpay dismissed / failed). Everything else — accepting,
+ * packing, dispatching, delivering, cancelling someone else's order — is admin
+ * only. Historically this route only gated `getAuth` and relied on an in-body
+ * check to reject non-admins from non-cancel transitions, but if an existing
+ * order couldn't be loaded (Prisma blip, wrong id) the check was skipped
+ * entirely and a customer could still poke arbitrary status writes at the
+ * file-DB fallback. Now we gate BEFORE the DB lookup: admins may do anything;
+ * customers may only PATCH status: "cancelled" on their own pending-unpaid
+ * orders. Any other combination is a hard 403.
  */
 export const PATCH = handler(async (req: NextRequest, { params }: Params) => {
   const auth = await getAuth(req);
@@ -67,68 +72,77 @@ export const PATCH = handler(async (req: NextRequest, { params }: Params) => {
   const body = await parseJson(req, statusSchema);
   if (body instanceof NextResponse) return body;
 
-  let updatedOrderResult: any = null;
+  // Fast-path rejection for non-admin non-cancels — no DB round-trip needed.
+  if (auth.role !== "admin" && body.status !== "cancelled") {
+    return fail("Forbidden", 403);
+  }
 
+  let existing;
   try {
-    const existing = await prisma.order.findFirst({
+    existing = await prisma.order.findFirst({
       where: { OR: [{ id }, { orderNumber: id }] },
       include: { items: true },
     });
+  } catch (err) {
+    console.error("[/api/orders/:id] Prisma lookup failed:", err);
+    return fail("Orders service temporarily unavailable. Please try again.", 503);
+  }
+  if (!existing) return fail("Order not found", 404);
 
-    if (existing) {
-      // Customers may only cancel their OWN order, and only while it's still
-      // pending and unpaid — this lets the checkout page clean up an order
-      // whose Razorpay flow was dismissed or failed. Any other transition
-      // remains admin-only.
-      if (auth.role !== "admin") {
-        const isSelf = existing.customerId === auth.userId;
-        const isPendingUnpaid =
-          existing.status === "pending" && existing.paymentStatus !== "paid";
-        if (!isSelf || body.status !== "cancelled" || !isPendingUnpaid) {
-          return fail("Forbidden", 403);
-        }
-      }
-      const updated = await prisma.$transaction(async (tx) => {
-        if (body.status === "cancelled" && existing.status !== "cancelled") {
-          for (const item of existing.items) {
+  // Customers may only cancel their OWN order, and only while it's still
+  // pending and unpaid. Admins can transition anything.
+  if (auth.role !== "admin") {
+    const isSelf = existing.customerId === auth.userId;
+    const isPendingUnpaid =
+      existing.status === "pending" && existing.paymentStatus !== "paid";
+    if (!isSelf || !isPendingUnpaid) {
+      return fail("Forbidden", 403);
+    }
+  }
+
+  let updatedOrderResult: any;
+  try {
+    const updated = await prisma.$transaction(async (tx) => {
+      if (body.status === "cancelled" && existing.status !== "cancelled") {
+        // Restore stock — variant-aware, mirrors the debit path in the
+        // create route. Non-variant lines mutate the product; variant lines
+        // mutate the variant row.
+        for (const item of existing.items) {
+          if (item.variantId) {
+            await tx.productVariant.update({
+              where: { id: item.variantId },
+              data: { stock: { increment: item.quantity } },
+            }).catch(() => {});
+          } else {
             await tx.product.update({
               where: { id: item.productId },
               data: { stock: { increment: item.quantity } },
             }).catch(() => {});
           }
         }
+      }
 
-        return tx.order.update({
-          where: { id: existing.id },
-          data: {
-            status: body.status,
-            ...(body.status === "delivered" ? { deliveredAt: new Date(), paymentStatus: existing.paymentMethod === "cod" ? "paid" : existing.paymentStatus } : {}),
-            ...(body.status === "cancelled" ? { cancelledAt: new Date() } : {}),
-          },
-          include: { items: true },
-        });
+      return tx.order.update({
+        where: { id: existing.id },
+        data: {
+          status: body.status,
+          ...(body.status === "delivered"
+            ? {
+                deliveredAt: new Date(),
+                paymentStatus:
+                  existing.paymentMethod === "cod" ? "paid" : existing.paymentStatus,
+              }
+            : {}),
+          ...(body.status === "cancelled" ? { cancelledAt: new Date() } : {}),
+        },
+        include: { items: true },
       });
-
-      updatedOrderResult = serializeOrder(updated);
-    }
+    });
+    updatedOrderResult = serializeOrder(updated);
   } catch (err) {
-    console.warn("Prisma order update error:", err);
+    console.error("[/api/orders/:id] Prisma update failed:", err);
+    return fail("Could not update order. Please try again.", 503);
   }
-
-  // Update in file DB as well for persistent dual-sync
-  const fileDb = getDb();
-  if (fileDb.orders) {
-    fileDb.orders = fileDb.orders.map((o) =>
-      o.id === id || o.orderNumber === id ? { ...o, status: body.status } : o
-    );
-    saveDb(fileDb);
-
-    if (!updatedOrderResult) {
-      updatedOrderResult = fileDb.orders.find((o) => o.id === id || o.orderNumber === id);
-    }
-  }
-
-  if (!updatedOrderResult) return fail("Order not found", 404);
 
   // Status-change email — fire and forget. Only emails on the transitions
   // customers actually care about; "pending" is the state a new order is
