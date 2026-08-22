@@ -1,0 +1,673 @@
+- generic [ref=f9e3]:
+  - banner [ref=f9e5]:
+    - generic [ref=f9e6]:
+      - generic [ref=f9e7]: œ
+      - generic [ref=f9e11] [cursor=pointer]:
+        - generic [ref=f9e12]: Delivery in 11 minutes
+        - generic [ref=f9e13]: KIIT Rd, Patia, Bhubaneswar, Odisha 751024, India
+    - generic [ref=f9e17]: "!"
+  - generic [ref=f9e21]:
+    - generic [ref=f9e34]:
+      - generic [ref=f9e35]: 0 items
+      - generic [ref=f9e36]: ₹ 0
+    - generic [ref=f9e38]: View Cart
+  - generic [ref=f9e45]:
+    - generic [ref=f9e48]:
+      - heading "Munchies" [level=1] [ref=f9e1209]
+      - generic [ref=f9e52]:
+        - generic [ref=f9e54]:
+          - button "Chips & Crisps" [ref=f9e1210] [cursor=pointer]
+          - button "Rusks & Wafers" [ref=f9e1211] [cursor=pointer]
+          - button "Energy Bars" [ref=f9e1212] [cursor=pointer]
+          - button "Nachos" [ref=f9e1213] [cursor=pointer]
+          - button "Bhujia & Mixtures" [ref=f9e1214] [cursor=pointer]
+          - button "Popcorn" [ref=f9e1215] [cursor=pointer]
+          - button "Namkeen Snacks" [ref=f9e1216] [cursor=pointer]
+          - button "Makhana & More" [ref=f9e1217] [cursor=pointer]
+          - button "Papad & Fryums" [ref=f9e1218] [cursor=pointer]
+          - button "Imported Snacks" [ref=f9e1219] [cursor=pointer]
+          - button "Granola" [ref=f9e1220] [cursor=pointer]
+          - button "Munchies Gift Packs" [ref=f9e1221] [cursor=pointer]
+        - generic [ref=f9e261]:
+          - button "6% OFF 11 mins Sweet Karam Coffee Madras Mixture Namkeen Snacks 95 g ₹86 ₹92 ADD 2 options" [ref=f9e1222] [cursor=pointer]:
+            - generic [ref=f9e264]: 6% OFF
+            - generic [ref=f9e275]:
+              - generic [ref=f9e276]: 11 mins
+              - generic [ref=f9e283]:
+                - generic [ref=f9e284]:
+                  - generic [ref=f9e285]: Sweet Karam Coffee Madras Mixture Namkeen Snacks
+                  - generic [ref=f9e287]: 95 g
+                - generic [ref=f9e289]:
+                  - generic [ref=f9e290]:
+                    - generic [ref=f9e291]: ₹86
+                    - generic [ref=f9e292]: ₹92
+                  - button "ADD 2 options" [ref=f9e1223]:
+                    - generic [ref=f9e295]: ADD
+                    - generic [ref=f9e296]: 2 options
+          - button "11 mins Haldiram's Nagpur Aloo Bhujia 200 g ₹60 ADD" [ref=f9e1224] [cursor=pointer]:
+            - generic [ref=f9e303]:
+              - generic [ref=f9e304]: 11 mins
+              - generic [ref=f9e311]:
+                - generic [ref=f9e312]:
+                  - generic [ref=f9e313]: Haldiram's Nagpur Aloo Bhujia
+                  - generic [ref=f9e315]: 200 g
+                - generic [ref=f9e317]:
+                  - generic [ref=f9e318]: ₹60
+                  - button "ADD" [ref=f9e1225]
+          - button "11 mins Haldiram's Prabhuji Bhujia 200 g ₹63 ₹64 ADD" [ref=f9e1226] [cursor=pointer]:
+            - generic [ref=f9e327]:
+              - generic [ref=f9e328]: 11 mins
+              - generic [ref=f9e335]:
+                - generic [ref=f9e336]:
+                  - generic [ref=f9e337]: Haldiram's Prabhuji Bhujia
+                  - generic [ref=f9e339]: 200 g
+                - generic [ref=f9e341]:
+                  - generic [ref=f9e342]:
+                    - generic [ref=f9e343]: ₹63
+                    - generic [ref=f9e344]: ₹64
+                  - button "ADD" [ref=f9e1227]
+          - button "33% OFF 11 mins Let's Try Namkeen Combo 180 g ₹60 ₹90 ADD" [ref=f9e1228] [cursor=pointer]:
+            - generic [ref=f9e350]: 33% OFF
+            - generic [ref=f9e357]:
+              - generic [ref=f9e358]: 11 mins
+              - generic [ref=f9e365]:
+                - generic [ref=f9e366]:
+                  - generic [ref=f9e367]: Let's Try Namkeen Combo
+                  - generic [ref=f9e369]: 180 g
+                - generic [ref=f9e371]:
+                  - generic [ref=f9e372]:
+                    - generic [ref=f9e373]: ₹60
+                    - generic [ref=f9e374]: ₹90
+                  - button "ADD" [ref=f9e1229]
+          - button "36% OFF 11 mins Let's Try Signature Manglori Mixture Namkeen 120 g ₹51 ₹80 ADD 2 options" [ref=f9e1230] [cursor=pointer]:
+            - generic [ref=f9e380]: 36% OFF
+            - generic [ref=f9e391]:
+              - generic [ref=f9e392]: 11 mins
+              - generic [ref=f9e398]:
+                - generic [ref=f9e399]:
+                  - generic [ref=f9e400]: Let's Try Signature Manglori Mixture Namkeen
+                  - generic [ref=f9e402]: 120 g
+                - generic [ref=f9e404]:
+                  - generic [ref=f9e405]:
+                    - generic [ref=f9e406]: ₹51
+                    - generic [ref=f9e407]: ₹80
+                  - button "ADD 2 options" [ref=f9e1231]:
+                    - generic [ref=f9e410]: ADD
+                    - generic [ref=f9e411]: 2 options
+          - button "26% OFF 11 mins Udupi Munch Garlic Mixture Namkeen 170 g ₹44 ₹60 ADD 3 options" [ref=f9e1232] [cursor=pointer]:
+            - generic [ref=f9e415]: 26% OFF
+            - generic [ref=f9e422]:
+              - generic [ref=f9e423]: 11 mins
+              - generic [ref=f9e429]:
+                - generic [ref=f9e430]:
+                  - generic [ref=f9e431]: Udupi Munch Garlic Mixture Namkeen
+                  - generic [ref=f9e433]: 170 g
+                - generic [ref=f9e435]:
+                  - generic [ref=f9e436]:
+                    - generic [ref=f9e437]: ₹44
+                    - generic [ref=f9e438]: ₹60
+                  - button "ADD 3 options" [ref=f9e1233]:
+                    - generic [ref=f9e441]: ADD
+                    - generic [ref=f9e442]: 3 options
+          - button "10% OFF 11 mins Crax Aloo Bhujia Namkeen Snacks 171 g ₹45 ₹50 ADD 2 options" [ref=f9e1234] [cursor=pointer]:
+            - generic [ref=f9e446]: 10% OFF
+            - generic [ref=f9e452]:
+              - generic [ref=f9e453]: 11 mins
+              - generic [ref=f9e459]:
+                - generic [ref=f9e460]:
+                  - generic [ref=f9e461]: Crax Aloo Bhujia Namkeen Snacks
+                  - generic [ref=f9e463]: 171 g
+                - generic [ref=f9e465]:
+                  - generic [ref=f9e466]:
+                    - generic [ref=f9e467]: ₹45
+                    - generic [ref=f9e468]: ₹50
+                  - button "ADD 2 options" [ref=f9e1235]:
+                    - generic [ref=f9e471]: ADD
+                    - generic [ref=f9e472]: 2 options
+          - button "6% OFF 11 mins Haldiram's Prabhuji Jhal Chanachur Mixture Namkeen 400 g ₹109 ₹117 ADD" [ref=f9e1236] [cursor=pointer]:
+            - generic [ref=f9e476]: 6% OFF
+            - generic [ref=f9e482]:
+              - generic [ref=f9e483]: 11 mins
+              - generic [ref=f9e489]:
+                - generic [ref=f9e490]:
+                  - generic [ref=f9e491]: Haldiram's Prabhuji Jhal Chanachur Mixture Namkeen
+                  - generic [ref=f9e493]: 400 g
+                - generic [ref=f9e495]:
+                  - generic [ref=f9e496]:
+                    - generic [ref=f9e497]: ₹109
+                    - generic [ref=f9e498]: ₹117
+                  - button "ADD" [ref=f9e1237]
+          - button "11 mins Haldiram's Nagpur Sev Bhujia 400 g ₹120 ADD" [ref=f9e1238] [cursor=pointer]:
+            - generic [ref=f9e506]:
+              - generic [ref=f9e507]: 11 mins
+              - generic [ref=f9e513]:
+                - generic [ref=f9e514]:
+                  - generic [ref=f9e515]: Haldiram's Nagpur Sev Bhujia
+                  - generic [ref=f9e517]: 400 g
+                - generic [ref=f9e519]:
+                  - generic [ref=f9e520]: ₹120
+                  - button "ADD" [ref=f9e1239]
+          - button "11 mins Haldiram's Prabhuji Bhujia 400 g ₹119 ₹123 ADD" [ref=f9e1240] [cursor=pointer]:
+            - generic [ref=f9e528]:
+              - generic [ref=f9e529]: 11 mins
+              - generic [ref=f9e535]:
+                - generic [ref=f9e536]:
+                  - generic [ref=f9e537]: Haldiram's Prabhuji Bhujia
+                  - generic [ref=f9e539]: 400 g
+                - generic [ref=f9e541]:
+                  - generic [ref=f9e542]:
+                    - generic [ref=f9e543]: ₹119
+                    - generic [ref=f9e544]: ₹123
+                  - button "ADD" [ref=f9e1241]
+          - button "36% OFF 11 mins Let's Try Lite Multigrain Mixture Namkeen 173 g ₹76 ₹120 ADD" [ref=f9e1242] [cursor=pointer]:
+            - generic [ref=f9e550]: 36% OFF
+            - generic [ref=f9e556]:
+              - generic [ref=f9e557]: 11 mins
+              - generic [ref=f9e563]:
+                - generic [ref=f9e564]:
+                  - generic [ref=f9e565]: Let's Try Lite Multigrain Mixture Namkeen
+                  - generic [ref=f9e567]: 173 g
+                - generic [ref=f9e569]:
+                  - generic [ref=f9e570]:
+                    - generic [ref=f9e571]: ₹76
+                    - generic [ref=f9e572]: ₹120
+                  - button "ADD" [ref=f9e1243]
+          - button "11 mins Haldiram's Nagpur Punjabi Tadka Namkeen 200 g ₹55 ADD" [ref=f9e1244] [cursor=pointer]:
+            - generic [ref=f9e580]:
+              - generic [ref=f9e581]: 11 mins
+              - generic [ref=f9e587]:
+                - generic [ref=f9e588]:
+                  - generic [ref=f9e589]: Haldiram's Nagpur Punjabi Tadka Namkeen
+                  - generic [ref=f9e591]: 200 g
+                - generic [ref=f9e593]:
+                  - generic [ref=f9e594]: ₹55
+                  - button "ADD" [ref=f9e1245]
+          - button "11 mins Haldiram's Nagpur Moong Dal Namkeen 200 g ₹60 ADD 2 options" [ref=f9e1246] [cursor=pointer]:
+            - generic [ref=f9e602]:
+              - generic [ref=f9e603]: 11 mins
+              - generic [ref=f9e609]:
+                - generic [ref=f9e610]:
+                  - generic [ref=f9e611]: Haldiram's Nagpur Moong Dal Namkeen
+                  - generic [ref=f9e613]: 200 g
+                - generic [ref=f9e615]:
+                  - generic [ref=f9e616]: ₹60
+                  - button "ADD 2 options" [ref=f9e1247]:
+                    - generic [ref=f9e619]: ADD
+                    - generic [ref=f9e620]: 2 options
+          - button "11 mins Haldiram's Nagpur Mixture Namkeen 400 g ₹95 ADD 2 options" [ref=f9e1248] [cursor=pointer]:
+            - generic [ref=f9e626]:
+              - generic [ref=f9e627]: 11 mins
+              - generic [ref=f9e633]:
+                - generic [ref=f9e634]:
+                  - generic [ref=f9e635]: Haldiram's Nagpur Mixture Namkeen
+                  - generic [ref=f9e637]: 400 g
+                - generic [ref=f9e639]:
+                  - generic [ref=f9e640]: ₹95
+                  - button "ADD 2 options" [ref=f9e1249]:
+                    - generic [ref=f9e643]: ADD
+                    - generic [ref=f9e644]: 2 options
+          - button "32% OFF 11 mins Bikaji Mobile Chowpati Bhelpuri 110 g ₹34 ₹50 ADD 2 options" [ref=f9e1250] [cursor=pointer]:
+            - generic [ref=f9e648]: 32% OFF
+            - generic [ref=f9e654]:
+              - generic [ref=f9e655]: 11 mins
+              - generic [ref=f9e661]:
+                - generic [ref=f9e662]:
+                  - generic [ref=f9e663]: Bikaji Mobile Chowpati Bhelpuri
+                  - generic [ref=f9e665]: 110 g
+                - generic [ref=f9e667]:
+                  - generic [ref=f9e668]:
+                    - generic [ref=f9e669]: ₹34
+                    - generic [ref=f9e670]: ₹50
+                  - button "ADD 2 options" [ref=f9e1251]:
+                    - generic [ref=f9e673]: ADD
+                    - generic [ref=f9e674]: 2 options
+          - button "11 mins Mukharochak Sweet & Sour Chanachur Mixture Namkeen 200 g ₹85 ADD 2 options" [ref=f9e1252] [cursor=pointer]:
+            - generic [ref=f9e680]:
+              - generic [ref=f9e681]: 11 mins
+              - generic [ref=f9e687]:
+                - generic [ref=f9e688]:
+                  - generic [ref=f9e689]: Mukharochak Sweet & Sour Chanachur Mixture Namkeen
+                  - generic [ref=f9e691]: 200 g
+                - generic [ref=f9e693]:
+                  - generic [ref=f9e694]: ₹85
+                  - button "ADD 2 options" [ref=f9e1253]:
+                    - generic [ref=f9e697]: ADD
+                    - generic [ref=f9e698]: 2 options
+          - button "11 mins Haldiram's Prabhuji Moong Dal Namkeen 200 g ₹63 ₹64 ADD" [ref=f9e1254] [cursor=pointer]:
+            - generic [ref=f9e704]:
+              - generic [ref=f9e705]: 11 mins
+              - generic [ref=f9e711]:
+                - generic [ref=f9e712]:
+                  - generic [ref=f9e713]: Haldiram's Prabhuji Moong Dal Namkeen
+                  - generic [ref=f9e715]: 200 g
+                - generic [ref=f9e717]:
+                  - generic [ref=f9e718]:
+                    - generic [ref=f9e719]: ₹63
+                    - generic [ref=f9e720]: ₹64
+                  - button "ADD" [ref=f9e1255]
+          - button "11 mins Haldiram's Nagpur Lite Chivda Namkeen 200 g ₹49 ADD" [ref=f9e1256] [cursor=pointer]:
+            - generic [ref=f9e728]:
+              - generic [ref=f9e729]: 11 mins
+              - generic [ref=f9e735]:
+                - generic [ref=f9e736]:
+                  - generic [ref=f9e737]: Haldiram's Nagpur Lite Chivda Namkeen
+                  - generic [ref=f9e739]: 200 g
+                - generic [ref=f9e741]:
+                  - generic [ref=f9e742]: ₹49
+                  - button "ADD" [ref=f9e1257]
+          - button "11 mins Haldiram's Nagpur Aloo Bhujia 400 g ₹109 ADD" [ref=f9e1258] [cursor=pointer]:
+            - generic [ref=f9e750]:
+              - generic [ref=f9e751]: 11 mins
+              - generic [ref=f9e757]:
+                - generic [ref=f9e758]:
+                  - generic [ref=f9e759]: Haldiram's Nagpur Aloo Bhujia
+                  - generic [ref=f9e761]: 400 g
+                - generic [ref=f9e763]:
+                  - generic [ref=f9e764]: ₹109
+                  - button "ADD" [ref=f9e1259]
+          - button "10% OFF 11 mins Crax Punjabi Tadka Namkeen Snacks 171 g ₹49 ₹55 ADD 3 options" [ref=f9e1260] [cursor=pointer]:
+            - generic [ref=f9e770]: 10% OFF
+            - generic [ref=f9e776]:
+              - generic [ref=f9e777]: 11 mins
+              - generic [ref=f9e783]:
+                - generic [ref=f9e784]:
+                  - generic [ref=f9e785]: Crax Punjabi Tadka Namkeen Snacks
+                  - generic [ref=f9e787]: 171 g
+                - generic [ref=f9e789]:
+                  - generic [ref=f9e790]:
+                    - generic [ref=f9e791]: ₹49
+                    - generic [ref=f9e792]: ₹55
+                  - button "ADD 3 options" [ref=f9e1261]:
+                    - generic [ref=f9e795]: ADD
+                    - generic [ref=f9e796]: 3 options
+          - button "11 mins Haldiram's Nagpur Khatta Meetha Mixture Namkeen 350 g ₹95 ADD 2 options" [ref=f9e1262] [cursor=pointer]:
+            - generic [ref=f9e802]:
+              - generic [ref=f9e803]: 11 mins
+              - generic [ref=f9e809]:
+                - generic [ref=f9e810]:
+                  - generic [ref=f9e811]: Haldiram's Nagpur Khatta Meetha Mixture Namkeen
+                  - generic [ref=f9e813]: 350 g
+                - generic [ref=f9e815]:
+                  - generic [ref=f9e816]: ₹95
+                  - button "ADD 2 options" [ref=f9e1263]:
+                    - generic [ref=f9e819]: ADD
+                    - generic [ref=f9e820]: 2 options
+          - button "10% OFF 11 mins Bikaji Bhujia 400 g ₹108 ₹120 ADD" [ref=f9e1264] [cursor=pointer]:
+            - generic [ref=f9e824]: 10% OFF
+            - generic [ref=f9e830]:
+              - generic [ref=f9e831]: 11 mins
+              - generic [ref=f9e837]:
+                - generic [ref=f9e838]:
+                  - generic [ref=f9e839]: Bikaji Bhujia
+                  - generic [ref=f9e841]: 400 g
+                - generic [ref=f9e843]:
+                  - generic [ref=f9e844]:
+                    - generic [ref=f9e845]: ₹108
+                    - generic [ref=f9e846]: ₹120
+                  - button "ADD" [ref=f9e1265]
+          - button "11 mins Haldiram's Nagpur Sev Bhujia 200 g ₹60 ADD" [ref=f9e1266] [cursor=pointer]:
+            - generic [ref=f9e854]:
+              - generic [ref=f9e855]: 11 mins
+              - generic [ref=f9e861]:
+                - generic [ref=f9e862]:
+                  - generic [ref=f9e863]: Haldiram's Nagpur Sev Bhujia
+                  - generic [ref=f9e865]: 200 g
+                - generic [ref=f9e867]:
+                  - generic [ref=f9e868]: ₹60
+                  - button "ADD" [ref=f9e1267]
+          - button "10% OFF 11 mins Crax Moong Dal Namkeen Snacks 171 g ₹49 ₹55 ADD 2 options" [ref=f9e1268] [cursor=pointer]:
+            - generic [ref=f9e874]: 10% OFF
+            - generic [ref=f9e880]:
+              - generic [ref=f9e881]: 11 mins
+              - generic [ref=f9e887]:
+                - generic [ref=f9e888]:
+                  - generic [ref=f9e889]: Crax Moong Dal Namkeen Snacks
+                  - generic [ref=f9e891]: 171 g
+                - generic [ref=f9e893]:
+                  - generic [ref=f9e894]:
+                    - generic [ref=f9e895]: ₹49
+                    - generic [ref=f9e896]: ₹55
+                  - button "ADD 2 options" [ref=f9e1269]:
+                    - generic [ref=f9e899]: ADD
+                    - generic [ref=f9e900]: 2 options
+          - button "11 mins Haldiram's Nagpur All In One Mixture Namkeen 200 g ₹60 ADD 2 options" [ref=f9e1270] [cursor=pointer]:
+            - generic [ref=f9e906]:
+              - generic [ref=f9e907]: 11 mins
+              - generic [ref=f9e913]:
+                - generic [ref=f9e914]:
+                  - generic [ref=f9e915]: Haldiram's Nagpur All In One Mixture Namkeen
+                  - generic [ref=f9e917]: 200 g
+                - generic [ref=f9e919]:
+                  - generic [ref=f9e920]: ₹60
+                  - button "ADD 2 options" [ref=f9e1271]:
+                    - generic [ref=f9e923]: ADD
+                    - generic [ref=f9e924]: 2 options
+          - button "11 mins Haldiram's Prabhuji Aloo Bhujia 400 g ₹123 ADD" [ref=f9e1272] [cursor=pointer]:
+            - generic [ref=f9e930]:
+              - generic [ref=f9e931]: 11 mins
+              - generic [ref=f9e937]:
+                - generic [ref=f9e938]:
+                  - generic [ref=f9e939]: Haldiram's Prabhuji Aloo Bhujia
+                  - generic [ref=f9e941]: 400 g
+                - generic [ref=f9e943]:
+                  - generic [ref=f9e944]: ₹123
+                  - button "ADD" [ref=f9e1273]
+          - button "6% OFF 11 mins Haldiram's Prabhuji Chat Patta Mixture Namkeen 400 g ₹109 ₹117 ADD 2 options" [ref=f9e1274] [cursor=pointer]:
+            - generic [ref=f9e950]: 6% OFF
+            - generic [ref=f9e956]:
+              - generic [ref=f9e957]: 11 mins
+              - generic [ref=f9e963]:
+                - generic [ref=f9e964]:
+                  - generic [ref=f9e965]: Haldiram's Prabhuji Chat Patta Mixture Namkeen
+                  - generic [ref=f9e967]: 400 g
+                - generic [ref=f9e969]:
+                  - generic [ref=f9e970]:
+                    - generic [ref=f9e971]: ₹109
+                    - generic [ref=f9e972]: ₹117
+                  - button "ADD 2 options" [ref=f9e1275]:
+                    - generic [ref=f9e975]: ADD
+                    - generic [ref=f9e976]: 2 options
+          - button "11 mins Chheda's Nylon Sev Bhujia 170 g ₹55 ADD" [ref=f9e1276] [cursor=pointer]:
+            - generic [ref=f9e982]:
+              - generic [ref=f9e983]: 11 mins
+              - generic [ref=f9e989]:
+                - generic [ref=f9e990]:
+                  - generic [ref=f9e991]: Chheda's Nylon Sev Bhujia
+                  - generic [ref=f9e993]: 170 g
+                - generic [ref=f9e995]:
+                  - generic [ref=f9e996]: ₹55
+                  - button "ADD" [ref=f9e1277]
+          - button "10% OFF 11 mins Bikaji Bikaneri Bhujia 200 g ₹54 ₹60 ADD" [ref=f9e1278] [cursor=pointer]:
+            - generic [ref=f9e1002]: 10% OFF
+            - generic [ref=f9e1008]:
+              - generic [ref=f9e1009]: 11 mins
+              - generic [ref=f9e1015]:
+                - generic [ref=f9e1016]:
+                  - generic [ref=f9e1017]: Bikaji Bikaneri Bhujia
+                  - generic [ref=f9e1019]: 200 g
+                - generic [ref=f9e1021]:
+                  - generic [ref=f9e1022]:
+                    - generic [ref=f9e1023]: ₹54
+                    - generic [ref=f9e1024]: ₹60
+                  - button "ADD" [ref=f9e1279]
+          - button "5% OFF 11 mins Bikano Bikaneri Bhujia 200 g ₹57 ₹60 ADD" [ref=f9e1280] [cursor=pointer]:
+            - generic [ref=f9e1030]: 5% OFF
+            - generic [ref=f9e1036]:
+              - generic [ref=f9e1037]: 11 mins
+              - generic [ref=f9e1043]:
+                - generic [ref=f9e1044]:
+                  - generic [ref=f9e1045]: Bikano Bikaneri Bhujia
+                  - generic [ref=f9e1047]: 200 g
+                - generic [ref=f9e1049]:
+                  - generic [ref=f9e1050]:
+                    - generic [ref=f9e1051]: ₹57
+                    - generic [ref=f9e1052]: ₹60
+                  - button "ADD" [ref=f9e1281]
+      - generic [ref=f9e165]:
+        - generic [ref=f9e1056]:
+          - heading [level=2] [ref=f9e1282]:
+            - strong [ref=f9e1058]: Buy Crispy Bhujia & Mixtures Online
+          - paragraph [ref=f9e1059]
+          - paragraph [ref=f9e1060]: Bhujia and mixtures represent the heart of Indian snacking culture. These iconic savories are beloved for their perfect crunch, bold spices, and versatility. Whether you are looking for the classic taste of Bikaneri bhujia or a complex, flavorful namkeen mix for your evening tea, this category offers something for every palate. By choosing to shop for these snacks on Blinkit, you ensure that your pantry is always stocked with high-quality treats delivered right to your doorstep in minutes.
+          - heading [level=2] [ref=f9e1061]
+          - heading [level=2] [ref=f9e1283]:
+            - strong [ref=f9e1063]: What are Bhujia and Mixtures?
+          - paragraph [ref=f9e1064]
+          - paragraph [ref=f9e1065]: At their core, bhujia and mixtures are traditional Indian snacks made primarily from gram flour, or besan, and a blend of aromatic spices. Bhujia is typically characterized by its thin, noodle-like strands that are deep-fried to achieve a signature golden crispness. Mixtures, on the other hand, are delightful medleys that combine these fried strands with other ingredients like lentils, peanuts, flattened rice, and puffed rice. These snacks are essential staples for hosting guests, satisfying midnight cravings, or pairing with your favorite hot beverages.
+          - heading [level=2] [ref=f9e1066]
+          - heading [level=2] [ref=f9e1284]:
+            - strong [ref=f9e1068]: "How Bhujia is Made: Ingredients and Process"
+          - paragraph [ref=f9e1069]
+          - paragraph [ref=f9e1070]: The secret behind the addictive crunch of authentic bhujia lies in the quality of the base ingredients and the precision of the frying process. Skilled manufacturers use fine besan and a specific blend of spices such as black salt, carom seeds, and chili powder to create a distinct flavor profile. The dough is pressed through a mold to form thin strands, which are then fried in high-quality oil until they reach the perfect level of crispness.
+          - paragraph [ref=f9e1071]
+          - list [ref=f9e1072]:
+            - listitem [ref=f9e1073]:
+              - strong [ref=f9e1074]: Base Ingredient
+              - text: ": High-quality gram flour provides the necessary structure and taste."
+            - listitem [ref=f9e1075]:
+              - strong [ref=f9e1076]: Seasoning
+              - text: ": A mix of authentic spices defines the heat and aroma."
+            - listitem [ref=f9e1077]:
+              - strong [ref=f9e1078]: Frying Technique
+              - text: ": Precise temperature control ensures a light and crunchy texture without excess oiliness."
+          - heading [level=2] [ref=f9e1079]
+          - heading [level=2] [ref=f9e1285]:
+            - strong [ref=f9e1081]: Popular Types of Indian Namkeen Mixtures
+          - paragraph [ref=f9e1082]
+          - paragraph [ref=f9e1083]: The world of namkeen is incredibly diverse, offering textures and flavor profiles that cater to every preference. From mild and nutty mixtures to fiery, spice-forward varieties, there is a perfect snack for every mood.
+          - paragraph [ref=f9e1084]
+          - paragraph [ref=f9e1085]:
+            - strong [ref=f9e1086]: Bikaneri Bhujia
+          - paragraph [ref=f9e1087]: This variety is known for its extra spicy flavor and thin, crispy strands. It is best enjoyed as a traditional tea-time snack.
+          - paragraph [ref=f9e1088]
+          - paragraph [ref=f9e1089]:
+            - strong [ref=f9e1090]: Aloo Bhujia
+          - paragraph [ref=f9e1091]
+          - paragraph [ref=f9e1092]: Made with potato mash and spices, Aloo Bhujia has a unique texture and taste. It works well as a topping on salads or chaats.
+          - paragraph [ref=f9e1093]
+          - paragraph [ref=f9e1094]:
+            - strong [ref=f9e1095]: Khatta Meetha
+          - paragraph [ref=f9e1096]: A tangy and sweet blend, this mix is ideal for kids and those who prefer milder flavors.
+          - paragraph [ref=f9e1097]
+          - paragraph [ref=f9e1098]:
+            - strong [ref=f9e1099]: Navratan Mix
+          - paragraph [ref=f9e1100]
+          - paragraph [ref=f9e1101]: This is a rich combination of nuts, lentils, and flakes, making it perfect for special occasions and hosting guests.
+          - paragraph [ref=f9e1102]
+          - paragraph [ref=f9e1103]:
+            - strong [ref=f9e1104]: Cornflakes Mixture
+          - paragraph [ref=f9e1105]
+          - paragraph [ref=f9e1106]: Light, airy, and slightly sweet, this mixture is great for afternoon munching.
+          - heading [level=2] [ref=f9e1107]
+          - heading [level=2] [ref=f9e1286]:
+            - strong [ref=f9e1109]: Why Choose Haldiram or Bikaji Brands?
+          - paragraph [ref=f9e1110]
+          - paragraph [ref=f9e1111]:
+            - text: When it comes to authentic Indian snacks, brands like
+            - strong [ref=f9e1112]: Haldiram
+            - text: and
+            - strong [ref=f9e1113]: Bikaji
+            - text: set the gold standard. Customers prefer these brands because of their consistent quality, commitment to traditional recipes, and use of premium ingredients. These companies have mastered the art of shelf-stable packaging, ensuring that your bhujia reaches you as fresh and crunchy as the day it was prepared. Whether you are searching for the classic Bikaji Bikaneri Bhujia or a pack of Haldiram Aloo Bhujia, you are guaranteed a premium snacking experience.
+          - heading [level=2] [ref=f9e1114]
+          - heading [level=2] [ref=f9e1287]:
+            - strong [ref=f9e1116]: "Healthy Snacking: Understanding Nutritional Value"
+          - paragraph [ref=f9e1117]
+          - paragraph [ref=f9e1118]:
+            - text: While namkeen is primarily an indulgence, it can be enjoyed mindfully as part of a balanced diet. Many modern mixtures now incorporate healthier additions like roasted lentils, nuts, and seeds which provide a boost of protein and fiber. To manage portions, consider serving a small bowl rather than eating directly from the pack. Balancing these savory treats with other grocery essentials like
+            - link "fresh vegetables" [ref=f9e1288] [cursor=pointer]:
+              - /url: https://blinkit.com/cn/fresh-vegetables/cid/1487/1489
+            - text: or healthy
+            - link "dry fruits" [ref=f9e1289] [cursor=pointer]:
+              - /url: https://blinkit.com/cn/dry-fruits/cid/1557/1160
+            - text: can help you create a more well-rounded snacking plan.
+          - heading [level=2] [ref=f9e1121]
+          - heading [level=2] [ref=f9e1290]:
+            - strong [ref=f9e1123]: Creative Ways to Eat Bhujia
+          - paragraph [ref=f9e1124]
+          - paragraph [ref=f9e1125]: Bhujia is more than just a standalone snack. Its unique texture and spicy kick make it a fantastic culinary enhancer. You can elevate your home-cooked meals by using bhujia as a crunchy topping for dishes like poha, curd rice, or even creamy soups.
+          - paragraph [ref=f9e1126]
+          - list [ref=f9e1127]:
+            - listitem [ref=f9e1128]:
+              - strong [ref=f9e1129]: Chaat Topper
+              - text: ": Sprinkle a generous amount over potato chaat or papdi for an extra crunch."
+            - listitem [ref=f9e1130]:
+              - strong [ref=f9e1131]: Salad Garnish
+              - text: ": Add a handful to your vegetable salad to give it a tangy, spicy twist."
+            - listitem [ref=f9e1132]:
+              - strong [ref=f9e1133]: Sandwich Filler
+              - text: ": Mix with chopped onions, tomatoes, and cilantro to create a quick and spicy sandwich filling."
+          - paragraph [ref=f9e1134]
+          - paragraph [ref=f9e1135]: Explore the full range of crispy snacks and [order in minutes](https://blinkit.com/cn/bhujia-mixtures/cid/1237/1178) for your next craving.
+          - heading [level=2] [ref=f9e1136]
+          - heading [level=2] [ref=f9e1291]:
+            - strong [ref=f9e1138]: Quick Commerce Benefits
+          - paragraph [ref=f9e1139]
+          - paragraph [ref=f9e1140]:
+            - text: Shopping for snacks on Blinkit offers unparalleled convenience. Instead of planning a grocery run, you can get your favorite namkeen,
+            - link "besan" [ref=f9e1292] [cursor=pointer]:
+              - /url: https://blinkit.com/cn/besan/cid/16/1193
+            - text: ", or"
+            - link "spices and masalas" [ref=f9e1293] [cursor=pointer]:
+              - /url: https://blinkit.com/cn/spices-vinegar/cid/175/803
+            - text: delivered to your home in just a few minutes. Quick commerce eliminates the need for bulk buying and storage, allowing you to enjoy fresh snacks whenever you desire. Whether you need something for a sudden get-together or a quick pick-me-up during work, the speed of our service ensures you never have to wait.
+          - heading [level=2] [ref=f9e1143]
+          - heading [level=2] [ref=f9e1294]:
+            - strong [ref=f9e1145]: Related Grocery Categories
+          - paragraph [ref=f9e1146]
+          - paragraph [ref=f9e1147]: "If you are stocking up on your favorite bhujia, you might also want to explore other essentials that complement your kitchen needs:"
+          - paragraph [ref=f9e1148]
+          - list [ref=f9e1149]:
+            - listitem [ref=f9e1150]:
+              - link "Namkeen Snacks" [ref=f9e1295] [cursor=pointer]:
+                - /url: https://blinkit.com/cn/namkeen-snacks/cid/1237/29
+              - text: for more variety.
+            - listitem [ref=f9e1152]:
+              - link "Cookies" [ref=f9e1296] [cursor=pointer]:
+                - /url: https://blinkit.com/cn/cookies/cid/888/28
+              - text: for a sweet counter-balance.
+            - listitem [ref=f9e1154]:
+              - link "Tea" [ref=f9e1297] [cursor=pointer]:
+                - /url: https://blinkit.com/cn/tea/cid/12/957
+              - text: to pair perfectly with your savory treats.
+            - listitem [ref=f9e1156]:
+              - link "Papad & Fryums" [ref=f9e1298] [cursor=pointer]:
+                - /url: https://blinkit.com/cn/papad-fryums/cid/1237/80
+              - text: to complete your snack platter.
+            - listitem [ref=f9e1158]:
+              - link "Ready to eat" [ref=f9e1299] [cursor=pointer]:
+                - /url: https://blinkit.com/cn/ready-to-eat/cid/15/1294
+              - text: meals for busy days.
+          - paragraph [ref=f9e1160]
+          - paragraph [ref=f9e1161]: Shop fresh products instantly on Blinkit and keep your pantry ready for any occasion.
+          - heading [level=2] [ref=f9e1162]
+          - heading [level=2] [ref=f9e1300]:
+            - strong [ref=f9e1164]: Frequently Asked Questions
+          - paragraph [ref=f9e1165]
+          - paragraph [ref=f9e1166]:
+            - strong [ref=f9e1167]: What is bhujia made of?
+          - paragraph [ref=f9e1168]
+          - paragraph [ref=f9e1169]: Bhujia is primarily made from a dough of gram flour (besan) mixed with spices like chili, turmeric, and black salt, which is then deep-fried into thin, crispy strands.
+          - paragraph [ref=f9e1170]
+          - paragraph [ref=f9e1171]:
+            - strong [ref=f9e1172]: Why is there no Haldiram bhujia in the USA?
+          - paragraph [ref=f9e1173]
+          - paragraph [ref=f9e1174]: Distribution and regulatory requirements vary by region, which can affect the availability of specific international brands in overseas markets.
+          - paragraph [ref=f9e1175]
+          - paragraph [ref=f9e1176]:
+            - strong [ref=f9e1177]: Is bhujia healthy to eat?
+          - paragraph [ref=f9e1178]
+          - paragraph [ref=f9e1179]: Bhujia is a processed snack high in sodium and calories, so it should be enjoyed in moderation as part of a varied and balanced diet.
+          - paragraph [ref=f9e1180]
+          - paragraph [ref=f9e1181]:
+            - strong [ref=f9e1182]: What do you eat bhujia with?
+          - paragraph [ref=f9e1183]
+          - paragraph [ref=f9e1184]: Bhujia pairs perfectly with a hot cup of tea or coffee, and it is also commonly used as a crunchy topping for poha, chaat, and yogurt.
+          - paragraph [ref=f9e1185]
+          - paragraph [ref=f9e1186]:
+            - strong [ref=f9e1187]: How do I keep bhujia crunchy?
+          - paragraph [ref=f9e1188]
+          - paragraph [ref=f9e1189]: Store your bhujia in an airtight container away from moisture and direct sunlight to ensure it remains fresh and crispy for as long as possible.
+          - paragraph [ref=f9e1190]
+          - paragraph [ref=f9e1191]:
+            - strong [ref=f9e1192]: Are all namkeen mixtures vegetarian?
+          - paragraph [ref=f9e1193]
+          - paragraph [ref=f9e1194]: Most traditional Indian namkeen mixtures are vegetarian, but it is always best to check the product packaging for specific dietary information.
+          - paragraph [ref=f9e1195]
+          - paragraph [ref=f9e1196]:
+            - strong [ref=f9e1197]: Can I use bhujia in recipes?
+          - paragraph [ref=f9e1198]
+          - paragraph [ref=f9e1199]: Yes, bhujia adds a delicious crunch to many dishes including salads, chaats, and rice preparations, acting as a great texture enhancer.
+          - paragraph [ref=f9e1200]
+          - paragraph [ref=f9e1201]:
+            - strong [ref=f9e1202]: What is the difference between sev and bhujia?
+          - paragraph [ref=f9e1203]
+          - paragraph [ref=f9e1204]: While both are made from gram flour, bhujia usually features a more complex spice blend and a slightly different texture compared to the simpler, milder sev.
+        - generic [ref=f9e166]:
+          - generic [ref=f9e167]:
+            - heading [level=2] [ref=f9e1301]:
+              - text: Buy Bhujia & Mixtures at
+              - link "Online grocery store" [ref=f9e1302] [cursor=pointer]:
+                - /url: /
+              - text: in india
+            - generic [ref=f9e170]: Are you super fond of online shopping because you hate crowded supermarkets? Now you don't need to be worry as Blinkit is delivering Bhujia & Mixtures at your doorstep with easy returns for your complete peace of mind.
+            - generic [ref=f9e171]: Get Bhujia & Mixtures delivered to your home. you can check Bhujia & Mixtures price before buying.
+            - generic [ref=f9e173]: We deliver Bhujia & Mixtures at Delhi, Gurgaon, Kolkata, Lucknow, Mumbai, Bengaluru, Ahmedabad, Noida, Ghaziabad, Faridabad, Hyderabad, Jaipur, Pune, Chennai, Chandigarh, Ludhiana, Vadodara, Meerut, Kanpur, Panchkula, Kharar, Amritsar, Bhopal, Indore, Zirakpur, Jalandhar, Dehradun, Agra, Mohali, Goa, Patiala, Sonipat, Bhiwadi, Kota, Rohtak, Bahadurgarh, Haridwar, Bathinda, Kochi, Jodhpur
+            - generic [ref=f9e1205]:
+              - text: Buy from several popular brands like
+              - link "Haldiram's Nagpur," [ref=f9e1303] [cursor=pointer]:
+                - /url: /brand/Haldiram's Nagpur
+              - link "Haldiram's Prabhuji," [ref=f9e1304] [cursor=pointer]:
+                - /url: /brand/Haldiram's Prabhuji
+              - link "Crax." [ref=f9e1305] [cursor=pointer]:
+                - /url: /brand/Crax
+          - generic [ref=f9e174]:
+            - heading "Bhujia & Mixtures Price List" [level=2] [ref=f9e1306]
+            - table [ref=f9e176]:
+              - row [ref=f9e1307]:
+                - columnheader "Bhujia & Mixtures" [ref=f9e1308]
+                - columnheader "Price" [ref=f9e1309]
+              - row [ref=f9e1310]:
+                - cell [ref=f9e1311]:
+                  - text: "1."
+                  - link "Sweet Karam Coffee Madras Mixture Namkeen Snacks" [ref=f9e1312] [cursor=pointer]:
+                    - /url: /prn/sweet-karam-coffee-madras-mixture-namkeen-snacks/prid/547731
+                - cell "Rs.86" [ref=f9e1313]
+              - row [ref=f9e1314]:
+                - cell [ref=f9e1315]:
+                  - text: "2."
+                  - link "Haldiram's Nagpur Aloo Bhujia" [ref=f9e1316] [cursor=pointer]:
+                    - /url: /prn/haldirams-nagpur-aloo-bhujia/prid/35375
+                - cell "Rs.60" [ref=f9e1317]
+              - row [ref=f9e1318]:
+                - cell [ref=f9e1319]:
+                  - text: "3."
+                  - link "Haldiram's Prabhuji Bhujia" [ref=f9e1320] [cursor=pointer]:
+                    - /url: /prn/haldirams-prabhuji-bhujia/prid/610094
+                - cell "Rs.63" [ref=f9e1321]
+              - row [ref=f9e1322]:
+                - cell [ref=f9e1323]:
+                  - text: "4."
+                  - link "Let's Try Namkeen Combo" [ref=f9e1324] [cursor=pointer]:
+                    - /url: /prn/lets-try-namkeen-combo/prid/524535
+                - cell "Rs.60" [ref=f9e1325]
+              - row [ref=f9e1326]:
+                - cell [ref=f9e1327]:
+                  - text: "5."
+                  - link "Let's Try Signature Manglori Mixture Namkeen" [ref=f9e1328] [cursor=pointer]:
+                    - /url: /prn/lets-try-signature-manglori-mixture-namkeen/prid/782239
+                - cell "Rs.51" [ref=f9e1329]
+              - row [ref=f9e1330]:
+                - cell [ref=f9e1331]:
+                  - text: "6."
+                  - link "Udupi Munch Garlic Mixture Namkeen" [ref=f9e1332] [cursor=pointer]:
+                    - /url: /prn/udupi-munch-garlic-mixture-namkeen/prid/443281
+                - cell "Rs.44" [ref=f9e1333]
+              - row [ref=f9e1334]:
+                - cell [ref=f9e1335]:
+                  - text: "7."
+                  - link "Crax Aloo Bhujia Namkeen Snacks" [ref=f9e1336] [cursor=pointer]:
+                    - /url: /prn/crax-aloo-bhujia-namkeen-snacks/prid/490550
+                - cell "Rs.45" [ref=f9e1337]
+              - row [ref=f9e1338]:
+                - cell [ref=f9e1339]:
+                  - text: "8."
+                  - link "Haldiram's Prabhuji Jhal Chanachur Mixture Namkeen" [ref=f9e1340] [cursor=pointer]:
+                    - /url: /prn/haldirams-prabhuji-jhal-chanachur-mixture-namkeen/prid/142592
+                - cell "Rs.109" [ref=f9e1341]
+              - row [ref=f9e1342]:
+                - cell [ref=f9e1343]:
+                  - text: "9."
+                  - link "Haldiram's Nagpur Sev Bhujia" [ref=f9e1344] [cursor=pointer]:
+                    - /url: /prn/haldirams-nagpur-sev-bhujia/prid/17149
+                - cell "Rs.120" [ref=f9e1345]
+              - row [ref=f9e1346]:
+                - cell [ref=f9e1347]:
+                  - text: "10."
+                  - link "Haldiram's Prabhuji Bhujia" [ref=f9e1348] [cursor=pointer]:
+                    - /url: /prn/haldirams-prabhuji-bhujia/prid/68266
+                - cell "Rs.119" [ref=f9e1349]
+            - emphasis [ref=f9e220]: This data was last updated on 8/22/2026
+    - generic [ref=f9e221]: U
+  - generic [ref=f9e224]:
+    - generic [ref=f9e225]: India's last minute app - blinkit
+    - generic [ref=f9e226]: +

@@ -1,0 +1,28 @@
+- generic [active] [ref=f54e1]:
+  - main [ref=f54e3]:
+    - generic [ref=f54e4]:
+      - generic [ref=f54e6]:
+        - button "Store" [ref=f54e7] [cursor=pointer]
+        - heading "Sign in to 10minute" [level=1] [ref=f54e10]
+      - main [ref=f54e11]:
+        - generic [ref=f54e12]:
+          - generic [ref=f54e13]:
+            - generic [ref=f54e14]:
+              - heading "10minute Sign In" [level=2] [ref=f54e18]
+              - paragraph [ref=f54e19]: We’ll text you a 6-digit code to verify your number.
+            - generic [ref=f54e20]:
+              - generic [ref=f54e21]: Mobile Phone Number *
+              - textbox "+91 98765 43210" [ref=f54e25] [cursor=pointer]
+            - button "Send verification code" [ref=f54e26] [cursor=pointer]
+          - generic [ref=f54e29]: Your number stays on file only to reach you about orders.
+      - navigation [ref=f54e34]:
+        - generic [ref=f54e35]:
+          - link "Home" [ref=f54e36] [cursor=pointer]:
+            - /url: /
+          - link "Categories" [ref=f54e42] [cursor=pointer]:
+            - /url: /#categories
+          - link "Orders" [ref=f54e50] [cursor=pointer]:
+            - /url: /orders
+          - link "Profile" [ref=f54e57] [cursor=pointer]:
+            - /url: /profile
+  - alert [ref=f54e63]

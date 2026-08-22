@@ -1,0 +1,1 @@
+[     938ms] [WARNING] [Meta Pixel] - You are sending a non-standard event 'ViewCategory'. The preferred way to send these events is using trackCustom. See 'https://developers.facebook.com/docs/ads-for-websites/pixel-events/#events' for more information. @ https://blinkit.com/scripts/sentryvendor.becde68a991f66f3cf61.js:0

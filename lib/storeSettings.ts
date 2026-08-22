@@ -37,6 +37,8 @@ export interface StoreSettingsShape {
   slotDurationMinutes: number;
   slotCapacity: number;
   slotLeadMinutes: number;
+  // Rotating placeholders for the storefront search bar.
+  searchPlaceholders: string[];
 }
 
 const SINGLETON_ID = "singleton";
@@ -78,6 +80,7 @@ export async function getStoreSettings(): Promise<StoreSettingsShape> {
     slotDurationMinutes: row.slotDurationMinutes,
     slotCapacity: row.slotCapacity,
     slotLeadMinutes: row.slotLeadMinutes,
+    searchPlaceholders: row.searchPlaceholders ?? [],
   };
 }
 
@@ -119,6 +122,19 @@ export async function updateStoreSettings(
       ...(patch.slotLeadMinutes !== undefined
         ? { slotLeadMinutes: patch.slotLeadMinutes }
         : {}),
+      ...(patch.searchPlaceholders !== undefined
+        ? {
+            // Normalise: trim, drop empties, dedupe, cap to 12 so the
+            // header rotation stays legible. Server truth beats client input.
+            searchPlaceholders: Array.from(
+              new Set(
+                patch.searchPlaceholders
+                  .map((s) => (typeof s === "string" ? s.trim() : ""))
+                  .filter((s) => s.length > 0 && s.length <= 40)
+              )
+            ).slice(0, 12),
+          }
+        : {}),
     },
   });
   return {
@@ -137,6 +153,7 @@ export async function updateStoreSettings(
     slotDurationMinutes: row.slotDurationMinutes,
     slotCapacity: row.slotCapacity,
     slotLeadMinutes: row.slotLeadMinutes,
+    searchPlaceholders: row.searchPlaceholders ?? [],
   };
 }
 

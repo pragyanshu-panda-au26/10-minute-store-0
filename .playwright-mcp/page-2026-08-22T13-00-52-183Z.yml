@@ -1,0 +1,24 @@
+- generic [ref=f30e3]:
+  - banner [ref=f30e5]:
+    - generic [ref=f30e6]:
+      - generic [ref=f30e7]: œ
+      - generic [ref=f30e11] [cursor=pointer]:
+        - generic [ref=f30e12]: Delivery in 15 minutes
+        - generic [ref=f30e13]: KIIT Rd, Patia, Bhubaneswar, Odisha 751024, India
+    - generic [ref=f30e17]: "!"
+  - generic [ref=f30e21]:
+    - generic [ref=f30e34]:
+      - generic [ref=f30e35]: 0 items
+      - generic [ref=f30e36]: ₹ 0
+    - generic [ref=f30e38]: View Cart
+  - generic [ref=f30e44]:
+    - heading "Oops!" [level=1] [ref=f30e45]
+    - generic [ref=f30e46]: The page you are looking for can’t be found.
+    - generic [ref=f30e47]: You might find these links useful
+    - link "Go to Home" [ref=f30e48] [cursor=pointer]:
+      - /url: /
+    - link "Learn about blinkit" [ref=f30e49] [cursor=pointer]:
+      - /url: /aboutus
+  - generic [ref=f30e51]:
+    - generic [ref=f30e52]: India's last minute app - blinkit
+    - generic [ref=f30e53]: +

@@ -39,6 +39,7 @@ const createSchema = z.object({
   sku: z.string().min(1).max(64).optional(),
   name: z.string().min(1).max(200),
   description: z.string().max(2000).optional(),
+  brand: z.string().max(80).optional().nullable(),
   category: z.string().min(1), // categoryId slug
   subcategoryId: z.string().optional().nullable(),
   price: z.number().positive(),
@@ -47,7 +48,10 @@ const createSchema = z.object({
   stock: z.number().int().nonnegative(),
   weight: z.string().min(1).max(60),
   imageUrl: z.string().url(),
+  // Additional image URLs for the PDP carousel — 0..9 extras beyond imageUrl.
+  images: z.array(z.string().url()).max(9).optional(),
   rating: z.number().min(0).max(5).optional(),
+  ratingCount: z.number().int().nonnegative().optional(),
   tags: z.array(z.string()).optional(),
 });
 
@@ -67,6 +71,7 @@ export const POST = handler(async (req: NextRequest) => {
       sku: body.sku ?? `SKU-${Date.now().toString(36).toUpperCase()}`,
       name: body.name,
       description: body.description,
+      brand: body.brand ?? null,
       categoryId: body.category,
       subcategoryId: body.subcategoryId ?? null,
       price: toPaise(body.price),
@@ -75,7 +80,9 @@ export const POST = handler(async (req: NextRequest) => {
       stock: body.stock,
       weight: body.weight,
       imageUrl: body.imageUrl,
+      images: body.images ?? [],
       rating: body.rating ?? 4.5,
+      ratingCount: body.ratingCount ?? 0,
       tags: body.tags ?? [],
     },
     include: { subcategory: true },

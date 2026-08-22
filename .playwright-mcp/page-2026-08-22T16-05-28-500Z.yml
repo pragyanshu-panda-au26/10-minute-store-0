@@ -1,0 +1,169 @@
+- main [ref=f74e3]:
+  - generic [ref=f74e4]:
+    - generic [ref=f74e5]:
+      - generic [ref=f74e6]:
+        - generic [ref=f74e10]:
+          - paragraph [ref=f74e11]: Set your delivery location
+          - paragraph [ref=f74e12]: We’ll show what’s in stock and how fast we can deliver.
+        - button "Use GPS" [ref=f74e13] [cursor=pointer]
+        - button "Dismiss location prompt" [ref=f74e14] [cursor=pointer]
+      - 'button "Test: use Paradip Store Hub (20.2877, 86.6091)" [ref=f74e18] [cursor=pointer]'
+    - generic [ref=f74e24]:
+      - generic [ref=f74e25]:
+        - generic [ref=f74e26]:
+          - link "10m" [ref=f74e27] [cursor=pointer]:
+            - /url: /
+          - generic [ref=f74e28]:
+            - link "Delivery in ~10 min" [ref=f74e30] [cursor=pointer]:
+              - /url: /
+            - button "No address selected" [ref=f74e31] [cursor=pointer]
+        - link "Your profile" [ref=f74e36] [cursor=pointer]:
+          - /url: /profile
+      - textbox "Search \"bread\"" [ref=f74e41] [cursor=pointer]
+    - generic [ref=f74e48]:
+      - generic [ref=f74e49]: 10minute Store
+      - heading "Groceries in 10 minutes" [level=2] [ref=f74e53]
+      - paragraph [ref=f74e54]: Fresh vegetables, fruits, dairy & more — delivered by your neighbourhood owner.
+    - generic [ref=f74e56]:
+      - generic [ref=f74e57]:
+        - heading "🥬 Grocery & Kitchen" [level=3] [ref=f74e59]:
+          - generic [ref=f74e60]: 🥬
+          - generic [ref=f74e61]: Grocery & Kitchen
+        - generic [ref=f74e62]:
+          - button "Vegetables & Fruits Vegetables & Fruits" [ref=f74e63] [cursor=pointer]:
+            - img "Vegetables & Fruits" [ref=f74e65]
+            - generic [ref=f74e66]: Vegetables & Fruits
+          - button "Atta, Rice & Dal Atta, Rice & Dal" [ref=f74e67] [cursor=pointer]:
+            - img "Atta, Rice & Dal" [ref=f74e69]
+            - generic [ref=f74e70]: Atta, Rice & Dal
+          - button "Oil, Ghee & Masala Oil, Ghee & Masala" [ref=f74e71] [cursor=pointer]:
+            - img "Oil, Ghee & Masala" [ref=f74e73]
+            - generic [ref=f74e74]: Oil, Ghee & Masala
+          - button "Dairy, Bread & Eggs Dairy, Bread & Eggs" [ref=f74e75] [cursor=pointer]:
+            - img "Dairy, Bread & Eggs" [ref=f74e77]
+            - generic [ref=f74e78]: Dairy, Bread & Eggs
+          - button "Dry Fruits & Cereals Dry Fruits & Cereals" [ref=f74e79] [cursor=pointer]:
+            - img "Dry Fruits & Cereals" [ref=f74e81]
+            - generic [ref=f74e82]: Dry Fruits & Cereals
+          - button "Chicken, Meat & Fish Chicken, Meat & Fish" [ref=f74e83] [cursor=pointer]:
+            - img "Chicken, Meat & Fish" [ref=f74e85]
+            - generic [ref=f74e86]: Chicken, Meat & Fish
+          - button "Kitchenware & Appliances Kitchenware & Appliances" [ref=f74e87] [cursor=pointer]:
+            - img "Kitchenware & Appliances" [ref=f74e89]
+            - generic [ref=f74e90]: Kitchenware & Appliances
+      - generic [ref=f74e91]:
+        - heading "🍿 Snacks & Drinks" [level=3] [ref=f74e93]:
+          - generic [ref=f74e94]: 🍿
+          - generic [ref=f74e95]: Snacks & Drinks
+        - generic [ref=f74e96]:
+          - button "Bakery & Biscuits Bakery & Biscuits" [ref=f74e97] [cursor=pointer]:
+            - img "Bakery & Biscuits" [ref=f74e99]
+            - generic [ref=f74e100]: Bakery & Biscuits
+          - button "Chips & Namkeen Chips & Namkeen" [ref=f74e101] [cursor=pointer]:
+            - img "Chips & Namkeen" [ref=f74e103]
+            - generic [ref=f74e104]: Chips & Namkeen
+          - button "Sweets & Chocolates Sweets & Chocolates" [ref=f74e105] [cursor=pointer]:
+            - img "Sweets & Chocolates" [ref=f74e107]
+            - generic [ref=f74e108]: Sweets & Chocolates
+          - button "Drinks & Juices Drinks & Juices" [ref=f74e109] [cursor=pointer]:
+            - img "Drinks & Juices" [ref=f74e111]
+            - generic [ref=f74e112]: Drinks & Juices
+          - button "Tea, Coffee & Milk Drinks Tea, Coffee & Milk Drinks" [ref=f74e113] [cursor=pointer]:
+            - img "Tea, Coffee & Milk Drinks" [ref=f74e115]
+            - generic [ref=f74e116]: Tea, Coffee & Milk Drinks
+          - button "Instant Food Instant Food" [ref=f74e117] [cursor=pointer]:
+            - img "Instant Food" [ref=f74e119]
+            - generic [ref=f74e120]: Instant Food
+          - button "Sauces & Spreads Sauces & Spreads" [ref=f74e121] [cursor=pointer]:
+            - img "Sauces & Spreads" [ref=f74e123]
+            - generic [ref=f74e124]: Sauces & Spreads
+          - button "Ice Creams & More Ice Creams & More" [ref=f74e125] [cursor=pointer]:
+            - img "Ice Creams & More" [ref=f74e127]
+            - generic [ref=f74e128]: Ice Creams & More
+          - button "Paan Corner Paan Corner" [ref=f74e129] [cursor=pointer]:
+            - img "Paan Corner" [ref=f74e131]
+            - generic [ref=f74e132]: Paan Corner
+      - generic [ref=f74e133]:
+        - heading "✨ Beauty & Personal Care" [level=3] [ref=f74e135]:
+          - generic [ref=f74e136]: ✨
+          - generic [ref=f74e137]: Beauty & Personal Care
+        - generic [ref=f74e138]:
+          - button "Bath & Body Bath & Body" [ref=f74e139] [cursor=pointer]:
+            - img "Bath & Body" [ref=f74e141]
+            - generic [ref=f74e142]: Bath & Body
+          - button "Hair Care Hair Care" [ref=f74e143] [cursor=pointer]:
+            - img "Hair Care" [ref=f74e145]
+            - generic [ref=f74e146]: Hair Care
+          - button "Skin & Face Care Skin & Face Care" [ref=f74e147] [cursor=pointer]:
+            - img "Skin & Face Care" [ref=f74e149]
+            - generic [ref=f74e150]: Skin & Face Care
+          - button "Beauty & Cosmetics Beauty & Cosmetics" [ref=f74e151] [cursor=pointer]:
+            - img "Beauty & Cosmetics" [ref=f74e153]
+            - generic [ref=f74e154]: Beauty & Cosmetics
+          - button "Feminine Hygiene Feminine Hygiene" [ref=f74e155] [cursor=pointer]:
+            - img "Feminine Hygiene" [ref=f74e157]
+            - generic [ref=f74e158]: Feminine Hygiene
+          - button "Baby Care Baby Care" [ref=f74e159] [cursor=pointer]:
+            - img "Baby Care" [ref=f74e161]
+            - generic [ref=f74e162]: Baby Care
+          - button "Health & Pharma Health & Pharma" [ref=f74e163] [cursor=pointer]:
+            - img "Health & Pharma" [ref=f74e165]
+            - generic [ref=f74e166]: Health & Pharma
+          - button "Sexual Wellness Sexual Wellness" [ref=f74e167] [cursor=pointer]:
+            - img "Sexual Wellness" [ref=f74e169]
+            - generic [ref=f74e170]: Sexual Wellness
+      - generic [ref=f74e171]:
+        - heading "🏠 Home, Electronics & Others" [level=3] [ref=f74e173]:
+          - generic [ref=f74e174]: 🏠
+          - generic [ref=f74e175]: Home, Electronics & Others
+        - generic [ref=f74e176]:
+          - button "Home & Lifestyle Home & Lifestyle" [ref=f74e177] [cursor=pointer]:
+            - img "Home & Lifestyle" [ref=f74e179]
+            - generic [ref=f74e180]: Home & Lifestyle
+          - button "Cleaners & Repellents Cleaners & Repellents" [ref=f74e181] [cursor=pointer]:
+            - img "Cleaners & Repellents" [ref=f74e183]
+            - generic [ref=f74e184]: Cleaners & Repellents
+          - button "Electronics & Appliances Electronics & Appliances" [ref=f74e185] [cursor=pointer]:
+            - img "Electronics & Appliances" [ref=f74e187]
+            - generic [ref=f74e188]: Electronics & Appliances
+          - button "Stationery & Games Stationery & Games" [ref=f74e189] [cursor=pointer]:
+            - img "Stationery & Games" [ref=f74e191]
+            - generic [ref=f74e192]: Stationery & Games
+          - button "Pet Care Pet Care" [ref=f74e193] [cursor=pointer]:
+            - img "Pet Care" [ref=f74e195]
+            - generic [ref=f74e196]: Pet Care
+      - generic [ref=f74e197]:
+        - heading "🔥 LIT (Specialty)" [level=3] [ref=f74e199]:
+          - generic [ref=f74e200]: 🔥
+          - generic [ref=f74e201]: LIT (Specialty)
+        - generic [ref=f74e202]:
+          - button "Tobacco & Smoking Essentials Tobacco & Smoking Essentials" [ref=f74e203] [cursor=pointer]:
+            - img "Tobacco & Smoking Essentials" [ref=f74e205]
+            - generic [ref=f74e206]: Tobacco & Smoking Essentials
+          - button "Hookah & Accessories Hookah & Accessories" [ref=f74e207] [cursor=pointer]:
+            - img "Hookah & Accessories" [ref=f74e209]
+            - generic [ref=f74e210]: Hookah & Accessories
+          - button "Adult & Novelty Products Adult & Novelty Products" [ref=f74e211] [cursor=pointer]:
+            - img "Adult & Novelty Products" [ref=f74e213]
+            - generic [ref=f74e214]: Adult & Novelty Products
+          - button "Specialty Cosmetics Specialty Cosmetics" [ref=f74e215] [cursor=pointer]:
+            - img "Specialty Cosmetics" [ref=f74e217]
+            - generic [ref=f74e218]: Specialty Cosmetics
+    - main [ref=f74e221]:
+      - generic [ref=f74e223]:
+        - heading "All Products" [level=2] [ref=f74e224]
+        - paragraph [ref=f74e225]: 0 items
+      - generic [ref=f74e226]:
+        - heading "No products found" [level=3] [ref=f74e232]
+        - paragraph [ref=f74e233]: Try searching for something else or switch categories.
+        - button "Reset Filters" [ref=f74e234] [cursor=pointer]
+    - navigation [ref=f74e235]:
+      - generic [ref=f74e236]:
+        - link "Home" [ref=f74e237] [cursor=pointer]:
+          - /url: /
+        - link "Categories" [ref=f74e244] [cursor=pointer]:
+          - /url: /#categories
+        - link "Orders" [ref=f74e253] [cursor=pointer]:
+          - /url: /orders
+        - link "Profile" [ref=f74e260] [cursor=pointer]:
+          - /url: /profile

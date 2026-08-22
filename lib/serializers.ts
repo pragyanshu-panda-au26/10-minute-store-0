@@ -51,7 +51,17 @@ export function serializeProduct(
     stock: p.stock,
     weight: p.weight,
     imageUrl: p.imageUrl,
+    // Full image list for the PDP carousel — always leads with the primary
+    // imageUrl so callers can rely on a non-empty array without a fallback.
+    // De-duplicated so an admin who accidentally re-uploads the primary as
+    // an "additional" image doesn't get a repeated first slide.
+    images: (() => {
+      const extras = Array.isArray(p.images) ? p.images.filter(Boolean) : [];
+      const all = [p.imageUrl, ...extras].filter(Boolean);
+      return Array.from(new Set(all));
+    })(),
     rating: p.rating,
+    ratingCount: p.ratingCount,
     deliveryTime: `${p.deliveryMinutes} mins`,
     deliveryMinutes: p.deliveryMinutes,
     tags: p.tags,

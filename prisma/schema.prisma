@@ -110,7 +110,27 @@ model Product {
   stock           Int          @default(0)
   weight          String // "500 g", "1 kg", ...
   imageUrl        String
+  // Additional images for the PDP carousel. Empty by default; the PDP falls
+  // back to `imageUrl` alone when this array is empty. Ordered — index 0 is
+  // the first slide *after* the primary imageUrl (which is always slide 0).
+  images          String[]     @default([])
   rating          Float        @default(4.5)
+  // Number of ratings/reviews behind the average — the card shows this
+  // "(N)" instead of star icons (Blinkit-parity). Default 0; admin can seed
+  // a starter value before real reviews arrive.
+  ratingCount     Int          @default(0)
+  // ─── Blinkit-parity attribute fields ───────────────────────
+  // Optional scalar attributes surfaced on the PDP. Fresh produce typically
+  // leaves them null; packaged FMCG fills type/shelfLife/countryOfOrigin
+  // plus ingredients + nutrition. Admin renders these behind collapsible
+  // sections so the form doesn't feel bloated for produce SKUs.
+  type            String?      // "Namkeen & Mixtures", "Chocolate Bar", "Body Wash"
+  shelfLife       String?      // "180 days", "6 months from mfg."
+  countryOfOrigin String?      @default("India")
+  ingredients     String?      // Free-text; one paragraph or newline list
+  // Nutrition per 100 g / ml — {energy, protein, carbs, sugar, fat,
+  // satFat, transFat, sodium, servingSize} — all strings so units survive.
+  nutrition       Json?
   deliveryMinutes Int          @default(10)
   tags            String[]     @default([])
   isActive        Boolean      @default(true)
@@ -347,6 +367,9 @@ model StoreSetting {
   slotDurationMinutes  Int     @default(60) // slot length; 30 / 60 / 90 typical
   slotCapacity         Int     @default(20) // max orders per slot
   slotLeadMinutes      Int     @default(30) // earliest slot must start at least N min from now
+  // Rotating placeholders shown in the storefront header search bar. Cycled
+  // every ~3 s in the CustomerHeader. Edit from admin/settings.
+  searchPlaceholders   String[] @default(["bread", "milk", "eggs", "chips", "paneer", "curd", "rice", "chocolate"])
   updatedAt          DateTime @updatedAt
   createdAt          DateTime @default(now())
 }

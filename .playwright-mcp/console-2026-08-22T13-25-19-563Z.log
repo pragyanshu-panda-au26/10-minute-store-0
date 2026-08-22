@@ -1,0 +1,3 @@
+[     791ms] [ERROR] The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy. @ https://10-minute-store-0.vercel.app/:0
+[   11522ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://10-minute-store-0.vercel.app/api/auth/me:0
+[   16854ms] [INFO] Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner. @ https://10-minute-store-0.vercel.app/:0

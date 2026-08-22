@@ -1,0 +1,176 @@
+- generic [ref=f45e2]:
+  - generic [ref=f45e4]:
+    - generic [ref=f45e5]:
+      - generic [ref=f45e6] [cursor=pointer]: œ
+      - generic [ref=f45e7]: My Cart
+    - generic [ref=f45e8] [cursor=pointer]:
+      - generic [ref=f45e9]: r
+      - generic [ref=f45e10]: Share
+  - generic [ref=f45e238]:
+    - generic [ref=f45e242]:
+      - generic [ref=f45e243]: Your total savings
+      - generic [ref=f45e245]: ₹231
+    - generic [ref=f45e256]:
+      - generic [ref=f45e257]: Free delivery in 10 minutes
+      - generic [ref=f45e258]: Shipment of 3 items
+    - generic [ref=f45e268]:
+      - generic [ref=f45e269]: Storia Tender Concentrate Coconut Water
+      - generic [ref=f45e270]: 1 ltr
+      - generic [ref=f45e272]:
+        - generic [ref=f45e273]:
+          - generic [ref=f45e274]: ₹99
+          - generic [ref=f45e275]: ₹178
+        - generic [ref=f45e277] [cursor=pointer]:
+          - generic [ref=f45e278]: U
+          - text: "1"
+          - generic [ref=f45e280]: "5"
+    - generic [ref=f45e290]:
+      - generic [ref=f45e291]: OVO Farm On-Day White Eggs
+      - generic [ref=f45e292]: 30 pcs
+      - generic [ref=f45e294]:
+        - generic [ref=f45e295]:
+          - generic [ref=f45e296]: ₹239
+          - generic [ref=f45e297]: ₹339
+        - generic [ref=f45e299] [cursor=pointer]:
+          - generic [ref=f45e300]: U
+          - text: "1"
+          - generic [ref=f45e302]: "5"
+    - generic [ref=f45e312]:
+      - generic [ref=f45e313]: Whole Farm Premium American Almonds (100 g)
+      - generic [ref=f45e314]: 100 g
+      - generic [ref=f45e316]:
+        - generic [ref=f45e317]:
+          - generic [ref=f45e318]: ₹138
+          - generic [ref=f45e319]: ₹190
+        - generic [ref=f45e321] [cursor=pointer]:
+          - generic [ref=f45e322]: U
+          - text: "1"
+          - generic [ref=f45e324]: "5"
+    - generic [ref=f45e329]:
+      - generic [ref=f45e330]: Bill details
+      - generic [ref=f45e337]:
+        - generic [ref=f45e339]:
+          - img [ref=f45e341]: 
+          - generic [ref=f45e342]: Items total
+          - generic [ref=f45e344]: Saved ₹231
+        - generic [ref=f45e346]: ₹707 ₹476
+      - generic [ref=f45e351]:
+        - generic [ref=f45e353]:
+          - img [ref=f45e355]: 
+          - generic [ref=f45e356]: Delivery charge
+          - img [ref=f45e358] [cursor=pointer]: 
+        - generic [ref=f45e359]: ₹30 FREE
+      - generic [ref=f45e364]:
+        - generic [ref=f45e366]:
+          - img [ref=f45e368]: 
+          - generic [ref=f45e369]: Handling charge
+          - img [ref=f45e371] [cursor=pointer]: 
+        - generic [ref=f45e372]: ₹9
+      - generic [ref=f45e377]:
+        - generic [ref=f45e379]:
+          - generic [ref=f45e380]: Grand total
+          - img [ref=f45e382] [cursor=pointer]: 
+        - generic [ref=f45e383]: ₹485
+    - generic [ref=f45e393]:
+      - generic [ref=f45e394]: Your total savings
+      - generic [ref=f45e396]: ₹231
+    - generic [ref=f45e402]:
+      - generic [ref=f45e405]:
+        - generic [ref=f45e406]: Feeding India donation
+        - generic [ref=f45e408] [cursor=pointer]: Working towards a malnutrition free India. Feeding India...read more
+      - generic [ref=f45e412]:
+        - generic [ref=f45e413]: ₹1
+        - img [ref=f45e415] [cursor=pointer]: 
+    - generic [ref=f45e420]:
+      - generic [ref=f45e422]:
+        - generic [ref=f45e423]: Tip your delivery partner
+        - generic [ref=f45e425]: Your kindness means a lot! 100% of your tip will go directly to your delivery partner.
+      - generic [ref=f45e428]:
+        - generic [ref=f45e429]: ₹20
+        - generic [ref=f45e434]: ₹30
+        - generic [ref=f45e439]: ₹50
+        - generic [ref=f45e444]: Custom
+    - generic [ref=f45e451]:
+      - generic [ref=f45e452]: Cancellation Policy
+      - generic [ref=f45e453]: Orders cannot be cancelled once packed for delivery. In case of unexpected delays, a refund will be provided, if applicable.
+    - generic [ref=f45e459] [cursor=pointer]:
+      - generic [ref=f45e460]:
+        - generic [ref=f45e461]: ₹485
+        - generic [ref=f45e462]: TOTAL
+      - generic [ref=f45e463]: Proceed
+      - generic [ref=f45e464]: f
+- dialog [active] [ref=f45e466]:
+  - generic [ref=f45e467]: 
+  - generic [ref=f45e469]:
+    - generic [ref=f45e470] [cursor=pointer]: Select delivery address
+    - generic [ref=f45e471]:
+      - generic [ref=f45e472] [cursor=pointer]:
+        - generic [ref=f45e473]: 
+        - text: Add a new address
+      - generic [ref=f45e474]:
+        - generic [ref=f45e475]: Your saved address
+        - generic [ref=f45e476]:
+          - generic [ref=f45e480] [cursor=pointer]:
+            - generic [ref=f45e481]: Dibyasha M flat
+            - generic [ref=f45e482]: Near CBSE regional office Niladri Vihar, Chandrasekharpur, Bhubaneswar
+            - generic [ref=f45e483]: 
+          - generic [ref=f45e488] [cursor=pointer]:
+            - generic [ref=f45e489]: Dibyasha
+            - generic [ref=f45e490]: LP 5, Prasanti vihar Patia, Bhubaneswar
+            - generic [ref=f45e491]: 
+          - generic [ref=f45e496] [cursor=pointer]:
+            - generic [ref=f45e497]: Anushka
+            - generic [ref=f45e498]: Nift college K I I T University, Patia, Bhubaneswar
+            - generic [ref=f45e499]: 
+          - generic [ref=f45e504] [cursor=pointer]:
+            - generic [ref=f45e505]: Home
+            - generic [ref=f45e506]: Flat no 204, 30-E Bhavya Bhawan, Alive living Tulsi Nagar, Nipania, Indore
+            - generic [ref=f45e507]: 
+          - generic [ref=f45e512] [cursor=pointer]:
+            - generic [ref=f45e513]: Work
+            - generic [ref=f45e514]: 2nd floor, MR-5, 205 office room Mahalaxmi Nagar, Indore
+            - generic [ref=f45e515]: 
+          - generic [ref=f45e520] [cursor=pointer]:
+            - generic [ref=f45e521]: Work
+            - generic [ref=f45e522]: Warehouse, Panchal Compound, Lasudia Mori, Indore
+            - generic [ref=f45e523]: 
+          - generic [ref=f45e528] [cursor=pointer]:
+            - generic [ref=f45e529]: Mayank Singh
+            - generic [ref=f45e530]: A-51 street no 1 vinod nagar west Block B, Block D, Mandawali, New Delhi
+            - generic [ref=f45e531]: 
+          - generic [ref=f45e536] [cursor=pointer]:
+            - generic [ref=f45e537]: Hotel
+            - generic [ref=f45e538]: Oyo flagship Block L, Malviya Nagar, Delhi Division, New Delhi, Delhi, 110017, India
+            - generic [ref=f45e539]: 
+          - generic [ref=f45e544] [cursor=pointer]:
+            - generic [ref=f45e545]: Kaju
+            - generic [ref=f45e546]: First floor, F 701 floor Bandalo Wala Mohalla, Lado Sarai, New Delhi
+            - generic [ref=f45e547]: 
+          - generic [ref=f45e552] [cursor=pointer]:
+            - generic [ref=f45e553]: Home
+            - generic [ref=f45e554]: 01, Call at SBI ATM Sector 74A, Gurugram
+            - generic [ref=f45e555]: 
+          - generic [ref=f45e560] [cursor=pointer]:
+            - generic [ref=f45e561]: Home
+            - generic [ref=f45e562]: Narsinghpur SBI at road Sector 74A, Gurugram
+            - generic [ref=f45e563]: 
+          - generic [ref=f45e568] [cursor=pointer]:
+            - generic [ref=f45e569]: Home
+            - generic [ref=f45e570]: 01, Sector 74A near SBi atm
+            - generic [ref=f45e571]: 
+          - generic [ref=f45e576] [cursor=pointer]:
+            - generic [ref=f45e577]: Work
+            - generic [ref=f45e578]: Navigo, Sector 74A 01
+            - generic [ref=f45e579]: 
+          - generic [ref=f45e584] [cursor=pointer]:
+            - generic [ref=f45e585]: Work
+            - generic [ref=f45e586]: 1st building, Sector 10A 1st floor
+            - generic [ref=f45e587]: 
+          - generic [ref=f45e592] [cursor=pointer]:
+            - generic [ref=f45e593]: Home
+            - generic [ref=f45e594]: Basai Enclave Gurgaon Haryana, House no 305 Gali no 1/13A, Near Wash and Wax service station Godoli, Sector 9B,Basai Village, Sector 9B, Gurgaon Division, Gurugram, Haryana, 122001, India
+            - generic [ref=f45e595]: 
+          - generic [ref=f45e600] [cursor=pointer]:
+            - generic [ref=f45e601]: Sanjana
+            - generic [ref=f45e602]: 00, Near radha kunj Block RZ, Sector 2 Dwarka, Dwarka, Delhi
+            - generic [ref=f45e603]: 

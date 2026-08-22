@@ -6,6 +6,7 @@ export interface AdminProduct {
   id: string;
   sku?: string;
   name: string;
+  brand?: string | null;
   category: string;
   subcategory?: string;
   costPrice?: number;
@@ -13,9 +14,13 @@ export interface AdminProduct {
   originalPrice?: number;
   stock: number;
   imageUrl: string;
+  /** Additional images for the PDP carousel. */
+  images?: string[];
   weight: string;
   description?: string;
   rating?: number;
+  /** Number of ratings behind the average — rendered as "(N)" on the card. */
+  ratingCount?: number;
   deliveryTime?: string;
   tags?: string[];
 }

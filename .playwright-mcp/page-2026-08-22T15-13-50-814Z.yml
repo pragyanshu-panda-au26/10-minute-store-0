@@ -1,0 +1,32 @@
+- main [ref=f64e3]:
+  - generic [ref=f64e4]:
+    - generic [ref=f64e6]:
+      - button "Store" [ref=f64e7] [cursor=pointer]
+      - heading "Review Basket (0)" [level=1] [ref=f64e10]
+    - main [ref=f64e11]:
+      - generic [ref=f64e12]:
+        - generic [ref=f64e18]:
+          - paragraph [ref=f64e19]: Delivery to No address selected (~10 Mins)
+          - paragraph
+        - button "Change" [ref=f64e20] [cursor=pointer]
+      - generic [ref=f64e22]:
+        - text: Add
+        - strong [ref=f64e23]: ₹199
+        - text: more for
+        - strong [ref=f64e24]: FREE Delivery
+      - generic [ref=f64e26]:
+        - heading "Basket Items" [level=2] [ref=f64e27]
+        - generic [ref=f64e28]:
+          - paragraph [ref=f64e32]: Your basket is empty
+          - link "Start Shopping" [ref=f64e33] [cursor=pointer]:
+            - /url: /
+    - navigation [ref=f64e34]:
+      - generic [ref=f64e35]:
+        - link "Home" [ref=f64e36] [cursor=pointer]:
+          - /url: /
+        - link "Categories" [ref=f64e42] [cursor=pointer]:
+          - /url: /#categories
+        - link "Orders" [ref=f64e50] [cursor=pointer]:
+          - /url: /orders
+        - link "Profile" [ref=f64e57] [cursor=pointer]:
+          - /url: /profile

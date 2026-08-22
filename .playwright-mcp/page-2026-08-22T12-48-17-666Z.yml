@@ -1,0 +1,757 @@
+- generic [ref=e1]:
+  - generic [ref=e138]:
+    - banner [ref=e140]:
+      - generic [ref=e143] [cursor=pointer]:
+        - generic [ref=e144]: Delivery in 12 minutes
+        - generic [ref=e145]: Select Location
+      - link [ref=e151] [cursor=pointer]:
+        - /url: /s/
+        - generic [ref=e152]: "!"
+        - generic [ref=e154]:
+          - generic [ref=e162]: Search "egg"
+          - generic [ref=e163]: Search "chips"
+      - generic [ref=e165] [cursor=pointer]
+    - generic [ref=e170]:
+      - generic [ref=e183]:
+        - generic [ref=e184]: 0 items
+        - generic [ref=e185]: ₹ 0
+      - generic [ref=e187]: View Cart
+    - generic [ref=e196]:
+      - button [ref=e199] [cursor=pointer]:
+        - generic [ref=e200]: Grocery & Kitchen
+      - generic [ref=e208]:
+        - button [ref=e210] [cursor=pointer]:
+          - generic [ref=e214]: Vegetables & Fruits
+        - button [ref=e216] [cursor=pointer]:
+          - generic [ref=e220]: Atta, Rice & Dal
+        - button [ref=e222] [cursor=pointer]:
+          - generic [ref=e226]: Oil, Ghee & Masala
+        - button [ref=e228] [cursor=pointer]:
+          - generic [ref=e232]: Dairy, Bread & Eggs
+      - generic [ref=e238]:
+        - button [ref=e240] [cursor=pointer]:
+          - generic [ref=e244]: Bakery & Biscuits
+        - button [ref=e246] [cursor=pointer]:
+          - generic [ref=e250]: Dry Fruits & Cereals
+        - button [ref=e252] [cursor=pointer]:
+          - generic [ref=e256]: Chicken, Meat & Fish
+        - button [ref=e258] [cursor=pointer]:
+          - generic [ref=e262]: Kitchenware & Appliances
+      - button [ref=e265] [cursor=pointer]:
+        - generic [ref=e266]: Snacks & Drinks
+      - generic [ref=e274]:
+        - button [ref=e276] [cursor=pointer]:
+          - generic [ref=e280]: Chips & Namkeen
+        - button [ref=e282] [cursor=pointer]:
+          - generic [ref=e286]: Sweets & Chocolates
+        - button [ref=e288] [cursor=pointer]:
+          - generic [ref=e292]: Drinks & Juices
+        - button [ref=e294] [cursor=pointer]:
+          - generic [ref=e298]: Tea, Coffee & Milk Drinks
+      - generic [ref=e304]:
+        - button [ref=e306] [cursor=pointer]:
+          - generic [ref=e310]: Instant Food
+        - button [ref=e312] [cursor=pointer]:
+          - generic [ref=e316]: Sauces & Spreads
+        - button [ref=e318] [cursor=pointer]:
+          - generic [ref=e322]: Paan Corner
+        - button [ref=e324] [cursor=pointer]:
+          - generic [ref=e328]: Ice Creams & More
+      - button [ref=e331] [cursor=pointer]:
+        - generic [ref=e332]: Beauty & Personal Care
+      - generic [ref=e340]:
+        - button [ref=e342] [cursor=pointer]:
+          - generic [ref=e346]: Bath & Body
+        - button [ref=e348] [cursor=pointer]:
+          - generic [ref=e352]: Hair
+        - button [ref=e354] [cursor=pointer]:
+          - generic [ref=e358]: Skin & Face
+        - button [ref=e360] [cursor=pointer]:
+          - generic [ref=e364]: Beauty & Cosmetics
+      - generic [ref=e370]:
+        - button [ref=e372] [cursor=pointer]:
+          - generic [ref=e376]: Feminine Hygiene
+        - button [ref=e378] [cursor=pointer]:
+          - generic [ref=e382]: Baby Care
+        - button [ref=e384] [cursor=pointer]:
+          - generic [ref=e388]: Health & Pharma
+        - button [ref=e390] [cursor=pointer]:
+          - generic [ref=e394]: Sexual Wellness
+      - button [ref=e397] [cursor=pointer]:
+        - generic [ref=e398]: Household Essentials
+      - generic [ref=e406]:
+        - button [ref=e408] [cursor=pointer]:
+          - generic [ref=e411]: Home & Lifestyle
+        - button [ref=e413] [cursor=pointer]:
+          - generic [ref=e416]: Cleaners & Repellents
+        - button [ref=e418] [cursor=pointer]:
+          - generic [ref=e421]: Electronics
+        - button [ref=e423] [cursor=pointer]:
+          - generic [ref=e426]: Stationery & Games
+      - button [ref=e429] [cursor=pointer]:
+        - generic [ref=e430]: Shop by store
+      - generic [ref=e435]:
+        - button [ref=e437] [cursor=pointer]:
+          - generic [ref=e440]: Toy Store
+        - button [ref=e442] [cursor=pointer]:
+          - generic [ref=e445]: Book Store
+        - button [ref=e447] [cursor=pointer]:
+          - generic [ref=e450]: Pet Store
+        - button [ref=e452] [cursor=pointer]:
+          - generic [ref=e455]: Electronics Store
+        - button [ref=e457] [cursor=pointer]:
+          - generic [ref=e460]: Stationery Store
+        - button [ref=e462] [cursor=pointer]:
+          - generic [ref=e465]: Kids Store
+        - button [ref=e467] [cursor=pointer]:
+          - generic [ref=e470]: Pharma Store
+        - button [ref=e472] [cursor=pointer]:
+          - generic [ref=e475]: Sports Store
+        - button [ref=e477] [cursor=pointer]:
+          - generic [ref=e480]: Party Store
+        - button [ref=e482] [cursor=pointer]:
+          - generic [ref=e485]: Beauty Store
+        - button [ref=e487] [cursor=pointer]:
+          - generic [ref=e490]: Print Store
+      - button [ref=e493] [cursor=pointer]:
+        - generic [ref=e494]:
+          - generic [ref=e495]: Hot deals
+          - button [ref=e497]: see all
+      - generic [ref=e500]:
+        - button [ref=e502] [cursor=pointer]:
+          - generic [ref=e503]: 26% OFF
+          - generic [ref=e509]:
+            - generic [ref=e510]: 12 mins
+            - generic [ref=e516]:
+              - generic [ref=e517]:
+                - generic [ref=e518]: Cadbury Dairy Milk Bites Assorted Chocolate Pack - Almond
+                - generic [ref=e520]: 54 g
+              - generic [ref=e522]:
+                - generic [ref=e523]:
+                  - generic [ref=e524]: ₹65
+                  - generic [ref=e525]: ₹89
+                - button [ref=e526]:
+                  - generic [ref=e527]: ADD
+        - button [ref=e529] [cursor=pointer]:
+          - generic [ref=e530]: 27% OFF
+          - generic [ref=e536]:
+            - generic [ref=e537]: 12 mins
+            - generic [ref=e543]:
+              - generic [ref=e544]:
+                - generic [ref=e545]: Chheda's Yellow Rock Salt Banana Chips
+                - generic [ref=e547]:
+                  - generic [ref=e548]: 170 g
+                  - img [ref=e549]: 
+              - generic [ref=e550]:
+                - generic [ref=e551]:
+                  - generic [ref=e552]: ₹73
+                  - generic [ref=e553]: ₹100
+                - button [ref=e554]:
+                  - generic [ref=e555]: ADD
+        - button [ref=e557] [cursor=pointer]:
+          - generic [ref=e558]: 49% OFF
+          - generic [ref=e564]:
+            - generic [ref=e565]: 12 mins
+            - generic [ref=e571]:
+              - generic [ref=e572]:
+                - generic [ref=e573]: Real Fruit Power Masala Mixed Fruit Juice
+                - generic [ref=e575]: 1 ltr
+              - generic [ref=e577]:
+                - generic [ref=e578]:
+                  - generic [ref=e579]: ₹76
+                  - generic [ref=e580]: ₹150
+                - button [ref=e581]:
+                  - generic [ref=e582]: ADD
+        - button [ref=e584] [cursor=pointer]:
+          - generic [ref=e585]: 29% OFF
+          - generic [ref=e591]:
+            - generic [ref=e592]: 12 mins
+            - generic [ref=e598]:
+              - generic [ref=e599]:
+                - generic [ref=e600]: Sunfeast Fantastik Mini Treats (Homepack) Wafer Roll
+                - generic [ref=e602]: 125.4 g
+              - generic [ref=e604]:
+                - generic [ref=e605]:
+                  - generic [ref=e606]: ₹71
+                  - generic [ref=e607]: ₹100
+                - button [ref=e608]:
+                  - generic [ref=e609]: ADD
+        - button [ref=e611] [cursor=pointer]:
+          - generic [ref=e612]: 44% OFF
+          - generic [ref=e618]:
+            - generic [ref=e619]: 12 mins
+            - generic [ref=e625]:
+              - generic [ref=e626]:
+                - generic [ref=e627]: Storia Tender Concentrate Coconut Water
+                - generic [ref=e629]: 1 ltr
+              - generic [ref=e631]:
+                - generic [ref=e632]:
+                  - generic [ref=e633]: ₹99
+                  - generic [ref=e634]: ₹178
+                - button [ref=e635]:
+                  - generic [ref=e636]: ADD
+        - button [ref=e638] [cursor=pointer]:
+          - generic [ref=e639]: 33% OFF
+          - generic [ref=e645]:
+            - generic [ref=e646]: 12 mins
+            - generic [ref=e652]:
+              - generic [ref=e653]:
+                - generic [ref=e654]: Table White White Eggs
+                - generic [ref=e656]: 10 pcs
+              - generic [ref=e658]:
+                - generic [ref=e659]:
+                  - generic [ref=e660]: ₹93
+                  - generic [ref=e661]: ₹140
+                - button [ref=e662]:
+                  - generic [ref=e663]: ADD
+        - button [ref=e665] [cursor=pointer]:
+          - generic [ref=e666]: 32% OFF
+          - generic [ref=e672]:
+            - generic [ref=e673]: 12 mins
+            - generic [ref=e679]:
+              - generic [ref=e680]:
+                - generic [ref=e681]: Rajdhani Thick Poha
+                - generic [ref=e683]:
+                  - generic [ref=e684]: 1 kg
+                  - img [ref=e685]: 
+              - generic [ref=e686]:
+                - generic [ref=e687]:
+                  - generic [ref=e688]: ₹108
+                  - generic [ref=e689]: ₹160
+                - button [ref=e690]:
+                  - generic [ref=e691]: ADD
+        - button [ref=e693] [cursor=pointer]:
+          - generic [ref=e694]: 33% OFF
+          - generic [ref=e700]:
+            - generic [ref=e701]: 12 mins
+            - generic [ref=e707]:
+              - generic [ref=e708]:
+                - generic [ref=e709]: Whole Farm Grocery Makhana
+                - generic [ref=e711]: 100 g
+              - generic [ref=e713]:
+                - generic [ref=e714]:
+                  - generic [ref=e715]: ₹140
+                  - generic [ref=e716]: ₹210
+                - button [ref=e717]:
+                  - generic [ref=e718]: ADD
+        - button [ref=e720] [cursor=pointer]:
+          - generic [ref=e721]: 27% OFF
+          - generic [ref=e727]:
+            - generic [ref=e728]: 12 mins
+            - generic [ref=e734]:
+              - generic [ref=e735]:
+                - generic [ref=e736]: The Urban Eggs Farm Fresh White Eggs
+                - generic [ref=e738]: 30 pcs
+              - generic [ref=e740]:
+                - generic [ref=e741]:
+                  - generic [ref=e742]: ₹240
+                  - generic [ref=e743]: ₹330
+                - button [ref=e744]:
+                  - generic [ref=e745]: ADD
+        - button [ref=e747] [cursor=pointer]:
+          - generic [ref=e748]: 46% OFF
+          - generic [ref=e754]:
+            - generic [ref=e755]: 12 mins
+            - generic [ref=e761]:
+              - generic [ref=e762]:
+                - generic [ref=e763]: Whole Farm Premium Raw Peanuts
+                - generic [ref=e765]:
+                  - generic [ref=e766]: 200 g
+                  - img [ref=e767]: 
+              - generic [ref=e768]:
+                - generic [ref=e769]:
+                  - generic [ref=e770]: ₹48
+                  - generic [ref=e771]: ₹90
+                - button [ref=e772]:
+                  - generic [ref=e773]: ADD
+        - button [ref=e775] [cursor=pointer]:
+          - generic [ref=e776]: 37% OFF
+          - generic [ref=e782]:
+            - generic [ref=e783]: 12 mins
+            - generic [ref=e789]:
+              - generic [ref=e790]:
+                - generic [ref=e791]: Catch - Cumin Seeds / Jeera Seeds
+                - generic [ref=e793]:
+                  - generic [ref=e794]: 100 g
+                  - img [ref=e795]: 
+              - generic [ref=e796]:
+                - generic [ref=e797]:
+                  - generic [ref=e798]: ₹47
+                  - generic [ref=e799]: ₹75
+                - button [ref=e800]:
+                  - generic [ref=e801]: ADD
+        - button [ref=e803] [cursor=pointer]:
+          - generic [ref=e804]: 40% OFF
+          - generic [ref=e810]:
+            - generic [ref=e811]: 12 mins
+            - generic [ref=e817]:
+              - generic [ref=e818]:
+                - generic [ref=e819]: Milky Mist Low Fat High Protein Paneer
+                - generic [ref=e821]: 200 g
+              - generic [ref=e823]:
+                - generic [ref=e824]:
+                  - generic [ref=e825]: ₹98
+                  - generic [ref=e826]: ₹165
+                - button [ref=e827]:
+                  - generic [ref=e828]: ADD
+        - button [ref=e830] [cursor=pointer]:
+          - generic [ref=e831]: 33% OFF
+          - generic [ref=e837]:
+            - generic [ref=e838]: 12 mins
+            - generic [ref=e844]:
+              - generic [ref=e845]:
+                - generic [ref=e846]: Coca-Cola Diet Coke Soft Drink
+                - generic [ref=e848]: 6 x 200 ml
+              - generic [ref=e850]:
+                - generic [ref=e851]:
+                  - generic [ref=e852]: ₹399
+                  - generic [ref=e853]: ₹600
+                - button [ref=e854]:
+                  - generic [ref=e855]: ADD
+        - button [ref=e857] [cursor=pointer]:
+          - generic [ref=e858]: 32% OFF
+          - generic [ref=e864]:
+            - generic [ref=e865]: 12 mins
+            - generic [ref=e871]:
+              - generic [ref=e872]:
+                - generic [ref=e873]: Table White Eggs (6 pcs)
+                - generic [ref=e875]: 6 pcs
+              - generic [ref=e877]:
+                - generic [ref=e878]:
+                  - generic [ref=e879]: ₹57
+                  - generic [ref=e880]: ₹85
+                - button [ref=e881]:
+                  - generic [ref=e882]: ADD
+        - button [ref=e884] [cursor=pointer]:
+          - generic [ref=e885]: 64% OFF
+          - generic [ref=e891]:
+            - generic [ref=e892]: 12 mins
+            - generic [ref=e898]:
+              - generic [ref=e899]:
+                - generic [ref=e900]: Whole Farm Premium Cumin Seeds / Jeera Seeds
+                - generic [ref=e902]: 100 g
+              - generic [ref=e904]:
+                - generic [ref=e905]:
+                  - generic [ref=e906]: ₹44
+                  - generic [ref=e907]: ₹125
+                - button [ref=e908]:
+                  - generic [ref=e909]: ADD
+        - button [ref=e911] [cursor=pointer]:
+          - generic [ref=e912]: 26% OFF
+          - generic [ref=e918]:
+            - generic [ref=e919]: 12 mins
+            - generic [ref=e925]:
+              - generic [ref=e926]:
+                - generic [ref=e927]: Table White White Eggs
+                - generic [ref=e929]: 30 pcs
+              - generic [ref=e931]:
+                - generic [ref=e932]:
+                  - generic [ref=e933]: ₹256
+                  - generic [ref=e934]: ₹350
+                - button [ref=e935]:
+                  - generic [ref=e936]: ADD
+        - button [ref=e938] [cursor=pointer]:
+          - generic [ref=e939]: 43% OFF
+          - generic [ref=e945]:
+            - generic [ref=e946]: 12 mins
+            - generic [ref=e952]:
+              - generic [ref=e953]:
+                - generic [ref=e954]: Nature Good White Eggs
+                - generic [ref=e956]:
+                  - generic [ref=e957]: 6 pcs
+                  - img [ref=e958]: 
+              - generic [ref=e959]:
+                - generic [ref=e960]:
+                  - generic [ref=e961]: ₹51
+                  - generic [ref=e962]: ₹90
+                - button [ref=e963]:
+                  - generic [ref=e964]: ADD
+        - button [ref=e966] [cursor=pointer]:
+          - generic [ref=e967]: 35% OFF
+          - generic [ref=e973]:
+            - generic [ref=e974]: 12 mins
+            - generic [ref=e980]:
+              - generic [ref=e981]:
+                - generic [ref=e982]: Troovy Healthy High Protein Mix Veggie Chips
+                - generic [ref=e984]: 70 g
+              - generic [ref=e986]:
+                - generic [ref=e987]:
+                  - generic [ref=e988]: ₹42
+                  - generic [ref=e989]: ₹65
+                - button [ref=e990]:
+                  - generic [ref=e991]: ADD
+        - button [ref=e993] [cursor=pointer]:
+          - generic [ref=e994]: 42% OFF
+          - generic [ref=e1000]:
+            - generic [ref=e1001]: 12 mins
+            - generic [ref=e1007]:
+              - generic [ref=e1008]:
+                - generic [ref=e1009]: Whole Farm Premium Red Raw Peanuts
+                - generic [ref=e1011]: 500 g
+              - generic [ref=e1013]:
+                - generic [ref=e1014]:
+                  - generic [ref=e1015]: ₹103
+                  - generic [ref=e1016]: ₹180
+                - button [ref=e1017]:
+                  - generic [ref=e1018]: ADD
+        - button [ref=e1020] [cursor=pointer]:
+          - generic [ref=e1021]: 32% OFF
+          - generic [ref=e1027]:
+            - generic [ref=e1028]: 12 mins
+            - generic [ref=e1034]:
+              - generic [ref=e1035]:
+                - generic [ref=e1036]: Haldiram's Snac Lite Desi Punch Fun Fries Crisps
+                - generic [ref=e1038]: 82 g
+              - generic [ref=e1040]:
+                - generic [ref=e1041]:
+                  - generic [ref=e1042]: ₹34
+                  - generic [ref=e1043]: ₹50
+                - button [ref=e1044]:
+                  - generic [ref=e1045]: ADD
+        - button [ref=e1047] [cursor=pointer]:
+          - generic [ref=e1048]: 33% OFF
+          - generic [ref=e1054]:
+            - generic [ref=e1055]: 12 mins
+            - generic [ref=e1061]:
+              - generic [ref=e1062]:
+                - generic [ref=e1063]: Pro Plant Premium Tofu
+                - generic [ref=e1065]: 200 g
+              - generic [ref=e1067]:
+                - generic [ref=e1068]:
+                  - generic [ref=e1069]: ₹53
+                  - generic [ref=e1070]: ₹80
+                - button [ref=e1071]:
+                  - generic [ref=e1072]: ADD
+      - button [ref=e1075] [cursor=pointer]:
+        - generic [ref=e1076]:
+          - generic [ref=e1077]: Your daily fresh needs
+          - button [ref=e1079]: see all
+      - generic [ref=e1082]:
+        - button [ref=e1084] [cursor=pointer]:
+          - generic [ref=e1085]: 19% OFF
+          - generic [ref=e1091]:
+            - generic [ref=e1092]: 12 mins
+            - generic [ref=e1098]:
+              - generic [ref=e1099]:
+                - generic [ref=e1100]: American Sweet Corn Cob (Bhutta)
+                - generic [ref=e1102]: 1 pc
+              - generic [ref=e1104]:
+                - generic [ref=e1105]:
+                  - generic [ref=e1106]: ₹21
+                  - generic [ref=e1107]: ₹26
+                - button [ref=e1108]:
+                  - generic [ref=e1109]: ADD
+        - button [ref=e1111] [cursor=pointer]:
+          - generic [ref=e1112]: 16% OFF
+          - generic [ref=e1118]:
+            - generic [ref=e1119]: 12 mins
+            - generic [ref=e1125]:
+              - generic [ref=e1126]:
+                - generic [ref=e1127]: Brown Coconut Chunks
+                - generic [ref=e1129]: 100 g
+              - generic [ref=e1131]:
+                - generic [ref=e1132]:
+                  - generic [ref=e1133]: ₹49
+                  - generic [ref=e1134]: ₹59
+                - button [ref=e1135]:
+                  - generic [ref=e1136]: ADD
+        - button [ref=e1138] [cursor=pointer]:
+          - generic [ref=e1139]: 10% OFF
+          - generic [ref=e1145]:
+            - generic [ref=e1146]: 12 mins
+            - generic [ref=e1152]:
+              - generic [ref=e1153]:
+                - generic [ref=e1154]: Organically Grown Kadi Patta Curry Leaves (Kadi Patta)
+                - generic [ref=e1156]: 50 g
+              - generic [ref=e1158]:
+                - generic [ref=e1159]:
+                  - generic [ref=e1160]: ₹17
+                  - generic [ref=e1161]: ₹19
+                - button [ref=e1162]:
+                  - generic [ref=e1163]: ADD
+        - button [ref=e1165] [cursor=pointer]:
+          - generic [ref=e1166]: 22% OFF
+          - generic [ref=e1172]:
+            - generic [ref=e1173]: 12 mins
+            - generic [ref=e1179]:
+              - generic [ref=e1180]:
+                - generic [ref=e1181]: Red-Globe Grapes
+                - generic [ref=e1183]: 200 g
+              - generic [ref=e1185]:
+                - generic [ref=e1186]:
+                  - generic [ref=e1187]: ₹117
+                  - generic [ref=e1188]: ₹150
+                - button [ref=e1189]:
+                  - generic [ref=e1190]: ADD
+        - button [ref=e1192] [cursor=pointer]:
+          - generic [ref=e1193]: 17% OFF
+          - generic [ref=e1199]:
+            - generic [ref=e1200]: 12 mins
+            - generic [ref=e1206]:
+              - generic [ref=e1207]:
+                - generic [ref=e1208]: Green Lettuce
+                - generic [ref=e1210]: 100 g
+              - generic [ref=e1212]:
+                - generic [ref=e1213]:
+                  - generic [ref=e1214]: ₹62
+                  - generic [ref=e1215]: ₹75
+                - button [ref=e1216]:
+                  - generic [ref=e1217]: ADD
+        - button [ref=e1219] [cursor=pointer]:
+          - generic [ref=e1220]: 11% OFF
+          - generic [ref=e1226]:
+            - generic [ref=e1227]: 12 mins
+            - generic [ref=e1233]:
+              - generic [ref=e1234]:
+                - generic [ref=e1235]: Beetroot (Chukandar)
+                - generic [ref=e1237]: 500 g
+              - generic [ref=e1239]:
+                - generic [ref=e1240]:
+                  - generic [ref=e1241]: ₹32
+                  - generic [ref=e1242]: ₹36
+                - button [ref=e1243]:
+                  - generic [ref=e1244]: ADD
+        - button [ref=e1246] [cursor=pointer]:
+          - generic [ref=e1247]: 22% OFF
+          - generic [ref=e1253]:
+            - generic [ref=e1254]: 12 mins
+            - generic [ref=e1260]:
+              - generic [ref=e1261]:
+                - generic [ref=e1262]: Baby Banana
+                - generic [ref=e1264]: 4 pcs
+              - generic [ref=e1266]:
+                - generic [ref=e1267]:
+                  - generic [ref=e1268]: ₹42
+                  - generic [ref=e1269]: ₹54
+                - button [ref=e1270]:
+                  - generic [ref=e1271]: ADD
+        - button [ref=e1273] [cursor=pointer]:
+          - generic [ref=e1274]: 12% OFF
+          - generic [ref=e1280]:
+            - generic [ref=e1281]: 12 mins
+            - generic [ref=e1287]:
+              - generic [ref=e1288]:
+                - generic [ref=e1289]: Cherry Tomatoes
+                - generic [ref=e1291]: 200 g
+              - generic [ref=e1293]:
+                - generic [ref=e1294]:
+                  - generic [ref=e1295]: ₹43
+                  - generic [ref=e1296]: ₹49
+                - button [ref=e1297]:
+                  - generic [ref=e1298]: ADD
+        - button [ref=e1300] [cursor=pointer]:
+          - generic [ref=e1301]: 11% OFF
+          - generic [ref=e1307]:
+            - generic [ref=e1308]: 12 mins
+            - generic [ref=e1314]:
+              - generic [ref=e1315]:
+                - generic [ref=e1316]: Romaine Lettuce
+                - generic [ref=e1318]: 100 g
+              - generic [ref=e1320]:
+                - generic [ref=e1321]:
+                  - generic [ref=e1322]: ₹32
+                  - generic [ref=e1323]: ₹36
+                - button [ref=e1324]:
+                  - generic [ref=e1325]: ADD
+        - button [ref=e1327] [cursor=pointer]:
+          - generic [ref=e1328]: 16% OFF
+          - generic [ref=e1334]:
+            - generic [ref=e1335]: 12 mins
+            - generic [ref=e1341]:
+              - generic [ref=e1342]:
+                - generic [ref=e1343]: Green Peas (Matar)
+                - generic [ref=e1345]: 250 g
+              - generic [ref=e1347]:
+                - generic [ref=e1348]:
+                  - generic [ref=e1349]: ₹51
+                  - generic [ref=e1350]: ₹61
+                - button [ref=e1351]:
+                  - generic [ref=e1352]: ADD
+        - button [ref=e1354] [cursor=pointer]:
+          - generic [ref=e1355]: 20% OFF
+          - generic [ref=e1361]:
+            - generic [ref=e1362]: 12 mins
+            - generic [ref=e1368]:
+              - generic [ref=e1369]:
+                - generic [ref=e1370]: Avocado Hass - Tanzania
+                - generic [ref=e1372]: 150 g
+              - generic [ref=e1374]:
+                - generic [ref=e1375]:
+                  - generic [ref=e1376]: ₹89
+                  - generic [ref=e1377]: ₹112
+                - button [ref=e1378]:
+                  - generic [ref=e1379]: ADD
+        - button [ref=e1381] [cursor=pointer]:
+          - generic [ref=e1382]: 20% OFF
+          - generic [ref=e1388]:
+            - generic [ref=e1389]: 12 mins
+            - generic [ref=e1395]:
+              - generic [ref=e1396]:
+                - generic [ref=e1397]: Cremini Mushroom
+                - generic [ref=e1399]: 125 g
+              - generic [ref=e1401]:
+                - generic [ref=e1402]:
+                  - generic [ref=e1403]: ₹159
+                  - generic [ref=e1404]: ₹200
+                - button [ref=e1405]:
+                  - generic [ref=e1406]: ADD
+        - button [ref=e1408] [cursor=pointer]:
+          - generic [ref=e1409]: 19% OFF
+          - generic [ref=e1415]:
+            - generic [ref=e1416]: 12 mins
+            - generic [ref=e1422]:
+              - generic [ref=e1423]:
+                - generic [ref=e1424]: Organically Grown Bitter Gourd (Karela)
+                - generic [ref=e1426]: 250 g
+              - generic [ref=e1428]:
+                - generic [ref=e1429]:
+                  - generic [ref=e1430]: ₹25
+                  - generic [ref=e1431]: ₹31
+                - button [ref=e1432]:
+                  - generic [ref=e1433]: ADD
+        - button [ref=e1435] [cursor=pointer]:
+          - generic [ref=e1436]: 20% OFF
+          - generic [ref=e1442]:
+            - generic [ref=e1443]: 12 mins
+            - generic [ref=e1449]:
+              - generic [ref=e1450]:
+                - generic [ref=e1451]: Granny Smith Apple - USA
+                - generic [ref=e1453]: 300 g
+              - generic [ref=e1455]:
+                - generic [ref=e1456]:
+                  - generic [ref=e1457]: ₹145
+                  - generic [ref=e1458]: ₹182
+                - button [ref=e1459]:
+                  - generic [ref=e1460]: ADD
+        - button [ref=e1462] [cursor=pointer]:
+          - generic [ref=e1463]: 22% OFF
+          - generic [ref=e1469]:
+            - generic [ref=e1470]: 12 mins
+            - generic [ref=e1476]:
+              - generic [ref=e1477]:
+                - generic [ref=e1478]: Pomegranate - 1 piece (175-225 g)
+                - generic [ref=e1480]: 175 g
+              - generic [ref=e1482]:
+                - generic [ref=e1483]:
+                  - generic [ref=e1484]: ₹55
+                  - generic [ref=e1485]: ₹71
+                - button [ref=e1486]:
+                  - generic [ref=e1487]: ADD
+        - button [ref=e1489] [cursor=pointer]:
+          - generic [ref=e1490]: 13% OFF
+          - generic [ref=e1496]:
+            - generic [ref=e1497]: 12 mins
+            - generic [ref=e1503]:
+              - generic [ref=e1504]:
+                - generic [ref=e1505]: Sugarcane Cubes
+                - generic [ref=e1507]: 175 g
+              - generic [ref=e1509]:
+                - generic [ref=e1510]:
+                  - generic [ref=e1511]: ₹38
+                  - generic [ref=e1512]: ₹44
+                - button [ref=e1513]:
+                  - generic [ref=e1514]: ADD
+        - button [ref=e1516] [cursor=pointer]:
+          - generic [ref=e1517]: 18% OFF
+          - generic [ref=e1523]:
+            - generic [ref=e1524]: 12 mins
+            - generic [ref=e1530]:
+              - generic [ref=e1531]:
+                - generic [ref=e1532]: Raw Mango (Kacha Aam)
+                - generic [ref=e1534]: 500 g
+              - generic [ref=e1536]:
+                - generic [ref=e1537]:
+                  - generic [ref=e1538]: ₹65
+                  - generic [ref=e1539]: ₹80
+                - button [ref=e1540]:
+                  - generic [ref=e1541]: ADD
+        - button [ref=e1543] [cursor=pointer]:
+          - generic [ref=e1544]: 14% OFF
+          - generic [ref=e1550]:
+            - generic [ref=e1551]: 12 mins
+            - generic [ref=e1557]:
+              - generic [ref=e1558]:
+                - generic [ref=e1559]: Lettuce Mix
+                - generic [ref=e1561]: 100 g
+              - generic [ref=e1563]:
+                - generic [ref=e1564]:
+                  - generic [ref=e1565]: ₹64
+                  - generic [ref=e1566]: ₹75
+                - button [ref=e1567]:
+                  - generic [ref=e1568]: ADD
+        - button [ref=e1570] [cursor=pointer]:
+          - generic [ref=e1571]: 15% OFF
+          - generic [ref=e1577]:
+            - generic [ref=e1578]: 12 mins
+            - generic [ref=e1584]:
+              - generic [ref=e1585]:
+                - generic [ref=e1586]: Button Mushroom
+                - generic [ref=e1588]: 180 g
+              - generic [ref=e1590]:
+                - generic [ref=e1591]:
+                  - generic [ref=e1592]: ₹48
+                  - generic [ref=e1593]: ₹57
+                - button [ref=e1594]:
+                  - generic [ref=e1595]: ADD
+        - button [ref=e1597] [cursor=pointer]:
+          - generic [ref=e1598]: 14% OFF
+          - generic [ref=e1604]:
+            - generic [ref=e1605]: 12 mins
+            - generic [ref=e1611]:
+              - generic [ref=e1612]:
+                - generic [ref=e1613]: Pink Lady Apple - USA
+                - generic [ref=e1615]: 300 g
+              - generic [ref=e1617]:
+                - generic [ref=e1618]:
+                  - generic [ref=e1619]: ₹156
+                  - generic [ref=e1620]: ₹182
+                - button [ref=e1621]:
+                  - generic [ref=e1622]: ADD
+        - button [ref=e1624] [cursor=pointer]:
+          - generic [ref=e1625]: 18% OFF
+          - generic [ref=e1631]:
+            - generic [ref=e1632]: 12 mins
+            - generic [ref=e1638]:
+              - generic [ref=e1639]:
+                - generic [ref=e1640]: Celery
+                - generic [ref=e1642]: 100 g
+              - generic [ref=e1644]:
+                - generic [ref=e1645]:
+                  - generic [ref=e1646]: ₹82
+                  - generic [ref=e1647]: ₹101
+                - button [ref=e1648]:
+                  - generic [ref=e1649]: ADD
+      - button [ref=e1652] [cursor=pointer]:
+        - generic [ref=e1653]:
+          - generic [ref=e1654]: Snack it away
+          - button [ref=e1656]: see all
+    - generic [ref=e1658]:
+      - generic [ref=e1659]: India's last minute app - blinkit
+      - generic [ref=e1660]: +
+  - dialog [ref=e1698]:
+    - generic [ref=e1715]:
+      - generic [ref=e1716]:
+        - generic [ref=e1717]: Select your Location
+        - generic [ref=e1720]:
+          - generic [ref=e1723]:
+            - button [ref=e1724] [cursor=pointer]: R
+            - textbox [active] [ref=e1728]:
+              - /placeholder: search delivery location
+              - text: KIIT Patia
+          - generic [ref=e1729]: Use current location
+      - generic [ref=e1733]:
+        - generic [ref=e1737] [cursor=pointer]:
+          - generic [ref=e1738]: KIIT
+          - generic [ref=e1739]: KIIT Road, Patia, Bhubaneswar, Odisha, India
+        - generic [ref=e1743] [cursor=pointer]:
+          - generic [ref=e1744]: KIIT Campus 14 (Kaladan)
+          - generic [ref=e1745]: IGNOU study centre patia 2101, KIIT Road, Chandaka Industrial Estate, Patia, Bhubaneswar, Odisha, India
+        - generic [ref=e1749] [cursor=pointer]:
+          - generic [ref=e1750]: KIIT Campus 16 (Kangsabati)
+          - generic [ref=e1751]: Prasanti Vihar, Patia, Bhubaneswar, Odisha, India
+        - generic [ref=e1755] [cursor=pointer]:
+          - generic [ref=e1756]: KIIT Road
+          - generic [ref=e1757]: Chandaka Industrial Estate, Bajrang Vihar, Patia, Bhubaneswar, Odisha, India
+        - generic [ref=e1761] [cursor=pointer]:
+          - generic [ref=e1762]: Chintan Administrative Office
+          - generic [ref=e1763]: KIIT Road, Chandaka Industrial Estate, K I I T University, Patia, Bhubaneswar, Odisha, India

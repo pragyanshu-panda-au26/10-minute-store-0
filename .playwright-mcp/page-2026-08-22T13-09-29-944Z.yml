@@ -1,0 +1,106 @@
+- generic [ref=f35e2705]:
+  - generic [ref=f35e2707]:
+    - generic [ref=f35e2708]:
+      - generic [ref=f35e2709] [cursor=pointer]: œ
+      - generic [ref=f35e2710]: My Cart
+    - generic [ref=f35e2711] [cursor=pointer]:
+      - generic [ref=f35e2712]: r
+      - generic [ref=f35e2713]: Share
+  - generic [ref=f35e2714]:
+    - generic [ref=f35e2718]:
+      - generic [ref=f35e2719]: Your total savings
+      - generic [ref=f35e2721]: ₹231
+    - generic [ref=f35e2732]:
+      - generic [ref=f35e2733]: Delivery in 8 minutes
+      - generic [ref=f35e2734]: Shipment of 3 items
+    - generic [ref=f35e2744]:
+      - generic [ref=f35e2745]: Storia Tender Concentrate Coconut Water
+      - generic [ref=f35e2746]: 1 ltr
+      - generic [ref=f35e2748]:
+        - generic [ref=f35e2749]:
+          - generic [ref=f35e2750]: ₹99
+          - generic [ref=f35e2751]: ₹178
+        - generic [ref=f35e2753] [cursor=pointer]:
+          - generic [ref=f35e2754]: U
+          - text: "1"
+          - generic [ref=f35e2756]: "5"
+    - generic [ref=f35e2766]:
+      - generic [ref=f35e2767]: OVO Farm On-Day White Eggs
+      - generic [ref=f35e2768]: 30 pcs
+      - generic [ref=f35e2770]:
+        - generic [ref=f35e2771]:
+          - generic [ref=f35e2772]: ₹239
+          - generic [ref=f35e2773]: ₹339
+        - generic [ref=f35e2775] [cursor=pointer]:
+          - generic [ref=f35e2776]: U
+          - text: "1"
+          - generic [ref=f35e2778]: "5"
+    - generic [ref=f35e2788]:
+      - generic [ref=f35e2789]: Whole Farm Premium American Almonds (100 g)
+      - generic [ref=f35e2790]: 100 g
+      - generic [ref=f35e2792]:
+        - generic [ref=f35e2793]:
+          - generic [ref=f35e2794]: ₹138
+          - generic [ref=f35e2795]: ₹190
+        - generic [ref=f35e2797] [cursor=pointer]:
+          - generic [ref=f35e2798]: U
+          - text: "1"
+          - generic [ref=f35e2800]: "5"
+    - generic [ref=f35e2805]:
+      - generic [ref=f35e2806]: Bill details
+      - generic [ref=f35e2813]:
+        - generic [ref=f35e2815]:
+          - img [ref=f35e2817]: 
+          - generic [ref=f35e2818]: Items total
+          - generic [ref=f35e2820]: Saved ₹231
+        - generic [ref=f35e2822]: ₹707 ₹476
+      - generic [ref=f35e2827]:
+        - generic [ref=f35e2829]:
+          - img [ref=f35e2831]: 
+          - generic [ref=f35e2832]: Delivery charge
+          - img [ref=f35e2834] [cursor=pointer]: 
+        - generic [ref=f35e2835]: ₹12 FREE
+      - generic [ref=f35e2840]:
+        - generic [ref=f35e2842]:
+          - img [ref=f35e2844]: 
+          - generic [ref=f35e2845]: Handling charge
+          - img [ref=f35e2847] [cursor=pointer]: 
+        - generic [ref=f35e2848]: ₹2
+      - generic [ref=f35e2853]:
+        - generic [ref=f35e2855]:
+          - generic [ref=f35e2856]: Grand total
+          - img [ref=f35e2858] [cursor=pointer]: 
+        - generic [ref=f35e2859]: ₹478
+    - generic [ref=f35e2869]:
+      - generic [ref=f35e2870]: Your total savings
+      - generic [ref=f35e2872]: ₹231
+    - generic [ref=f35e2876]:
+      - generic [ref=f35e2877]: Cancellation Policy
+      - generic [ref=f35e2878]: Orders cannot be cancelled once packed for delivery. In case of unexpected delays, a refund will be provided, if applicable.
+    - generic [ref=f35e2884] [cursor=pointer]:
+      - generic [ref=f35e2885]:
+        - generic [ref=f35e2886]: ₹478
+        - generic [ref=f35e2887]: TOTAL
+      - generic [ref=f35e2888]: Login to Proceed
+      - generic [ref=f35e2889]: f
+- dialog [ref=f35e2891]:
+  - button [ref=f35e2892] [cursor=pointer]: "&"
+  - generic [ref=f35e2900]:
+    - generic [ref=f35e2906]:
+      - generic [ref=f35e2907]: India's last minute app
+      - generic [ref=f35e2908]: Log in or Sign up
+    - generic [ref=f35e2909]:
+      - generic [ref=f35e2910]:
+        - textbox [active] [ref=f35e2911]:
+          - /placeholder: Enter mobile number
+        - text: "+91"
+      - button: Continue
+    - generic [ref=f35e2912]:
+      - text: By continuing, you agree to our
+      - link [ref=f35e2913] [cursor=pointer]:
+        - /url: /terms
+        - text: Terms of service
+      - text: "&"
+      - link [ref=f35e2914] [cursor=pointer]:
+        - /url: /privacy
+        - text: Privacy policy

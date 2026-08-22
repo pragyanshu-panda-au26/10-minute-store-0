@@ -1,0 +1,109 @@
+- generic [ref=f24e3]:
+  - banner [ref=f24e5]:
+    - generic [ref=f24e6]:
+      - generic [ref=f24e7]: œ
+      - generic [ref=f24e11] [cursor=pointer]:
+        - generic [ref=f24e12]: Delivery in 15 minutes
+        - generic [ref=f24e13]: KIIT Rd, Patia, Bhubaneswar, Odisha 751024, India
+    - generic [ref=f24e17]: "!"
+  - generic [ref=f24e21]:
+    - generic [ref=f24e34]:
+      - generic [ref=f24e35]: 0 items
+      - generic [ref=f24e36]: ₹ 0
+    - generic [ref=f24e38]: View Cart
+  - generic [ref=f24e45]:
+    - generic [ref=f24e48]:
+      - heading "Beauty & Cosmetics" [level=1] [ref=f24e50]
+      - generic [ref=f24e54]:
+        - button "Body & Skin Care" [ref=f24e57] [cursor=pointer]
+        - button "Eye Makeup" [ref=f24e66] [cursor=pointer]
+        - button "Face Care" [ref=f24e75] [cursor=pointer]
+        - button "Face Cosmetics" [ref=f24e84] [cursor=pointer]
+        - button "Fragrance" [ref=f24e94] [cursor=pointer]
+        - button "Gift & Kits" [ref=f24e103] [cursor=pointer]
+        - button "Hair Styling & Treatment" [ref=f24e112] [cursor=pointer]
+        - button "Lip & Eye Care" [ref=f24e121] [cursor=pointer]
+        - button "Lip Cosmetics" [ref=f24e129] [cursor=pointer]
+        - button "Nail Cosmetics" [ref=f24e137] [cursor=pointer]
+        - button "Tools & Accessories" [ref=f24e145] [cursor=pointer]
+      - generic [ref=f24e165]:
+        - generic [ref=f24e166]:
+          - heading [level=2] [ref=f24e167]:
+            - text: Buy Face Cosmetics at
+            - link "Online grocery store" [ref=f24e168] [cursor=pointer]:
+              - /url: /
+            - text: in india
+          - generic [ref=f24e169]: Are you super fond of online shopping because you hate crowded supermarkets? Now you don't need to be worry as Blinkit is delivering Face Cosmetics at your doorstep with easy returns for your complete peace of mind.
+          - generic [ref=f24e170]: Get Face Cosmetics delivered to your home. you can check Face Cosmetics price before buying.
+          - generic [ref=f24e172]: We deliver Face Cosmetics at Delhi, Gurgaon, Kolkata, Lucknow, Mumbai, Bengaluru, Ahmedabad, Noida, Ghaziabad, Faridabad, Hyderabad, Jaipur, Pune, Chennai, Chandigarh, Ludhiana, Vadodara, Meerut, Kanpur, Panchkula, Kharar, Amritsar, Bhopal, Indore, Zirakpur, Jalandhar, Dehradun, Agra, Mohali, Goa, Patiala, Sonipat, Bhiwadi, Kota, Rohtak, Bahadurgarh, Haridwar, Bathinda, Kochi, Jodhpur
+        - generic [ref=f24e173]:
+          - heading "Face Cosmetics Price List" [level=2] [ref=f24e174]
+          - table [ref=f24e175]:
+            - row [ref=f24e176]:
+              - columnheader "Face Cosmetics" [ref=f24e177]
+              - columnheader "Price" [ref=f24e178]
+            - row [ref=f24e179]:
+              - cell [ref=f24e180]:
+                - text: "1."
+                - link "MARS Cosmetics Wet Makeup Remover Wipes" [ref=f24e181] [cursor=pointer]:
+                  - /url: /prn/mars-cosmetics-wet-makeup-remover-wipes/prid/549562
+              - cell "Rs.109" [ref=f24e182]
+            - row [ref=f24e183]:
+              - cell [ref=f24e184]:
+                - text: "2."
+                - link "White Tone Pearl Loose Face Powder" [ref=f24e185] [cursor=pointer]:
+                  - /url: /prn/white-tone-pearl-loose-face-powder/prid/496278
+              - cell "Rs.110" [ref=f24e186]
+            - row [ref=f24e187]:
+              - cell [ref=f24e188]:
+                - text: "3."
+                - link "GUBB Non Woven Cotton Pads" [ref=f24e189] [cursor=pointer]:
+                  - /url: /prn/gubb-non-woven-cotton-pads/prid/668165
+              - cell "Rs.85" [ref=f24e190]
+            - row [ref=f24e191]:
+              - cell [ref=f24e192]:
+                - text: "4."
+                - link "GUBB Hypoallergenic 100% White Cotton Balls" [ref=f24e193] [cursor=pointer]:
+                  - /url: /prn/gubb-hypoallergenic-100-white-cotton-balls/prid/289344
+              - cell "Rs.61" [ref=f24e194]
+            - row [ref=f24e195]:
+              - cell [ref=f24e196]:
+                - text: "5."
+                - link "MARS Cosmetics Trend Setting Loose Face Powder (01-Matte Translucent)" [ref=f24e197] [cursor=pointer]:
+                  - /url: /prn/mars-cosmetics-trend-setting-loose-face-powder-01-matte-translucent/prid/544729
+              - cell "Rs.251" [ref=f24e198]
+            - row [ref=f24e199]:
+              - cell [ref=f24e200]:
+                - text: "6."
+                - link "Garnier Skin Naturals Cleansing Micellar Water" [ref=f24e201] [cursor=pointer]:
+                  - /url: /prn/garnier-skin-naturals-cleansing-micellar-water/prid/549136
+              - cell "Rs.257" [ref=f24e202]
+            - row [ref=f24e203]:
+              - cell [ref=f24e204]:
+                - text: "7."
+                - link "Insight Cosmetics Pro Concealer Palette (Shade-0)" [ref=f24e205] [cursor=pointer]:
+                  - /url: /prn/insight-cosmetics-pro-concealer-palette-shade-0/prid/506488
+              - cell "Rs.243" [ref=f24e206]
+            - row [ref=f24e207]:
+              - cell [ref=f24e208]:
+                - text: "8."
+                - link "Tulips White 100% Cotton Balls" [ref=f24e209] [cursor=pointer]:
+                  - /url: /prn/tulips-white-100-cotton-balls/prid/656206
+              - cell "Rs.59" [ref=f24e210]
+            - row [ref=f24e211]:
+              - cell [ref=f24e212]:
+                - text: "9."
+                - link "RENEE Makeup Fix Setting Spray" [ref=f24e213] [cursor=pointer]:
+                  - /url: /prn/renee-makeup-fix-setting-spray/prid/555989
+              - cell "Rs.375" [ref=f24e214]
+            - row [ref=f24e215]:
+              - cell [ref=f24e216]:
+                - text: "10."
+                - link "Tulips Cotton Pads" [ref=f24e217] [cursor=pointer]:
+                  - /url: /prn/tulips-cotton-pads/prid/491455
+              - cell "Rs.162" [ref=f24e218]
+          - emphasis [ref=f24e219]: This data was last updated on 8/22/2026
+    - generic [ref=f24e220]: U
+  - generic [ref=f24e223]:
+    - generic [ref=f24e224]: India's last minute app - blinkit
+    - generic [ref=f24e225]: +

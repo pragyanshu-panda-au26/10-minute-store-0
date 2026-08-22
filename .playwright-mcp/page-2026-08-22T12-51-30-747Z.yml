@@ -1,0 +1,173 @@
+- generic [ref=e138]:
+  - banner [ref=e140]:
+    - generic [ref=e141]:
+      - generic [ref=e3285]: œ
+      - generic [ref=e143] [cursor=pointer]:
+        - generic [ref=e144]: Delivery in 9 minutes
+        - generic [ref=e145]: KIIT Rd, Patia, Bhubaneswar, Odisha 751024, India
+    - generic [ref=e164]: "!"
+  - generic [ref=e170]:
+    - generic [ref=e183]:
+      - generic [ref=e184]: 0 items
+      - generic [ref=e185]: ₹ 0
+    - generic [ref=e187]: View Cart
+  - generic [ref=e4437]:
+    - generic [ref=e4438]:
+      - generic [ref=e4439]: 3 pcs
+      - generic [ref=e4440]:
+        - generic [ref=e4441]: ₹36
+        - generic [ref=e4442]: MRP ₹43
+        - generic [ref=e4444]: 16% OFF
+      - generic [ref=e4446]: Inclusive of all taxes
+    - button "Add to cart" [ref=e4448] [cursor=pointer]
+  - generic [ref=e4450]:
+    - generic [ref=e4453]:
+      - generic [ref=e4454]: 9 mins
+      - generic [ref=e4462]:
+        - button "← Previous" [ref=e4463] [cursor=pointer]
+        - generic [ref=e4465]:
+          - button [ref=e4470] [cursor=pointer]
+          - button [ref=e4477] [cursor=pointer]
+          - button [ref=e4484] [cursor=pointer]
+        - button "→ Next" [ref=e4486] [cursor=pointer]
+        - list [ref=e4487]:
+          - listitem [ref=e4488] [cursor=pointer]:
+            - button "• 1" [ref=e4489]
+          - listitem [ref=e4490] [cursor=pointer]:
+            - button "• 2" [ref=e4491]
+          - listitem [ref=e4492] [cursor=pointer]:
+            - button "• 3" [ref=e4493]
+    - button "Banana (Kadali)" [ref=e4496] [cursor=pointer]
+    - button [active] [ref=e4505] [cursor=pointer]:
+      - button "View product details" [ref=e4507]:
+        - button [ref=e4509]:
+          - img [ref=e4510]: 
+    - button "Top products in this category" [ref=e4513] [cursor=pointer]
+    - generic [ref=e4522]:
+      - button "ADD 500 g Yellaki Banana (Kadali) 9 mins 17% OFF ₹55 MRP ₹67" [ref=e4524] [cursor=pointer]:
+        - button "ADD" [ref=e4530]
+        - generic [ref=e4532]: 500 g
+        - generic [ref=e4535]: Yellaki Banana (Kadali)
+        - generic [ref=e4536]: 9 mins
+        - generic: 17% OFF
+        - generic [ref=e4545]:
+          - generic [ref=e4546]: ₹55
+          - generic [ref=e4547]: MRP ₹67
+      - button "ADD 350 g Indian Guava (Pijuli) 9 mins 22% OFF ₹66 MRP ₹85" [ref=e4550] [cursor=pointer]:
+        - button "ADD" [ref=e4556]
+        - generic [ref=e4558]: 350 g
+        - generic [ref=e4561]: Indian Guava (Pijuli)
+        - generic [ref=e4562]: 9 mins
+        - generic: 22% OFF
+        - generic [ref=e4571]:
+          - generic [ref=e4572]: ₹66
+          - generic [ref=e4573]: MRP ₹85
+      - button "ADD 500 g Pear Nashpati (Naspati) 9 mins 12% OFF ₹68 MRP ₹78" [ref=e4576] [cursor=pointer]:
+        - button "ADD" [ref=e4582]
+        - generic [ref=e4584]: 500 g
+        - generic [ref=e4587]: Pear Nashpati (Naspati)
+        - generic [ref=e4588]: 9 mins
+        - generic: 12% OFF
+        - generic [ref=e4597]:
+          - generic [ref=e4598]: ₹68
+          - generic [ref=e4599]: MRP ₹78
+      - button "ADD 1 pc Brown Coconut (Nadia) 9 mins 21% OFF ₹45 MRP ₹57" [ref=e4602] [cursor=pointer]:
+        - button "ADD" [ref=e4608]
+        - generic [ref=e4610]: 1 pc
+        - generic [ref=e4613]: Brown Coconut (Nadia)
+        - generic [ref=e4614]: 9 mins
+        - generic: 21% OFF
+        - generic [ref=e4623]:
+          - generic [ref=e4624]: ₹45
+          - generic [ref=e4625]: MRP ₹57
+      - button "ADD 500 g Pomegranate - Medium (500g - 700 g) (Bedana) 9 mins 19% OFF ₹136 MRP ₹168" [ref=e4628] [cursor=pointer]:
+        - button "ADD" [ref=e4634]
+        - generic [ref=e4636]: 500 g
+        - generic [ref=e4639]: Pomegranate - Medium (500g - 700 g) (Bedana)
+        - generic [ref=e4640]: 9 mins
+        - generic: 19% OFF
+        - generic [ref=e4649]:
+          - generic [ref=e4650]: ₹136
+          - generic [ref=e4651]: MRP ₹168
+      - button "ADD 500 g Grapes Thompson (Angoor) 9 mins 22% OFF ₹115 MRP ₹149" [ref=e4654] [cursor=pointer]:
+        - button "ADD" [ref=e4660]
+        - generic [ref=e4662]: 500 g
+        - generic [ref=e4665]: Grapes Thompson (Angoor)
+        - generic [ref=e4666]: 9 mins
+        - generic: 22% OFF
+        - generic [ref=e4675]:
+          - generic [ref=e4676]: ₹115
+          - generic [ref=e4677]: MRP ₹149
+    - button [ref=e4681] [cursor=pointer]:
+      - generic [ref=e4687]:
+        - text: See all products
+        - button [ref=e4688]:
+          - img [ref=e4689]: 
+    - button "People also bought" [ref=e4692] [cursor=pointer]
+    - generic [ref=e4701]:
+      - button "Imported ADD Very Sweet Red Delicious Apple - Imported (Sau) 9 mins 19% OFF ₹134 MRP ₹166" [ref=e4703] [cursor=pointer]:
+        - generic [ref=e4705]:
+          - generic [ref=e4706]: Imported
+          - button "ADD" [ref=e4711]
+        - generic [ref=e4713]: Very Sweet
+        - generic [ref=e4716]: Red Delicious Apple - Imported (Sau)
+        - generic [ref=e4717]: 9 mins
+        - generic: 19% OFF
+        - generic [ref=e4725]:
+          - generic [ref=e4726]: ₹134
+          - generic [ref=e4727]: MRP ₹166
+      - button "ADD 250 g Mini Orange 250 g (Narangi) 9 mins 17% OFF ₹94 MRP ₹114" [ref=e4730] [cursor=pointer]:
+        - button "ADD" [ref=e4735]
+        - generic [ref=e4737]: 250 g
+        - generic [ref=e4740]: Mini Orange 250 g (Narangi)
+        - generic [ref=e4741]: 9 mins
+        - generic: 17% OFF
+        - generic [ref=e4749]:
+          - generic [ref=e4750]: ₹94
+          - generic [ref=e4751]: MRP ₹114
+      - button "ADD 500 g Pomegranate - Medium (500g - 700 g) (Bedana) 9 mins 19% OFF ₹136 MRP ₹168" [ref=e4754] [cursor=pointer]:
+        - button "ADD" [ref=e4759]
+        - generic [ref=e4761]: 500 g
+        - generic [ref=e4764]: Pomegranate - Medium (500g - 700 g) (Bedana)
+        - generic [ref=e4765]: 9 mins
+        - generic: 19% OFF
+        - generic [ref=e4773]:
+          - generic [ref=e4774]: ₹136
+          - generic [ref=e4775]: MRP ₹168
+      - button "Imported ADD 200 g Red-Globe Grapes (Angoor) 9 mins 12% OFF ₹135 MRP ₹155" [ref=e4778] [cursor=pointer]:
+        - generic [ref=e4780]:
+          - generic [ref=e4781]: Imported
+          - button "ADD" [ref=e4786]
+        - generic [ref=e4788]: 200 g
+        - generic [ref=e4791]: Red-Globe Grapes (Angoor)
+        - generic [ref=e4792]: 9 mins
+        - generic: 12% OFF
+        - generic [ref=e4800]:
+          - generic [ref=e4801]: ₹135
+          - generic [ref=e4802]: MRP ₹155
+      - button "ADD 350 g Indian Guava (Pijuli) 9 mins 22% OFF ₹66 MRP ₹85" [ref=e4805] [cursor=pointer]:
+        - button "ADD" [ref=e4810]
+        - generic [ref=e4812]: 350 g
+        - generic [ref=e4815]: Indian Guava (Pijuli)
+        - generic [ref=e4816]: 9 mins
+        - generic: 22% OFF
+        - generic [ref=e4824]:
+          - generic [ref=e4825]: ₹66
+          - generic [ref=e4826]: MRP ₹85
+      - button "ADD 500 g Green Cucumber (Kakudi) 9 mins 16% OFF ₹31 MRP ₹37" [ref=e4829] [cursor=pointer]:
+        - button "ADD" [ref=e4834]
+        - generic [ref=e4836]: 500 g
+        - generic [ref=e4839]: Green Cucumber (Kakudi)
+        - generic [ref=e4840]: 9 mins
+        - generic: 16% OFF
+        - generic [ref=e4848]:
+          - generic [ref=e4849]: ₹31
+          - generic [ref=e4850]: MRP ₹37
+    - button [ref=e4854] [cursor=pointer]:
+      - generic [ref=e4860]:
+        - text: See all products
+        - button [ref=e4861]:
+          - img [ref=e4862]: 
+  - generic [ref=e1658]:
+    - generic [ref=e1659]: India's last minute app - blinkit
+    - generic [ref=e1660]: +

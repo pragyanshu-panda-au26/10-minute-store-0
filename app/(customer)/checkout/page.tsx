@@ -46,7 +46,10 @@ export default function CheckoutPage() {
   const [error, setError] = useState<string | null>(null);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
-  const [tip, setTip] = useState(0);
+  // Tip lives on /cart now (Blinkit-parity: one surface, one place). We
+  // read it out of the cart store below so switching cart→checkout doesn't
+  // reset it, and pass showTip={false} to CheckoutBillCard so the strip
+  // doesn't ask the customer twice.
   const [deliveryNotes, setDeliveryNotes] = useState("");
   // null = deliver now / instant; ISO string = scheduled slot start
   const [scheduledFor, setScheduledFor] = useState<string | null>(null);
@@ -59,8 +62,16 @@ export default function CheckoutPage() {
     step: isSubmitting ? "Payment Gateway" : "Delivery Address Selection",
   });
 
-  const { items, getTotalItems, getTotalPrice, getDiscountAmount, clearCart, appliedPromo } =
-    useCartStore();
+  const {
+    items,
+    getTotalItems,
+    getTotalPrice,
+    getDiscountAmount,
+    clearCart,
+    appliedPromo,
+    tip,
+    setTip,
+  } = useCartStore();
   const { isLoggedIn, hydrating, hydrateSession, profile, getActiveAddress } = useUserStore();
   // Peak-end moment for the notification ask — post-order success is when
   // the customer most wants to hear about their delivery. Hook is safe to
@@ -426,7 +437,10 @@ export default function CheckoutPage() {
               instantEta="10 min"
             />
 
-            {/* Blinkit-style: tip + delivery instructions + bill breakdown */}
+            {/* Delivery instructions + bill breakdown. Tip is hidden here —
+                it's picked on /cart and read from useCartStore so the customer
+                isn't asked twice. `tip` is still forwarded so the breakdown
+                stays consistent, and setTip is a safe no-op fallback. */}
             <CheckoutBillCard
               bill={{
                 subtotal,
@@ -439,6 +453,7 @@ export default function CheckoutPage() {
               onTipChange={setTip}
               notes={deliveryNotes}
               onNotesChange={setDeliveryNotes}
+              showTip={false}
             />
 
             {/* Payment options */}

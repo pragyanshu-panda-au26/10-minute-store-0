@@ -1,0 +1,151 @@
+- generic [ref=f9e1]:
+  - generic [ref=f9e3]:
+    - banner [ref=f9e5]:
+      - generic [ref=f9e6]:
+        - generic [ref=f9e7]: œ
+        - generic [ref=f9e11] [cursor=pointer]:
+          - generic [ref=f9e12]: Delivery in 11 minutes
+          - generic [ref=f9e13]: KIIT Rd, Patia, Bhubaneswar, Odisha 751024, India
+      - generic [ref=f9e17]: "!"
+    - generic [ref=f9e21]:
+      - generic [ref=f9e34]:
+        - generic [ref=f9e35]: 0 items
+        - generic [ref=f9e36]: ₹ 0
+      - generic [ref=f9e38]: View Cart
+    - generic [ref=f9e45]:
+      - generic [ref=f9e48]:
+        - heading [level=1] [ref=f9e50]: Munchies
+        - generic [ref=f9e54]:
+          - button [ref=f9e57] [cursor=pointer]:
+            - generic [ref=f9e62]: Chips & Crisps
+          - button [ref=f9e65] [cursor=pointer]:
+            - generic [ref=f9e70]: Rusks & Wafers
+          - button [ref=f9e73] [cursor=pointer]:
+            - generic [ref=f9e78]: Energy Bars
+          - button [ref=f9e81] [cursor=pointer]:
+            - generic [ref=f9e86]: Nachos
+          - button [ref=f9e89] [cursor=pointer]:
+            - generic [ref=f9e94]: Bhujia & Mixtures
+          - button [ref=f9e98] [cursor=pointer]:
+            - generic [ref=f9e103]: Popcorn
+          - button [ref=f9e106] [cursor=pointer]:
+            - generic [ref=f9e111]: Namkeen Snacks
+          - button [ref=f9e114] [cursor=pointer]:
+            - generic [ref=f9e119]: Makhana & More
+          - button [ref=f9e122] [cursor=pointer]:
+            - generic [ref=f9e127]: Papad & Fryums
+          - button [ref=f9e130] [cursor=pointer]:
+            - generic [ref=f9e135]: Imported Snacks
+          - button [ref=f9e138] [cursor=pointer]:
+            - generic [ref=f9e143]: Granola
+          - button [ref=f9e146] [cursor=pointer]:
+            - generic [ref=f9e151]: Munchies Gift Packs
+        - generic [ref=f9e166]:
+          - generic [ref=f9e167]:
+            - heading [level=2] [ref=f9e168]:
+              - text: Buy Bhujia & Mixtures at
+              - link [ref=f9e169] [cursor=pointer]:
+                - /url: /
+                - text: Online grocery store
+              - text: in india
+            - generic [ref=f9e170]: Are you super fond of online shopping because you hate crowded supermarkets? Now you don't need to be worry as Blinkit is delivering Bhujia & Mixtures at your doorstep with easy returns for your complete peace of mind.
+            - generic [ref=f9e171]: Get Bhujia & Mixtures delivered to your home. you can check Bhujia & Mixtures price before buying.
+            - generic [ref=f9e173]: We deliver Bhujia & Mixtures at Delhi, Gurgaon, Kolkata, Lucknow, Mumbai, Bengaluru, Ahmedabad, Noida, Ghaziabad, Faridabad, Hyderabad, Jaipur, Pune, Chennai, Chandigarh, Ludhiana, Vadodara, Meerut, Kanpur, Panchkula, Kharar, Amritsar, Bhopal, Indore, Zirakpur, Jalandhar, Dehradun, Agra, Mohali, Goa, Patiala, Sonipat, Bhiwadi, Kota, Rohtak, Bahadurgarh, Haridwar, Bathinda, Kochi, Jodhpur
+          - generic [ref=f9e174]:
+            - heading [level=2] [ref=f9e175]: Bhujia & Mixtures Price List
+            - table [ref=f9e176]:
+              - row [ref=f9e177]:
+                - columnheader [ref=f9e178]: Bhujia & Mixtures
+                - columnheader [ref=f9e179]: Price
+              - row [ref=f9e180]:
+                - cell [ref=f9e181]:
+                  - text: "1."
+                  - link [ref=f9e182] [cursor=pointer]:
+                    - /url: /prn/sweet-karam-coffee-madras-mixture-namkeen-snacks/prid/547731
+                    - text: Sweet Karam Coffee Madras Mixture Namkeen Snacks
+                - cell [ref=f9e183]: Rs.86
+              - row [ref=f9e184]:
+                - cell [ref=f9e185]:
+                  - text: "2."
+                  - link [ref=f9e186] [cursor=pointer]:
+                    - /url: /prn/haldirams-nagpur-aloo-bhujia/prid/35375
+                    - text: Haldiram's Nagpur Aloo Bhujia
+                - cell [ref=f9e187]: Rs.60
+              - row [ref=f9e188]:
+                - cell [ref=f9e189]:
+                  - text: "3."
+                  - link [ref=f9e190] [cursor=pointer]:
+                    - /url: /prn/haldirams-prabhuji-bhujia/prid/610094
+                    - text: Haldiram's Prabhuji Bhujia
+                - cell [ref=f9e191]: Rs.63
+              - row [ref=f9e192]:
+                - cell [ref=f9e193]:
+                  - text: "4."
+                  - link [ref=f9e194] [cursor=pointer]:
+                    - /url: /prn/lets-try-namkeen-combo/prid/524535
+                    - text: Let's Try Namkeen Combo
+                - cell [ref=f9e195]: Rs.60
+              - row [ref=f9e196]:
+                - cell [ref=f9e197]:
+                  - text: "5."
+                  - link [ref=f9e198] [cursor=pointer]:
+                    - /url: /prn/lets-try-signature-manglori-mixture-namkeen/prid/782239
+                    - text: Let's Try Signature Manglori Mixture Namkeen
+                - cell [ref=f9e199]: Rs.51
+              - row [ref=f9e200]:
+                - cell [ref=f9e201]:
+                  - text: "6."
+                  - link [ref=f9e202] [cursor=pointer]:
+                    - /url: /prn/udupi-munch-garlic-mixture-namkeen/prid/443281
+                    - text: Udupi Munch Garlic Mixture Namkeen
+                - cell [ref=f9e203]: Rs.44
+              - row [ref=f9e204]:
+                - cell [ref=f9e205]:
+                  - text: "7."
+                  - link [ref=f9e206] [cursor=pointer]:
+                    - /url: /prn/crax-aloo-bhujia-namkeen-snacks/prid/490550
+                    - text: Crax Aloo Bhujia Namkeen Snacks
+                - cell [ref=f9e207]: Rs.45
+              - row [ref=f9e208]:
+                - cell [ref=f9e209]:
+                  - text: "8."
+                  - link [ref=f9e210] [cursor=pointer]:
+                    - /url: /prn/haldirams-prabhuji-jhal-chanachur-mixture-namkeen/prid/142592
+                    - text: Haldiram's Prabhuji Jhal Chanachur Mixture Namkeen
+                - cell [ref=f9e211]: Rs.109
+              - row [ref=f9e212]:
+                - cell [ref=f9e213]:
+                  - text: "9."
+                  - link [ref=f9e214] [cursor=pointer]:
+                    - /url: /prn/haldirams-nagpur-sev-bhujia/prid/17149
+                    - text: Haldiram's Nagpur Sev Bhujia
+                - cell [ref=f9e215]: Rs.120
+              - row [ref=f9e216]:
+                - cell [ref=f9e217]:
+                  - text: "10."
+                  - link [ref=f9e218] [cursor=pointer]:
+                    - /url: /prn/haldirams-prabhuji-bhujia/prid/68266
+                    - text: Haldiram's Prabhuji Bhujia
+                - cell [ref=f9e219]: Rs.119
+            - emphasis [ref=f9e220]: This data was last updated on 8/22/2026
+      - generic [ref=f9e221]: U
+    - generic [ref=f9e224]:
+      - generic [ref=f9e225]: India's last minute app - blinkit
+      - generic [ref=f9e226]: +
+  - dialog [active] [ref=f9e228]:
+    - generic [ref=f9e233]:
+      - generic [ref=f9e236]:
+        - generic [ref=f9e239]: Get the blinkit app for
+        - generic [ref=f9e240]:
+          - generic [ref=f9e241]:
+            - generic [ref=f9e242]: Better Experience
+            - generic [ref=f9e243]: Live tracking•Exclusive offers
+          - generic [ref=f9e244]:
+            - generic [ref=f9e245]: App exclusive features
+            - generic [ref=f9e246]: INCLUDING GIFT Packaging
+          - generic [ref=f9e247]:
+            - generic [ref=f9e248]: Free delivery
+            - generic [ref=f9e249]: On first 10 orders
+      - generic [ref=f9e250]:
+        - generic [ref=f9e251]: Download the app now
+        - generic [ref=f9e252]: Continue on web

@@ -1,0 +1,19 @@
+- main [ref=f77e3]:
+  - generic [ref=f77e5]:
+    - generic [ref=f77e6]:
+      - generic [ref=f77e7]: 10m
+      - heading "Owner Console" [level=1] [ref=f77e8]
+      - paragraph [ref=f77e9]: Sign in with your admin email & password.
+    - generic [ref=f77e10]:
+      - generic [ref=f77e11]: Email
+      - textbox "admin@satyug.local" [ref=f77e16] [cursor=pointer]
+    - generic [ref=f77e17]:
+      - generic [ref=f77e18]: Password
+      - textbox "Your password" [ref=f77e23] [cursor=pointer]
+    - button "Sign in" [ref=f77e24] [cursor=pointer]
+    - paragraph [ref=f77e28]:
+      - text: Access is restricted. All activity is logged. Set a strong password via
+      - code [ref=f77e29]: ADMIN_SEED_PASSWORD
+      - text: in your
+      - code [ref=f77e30]: .env
+      - text: .

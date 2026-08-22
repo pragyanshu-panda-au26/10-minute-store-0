@@ -1,0 +1,521 @@
+- generic [ref=f27e3]:
+  - banner [ref=f27e5]:
+    - generic [ref=f27e6]:
+      - generic [ref=f27e7]: œ
+      - generic [ref=f27e11] [cursor=pointer]:
+        - generic [ref=f27e12]: Delivery in 15 minutes
+        - generic [ref=f27e13]: KIIT Rd, Patia, Bhubaneswar, Odisha 751024, India
+    - generic [ref=f27e17]: "!"
+  - generic [ref=f27e21]:
+    - generic [ref=f27e34]:
+      - generic [ref=f27e35]: 0 items
+      - generic [ref=f27e36]: ₹ 0
+    - generic [ref=f27e38]: View Cart
+  - generic [ref=f27e45]:
+    - generic [ref=f27e48]:
+      - heading "Tea, Coffee & Milk Drinks" [level=1] [ref=f27e50]
+      - generic [ref=f27e52]:
+        - generic [ref=f27e54]:
+          - button "Tea" [ref=f27e57] [cursor=pointer]
+          - button "Coffee" [ref=f27e67] [cursor=pointer]
+          - button "Milk Drinks" [ref=f27e76] [cursor=pointer]
+          - button "Green & Flavoured Tea" [ref=f27e85] [cursor=pointer]
+          - button "Herbal Drinks" [ref=f27e94] [cursor=pointer]
+          - button "Hot Chocolate" [ref=f27e103] [cursor=pointer]
+          - button "Energy Drinks" [ref=f27e112] [cursor=pointer]
+          - button "Lassi, Shakes & More" [ref=f27e121] [cursor=pointer]
+          - button "Cold Coffee & Ice Tea" [ref=f27e129] [cursor=pointer]
+          - button "Tea & Coffee Add-Ons" [ref=f27e137] [cursor=pointer]
+          - button "Lactose Free Drink" [ref=f27e145] [cursor=pointer]
+          - button "Herbal Infusion" [ref=f27e153] [cursor=pointer]
+          - button "Imported Tea & Coffee" [ref=f27e161] [cursor=pointer]
+        - generic [ref=f27e169]:
+          - button "16% OFF 15 mins Banana (Kadali) 3 pcs ₹36 ₹43 ADD" [ref=f27e171] [cursor=pointer]:
+            - generic [ref=f27e172]: 16% OFF
+            - generic [ref=f27e179]:
+              - generic [ref=f27e180]: 15 mins
+              - generic [ref=f27e187]:
+                - generic [ref=f27e188]:
+                  - generic [ref=f27e189]: Banana (Kadali)
+                  - generic [ref=f27e191]: 3 pcs
+                - generic [ref=f27e193]:
+                  - generic [ref=f27e194]:
+                    - generic [ref=f27e195]: ₹36
+                    - generic [ref=f27e196]: ₹43
+                  - button "ADD" [ref=f27e198]
+          - button "23% OFF 15 mins Potato (Aloo) 1 kg ₹20 ₹26 ADD 2 options" [ref=f27e201] [cursor=pointer]:
+            - generic [ref=f27e202]: 23% OFF
+            - generic [ref=f27e209]:
+              - generic [ref=f27e210]: 15 mins
+              - generic [ref=f27e217]:
+                - generic [ref=f27e218]:
+                  - generic [ref=f27e219]: Potato (Aloo)
+                  - generic [ref=f27e221]: 1 kg
+                - generic [ref=f27e223]:
+                  - generic [ref=f27e224]:
+                    - generic [ref=f27e225]: ₹20
+                    - generic [ref=f27e226]: ₹26
+                  - button "ADD 2 options" [ref=f27e228]:
+                    - generic [ref=f27e229]: ADD
+                    - generic [ref=f27e230]: 2 options
+          - button "20% OFF 15 mins Onion (Pyaz) 1 kg ₹60 ₹75 ADD 2 options" [ref=f27e233] [cursor=pointer]:
+            - generic [ref=f27e234]: 20% OFF
+            - generic [ref=f27e241]:
+              - generic [ref=f27e242]: 15 mins
+              - generic [ref=f27e249]:
+                - generic [ref=f27e250]:
+                  - generic [ref=f27e251]: Onion (Pyaz)
+                  - generic [ref=f27e253]: 1 kg
+                - generic [ref=f27e255]:
+                  - generic [ref=f27e256]:
+                    - generic [ref=f27e257]: ₹60
+                    - generic [ref=f27e258]: ₹75
+                  - button "ADD 2 options" [ref=f27e260]:
+                    - generic [ref=f27e261]: ADD
+                    - generic [ref=f27e262]: 2 options
+          - button "17% OFF 15 mins Yellaki Banana (Kadali) 500 g ₹55 ₹67 ADD" [ref=f27e265] [cursor=pointer]:
+            - generic [ref=f27e266]: 17% OFF
+            - generic [ref=f27e273]:
+              - generic [ref=f27e274]: 15 mins
+              - generic [ref=f27e281]:
+                - generic [ref=f27e282]:
+                  - generic [ref=f27e283]: Yellaki Banana (Kadali)
+                  - generic [ref=f27e285]: 500 g
+                - generic [ref=f27e287]:
+                  - generic [ref=f27e288]:
+                    - generic [ref=f27e289]: ₹55
+                    - generic [ref=f27e290]: ₹67
+                  - button "ADD" [ref=f27e292]
+          - button "15% OFF 15 mins Green Chilli (Lanka) 100 g ₹16 ₹19 ADD" [ref=f27e295] [cursor=pointer]:
+            - generic [ref=f27e296]: 15% OFF
+            - generic [ref=f27e303]:
+              - generic [ref=f27e304]: 15 mins
+              - generic [ref=f27e310]:
+                - generic [ref=f27e311]:
+                  - generic [ref=f27e312]: Green Chilli (Lanka)
+                  - generic [ref=f27e314]: 100 g
+                - generic [ref=f27e316]:
+                  - generic [ref=f27e317]:
+                    - generic [ref=f27e318]: ₹16
+                    - generic [ref=f27e319]: ₹19
+                  - button "ADD" [ref=f27e321]
+          - button "16% OFF 15 mins Green Cucumber (Kakudi) 500 g ₹31 ₹37 ADD" [ref=f27e324] [cursor=pointer]:
+            - generic [ref=f27e325]: 16% OFF
+            - generic [ref=f27e332]:
+              - generic [ref=f27e333]: 15 mins
+              - generic [ref=f27e339]:
+                - generic [ref=f27e340]:
+                  - generic [ref=f27e341]: Green Cucumber (Kakudi)
+                  - generic [ref=f27e343]: 500 g
+                - generic [ref=f27e345]:
+                  - generic [ref=f27e346]:
+                    - generic [ref=f27e347]: ₹31
+                    - generic [ref=f27e348]: ₹37
+                  - button "ADD" [ref=f27e350]
+          - button "17% OFF 15 mins Coriander Bunch (Dhaniya) 100 g ₹23 ₹28 ADD" [ref=f27e353] [cursor=pointer]:
+            - generic [ref=f27e354]: 17% OFF
+            - generic [ref=f27e360]:
+              - generic [ref=f27e361]: 15 mins
+              - generic [ref=f27e367]:
+                - generic [ref=f27e368]:
+                  - generic [ref=f27e369]: Coriander Bunch (Dhaniya)
+                  - generic [ref=f27e371]: 100 g
+                - generic [ref=f27e373]:
+                  - generic [ref=f27e374]:
+                    - generic [ref=f27e375]: ₹23
+                    - generic [ref=f27e376]: ₹28
+                  - button "ADD" [ref=f27e378]
+          - button "18% OFF 15 mins Desi Tomato (Tamatar) 500 g ₹26 ₹32 ADD 2 options" [ref=f27e381] [cursor=pointer]:
+            - generic [ref=f27e382]: 18% OFF
+            - generic [ref=f27e388]:
+              - generic [ref=f27e389]: 15 mins
+              - generic [ref=f27e395]:
+                - generic [ref=f27e396]:
+                  - generic [ref=f27e397]: Desi Tomato (Tamatar)
+                  - generic [ref=f27e399]: 500 g
+                - generic [ref=f27e401]:
+                  - generic [ref=f27e402]:
+                    - generic [ref=f27e403]: ₹26
+                    - generic [ref=f27e404]: ₹32
+                  - button "ADD 2 options" [ref=f27e406]:
+                    - generic [ref=f27e407]: ADD
+                    - generic [ref=f27e408]: 2 options
+          - button "14% OFF 15 mins Ginger (Ada) 200 g ₹43 ₹50 ADD" [ref=f27e411] [cursor=pointer]:
+            - generic [ref=f27e412]: 14% OFF
+            - generic [ref=f27e418]:
+              - generic [ref=f27e419]: 15 mins
+              - generic [ref=f27e425]:
+                - generic [ref=f27e426]:
+                  - generic [ref=f27e427]: Ginger (Ada)
+                  - generic [ref=f27e429]: 200 g
+                - generic [ref=f27e431]:
+                  - generic [ref=f27e432]:
+                    - generic [ref=f27e433]: ₹43
+                    - generic [ref=f27e434]: ₹50
+                  - button "ADD" [ref=f27e436]
+          - button "12% OFF 15 mins Green Capsicum 250 g ₹34 ₹39 ADD" [ref=f27e439] [cursor=pointer]:
+            - generic [ref=f27e440]: 12% OFF
+            - generic [ref=f27e446]:
+              - generic [ref=f27e447]: 15 mins
+              - generic [ref=f27e453]:
+                - generic [ref=f27e454]:
+                  - generic [ref=f27e455]: Green Capsicum
+                  - generic [ref=f27e457]: 250 g
+                - generic [ref=f27e459]:
+                  - generic [ref=f27e460]:
+                    - generic [ref=f27e461]: ₹34
+                    - generic [ref=f27e462]: ₹39
+                  - button "ADD" [ref=f27e464]
+          - button "20% OFF 15 mins Button Mushroom (Chhatu) 180 g ₹54 ₹68 ADD" [ref=f27e467] [cursor=pointer]:
+            - generic [ref=f27e468]: 20% OFF
+            - generic [ref=f27e474]:
+              - generic [ref=f27e475]: 15 mins
+              - generic [ref=f27e481]:
+                - generic [ref=f27e482]:
+                  - generic [ref=f27e483]: Button Mushroom (Chhatu)
+                  - generic [ref=f27e485]: 180 g
+                - generic [ref=f27e487]:
+                  - generic [ref=f27e488]:
+                    - generic [ref=f27e489]: ₹54
+                    - generic [ref=f27e490]: ₹68
+                  - button "ADD" [ref=f27e492]
+          - button "21% OFF 15 mins Orange Carrot (Gajar) 500 g ₹33 ₹42 ADD" [ref=f27e495] [cursor=pointer]:
+            - generic [ref=f27e496]: 21% OFF
+            - generic [ref=f27e502]:
+              - generic [ref=f27e503]: 15 mins
+              - generic [ref=f27e509]:
+                - generic [ref=f27e510]:
+                  - generic [ref=f27e511]: Orange Carrot (Gajar)
+                  - generic [ref=f27e513]: 500 g
+                - generic [ref=f27e515]:
+                  - generic [ref=f27e516]:
+                    - generic [ref=f27e517]: ₹33
+                    - generic [ref=f27e518]: ₹42
+                  - button "ADD" [ref=f27e520]
+          - button "13% OFF 15 mins Lemon (Kagaji Lembu) 200 g ₹38 ₹44 ADD" [ref=f27e523] [cursor=pointer]:
+            - generic [ref=f27e524]: 13% OFF
+            - generic [ref=f27e530]:
+              - generic [ref=f27e531]: 15 mins
+              - generic [ref=f27e537]:
+                - generic [ref=f27e538]:
+                  - generic [ref=f27e539]: Lemon (Kagaji Lembu)
+                  - generic [ref=f27e541]: 200 g
+                - generic [ref=f27e543]:
+                  - generic [ref=f27e544]:
+                    - generic [ref=f27e545]: ₹38
+                    - generic [ref=f27e546]: ₹44
+                  - button "ADD" [ref=f27e548]
+          - button "19% OFF 15 mins Garlic (Lasuna) 200 g ₹51 ₹63 ADD" [ref=f27e551] [cursor=pointer]:
+            - generic [ref=f27e552]: 19% OFF
+            - generic [ref=f27e558]:
+              - generic [ref=f27e559]: 15 mins
+              - generic [ref=f27e565]:
+                - generic [ref=f27e566]:
+                  - generic [ref=f27e567]: Garlic (Lasuna)
+                  - generic [ref=f27e569]: 200 g
+                - generic [ref=f27e571]:
+                  - generic [ref=f27e572]:
+                    - generic [ref=f27e573]: ₹51
+                    - generic [ref=f27e574]: ₹63
+                  - button "ADD" [ref=f27e576]
+          - button "21% OFF 15 mins Hybrid Tomato (Tamatar) 500 g ₹26 ₹33 ADD 2 options" [ref=f27e579] [cursor=pointer]:
+            - generic [ref=f27e580]: 21% OFF
+            - generic [ref=f27e586]:
+              - generic [ref=f27e587]: 15 mins
+              - generic [ref=f27e593]:
+                - generic [ref=f27e594]:
+                  - generic [ref=f27e595]: Hybrid Tomato (Tamatar)
+                  - generic [ref=f27e597]: 500 g
+                - generic [ref=f27e599]:
+                  - generic [ref=f27e600]:
+                    - generic [ref=f27e601]: ₹26
+                    - generic [ref=f27e602]: ₹33
+                  - button "ADD 2 options" [ref=f27e604]:
+                    - generic [ref=f27e605]: ADD
+                    - generic [ref=f27e606]: 2 options
+          - button "19% OFF 15 mins French Beans - 250 g (Sabji) 250 g ₹38 ₹47 ADD" [ref=f27e609] [cursor=pointer]:
+            - generic [ref=f27e610]: 19% OFF
+            - generic [ref=f27e616]:
+              - generic [ref=f27e617]: 15 mins
+              - generic [ref=f27e623]:
+                - generic [ref=f27e624]:
+                  - generic [ref=f27e625]: French Beans - 250 g (Sabji)
+                  - generic [ref=f27e627]: 250 g
+                - generic [ref=f27e629]:
+                  - generic [ref=f27e630]:
+                    - generic [ref=f27e631]: ₹38
+                    - generic [ref=f27e632]: ₹47
+                  - button "ADD" [ref=f27e634]
+          - button "19% OFF 15 mins Red Delicious Apple - Imported (Sau) 225 g ₹134 ₹166 ADD" [ref=f27e637] [cursor=pointer]:
+            - generic [ref=f27e638]: 19% OFF
+            - generic [ref=f27e644]:
+              - generic [ref=f27e645]: 15 mins
+              - generic [ref=f27e651]:
+                - generic [ref=f27e652]:
+                  - generic [ref=f27e653]: Red Delicious Apple - Imported (Sau)
+                  - generic [ref=f27e655]: 225 g
+                - generic [ref=f27e657]:
+                  - generic [ref=f27e658]:
+                    - generic [ref=f27e659]: ₹134
+                    - generic [ref=f27e660]: ₹166
+                  - button "ADD" [ref=f27e662]
+          - button "22% OFF 15 mins Indian Guava (Pijuli) 350 g ₹66 ₹85 ADD" [ref=f27e665] [cursor=pointer]:
+            - generic [ref=f27e666]: 22% OFF
+            - generic [ref=f27e672]:
+              - generic [ref=f27e673]: 15 mins
+              - generic [ref=f27e679]:
+                - generic [ref=f27e680]:
+                  - generic [ref=f27e681]: Indian Guava (Pijuli)
+                  - generic [ref=f27e683]: 350 g
+                - generic [ref=f27e685]:
+                  - generic [ref=f27e686]:
+                    - generic [ref=f27e687]: ₹66
+                    - generic [ref=f27e688]: ₹85
+                  - button "ADD" [ref=f27e690]
+          - button "16% OFF 15 mins Pointed Gourd (250 g) (Potala) 250 g ₹20 ₹24 ADD" [ref=f27e693] [cursor=pointer]:
+            - generic [ref=f27e694]: 16% OFF
+            - generic [ref=f27e700]:
+              - generic [ref=f27e701]: 15 mins
+              - generic [ref=f27e707]:
+                - generic [ref=f27e708]:
+                  - generic [ref=f27e709]: Pointed Gourd (250 g) (Potala)
+                  - generic [ref=f27e711]: 250 g
+                - generic [ref=f27e713]:
+                  - generic [ref=f27e714]:
+                    - generic [ref=f27e715]: ₹20
+                    - generic [ref=f27e716]: ₹24
+                  - button "ADD" [ref=f27e718]
+          - button "17% OFF 15 mins Green Pumpkin (Kaddu) 400 g ₹24 ₹29 ADD" [ref=f27e721] [cursor=pointer]:
+            - generic [ref=f27e722]: 17% OFF
+            - generic [ref=f27e728]:
+              - generic [ref=f27e729]: 15 mins
+              - generic [ref=f27e735]:
+                - generic [ref=f27e736]:
+                  - generic [ref=f27e737]: Green Pumpkin (Kaddu)
+                  - generic [ref=f27e739]: 400 g
+                - generic [ref=f27e741]:
+                  - generic [ref=f27e742]:
+                    - generic [ref=f27e743]: ₹24
+                    - generic [ref=f27e744]: ₹29
+                  - button "ADD" [ref=f27e746]
+          - button "18% OFF 15 mins Curry Leaves (Bhursunga Patra) 50 g ₹18 ₹22 ADD" [ref=f27e749] [cursor=pointer]:
+            - generic [ref=f27e750]: 18% OFF
+            - generic [ref=f27e756]:
+              - generic [ref=f27e757]: 15 mins
+              - generic [ref=f27e763]:
+                - generic [ref=f27e764]:
+                  - generic [ref=f27e765]: Curry Leaves (Bhursunga Patra)
+                  - generic [ref=f27e767]: 50 g
+                - generic [ref=f27e769]:
+                  - generic [ref=f27e770]:
+                    - generic [ref=f27e771]: ₹18
+                    - generic [ref=f27e772]: ₹22
+                  - button "ADD" [ref=f27e774]
+          - button "20% OFF 15 mins Lady Finger (Bhendi) 250 g ₹19 ₹24 ADD 2 options" [ref=f27e777] [cursor=pointer]:
+            - generic [ref=f27e778]: 20% OFF
+            - generic [ref=f27e784]:
+              - generic [ref=f27e785]: 15 mins
+              - generic [ref=f27e791]:
+                - generic [ref=f27e792]:
+                  - generic [ref=f27e793]: Lady Finger (Bhendi)
+                  - generic [ref=f27e795]: 250 g
+                - generic [ref=f27e797]:
+                  - generic [ref=f27e798]:
+                    - generic [ref=f27e799]: ₹19
+                    - generic [ref=f27e800]: ₹24
+                  - button "ADD 2 options" [ref=f27e802]:
+                    - generic [ref=f27e803]: ADD
+                    - generic [ref=f27e804]: 2 options
+          - button "17% OFF 15 mins Mini Orange 250 g (Narangi) 250 g ₹94 ₹114 ADD" [ref=f27e807] [cursor=pointer]:
+            - generic [ref=f27e808]: 17% OFF
+            - generic [ref=f27e814]:
+              - generic [ref=f27e815]: 15 mins
+              - generic [ref=f27e821]:
+                - generic [ref=f27e822]:
+                  - generic [ref=f27e823]: Mini Orange 250 g (Narangi)
+                  - generic [ref=f27e825]: 250 g
+                - generic [ref=f27e827]:
+                  - generic [ref=f27e828]:
+                    - generic [ref=f27e829]: ₹94
+                    - generic [ref=f27e830]: ₹114
+                  - button "ADD" [ref=f27e832]
+          - button "28% OFF 15 mins IGP Red Rose Single Flower 1 pc ₹71 ₹99 ADD" [ref=f27e835] [cursor=pointer]:
+            - generic [ref=f27e836]: 28% OFF
+            - generic [ref=f27e842]:
+              - generic [ref=f27e843]: 15 mins
+              - generic [ref=f27e849]:
+                - generic [ref=f27e850]:
+                  - generic [ref=f27e851]: IGP Red Rose Single Flower
+                  - generic [ref=f27e853]: 1 pc
+                - generic [ref=f27e855]:
+                  - generic [ref=f27e856]:
+                    - generic [ref=f27e857]: ₹71
+                    - generic [ref=f27e858]: ₹99
+                  - button "ADD" [ref=f27e860]
+          - button "18% OFF 15 mins Mint Leaves (Pudina Patra) 100 g ₹39 ₹48 ADD" [ref=f27e863] [cursor=pointer]:
+            - generic [ref=f27e864]: 18% OFF
+            - generic [ref=f27e870]:
+              - generic [ref=f27e871]: 15 mins
+              - generic [ref=f27e877]:
+                - generic [ref=f27e878]:
+                  - generic [ref=f27e879]: Mint Leaves (Pudina Patra)
+                  - generic [ref=f27e881]: 100 g
+                - generic [ref=f27e883]:
+                  - generic [ref=f27e884]:
+                    - generic [ref=f27e885]: ₹39
+                    - generic [ref=f27e886]: ₹48
+                  - button "ADD" [ref=f27e888]
+          - button "15% OFF 15 mins Brinjal - Bharta (Baigana) 500 g ₹43 ₹51 ADD" [ref=f27e891] [cursor=pointer]:
+            - generic [ref=f27e892]: 15% OFF
+            - generic [ref=f27e898]:
+              - generic [ref=f27e899]: 15 mins
+              - generic [ref=f27e905]:
+                - generic [ref=f27e906]:
+                  - generic [ref=f27e907]: Brinjal - Bharta (Baigana)
+                  - generic [ref=f27e909]: 500 g
+                - generic [ref=f27e911]:
+                  - generic [ref=f27e912]:
+                    - generic [ref=f27e913]: ₹43
+                    - generic [ref=f27e914]: ₹51
+                  - button "ADD" [ref=f27e916]
+          - button "18% OFF 15 mins Pooja Flower Mix (Phula Mix) 100 g ₹49 ₹60 ADD" [ref=f27e919] [cursor=pointer]:
+            - generic [ref=f27e920]: 18% OFF
+            - generic [ref=f27e926]:
+              - generic [ref=f27e927]: 15 mins
+              - generic [ref=f27e933]:
+                - generic [ref=f27e934]:
+                  - generic [ref=f27e935]: Pooja Flower Mix (Phula Mix)
+                  - generic [ref=f27e937]: 100 g
+                - generic [ref=f27e939]:
+                  - generic [ref=f27e940]:
+                    - generic [ref=f27e941]: ₹49
+                    - generic [ref=f27e942]: ₹60
+                  - button "ADD" [ref=f27e944]
+          - button "15% OFF 15 mins Cabbage (Bandhakopi) 400 g ₹38 ₹45 ADD" [ref=f27e947] [cursor=pointer]:
+            - generic [ref=f27e948]: 15% OFF
+            - generic [ref=f27e954]:
+              - generic [ref=f27e955]: 15 mins
+              - generic [ref=f27e961]:
+                - generic [ref=f27e962]:
+                  - generic [ref=f27e963]: Cabbage (Bandhakopi)
+                  - generic [ref=f27e965]: 400 g
+                - generic [ref=f27e967]:
+                  - generic [ref=f27e968]:
+                    - generic [ref=f27e969]: ₹38
+                    - generic [ref=f27e970]: ₹45
+                  - button "ADD" [ref=f27e972]
+          - button "22% OFF 15 mins Pineapple Cut (Sapuri) 200 g ₹68 ₹88 ADD" [ref=f27e975] [cursor=pointer]:
+            - generic [ref=f27e976]: 22% OFF
+            - generic [ref=f27e982]:
+              - generic [ref=f27e983]: 15 mins
+              - generic [ref=f27e989]:
+                - generic [ref=f27e990]:
+                  - generic [ref=f27e991]: Pineapple Cut (Sapuri)
+                  - generic [ref=f27e993]: 200 g
+                - generic [ref=f27e995]:
+                  - generic [ref=f27e996]:
+                    - generic [ref=f27e997]: ₹68
+                    - generic [ref=f27e998]: ₹88
+                  - button "ADD" [ref=f27e1000]
+          - button "15% OFF 15 mins Raw Banana (Kancha Kadali) 3 pcs ₹37 ₹44 ADD" [ref=f27e1003] [cursor=pointer]:
+            - generic [ref=f27e1004]: 15% OFF
+            - generic [ref=f27e1010]:
+              - generic [ref=f27e1011]: 15 mins
+              - generic [ref=f27e1017]:
+                - generic [ref=f27e1018]:
+                  - generic [ref=f27e1019]: Raw Banana (Kancha Kadali)
+                  - generic [ref=f27e1021]: 3 pcs
+                - generic [ref=f27e1023]:
+                  - generic [ref=f27e1024]:
+                    - generic [ref=f27e1025]: ₹37
+                    - generic [ref=f27e1026]: ₹44
+                  - button "ADD" [ref=f27e1028]
+      - generic [ref=f27e1032]:
+        - generic [ref=f27e1033]:
+          - heading [level=2] [ref=f27e1034]:
+            - text: Buy Tea at
+            - link "Online grocery store" [ref=f27e1035] [cursor=pointer]:
+              - /url: /
+            - text: in india
+          - generic [ref=f27e1036]: Are you super fond of online shopping because you hate crowded supermarkets? Now you don't need to be worry as Blinkit is delivering Tea at your doorstep with easy returns for your complete peace of mind.
+          - generic [ref=f27e1037]: Get Tea delivered to your home. you can check Tea price before buying.
+          - generic [ref=f27e1039]: We deliver Tea at Delhi, Gurgaon, Kolkata, Lucknow, Mumbai, Bengaluru, Ahmedabad, Noida, Ghaziabad, Faridabad, Hyderabad, Jaipur, Pune, Chennai, Chandigarh, Ludhiana, Vadodara, Meerut, Kanpur, Panchkula, Kharar, Amritsar, Bhopal, Indore, Zirakpur, Jalandhar, Dehradun, Agra, Mohali, Goa, Patiala, Sonipat, Bhiwadi, Kota, Rohtak, Bahadurgarh, Haridwar, Bathinda, Kochi, Jodhpur
+          - generic [ref=f27e1040]:
+            - text: Buy from several popular brands like
+            - link "Freshbury," [ref=f27e1041] [cursor=pointer]:
+              - /url: /brand/Freshbury
+            - link "G Fresh," [ref=f27e1042] [cursor=pointer]:
+              - /url: /brand/G Fresh
+            - link "IGP." [ref=f27e1043] [cursor=pointer]:
+              - /url: /brand/IGP
+        - generic [ref=f27e1044]:
+          - heading "Tea Price List" [level=2] [ref=f27e1045]
+          - table [ref=f27e1046]:
+            - row [ref=f27e1047]:
+              - columnheader "Tea" [ref=f27e1048]
+              - columnheader "Price" [ref=f27e1049]
+            - row [ref=f27e1050]:
+              - cell [ref=f27e1051]:
+                - text: "1."
+                - link "Banana (Kadali)" [ref=f27e1052] [cursor=pointer]:
+                  - /url: /prn/banana-kadali/prid/3874
+              - cell "Rs.36" [ref=f27e1053]
+            - row [ref=f27e1054]:
+              - cell [ref=f27e1055]:
+                - text: "2."
+                - link "Potato (Aloo)" [ref=f27e1056] [cursor=pointer]:
+                  - /url: /prn/potato-aloo/prid/199435
+              - cell "Rs.20" [ref=f27e1057]
+            - row [ref=f27e1058]:
+              - cell [ref=f27e1059]:
+                - text: "3."
+                - link "Onion (Pyaz)" [ref=f27e1060] [cursor=pointer]:
+                  - /url: /prn/onion-pyaz/prid/530158
+              - cell "Rs.60" [ref=f27e1061]
+            - row [ref=f27e1062]:
+              - cell [ref=f27e1063]:
+                - text: "4."
+                - link "Yellaki Banana (Kadali)" [ref=f27e1064] [cursor=pointer]:
+                  - /url: /prn/yellaki-banana-kadali/prid/424416
+              - cell "Rs.55" [ref=f27e1065]
+            - row [ref=f27e1066]:
+              - cell [ref=f27e1067]:
+                - text: "5."
+                - link "Green Chilli (Lanka)" [ref=f27e1068] [cursor=pointer]:
+                  - /url: /prn/green-chilli-lanka/prid/423735
+              - cell "Rs.16" [ref=f27e1069]
+            - row [ref=f27e1070]:
+              - cell [ref=f27e1071]:
+                - text: "6."
+                - link "Green Cucumber (Kakudi)" [ref=f27e1072] [cursor=pointer]:
+                  - /url: /prn/green-cucumber-kakudi/prid/10088
+              - cell "Rs.31" [ref=f27e1073]
+            - row [ref=f27e1074]:
+              - cell [ref=f27e1075]:
+                - text: "7."
+                - link "Coriander Bunch (Dhaniya)" [ref=f27e1076] [cursor=pointer]:
+                  - /url: /prn/coriander-bunch-dhaniya/prid/3889
+              - cell "Rs.23" [ref=f27e1077]
+            - row [ref=f27e1078]:
+              - cell [ref=f27e1079]:
+                - text: "8."
+                - link "Desi Tomato (Tamatar)" [ref=f27e1080] [cursor=pointer]:
+                  - /url: /prn/desi-tomato-tamatar/prid/366032
+              - cell "Rs.26" [ref=f27e1081]
+            - row [ref=f27e1082]:
+              - cell [ref=f27e1083]:
+                - text: "9."
+                - link "Ginger (Ada)" [ref=f27e1084] [cursor=pointer]:
+                  - /url: /prn/ginger-ada/prid/95032
+              - cell "Rs.43" [ref=f27e1085]
+            - row [ref=f27e1086]:
+              - cell [ref=f27e1087]:
+                - text: "10."
+                - link "Green Capsicum" [ref=f27e1088] [cursor=pointer]:
+                  - /url: /prn/green-capsicum/prid/3888
+              - cell "Rs.34" [ref=f27e1089]
+          - emphasis [ref=f27e1090]: This data was last updated on 8/22/2026
+    - generic [ref=f27e1091]: U
+  - generic [ref=f27e1094]:
+    - generic [ref=f27e1095]: India's last minute app - blinkit
+    - generic [ref=f27e1096]: +

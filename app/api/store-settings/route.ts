@@ -58,6 +58,8 @@ const patchSchema = z.object({
   slotDurationMinutes: z.number().int().min(15).max(240).optional(),
   slotCapacity: z.number().int().min(1).max(1000).optional(),
   slotLeadMinutes: z.number().int().min(0).max(720).optional(),
+  // Rotating search placeholder chips. Server dedupes + caps to 12.
+  searchPlaceholders: z.array(z.string().min(1).max(40)).max(24).optional(),
 });
 
 /**

@@ -1,0 +1,47 @@
+- generic [ref=e1]:
+  - generic [ref=e138]:
+    - banner [ref=e140]:
+      - generic [ref=e143] [cursor=pointer]:
+        - generic [ref=e144]: Delivery in 12 minutes
+        - generic [ref=e145]: KIIT Rd, Patia, Bhubaneswar, Odisha 751024, India
+      - link [ref=e151] [cursor=pointer]:
+        - /url: /s/
+        - generic [ref=e152]: "!"
+        - generic [ref=e154]:
+          - generic [ref=e156]: Search "sugar"
+          - generic [ref=e157]: Search "butter"
+      - generic [ref=e165] [cursor=pointer]
+    - generic [ref=e170]:
+      - generic [ref=e183]:
+        - generic [ref=e184]: 0 items
+        - generic [ref=e185]: ₹ 0
+      - generic [ref=e187]: View Cart
+    - generic [ref=e1658]:
+      - generic [ref=e1659]: India's last minute app - blinkit
+      - generic [ref=e1660]: +
+  - dialog [active] [ref=e1698]:
+    - generic [ref=e1771]:
+      - generic [ref=e1772]:
+        - generic [ref=e1773]: Select your Location
+        - generic [ref=e1778]:
+          - generic [ref=e1781]:
+            - button [ref=e1782] [cursor=pointer]: R
+            - textbox [ref=e1786]:
+              - /placeholder: search delivery location
+          - generic [ref=e1787]: Use current location
+      - generic [ref=e1791]:
+        - generic [ref=e1795] [cursor=pointer]:
+          - generic [ref=e1796]: KIIT
+          - generic [ref=e1797]: KIIT Road, Patia, Bhubaneswar, Odisha, India
+        - generic [ref=e1801] [cursor=pointer]:
+          - generic [ref=e1802]: KIIT Campus 14 (Kaladan)
+          - generic [ref=e1803]: IGNOU study centre patia 2101, KIIT Road, Chandaka Industrial Estate, Patia, Bhubaneswar, Odisha, India
+        - generic [ref=e1807] [cursor=pointer]:
+          - generic [ref=e1808]: KIIT Campus 16 (Kangsabati)
+          - generic [ref=e1809]: Prasanti Vihar, Patia, Bhubaneswar, Odisha, India
+        - generic [ref=e1813] [cursor=pointer]:
+          - generic [ref=e1814]: KIIT Road
+          - generic [ref=e1815]: Chandaka Industrial Estate, Bajrang Vihar, Patia, Bhubaneswar, Odisha, India
+        - generic [ref=e1819] [cursor=pointer]:
+          - generic [ref=e1820]: Chintan Administrative Office
+          - generic [ref=e1821]: KIIT Road, Chandaka Industrial Estate, K I I T University, Patia, Bhubaneswar, Odisha, India

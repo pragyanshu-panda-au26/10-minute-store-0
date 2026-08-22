@@ -1,0 +1,56 @@
+- generic [ref=f45e647]:
+  - link [ref=f45e650] [cursor=pointer]:
+    - /url: /
+  - generic:
+    - generic:
+      - generic:
+        - generic [ref=f45e661]:
+          - generic [ref=f45e662]: Select Payment Method
+          - iframe [active] [ref=f45e664]:
+            - generic [ref=f51e4]:
+              - generic "Wallets" [ref=f51e5]:
+                - button "Wallets" [ref=f51e6] [cursor=pointer]:
+                  - heading "Wallets" [level=5] [ref=f51e47]
+              - generic "Add credit or debit cards" [ref=f51e12]:
+                - button "Add credit or debit cards" [ref=f51e13] [cursor=pointer]:
+                  - heading "Add credit or debit cards" [level=5] [ref=f51e48]
+              - generic "Netbanking" [ref=f51e19]:
+                - button "Netbanking" [ref=f51e20] [cursor=pointer]:
+                  - heading "Netbanking" [level=5] [ref=f51e49]
+              - generic "UPI" [ref=f51e26]:
+                - button "UPI" [expanded] [active] [ref=f51e27] [cursor=pointer]:
+                  - heading "UPI" [level=5] [ref=f51e29]
+                - generic [ref=f51e52]:
+                  - heading "Select UPI APP" [level=6] [ref=f51e53]
+                  - generic [ref=f51e54]:
+                    - generic [ref=f51e55] [cursor=pointer]:
+                      - img "Paytm UPI" [ref=f51e56]
+                      - paragraph [ref=f51e57]: Paytm UPI
+                      - img "chevron-right" [ref=f51e60]
+                    - generic [ref=f51e62] [cursor=pointer]:
+                      - img "Google Pay UPI" [ref=f51e63]
+                      - paragraph [ref=f51e64]: Google Pay UPI
+                      - img "chevron-right" [ref=f51e67]
+                    - generic [ref=f51e69] [cursor=pointer]:
+                      - img "PhonePe UPI" [ref=f51e70]
+                      - paragraph [ref=f51e71]: PhonePe UPI
+                      - img "chevron-right" [ref=f51e74]
+                    - generic [ref=f51e76] [cursor=pointer]:
+                      - img "BHIM UPI" [ref=f51e77]
+                      - paragraph [ref=f51e78]: BHIM UPI
+                      - img "chevron-right" [ref=f51e81]
+                    - generic [ref=f51e83] [cursor=pointer]:
+                      - img "CRED UPI" [ref=f51e84]
+                      - paragraph [ref=f51e85]: CRED UPI
+                      - img "chevron-right" [ref=f51e88]
+                    - generic [ref=f51e90] [cursor=pointer]:
+                      - img "Samsung Pay UPI" [ref=f51e91]
+                      - paragraph [ref=f51e92]: Samsung Pay UPI
+                      - img "chevron-right" [ref=f51e95]
+              - generic "Cash" [ref=f51e33]:
+                - button "Cash" [ref=f51e34] [cursor=pointer]:
+                  - heading "Cash" [level=5] [ref=f51e97]
+              - generic "Pay Later" [ref=f51e40]:
+                - button "Pay Later" [ref=f51e41] [cursor=pointer]:
+                  - heading "Pay Later" [level=5] [ref=f51e98]
+        - generic [ref=f45e665] [cursor=pointer]: Pay Now

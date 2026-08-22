@@ -1,0 +1,29 @@
+- generic [ref=f45e647]:
+  - link [ref=f45e650] [cursor=pointer]:
+    - /url: /
+  - generic:
+    - generic:
+      - generic:
+        - generic [ref=f45e661]:
+          - generic [ref=f45e662]: Select Payment Method
+          - iframe [ref=f45e664]:
+            - generic [ref=f51e4]:
+              - generic "Wallets" [ref=f51e5]:
+                - button "Wallets" [ref=f51e6] [cursor=pointer]:
+                  - heading "Wallets" [level=5] [ref=f51e8]
+              - generic "Add credit or debit cards" [ref=f51e12]:
+                - button "Add credit or debit cards" [ref=f51e13] [cursor=pointer]:
+                  - heading "Add credit or debit cards" [level=5] [ref=f51e15]
+              - generic "Netbanking" [ref=f51e19]:
+                - button "Netbanking" [ref=f51e20] [cursor=pointer]:
+                  - heading "Netbanking" [level=5] [ref=f51e22]
+              - generic "UPI" [ref=f51e26]:
+                - button "UPI" [ref=f51e27] [cursor=pointer]:
+                  - heading "UPI" [level=5] [ref=f51e29]
+              - generic "Cash" [ref=f51e33]:
+                - button "Cash" [ref=f51e34] [cursor=pointer]:
+                  - heading "Cash" [level=5] [ref=f51e36]
+              - generic "Pay Later" [ref=f51e40]:
+                - button "Pay Later" [ref=f51e41] [cursor=pointer]:
+                  - heading "Pay Later" [level=5] [ref=f51e43]
+        - generic [ref=f45e665] [cursor=pointer]: Pay Now

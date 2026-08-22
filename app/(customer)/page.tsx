@@ -45,7 +45,15 @@ export default function CustomerPage() {
   useEffect(() => {
     hydrateSession();
     initTheme();
-  }, [hydrateSession, initTheme]);
+    // Blinkit-parity — the catalog renders immediately on first paint, before
+    // the location strip is resolved. The products API returns the same
+    // catalog regardless of store, so fetching on mount is safe. When a real
+    // location is later confirmed we re-fetch through the callback below;
+    // that's idempotent (same URL, same response) and lets store-scoped
+    // catalogs slot in cleanly later without changing this call site.
+    fetchProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleServiceableConfirmed = (_storeId: string) => {
     // Store-scoped catalogs aren't wired up yet — for now every serviceable
@@ -57,7 +65,39 @@ export default function CustomerPage() {
   const handleSelectCategoryAndSubcategory = (catId: string, subName: string) => {
     setSelectedCategory(catId);
     setSelectedSubcategory(subName);
+    // Scroll the freshly-filtered grid into view so a category tap doesn't
+    // silently mutate a section the customer is scrolled miles above. Matches
+    // Blinkit — tap a category, the listing snaps into place.
+    if (typeof window !== "undefined") {
+      // Defer to the next frame so the state → re-render happens before the
+      // scroll, otherwise we scroll to the stale grid layout.
+      requestAnimationFrame(() => {
+        document.getElementById("all-products")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      });
+    }
   };
+
+  // Derived rails — sourced from the same product list so no extra API calls.
+  // `Hot deals` orders by absolute discount %, `Your daily fresh needs` picks
+  // the Vegetables & Fruits subcategory (the highest-frequency repeat basket
+  // in Blinkit's own data). Both caps at 12 so a rail is scrollable without
+  // being a full second grid.
+  const RAIL_SIZE = 12;
+  const hotDealsRail = (products as ExtendedProduct[])
+    .filter((p) => p.originalPrice && p.originalPrice > p.price)
+    .map((p) => ({
+      p,
+      pct: Math.round(((p.originalPrice! - p.price) / p.originalPrice!) * 100),
+    }))
+    .sort((a, b) => b.pct - a.pct)
+    .slice(0, RAIL_SIZE)
+    .map((x) => x.p);
+  const freshRail = (products as ExtendedProduct[])
+    .filter((p) => p.subcategory === "Vegetables & Fruits")
+    .slice(0, RAIL_SIZE);
 
   // Filter products by category, subcategory & search query
   const searchAndCategoryFiltered = (products as ExtendedProduct[]).filter((product) => {
@@ -115,6 +155,28 @@ export default function CustomerPage() {
           onSelectCategoryAndSubcategory={handleSelectCategoryAndSubcategory}
         />
       </div>
+
+      {/* Blinkit-style deal rails — sit between the category grid and the
+          filterable main grid. They give first-time visitors an immediate
+          reason to tap something before they commit to browsing a category.
+          Only render when we actually have products for the rail — an empty
+          rail with a "see all" chip and no cards is worse than no rail. */}
+      {hotDealsRail.length >= 3 && (
+        <ProductRail
+          title="🔥 Hot deals"
+          subtitle="Biggest discounts, delivered in minutes."
+          products={hotDealsRail}
+          onSelect={setSelectedPdpProduct}
+        />
+      )}
+      {freshRail.length >= 3 && (
+        <ProductRail
+          title="🥬 Your daily fresh needs"
+          subtitle="Vegetables & fruits, restocked every morning."
+          products={freshRail}
+          onSelect={setSelectedPdpProduct}
+        />
+      )}
 
       {/* Main Content Layout */}
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -188,7 +250,10 @@ export default function CustomerPage() {
                 header md: block instead of below the fold. */}
 
             {/* Section heading + sort/filter row */}
-            <div className="mb-3 flex items-center justify-between gap-3">
+            <div
+              id="all-products"
+              className="mb-3 flex items-center justify-between gap-3 scroll-mt-24"
+            >
               <div className="min-w-0">
                 <h2 className="text-lg font-extrabold text-slate-900 dark:text-white truncate">
                   {CATEGORIES.find((c) => c.id === selectedCategory)?.name || "Products"}
@@ -283,5 +348,52 @@ export default function CustomerPage() {
       <InstallAppButton />
       <MobileBottomNav />
     </div>
+  );
+}
+
+/**
+ * Horizontally-scrolling product rail — Blinkit's "Hot deals" / "Your daily
+ * fresh needs" pattern. Kept local to this file because it's not reused
+ * anywhere else and the design is intentionally lightweight (title + subtitle
+ * + horizontal scroll of ProductCards). Tap opens the PDP modal, same as
+ * the main grid.
+ */
+function ProductRail({
+  title,
+  subtitle,
+  products,
+  onSelect,
+}: {
+  title: string;
+  subtitle: string;
+  products: ExtendedProduct[];
+  onSelect: (p: ExtendedProduct) => void;
+}) {
+  return (
+    <section className="mt-4 px-4">
+      <div className="mb-2 flex items-baseline justify-between gap-3">
+        <div>
+          <h3 className="text-sm font-black text-slate-900 dark:text-white">
+            {title}
+          </h3>
+          <p className="text-[11px] text-slate-500 dark:text-slate-400">
+            {subtitle}
+          </p>
+        </div>
+      </div>
+      {/* -mx-4 + px-4 lets the last card breathe against the viewport edge
+          without adding a scroll gutter to the section container above. */}
+      <div className="flex gap-3 overflow-x-auto no-scrollbar -mx-4 px-4 pb-1 snap-x">
+        {products.map((p) => (
+          <div
+            key={p.id}
+            onClick={() => onSelect(p)}
+            className="w-36 flex-shrink-0 cursor-pointer snap-start"
+          >
+            <ProductCard product={p} />
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }

@@ -1,0 +1,647 @@
+- generic [ref=e138]:
+  - banner [ref=e140]:
+    - generic [ref=e143] [cursor=pointer]:
+      - generic [ref=e144]: Delivery in 9 minutes
+      - generic [ref=e145]: KIIT Rd, Patia, Bhubaneswar, Odisha 751024, India
+    - link "! Search \"egg\" Search \"chips\"" [ref=e1822] [cursor=pointer]:
+      - /url: /s/
+      - generic [ref=e152]: "!"
+      - generic [ref=e154]:
+        - generic [ref=e162]: Search "egg"
+        - generic [ref=e163]: Search "chips"
+    - generic [ref=e165] [cursor=pointer]
+  - generic [ref=e170]:
+    - generic [ref=e183]:
+      - generic [ref=e184]: 0 items
+      - generic [ref=e185]: ₹ 0
+    - generic [ref=e187]: View Cart
+  - generic [ref=e1827]:
+    - button "Grocery & Kitchen" [ref=e1830] [cursor=pointer]
+    - generic [ref=e1839]:
+      - button "Vegetables & Fruits" [ref=e1841] [cursor=pointer]
+      - button "Atta, Rice & Dal" [ref=e1847] [cursor=pointer]
+      - button "Oil, Ghee & Masala" [ref=e1853] [cursor=pointer]
+      - button "Dairy, Bread & Eggs" [ref=e1859] [cursor=pointer]
+    - generic [ref=e1869]:
+      - button "Bakery & Biscuits" [ref=e1871] [cursor=pointer]
+      - button "Dry Fruits & Cereals" [ref=e1877] [cursor=pointer]
+      - button "Chicken, Meat & Fish" [ref=e1883] [cursor=pointer]
+      - button "Kitchenware & Appliances" [ref=e1889] [cursor=pointer]
+    - button "Snacks & Drinks" [ref=e1896] [cursor=pointer]
+    - generic [ref=e1905]:
+      - button "Chips & Namkeen" [ref=e1907] [cursor=pointer]
+      - button "Sweets & Chocolates" [ref=e1913] [cursor=pointer]
+      - button "Drinks & Juices" [ref=e1919] [cursor=pointer]
+      - button "Tea, Coffee & Milk Drinks" [ref=e1925] [cursor=pointer]
+    - generic [ref=e1935]:
+      - button "Instant Food" [ref=e1937] [cursor=pointer]
+      - button "Sauces & Spreads" [ref=e1943] [cursor=pointer]
+      - button "Paan Corner" [ref=e1949] [cursor=pointer]
+      - button "Ice Creams & More" [ref=e1955] [cursor=pointer]
+    - button "Beauty & Personal Care" [ref=e1962] [cursor=pointer]
+    - generic [ref=e1971]:
+      - button "Bath & Body" [ref=e1973] [cursor=pointer]
+      - button "Hair" [ref=e1979] [cursor=pointer]
+      - button "Skin & Face" [ref=e1985] [cursor=pointer]
+      - button "Beauty & Cosmetics" [ref=e1991] [cursor=pointer]
+    - generic [ref=e2001]:
+      - button "Feminine Hygiene" [ref=e2003] [cursor=pointer]
+      - button "Baby Care" [ref=e2009] [cursor=pointer]
+      - button "Health & Pharma" [ref=e2015] [cursor=pointer]
+      - button "Sexual Wellness" [ref=e2021] [cursor=pointer]
+    - button "Household Essentials" [ref=e2028] [cursor=pointer]
+    - generic [ref=e2037]:
+      - button "Home & Lifestyle" [ref=e2039] [cursor=pointer]
+      - button "Cleaners & Repellents" [ref=e2044] [cursor=pointer]
+      - button "Electronics" [ref=e2049] [cursor=pointer]
+      - button "Stationery & Games" [ref=e2054] [cursor=pointer]
+    - button "Shop by store" [ref=e2060] [cursor=pointer]
+    - generic [ref=e2066]:
+      - button "Pet Store" [ref=e2068] [cursor=pointer]
+      - button "Electronics Store" [ref=e2073] [cursor=pointer]
+      - button "Stationery Store" [ref=e2078] [cursor=pointer]
+      - button "Kids Store" [ref=e2083] [cursor=pointer]
+      - button "Pharma Store" [ref=e2088] [cursor=pointer]
+      - button "Sports Store" [ref=e2093] [cursor=pointer]
+      - button "Party Store" [ref=e2098] [cursor=pointer]
+      - button "Beauty Store" [ref=e2103] [cursor=pointer]
+      - button "Print Store" [ref=e2108] [cursor=pointer]
+    - button "Hot deals see all" [ref=e2114] [cursor=pointer]:
+      - generic [ref=e2115]:
+        - generic [ref=e2116]: Hot deals
+        - button "see all" [ref=e2118]
+    - generic [ref=e2121]:
+      - button "26% OFF 9 mins Cadbury Dairy Milk Bites Assorted Chocolate Pack - Almond 54 g ₹65 ₹89 ADD" [ref=e2123] [cursor=pointer]:
+        - generic [ref=e2124]: 26% OFF
+        - generic [ref=e2130]:
+          - generic [ref=e2131]: 9 mins
+          - generic [ref=e2137]:
+            - generic [ref=e2138]:
+              - generic [ref=e2139]: Cadbury Dairy Milk Bites Assorted Chocolate Pack - Almond
+              - generic [ref=e2141]:
+                - generic [ref=e2142]: 54 g
+                - img [ref=e2143]: 
+            - generic [ref=e2144]:
+              - generic [ref=e2145]:
+                - generic [ref=e2146]: ₹65
+                - generic [ref=e2147]: ₹89
+              - button "ADD" [ref=e2148]
+      - button "27% OFF 9 mins Chheda's Yellow Rock Salt Banana Chips 170 g ₹73 ₹100 ADD" [ref=e2151] [cursor=pointer]:
+        - generic [ref=e2152]: 27% OFF
+        - generic [ref=e2158]:
+          - generic [ref=e2159]: 9 mins
+          - generic [ref=e2165]:
+            - generic [ref=e2166]:
+              - generic [ref=e2167]: Chheda's Yellow Rock Salt Banana Chips
+              - generic [ref=e2169]:
+                - generic [ref=e2170]: 170 g
+                - img [ref=e2171]: 
+            - generic [ref=e2172]:
+              - generic [ref=e2173]:
+                - generic [ref=e2174]: ₹73
+                - generic [ref=e2175]: ₹100
+              - button "ADD" [ref=e2176]
+      - button "49% OFF 9 mins Real Fruit Power Masala Mixed Fruit Juice 1 ltr ₹76 ₹150 ADD" [ref=e2179] [cursor=pointer]:
+        - generic [ref=e2180]: 49% OFF
+        - generic [ref=e2186]:
+          - generic [ref=e2187]: 9 mins
+          - generic [ref=e2193]:
+            - generic [ref=e2194]:
+              - generic [ref=e2195]: Real Fruit Power Masala Mixed Fruit Juice
+              - generic [ref=e2197]: 1 ltr
+            - generic [ref=e2199]:
+              - generic [ref=e2200]:
+                - generic [ref=e2201]: ₹76
+                - generic [ref=e2202]: ₹150
+              - button "ADD" [ref=e2203]
+      - button "29% OFF 9 mins Sunfeast Fantastik Mini Treats (Homepack) Wafer Roll 125.4 g ₹71 ₹100 ADD" [ref=e2206] [cursor=pointer]:
+        - generic [ref=e2207]: 29% OFF
+        - generic [ref=e2213]:
+          - generic [ref=e2214]: 9 mins
+          - generic [ref=e2220]:
+            - generic [ref=e2221]:
+              - generic [ref=e2222]: Sunfeast Fantastik Mini Treats (Homepack) Wafer Roll
+              - generic [ref=e2224]: 125.4 g
+            - generic [ref=e2226]:
+              - generic [ref=e2227]:
+                - generic [ref=e2228]: ₹71
+                - generic [ref=e2229]: ₹100
+              - button "ADD" [ref=e2230]
+      - button "44% OFF 9 mins Storia Tender Concentrate Coconut Water 1 ltr ₹99 ₹178 ADD" [ref=e2233] [cursor=pointer]:
+        - generic [ref=e2234]: 44% OFF
+        - generic [ref=e2240]:
+          - generic [ref=e2241]: 9 mins
+          - generic [ref=e2247]:
+            - generic [ref=e2248]:
+              - generic [ref=e2249]: Storia Tender Concentrate Coconut Water
+              - generic [ref=e2251]: 1 ltr
+            - generic [ref=e2253]:
+              - generic [ref=e2254]:
+                - generic [ref=e2255]: ₹99
+                - generic [ref=e2256]: ₹178
+              - button "ADD" [ref=e2257]
+      - button "28% OFF 9 mins OVO Farm On Day White Eggs 6 pcs ₹50 ₹70 ADD" [ref=e2260] [cursor=pointer]:
+        - generic [ref=e2261]: 28% OFF
+        - generic [ref=e2267]:
+          - generic [ref=e2268]: 9 mins
+          - generic [ref=e2274]:
+            - generic [ref=e2275]:
+              - generic [ref=e2276]: OVO Farm On Day White Eggs
+              - generic [ref=e2278]: 6 pcs
+            - generic [ref=e2280]:
+              - generic [ref=e2281]:
+                - generic [ref=e2282]: ₹50
+                - generic [ref=e2283]: ₹70
+              - button "ADD" [ref=e2284]
+      - button "50% OFF 9 mins Sunfeast Bourbon Dark Fantasy Biscuit 99 g ₹15 ₹30 ADD" [ref=e2287] [cursor=pointer]:
+        - generic [ref=e2288]: 50% OFF
+        - generic [ref=e2294]:
+          - generic [ref=e2295]: 9 mins
+          - generic [ref=e2301]:
+            - generic [ref=e2302]:
+              - generic [ref=e2303]: Sunfeast Bourbon Dark Fantasy Biscuit
+              - generic [ref=e2305]:
+                - generic [ref=e2306]: 99 g
+                - img [ref=e2307]: 
+            - generic [ref=e2308]:
+              - generic [ref=e2309]:
+                - generic [ref=e2310]: ₹15
+                - generic [ref=e2311]: ₹30
+              - button "ADD" [ref=e2312]
+      - button "30% OFF 9 mins Britannia Cake Fudge it Chocolate Brownie 120 g ₹63 ₹90 ADD" [ref=e2315] [cursor=pointer]:
+        - generic [ref=e2316]: 30% OFF
+        - generic [ref=e2322]:
+          - generic [ref=e2323]: 9 mins
+          - generic [ref=e2329]:
+            - generic [ref=e2330]:
+              - generic [ref=e2331]: Britannia Cake Fudge it Chocolate Brownie
+              - generic [ref=e2333]: 120 g
+            - generic [ref=e2335]:
+              - generic [ref=e2336]:
+                - generic [ref=e2337]: ₹63
+                - generic [ref=e2338]: ₹90
+              - button "ADD" [ref=e2339]
+      - button "50% OFF 9 mins Sunfeast Dark Fantasy Vanilla Sandwich Crème Biscuits 79 g ₹15 ₹30 ADD" [ref=e2342] [cursor=pointer]:
+        - generic [ref=e2343]: 50% OFF
+        - generic [ref=e2349]:
+          - generic [ref=e2350]: 9 mins
+          - generic [ref=e2356]:
+            - generic [ref=e2357]:
+              - generic [ref=e2358]: Sunfeast Dark Fantasy Vanilla Sandwich Crème Biscuits
+              - generic [ref=e2360]: 79 g
+            - generic [ref=e2362]:
+              - generic [ref=e2363]:
+                - generic [ref=e2364]: ₹15
+                - generic [ref=e2365]: ₹30
+              - button "ADD" [ref=e2366]
+      - button "50% OFF 9 mins Crax Curls Chatpata Masala Puffs Snacks 82 g ₹30 ₹60 ADD" [ref=e2369] [cursor=pointer]:
+        - generic [ref=e2370]: 50% OFF
+        - generic [ref=e2376]:
+          - generic [ref=e2377]: 9 mins
+          - generic [ref=e2383]:
+            - generic [ref=e2384]:
+              - generic [ref=e2385]: Crax Curls Chatpata Masala Puffs Snacks
+              - generic [ref=e2387]:
+                - generic [ref=e2388]: 82 g
+                - img [ref=e2389]: 
+            - generic [ref=e2390]:
+              - generic [ref=e2391]:
+                - generic [ref=e2392]: ₹30
+                - generic [ref=e2393]: ₹60
+              - button "ADD" [ref=e2394]
+      - button "25% OFF 9 mins Lay's India's Magic Masala Potato Chips 2 x 80 g ₹72 ₹96 ADD" [ref=e2397] [cursor=pointer]:
+        - generic [ref=e2398]: 25% OFF
+        - generic [ref=e2404]:
+          - generic [ref=e2405]: 9 mins
+          - generic [ref=e2411]:
+            - generic [ref=e2412]:
+              - generic [ref=e2413]: Lay's India's Magic Masala Potato Chips
+              - generic [ref=e2415]:
+                - generic [ref=e2416]: 2 x 80 g
+                - img [ref=e2417]: 
+            - generic [ref=e2418]:
+              - generic [ref=e2419]:
+                - generic [ref=e2420]: ₹72
+                - generic [ref=e2421]: ₹96
+              - button "ADD" [ref=e2422]
+      - button "29% OFF 9 mins OVO Farm On-Day White Eggs 30 pcs ₹239 ₹339 ADD" [ref=e2425] [cursor=pointer]:
+        - generic [ref=e2426]: 29% OFF
+        - generic [ref=e2432]:
+          - generic [ref=e2433]: 9 mins
+          - generic [ref=e2439]:
+            - generic [ref=e2440]:
+              - generic [ref=e2441]: OVO Farm On-Day White Eggs
+              - generic [ref=e2443]: 30 pcs
+            - generic [ref=e2445]:
+              - generic [ref=e2446]:
+                - generic [ref=e2447]: ₹239
+                - generic [ref=e2448]: ₹339
+              - button "ADD" [ref=e2449]
+      - button "29% OFF 9 mins Cheetos Crisps (Masala Balls) 84 g ₹34 ₹48 ADD" [ref=e2452] [cursor=pointer]:
+        - generic [ref=e2453]: 29% OFF
+        - generic [ref=e2459]:
+          - generic [ref=e2460]: 9 mins
+          - generic [ref=e2466]:
+            - generic [ref=e2467]:
+              - generic [ref=e2468]: Cheetos Crisps (Masala Balls)
+              - generic [ref=e2470]:
+                - generic [ref=e2471]: 84 g
+                - img [ref=e2472]: 
+            - generic [ref=e2473]:
+              - generic [ref=e2474]:
+                - generic [ref=e2475]: ₹34
+                - generic [ref=e2476]: ₹48
+              - button "ADD" [ref=e2477]
+      - button "42% OFF 9 mins Sunfeast Dark Fantasy Choco Fills Chocolate Biscuit Pack 230 g ₹92 ₹160 ADD" [ref=e2480] [cursor=pointer]:
+        - generic [ref=e2481]: 42% OFF
+        - generic [ref=e2487]:
+          - generic [ref=e2488]: 9 mins
+          - generic [ref=e2494]:
+            - generic [ref=e2495]:
+              - generic [ref=e2496]: Sunfeast Dark Fantasy Choco Fills Chocolate Biscuit Pack
+              - generic [ref=e2498]: 230 g
+            - generic [ref=e2500]:
+              - generic [ref=e2501]:
+                - generic [ref=e2502]: ₹92
+                - generic [ref=e2503]: ₹160
+              - button "ADD" [ref=e2504]
+      - button "49% OFF 9 mins Sunfeast Dark Fantasy Yumfills Choco Pie 242 g ₹91 ₹180 ADD" [ref=e2507] [cursor=pointer]:
+        - generic [ref=e2508]: 49% OFF
+        - generic [ref=e2514]:
+          - generic [ref=e2515]: 9 mins
+          - generic [ref=e2521]:
+            - generic [ref=e2522]:
+              - generic [ref=e2523]: Sunfeast Dark Fantasy Yumfills Choco Pie
+              - generic [ref=e2525]: 242 g
+            - generic [ref=e2527]:
+              - generic [ref=e2528]:
+                - generic [ref=e2529]: ₹91
+                - generic [ref=e2530]: ₹180
+              - button "ADD" [ref=e2531]
+      - button "50% OFF 9 mins Sunfeast Dark Fantasy Choco Sandwich Crème Biscuits 79 g ₹15 ₹30 ADD" [ref=e2534] [cursor=pointer]:
+        - generic [ref=e2535]: 50% OFF
+        - generic [ref=e2541]:
+          - generic [ref=e2542]: 9 mins
+          - generic [ref=e2548]:
+            - generic [ref=e2549]:
+              - generic [ref=e2550]: Sunfeast Dark Fantasy Choco Sandwich Crème Biscuits
+              - generic [ref=e2552]: 79 g
+            - generic [ref=e2554]:
+              - generic [ref=e2555]:
+                - generic [ref=e2556]: ₹15
+                - generic [ref=e2557]: ₹30
+              - button "ADD" [ref=e2558]
+      - button "47% OFF 9 mins Hide & Seek Milano Choco Chip Cookies 120 g ₹63 ₹120 ADD" [ref=e2561] [cursor=pointer]:
+        - generic [ref=e2562]: 47% OFF
+        - generic [ref=e2568]:
+          - generic [ref=e2569]: 9 mins
+          - generic [ref=e2575]:
+            - generic [ref=e2576]:
+              - generic [ref=e2577]: Hide & Seek Milano Choco Chip Cookies
+              - generic [ref=e2579]: 120 g
+            - generic [ref=e2581]:
+              - generic [ref=e2582]:
+                - generic [ref=e2583]: ₹63
+                - generic [ref=e2584]: ₹120
+              - button "ADD" [ref=e2585]
+      - button "27% OFF 9 mins Whole Farm Premium American Almonds (100 g) (Badam) 100 g ₹138 ₹190 ADD" [ref=e2588] [cursor=pointer]:
+        - generic [ref=e2589]: 27% OFF
+        - generic [ref=e2595]:
+          - generic [ref=e2596]: 9 mins
+          - generic [ref=e2602]:
+            - generic [ref=e2603]:
+              - generic [ref=e2604]: Whole Farm Premium American Almonds (100 g) (Badam)
+              - generic [ref=e2606]: 100 g
+            - generic [ref=e2608]:
+              - generic [ref=e2609]:
+                - generic [ref=e2610]: ₹138
+                - generic [ref=e2611]: ₹190
+              - button "ADD" [ref=e2612]
+      - button "27% OFF 9 mins Chheda's Bhakarwadi Namkeen 150 g ₹51 ₹70 ADD" [ref=e2615] [cursor=pointer]:
+        - generic [ref=e2616]: 27% OFF
+        - generic [ref=e2622]:
+          - generic [ref=e2623]: 9 mins
+          - generic [ref=e2629]:
+            - generic [ref=e2630]:
+              - generic [ref=e2631]: Chheda's Bhakarwadi Namkeen
+              - generic [ref=e2633]:
+                - generic [ref=e2634]: 150 g
+                - img [ref=e2635]: 
+            - generic [ref=e2636]:
+              - generic [ref=e2637]:
+                - generic [ref=e2638]: ₹51
+                - generic [ref=e2639]: ₹70
+              - button "ADD" [ref=e2640]
+      - button "50% OFF 9 mins Britannia Treat Dubai Kunafa Croissant 45 g ₹30 ₹60 ADD" [ref=e2643] [cursor=pointer]:
+        - generic [ref=e2644]: 50% OFF
+        - generic [ref=e2650]:
+          - generic [ref=e2651]: 9 mins
+          - generic [ref=e2657]:
+            - generic [ref=e2658]:
+              - generic [ref=e2659]: Britannia Treat Dubai Kunafa Croissant
+              - generic [ref=e2661]: 45 g
+            - generic [ref=e2663]:
+              - generic [ref=e2664]:
+                - generic [ref=e2665]: ₹30
+                - generic [ref=e2666]: ₹60
+              - button "ADD" [ref=e2667]
+      - button "27% OFF 9 mins Cadbury 5 Star Filled Bar Chocolate Pack 2 x 96 g ₹77 ₹106 ADD" [ref=e2670] [cursor=pointer]:
+        - generic [ref=e2671]: 27% OFF
+        - generic [ref=e2677]:
+          - generic [ref=e2678]: 9 mins
+          - generic [ref=e2684]:
+            - generic [ref=e2685]:
+              - generic [ref=e2686]: Cadbury 5 Star Filled Bar Chocolate Pack
+              - generic [ref=e2688]:
+                - generic [ref=e2689]: 2 x 96 g
+                - img [ref=e2690]: 
+            - generic [ref=e2691]:
+              - generic [ref=e2692]:
+                - generic [ref=e2693]: ₹77
+                - generic [ref=e2694]: ₹106
+              - button "ADD" [ref=e2695]
+    - button "Your daily fresh needs see all" [ref=e2699] [cursor=pointer]:
+      - generic [ref=e2700]:
+        - generic [ref=e2701]: Your daily fresh needs
+        - button "see all" [ref=e2703]
+    - generic [ref=e2706]:
+      - button "13% OFF 9 mins Green Kiwi 3 pcs ₹132 ₹153 ADD" [ref=e2708] [cursor=pointer]:
+        - generic [ref=e2709]: 13% OFF
+        - generic [ref=e2715]:
+          - generic [ref=e2716]: 9 mins
+          - generic [ref=e2722]:
+            - generic [ref=e2723]:
+              - generic [ref=e2724]: Green Kiwi
+              - generic [ref=e2726]: 3 pcs
+            - generic [ref=e2728]:
+              - generic [ref=e2729]:
+                - generic [ref=e2730]: ₹132
+                - generic [ref=e2731]: ₹153
+              - button "ADD" [ref=e2732]
+      - button "17% OFF 9 mins Mini Orange 250 g (Narangi) 250 g ₹94 ₹114 ADD" [ref=e2735] [cursor=pointer]:
+        - generic [ref=e2736]: 17% OFF
+        - generic [ref=e2742]:
+          - generic [ref=e2743]: 9 mins
+          - generic [ref=e2749]:
+            - generic [ref=e2750]:
+              - generic [ref=e2751]: Mini Orange 250 g (Narangi)
+              - generic [ref=e2753]: 250 g
+            - generic [ref=e2755]:
+              - generic [ref=e2756]:
+                - generic [ref=e2757]: ₹94
+                - generic [ref=e2758]: ₹114
+              - button "ADD" [ref=e2759]
+      - button "15% OFF 9 mins Neem Sticks (Neem Dand) 100 g ₹28 ₹33 ADD" [ref=e2762] [cursor=pointer]:
+        - generic [ref=e2763]: 15% OFF
+        - generic [ref=e2769]:
+          - generic [ref=e2770]: 9 mins
+          - generic [ref=e2776]:
+            - generic [ref=e2777]:
+              - generic [ref=e2778]: Neem Sticks (Neem Dand)
+              - generic [ref=e2780]: 100 g
+            - generic [ref=e2782]:
+              - generic [ref=e2783]:
+                - generic [ref=e2784]: ₹28
+                - generic [ref=e2785]: ₹33
+              - button "ADD" [ref=e2786]
+      - button "18% OFF 9 mins Banana Stem 800 g ₹35 ₹43 ADD" [ref=e2789] [cursor=pointer]:
+        - generic [ref=e2790]: 18% OFF
+        - generic [ref=e2796]:
+          - generic [ref=e2797]: 9 mins
+          - generic [ref=e2803]:
+            - generic [ref=e2804]:
+              - generic [ref=e2805]: Banana Stem
+              - generic [ref=e2807]: 800 g
+            - generic [ref=e2809]:
+              - generic [ref=e2810]:
+                - generic [ref=e2811]: ₹35
+                - generic [ref=e2812]: ₹43
+              - button "ADD" [ref=e2813]
+      - button "9% OFF 9 mins Arvi (Kochila) 250 g ₹19 ₹21 ADD" [ref=e2816] [cursor=pointer]:
+        - generic [ref=e2817]: 9% OFF
+        - generic [ref=e2823]:
+          - generic [ref=e2824]: 9 mins
+          - generic [ref=e2830]:
+            - generic [ref=e2831]:
+              - generic [ref=e2832]: Arvi (Kochila)
+              - generic [ref=e2834]: 250 g
+            - generic [ref=e2836]:
+              - generic [ref=e2837]:
+                - generic [ref=e2838]: ₹19
+                - generic [ref=e2839]: ₹21
+              - button "ADD" [ref=e2840]
+      - button "12% OFF 9 mins Green Capsicum 250 g ₹34 ₹39 ADD" [ref=e2843] [cursor=pointer]:
+        - generic [ref=e2844]: 12% OFF
+        - generic [ref=e2850]:
+          - generic [ref=e2851]: 9 mins
+          - generic [ref=e2857]:
+            - generic [ref=e2858]:
+              - generic [ref=e2859]: Green Capsicum
+              - generic [ref=e2861]: 250 g
+            - generic [ref=e2863]:
+              - generic [ref=e2864]:
+                - generic [ref=e2865]: ₹34
+                - generic [ref=e2866]: ₹39
+              - button "ADD" [ref=e2867]
+      - button "18% OFF 9 mins Royal Gala Apple - Imported (Sau) 225 g ₹133 ₹164 ADD" [ref=e2870] [cursor=pointer]:
+        - generic [ref=e2871]: 18% OFF
+        - generic [ref=e2877]:
+          - generic [ref=e2878]: 9 mins
+          - generic [ref=e2884]:
+            - generic [ref=e2885]:
+              - generic [ref=e2886]: Royal Gala Apple - Imported (Sau)
+              - generic [ref=e2888]: 225 g
+            - generic [ref=e2890]:
+              - generic [ref=e2891]:
+                - generic [ref=e2892]: ₹133
+                - generic [ref=e2893]: ₹164
+              - button "ADD" [ref=e2894]
+      - button "21% OFF 9 mins Green Lettuce 100 g ₹52 ₹66 ADD" [ref=e2897] [cursor=pointer]:
+        - generic [ref=e2898]: 21% OFF
+        - generic [ref=e2904]:
+          - generic [ref=e2905]: 9 mins
+          - generic [ref=e2911]:
+            - generic [ref=e2912]:
+              - generic [ref=e2913]: Green Lettuce
+              - generic [ref=e2915]: 100 g
+            - generic [ref=e2917]:
+              - generic [ref=e2918]:
+                - generic [ref=e2919]: ₹52
+                - generic [ref=e2920]: ₹66
+              - button "ADD" [ref=e2921]
+      - button "17% OFF 9 mins Sweet Potato (Mitha Alu) 450 g ₹39 ₹47 ADD" [ref=e2924] [cursor=pointer]:
+        - generic [ref=e2925]: 17% OFF
+        - generic [ref=e2931]:
+          - generic [ref=e2932]: 9 mins
+          - generic [ref=e2938]:
+            - generic [ref=e2939]:
+              - generic [ref=e2940]: Sweet Potato (Mitha Alu)
+              - generic [ref=e2942]: 450 g
+            - generic [ref=e2944]:
+              - generic [ref=e2945]:
+                - generic [ref=e2946]: ₹39
+                - generic [ref=e2947]: ₹47
+              - button "ADD" [ref=e2948]
+      - button "15% OFF 9 mins Raw Banana (Kancha Kadali) 3 pcs ₹37 ₹44 ADD" [ref=e2951] [cursor=pointer]:
+        - generic [ref=e2952]: 15% OFF
+        - generic [ref=e2958]:
+          - generic [ref=e2959]: 9 mins
+          - generic [ref=e2965]:
+            - generic [ref=e2966]:
+              - generic [ref=e2967]: Raw Banana (Kancha Kadali)
+              - generic [ref=e2969]: 3 pcs
+            - generic [ref=e2971]:
+              - generic [ref=e2972]:
+                - generic [ref=e2973]: ₹37
+                - generic [ref=e2974]: ₹44
+              - button "ADD" [ref=e2975]
+      - button "16% OFF 9 mins Banana (Kadali) 3 pcs ₹36 ₹43 ADD" [ref=e2978] [cursor=pointer]:
+        - generic [ref=e2979]: 16% OFF
+        - generic [ref=e2985]:
+          - generic [ref=e2986]: 9 mins
+          - generic [ref=e2992]:
+            - generic [ref=e2993]:
+              - generic [ref=e2994]: Banana (Kadali)
+              - generic [ref=e2996]: 3 pcs
+            - generic [ref=e2998]:
+              - generic [ref=e2999]:
+                - generic [ref=e3000]: ₹36
+                - generic [ref=e3001]: ₹43
+              - button "ADD" [ref=e3002]
+      - button "21% OFF 9 mins Sweet Corn - Packet (Mitha Makka) 180 g ₹41 ₹52 ADD" [ref=e3005] [cursor=pointer]:
+        - generic [ref=e3006]: 21% OFF
+        - generic [ref=e3012]:
+          - generic [ref=e3013]: 9 mins
+          - generic [ref=e3019]:
+            - generic [ref=e3020]:
+              - generic [ref=e3021]: Sweet Corn - Packet (Mitha Makka)
+              - generic [ref=e3023]: 180 g
+            - generic [ref=e3025]:
+              - generic [ref=e3026]:
+                - generic [ref=e3027]: ₹41
+                - generic [ref=e3028]: ₹52
+              - button "ADD" [ref=e3029]
+      - button "18% OFF 9 mins Mint Leaves (Pudina Patra) 100 g ₹39 ₹48 ADD" [ref=e3032] [cursor=pointer]:
+        - generic [ref=e3033]: 18% OFF
+        - generic [ref=e3039]:
+          - generic [ref=e3040]: 9 mins
+          - generic [ref=e3046]:
+            - generic [ref=e3047]:
+              - generic [ref=e3048]: Mint Leaves (Pudina Patra)
+              - generic [ref=e3050]: 100 g
+            - generic [ref=e3052]:
+              - generic [ref=e3053]:
+                - generic [ref=e3054]: ₹39
+                - generic [ref=e3055]: ₹48
+              - button "ADD" [ref=e3056]
+      - button "15% OFF 9 mins Brown Chana Sprouts (Ankurit) 150 g ₹38 ₹45 ADD" [ref=e3059] [cursor=pointer]:
+        - generic [ref=e3060]: 15% OFF
+        - generic [ref=e3066]:
+          - generic [ref=e3067]: 9 mins
+          - generic [ref=e3073]:
+            - generic [ref=e3074]:
+              - generic [ref=e3075]: Brown Chana Sprouts (Ankurit)
+              - generic [ref=e3077]: 150 g
+            - generic [ref=e3079]:
+              - generic [ref=e3080]:
+                - generic [ref=e3081]: ₹38
+                - generic [ref=e3082]: ₹45
+              - button "ADD" [ref=e3083]
+      - button "18% OFF 9 mins Curry Leaves (Bhursunga Patra) 50 g ₹18 ₹22 ADD" [ref=e3086] [cursor=pointer]:
+        - generic [ref=e3087]: 18% OFF
+        - generic [ref=e3093]:
+          - generic [ref=e3094]: 9 mins
+          - generic [ref=e3100]:
+            - generic [ref=e3101]:
+              - generic [ref=e3102]: Curry Leaves (Bhursunga Patra)
+              - generic [ref=e3104]: 50 g
+            - generic [ref=e3106]:
+              - generic [ref=e3107]:
+                - generic [ref=e3108]: ₹18
+                - generic [ref=e3109]: ₹22
+              - button "ADD" [ref=e3110]
+      - button "13% OFF 9 mins Malabar Spinach (Poee Saga) 250 g ₹38 ₹44 ADD" [ref=e3113] [cursor=pointer]:
+        - generic [ref=e3114]: 13% OFF
+        - generic [ref=e3120]:
+          - generic [ref=e3121]: 9 mins
+          - generic [ref=e3127]:
+            - generic [ref=e3128]:
+              - generic [ref=e3129]: Malabar Spinach (Poee Saga)
+              - generic [ref=e3131]: 250 g
+            - generic [ref=e3133]:
+              - generic [ref=e3134]:
+                - generic [ref=e3135]: ₹38
+                - generic [ref=e3136]: ₹44
+              - button "ADD" [ref=e3137]
+      - button "19% OFF 9 mins Celery 100 g ₹51 ₹63 ADD" [ref=e3140] [cursor=pointer]:
+        - generic [ref=e3141]: 19% OFF
+        - generic [ref=e3147]:
+          - generic [ref=e3148]: 9 mins
+          - generic [ref=e3154]:
+            - generic [ref=e3155]:
+              - generic [ref=e3156]: Celery
+              - generic [ref=e3158]: 100 g
+            - generic [ref=e3160]:
+              - generic [ref=e3161]:
+                - generic [ref=e3162]: ₹51
+                - generic [ref=e3163]: ₹63
+              - button "ADD" [ref=e3164]
+      - button "17% OFF 9 mins Baby Potato (Aloo) 500 g ₹14 ₹17 ADD" [ref=e3167] [cursor=pointer]:
+        - generic [ref=e3168]: 17% OFF
+        - generic [ref=e3174]:
+          - generic [ref=e3175]: 9 mins
+          - generic [ref=e3181]:
+            - generic [ref=e3182]:
+              - generic [ref=e3183]: Baby Potato (Aloo)
+              - generic [ref=e3185]: 500 g
+            - generic [ref=e3187]:
+              - generic [ref=e3188]:
+                - generic [ref=e3189]: ₹14
+                - generic [ref=e3190]: ₹17
+              - button "ADD" [ref=e3191]
+      - button "14% OFF 9 mins Bitter Gourd (Karela) 250 g ₹23 ₹27 ADD" [ref=e3194] [cursor=pointer]:
+        - generic [ref=e3195]: 14% OFF
+        - generic [ref=e3201]:
+          - generic [ref=e3202]: 9 mins
+          - generic [ref=e3208]:
+            - generic [ref=e3209]:
+              - generic [ref=e3210]: Bitter Gourd (Karela)
+              - generic [ref=e3212]: 250 g
+            - generic [ref=e3214]:
+              - generic [ref=e3215]:
+                - generic [ref=e3216]: ₹23
+                - generic [ref=e3217]: ₹27
+              - button "ADD" [ref=e3218]
+      - button "12% OFF 9 mins Spine Gourd 250 g ₹21 ₹24 ADD" [ref=e3221] [cursor=pointer]:
+        - generic [ref=e3222]: 12% OFF
+        - generic [ref=e3228]:
+          - generic [ref=e3229]: 9 mins
+          - generic [ref=e3235]:
+            - generic [ref=e3236]:
+              - generic [ref=e3237]: Spine Gourd
+              - generic [ref=e3239]: 250 g
+            - generic [ref=e3241]:
+              - generic [ref=e3242]:
+                - generic [ref=e3243]: ₹21
+                - generic [ref=e3244]: ₹24
+              - button "ADD" [ref=e3245]
+      - button "13% OFF 9 mins Green Zucchini 200 g ₹66 ₹76 ADD" [ref=e3248] [cursor=pointer]:
+        - generic [ref=e3249]: 13% OFF
+        - generic [ref=e3255]:
+          - generic [ref=e3256]: 9 mins
+          - generic [ref=e3262]:
+            - generic [ref=e3263]:
+              - generic [ref=e3264]: Green Zucchini
+              - generic [ref=e3266]: 200 g
+            - generic [ref=e3268]:
+              - generic [ref=e3269]:
+                - generic [ref=e3270]: ₹66
+                - generic [ref=e3271]: ₹76
+              - button "ADD" [ref=e3272]
+    - button "Snack it away see all" [ref=e3276] [cursor=pointer]:
+      - generic [ref=e3277]:
+        - generic [ref=e3278]: Snack it away
+        - button "see all" [ref=e3280]
+  - generic [ref=e1658]:
+    - generic [ref=e1659]: India's last minute app - blinkit
+    - generic [ref=e1660]: +

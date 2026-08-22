@@ -36,6 +36,13 @@ interface CheckoutBillCardProps {
   onTipChange: (tip: number) => void;
   notes: string;
   onNotesChange: (notes: string) => void;
+  /**
+   * When false, the "Tip your delivery partner" strip is hidden — used by
+   * /checkout, which reads the tip from the cart store instead of collecting
+   * it again. The `tip` value is still folded into the bill total so the
+   * breakdown stays consistent. Defaults to true so /cart gets the strip.
+   */
+  showTip?: boolean;
 }
 
 // UX-19 — tip presets keyed to subtotal, not fixed rupee amounts. A ₹50 tip
@@ -65,6 +72,7 @@ export default function CheckoutBillCard({
   onTipChange,
   notes,
   onNotesChange,
+  showTip = true,
 }: CheckoutBillCardProps) {
   const [expanded, setExpanded] = useState(true);
   const total = Math.max(
@@ -83,6 +91,7 @@ export default function CheckoutBillCard({
   return (
     <div className="space-y-3">
       {/* ─── Tip the delivery hero ───────────────────────────── */}
+      {showTip && (
       <div className="rounded-2xl border border-rose-100 bg-rose-50/60 p-4">
         <div className="flex items-start gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-rose-100 text-rose-600">
@@ -119,6 +128,7 @@ export default function CheckoutBillCard({
           </div>
         </div>
       </div>
+      )}
 
       {/* ─── Delivery instructions ───────────────────────────── */}
       <div className="rounded-2xl border border-slate-200 bg-white p-4">

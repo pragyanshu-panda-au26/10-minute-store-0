@@ -5,15 +5,20 @@ import { AUTH_COOKIE_NAME, verifyJwtToken } from "@/lib/auth";
  * Next.js 16 renamed `middleware` -> `proxy`.
  *
  * Route protection:
- *  - /checkout, /orders  -> require a valid customer or admin JWT (redirect to /auth)
+ *  - /orders  -> require a valid customer or admin JWT (redirect to /auth)
  *  - /admin (except /admin/login) -> require a valid ADMIN JWT (redirect to /admin/login)
  *  - /admin/login -> if already logged in as admin, bounce to /admin
+ *
+ * NOTE: /checkout is deliberately NOT protected here. The CheckoutPage renders
+ * an inline "Sign in to place your order" banner + AuthModal for guests, which
+ * keeps the cart context on-screen — matching Blinkit's modal-on-cart pattern.
+ * Bouncing guests to /auth?redirect=/checkout used to lose the cart state and
+ * break the funnel.
  */
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  const isCustomerProtected =
-    pathname.startsWith("/checkout") || pathname.startsWith("/orders");
+  const isCustomerProtected = pathname.startsWith("/orders");
   const isAdminLogin = pathname === "/admin/login";
   const isAdminProtected = pathname.startsWith("/admin") && !isAdminLogin;
 
@@ -56,5 +61,5 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/checkout/:path*", "/orders/:path*", "/admin/:path*"],
+  matcher: ["/orders/:path*", "/admin/:path*"],
 };

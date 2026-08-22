@@ -1,0 +1,658 @@
+- generic [ref=f15e3]:
+  - banner [ref=f15e5]:
+    - generic [ref=f15e6]:
+      - generic [ref=f15e7]: œ
+      - generic [ref=f15e11] [cursor=pointer]:
+        - generic [ref=f15e12]: Delivery in 16 minutes
+        - generic [ref=f15e13]: KIIT Rd, Patia, Bhubaneswar, Odisha 751024, India
+    - generic [ref=f15e17]: "!"
+  - generic [ref=f15e21]:
+    - generic [ref=f15e34]:
+      - generic [ref=f15e35]: 0 items
+      - generic [ref=f15e36]: ₹ 0
+    - generic [ref=f15e38]: View Cart
+  - generic [ref=f15e45]:
+    - generic [ref=f15e48]:
+      - generic [ref=f15e54]:
+        - button "16 mins Paradyes Coconut Fix Shampoo Hair Colour (Natural Black 1.0) 4 x 25 ml ₹195 ₹199 ADD 2 options" [ref=f15e56] [cursor=pointer]:
+          - generic [ref=f15e64]:
+            - generic [ref=f15e65]: 16 mins
+            - generic [ref=f15e72]:
+              - generic [ref=f15e73]:
+                - generic [ref=f15e74]: Paradyes Coconut Fix Shampoo Hair Colour (Natural Black 1.0)
+                - generic [ref=f15e76]: 4 x 25 ml
+              - generic [ref=f15e78]:
+                - generic [ref=f15e79]:
+                  - generic [ref=f15e80]: ₹195
+                  - generic [ref=f15e81]: ₹199
+                - button "ADD 2 options" [ref=f15e83]:
+                  - generic [ref=f15e84]: ADD
+                  - generic [ref=f15e85]: 2 options
+        - button "16 mins Garnier Shampoo Hair Colour (Natural Black) 20 ml ₹35 ADD 2 options" [ref=f15e88] [cursor=pointer]:
+          - generic [ref=f15e92]:
+            - generic [ref=f15e93]: 16 mins
+            - generic [ref=f15e100]:
+              - generic [ref=f15e101]:
+                - generic [ref=f15e102]: Garnier Shampoo Hair Colour (Natural Black)
+                - generic [ref=f15e104]: 20 ml
+              - generic [ref=f15e106]:
+                - generic [ref=f15e107]: ₹35
+                - button "ADD 2 options" [ref=f15e109]:
+                  - generic [ref=f15e110]: ADD
+                  - generic [ref=f15e111]: 2 options
+        - button "16 mins Godrej Expert Hair Colour for Women & Men (Natural Black) 20 g + 20 ml + 8 ml ₹40 ADD 2 options" [ref=f15e114] [cursor=pointer]:
+          - generic [ref=f15e118]:
+            - generic [ref=f15e119]: 16 mins
+            - generic [ref=f15e126]:
+              - generic [ref=f15e127]:
+                - generic [ref=f15e128]: Godrej Expert Hair Colour for Women & Men (Natural Black)
+                - generic [ref=f15e130]: 20 g + 20 ml + 8 ml
+              - generic [ref=f15e132]:
+                - generic [ref=f15e133]: ₹40
+                - button "ADD 2 options" [ref=f15e135]:
+                  - generic [ref=f15e136]: ADD
+                  - generic [ref=f15e137]: 2 options
+        - button "16 mins Godrej Nupur 100% Pure Henna Hair Colour / Mehendi 120 g ₹80 ADD" [ref=f15e140] [cursor=pointer]:
+          - generic [ref=f15e144]:
+            - generic [ref=f15e145]: 16 mins
+            - generic [ref=f15e152]:
+              - generic [ref=f15e153]:
+                - generic [ref=f15e154]: Godrej Nupur 100% Pure Henna Hair Colour / Mehendi
+                - generic [ref=f15e156]: 120 g
+              - generic [ref=f15e158]:
+                - generic [ref=f15e159]: ₹80
+                - button "ADD" [ref=f15e161]
+        - button "22% OFF 16 mins Paradyes Instant Cover Up Hairline Powder (Dark Brown) 4 g ₹499 ₹645 ADD" [ref=f15e164] [cursor=pointer]:
+          - generic [ref=f15e165]: 22% OFF
+          - generic [ref=f15e176]:
+            - generic [ref=f15e177]: 16 mins
+            - generic [ref=f15e183]:
+              - generic [ref=f15e184]:
+                - generic [ref=f15e185]: Paradyes Instant Cover Up Hairline Powder (Dark Brown)
+                - generic [ref=f15e187]: 4 g
+              - generic [ref=f15e189]:
+                - generic [ref=f15e190]:
+                  - generic [ref=f15e191]: ₹499
+                  - generic [ref=f15e192]: ₹645
+                - button "ADD" [ref=f15e194]
+        - button "16 mins L'Oreal Paris Casting Crème Gloss 400 Dark Brown 21 g + 24 ml ₹268 ₹269 ADD 2 options" [ref=f15e197] [cursor=pointer]:
+          - generic [ref=f15e201]:
+            - generic [ref=f15e202]: 16 mins
+            - generic [ref=f15e208]:
+              - generic [ref=f15e209]:
+                - generic [ref=f15e210]: L'Oreal Paris Casting Crème Gloss 400 Dark Brown
+                - generic [ref=f15e212]: 21 g + 24 ml
+              - generic [ref=f15e214]:
+                - generic [ref=f15e215]:
+                  - generic [ref=f15e216]: ₹268
+                  - generic [ref=f15e217]: ₹269
+                - button "ADD 2 options" [ref=f15e219]:
+                  - generic [ref=f15e220]: ADD
+                  - generic [ref=f15e221]: 2 options
+        - button "16 mins Garnier Color Naturals Nourishing Permanent Hair Colour (Burgundy) 65 g ₹109 ADD" [ref=f15e224] [cursor=pointer]:
+          - generic [ref=f15e227]:
+            - generic [ref=f15e228]: 16 mins
+            - generic [ref=f15e234]:
+              - generic [ref=f15e235]:
+                - generic [ref=f15e236]: Garnier Color Naturals Nourishing Permanent Hair Colour (Burgundy)
+                - generic [ref=f15e238]: 65 g
+              - generic [ref=f15e240]:
+                - generic [ref=f15e241]: ₹109
+                - button "ADD" [ref=f15e243]
+        - button "16 mins Paradyes Mini Berry Plum Glossy Tint Hair Colour (Berry Plum) 60 g ₹290 ₹299 ADD 2 options" [ref=f15e246] [cursor=pointer]:
+          - generic [ref=f15e249]:
+            - generic [ref=f15e250]: 16 mins
+            - generic [ref=f15e256]:
+              - generic [ref=f15e257]:
+                - generic [ref=f15e258]: Paradyes Mini Berry Plum Glossy Tint Hair Colour (Berry Plum)
+                - generic [ref=f15e260]: 60 g
+              - generic [ref=f15e262]:
+                - generic [ref=f15e263]:
+                  - generic [ref=f15e264]: ₹290
+                  - generic [ref=f15e265]: ₹299
+                - button "ADD 2 options" [ref=f15e267]:
+                  - generic [ref=f15e268]: ADD
+                  - generic [ref=f15e269]: 2 options
+        - button "22% OFF 16 mins Paradyes Instant Cover Up Hairline Powder Tint (Natural Black) 4 g ₹499 ₹645 ADD" [ref=f15e272] [cursor=pointer]:
+          - generic [ref=f15e273]: 22% OFF
+          - generic [ref=f15e282]:
+            - generic [ref=f15e283]: 16 mins
+            - generic [ref=f15e289]:
+              - generic [ref=f15e290]:
+                - generic [ref=f15e291]: Paradyes Instant Cover Up Hairline Powder Tint (Natural Black)
+                - generic [ref=f15e293]: 4 g
+              - generic [ref=f15e295]:
+                - generic [ref=f15e296]:
+                  - generic [ref=f15e297]: ₹499
+                  - generic [ref=f15e298]: ₹645
+                - button "ADD" [ref=f15e300]
+        - button "16 mins L'Oreal Paris Casting Crème Gloss 316 Burgundy 1 pack ₹268 ₹269 ADD" [ref=f15e303] [cursor=pointer]:
+          - generic [ref=f15e306]:
+            - generic [ref=f15e307]: 16 mins
+            - generic [ref=f15e313]:
+              - generic [ref=f15e314]:
+                - generic [ref=f15e315]: L'Oreal Paris Casting Crème Gloss 316 Burgundy
+                - generic [ref=f15e317]: 1 pack
+              - generic [ref=f15e319]:
+                - generic [ref=f15e320]:
+                  - generic [ref=f15e321]: ₹268
+                  - generic [ref=f15e322]: ₹269
+                - button "ADD" [ref=f15e324]
+        - button "16 mins L'Oreal Paris Casting Crème Gloss 500 Medium Brown 21 g + 24 ml ₹268 ₹269 ADD" [ref=f15e327] [cursor=pointer]:
+          - generic [ref=f15e330]:
+            - generic [ref=f15e331]: 16 mins
+            - generic [ref=f15e337]:
+              - generic [ref=f15e338]:
+                - generic [ref=f15e339]: L'Oreal Paris Casting Crème Gloss 500 Medium Brown
+                - generic [ref=f15e341]: 21 g + 24 ml
+              - generic [ref=f15e343]:
+                - generic [ref=f15e344]:
+                  - generic [ref=f15e345]: ₹268
+                  - generic [ref=f15e346]: ₹269
+                - button "ADD" [ref=f15e348]
+        - button "14% OFF 16 mins Garnier Color Naturals Hair Colour (Natural Black) 70 ml + 60 g ₹195 ₹229 ADD" [ref=f15e351] [cursor=pointer]:
+          - generic [ref=f15e352]: 14% OFF
+          - generic [ref=f15e358]:
+            - generic [ref=f15e359]: 16 mins
+            - generic [ref=f15e365]:
+              - generic [ref=f15e366]:
+                - generic [ref=f15e367]: Garnier Color Naturals Hair Colour (Natural Black)
+                - generic [ref=f15e369]: 70 ml + 60 g
+              - generic [ref=f15e371]:
+                - generic [ref=f15e372]:
+                  - generic [ref=f15e373]: ₹195
+                  - generic [ref=f15e374]: ₹229
+                - button "ADD" [ref=f15e376]
+        - button "16 mins L'Oreal Paris Casting Crème Gloss 300 Darkest Brown 21 g + 24 ml ₹268 ₹269 ADD" [ref=f15e379] [cursor=pointer]:
+          - generic [ref=f15e385]:
+            - generic [ref=f15e386]: 16 mins
+            - generic [ref=f15e392]:
+              - generic [ref=f15e393]:
+                - generic [ref=f15e394]: L'Oreal Paris Casting Crème Gloss 300 Darkest Brown
+                - generic [ref=f15e396]: 21 g + 24 ml
+              - generic [ref=f15e398]:
+                - generic [ref=f15e399]:
+                  - generic [ref=f15e400]: ₹268
+                  - generic [ref=f15e401]: ₹269
+                - button "ADD" [ref=f15e403]
+        - button "16 mins Indica Easy Shampoo Hair Colour (Natural Black) 25 ml ₹40 ₹42 ADD" [ref=f15e406] [cursor=pointer]:
+          - generic [ref=f15e409]:
+            - generic [ref=f15e410]: 16 mins
+            - generic [ref=f15e416]:
+              - generic [ref=f15e417]:
+                - generic [ref=f15e418]: Indica Easy Shampoo Hair Colour (Natural Black)
+                - generic [ref=f15e420]: 25 ml
+              - generic [ref=f15e422]:
+                - generic [ref=f15e423]:
+                  - generic [ref=f15e424]: ₹40
+                  - generic [ref=f15e425]: ₹42
+                - button "ADD" [ref=f15e427]
+        - button "20% OFF 16 mins Streax Gel Hair Colour (3.16 Burgundy) 80 ml ₹79 ₹99 ADD 2 options" [ref=f15e430] [cursor=pointer]:
+          - generic [ref=f15e431]: 20% OFF
+          - generic [ref=f15e437]:
+            - generic [ref=f15e438]: 16 mins
+            - generic [ref=f15e444]:
+              - generic [ref=f15e445]:
+                - generic [ref=f15e446]: Streax Gel Hair Colour (3.16 Burgundy)
+                - generic [ref=f15e448]: 80 ml
+              - generic [ref=f15e450]:
+                - generic [ref=f15e451]:
+                  - generic [ref=f15e452]: ₹79
+                  - generic [ref=f15e453]: ₹99
+                - button "ADD 2 options" [ref=f15e455]:
+                  - generic [ref=f15e456]: ADD
+                  - generic [ref=f15e457]: 2 options
+        - button "20% OFF 16 mins Paradyes Cherry Coke Glossy Tint Hair Colour (True Red) 160 g ₹516 ₹645 ADD" [ref=f15e460] [cursor=pointer]:
+          - generic [ref=f15e461]: 20% OFF
+          - generic [ref=f15e467]:
+            - generic [ref=f15e468]: 16 mins
+            - generic [ref=f15e474]:
+              - generic [ref=f15e475]:
+                - generic [ref=f15e476]: Paradyes Cherry Coke Glossy Tint Hair Colour (True Red)
+                - generic [ref=f15e478]: 160 g
+              - generic [ref=f15e480]:
+                - generic [ref=f15e481]:
+                  - generic [ref=f15e482]: ₹516
+                  - generic [ref=f15e483]: ₹645
+                - button "ADD" [ref=f15e485]
+        - button "14% OFF 16 mins Garnier Color Naturals Crème Hair Colour (Caramel Brown) 1 pack ₹212 ₹249 ADD" [ref=f15e488] [cursor=pointer]:
+          - generic [ref=f15e489]: 14% OFF
+          - generic [ref=f15e498]:
+            - generic [ref=f15e499]: 16 mins
+            - generic [ref=f15e505]:
+              - generic [ref=f15e506]:
+                - generic [ref=f15e507]: Garnier Color Naturals Crème Hair Colour (Caramel Brown)
+                - generic [ref=f15e509]: 1 pack
+              - generic [ref=f15e511]:
+                - generic [ref=f15e512]:
+                  - generic [ref=f15e513]: ₹212
+                  - generic [ref=f15e514]: ₹249
+                - button "ADD" [ref=f15e516]
+        - button "20% OFF 16 mins Paradyes Lover's Latte Glossy Hair Tint / Hair Colour Kit (Golden Brown) 1 pack ₹516 ₹645 ADD" [ref=f15e519] [cursor=pointer]:
+          - generic [ref=f15e520]: 20% OFF
+          - generic [ref=f15e526]:
+            - generic [ref=f15e527]: 16 mins
+            - generic [ref=f15e533]:
+              - generic [ref=f15e534]:
+                - generic [ref=f15e535]: Paradyes Lover's Latte Glossy Hair Tint / Hair Colour Kit (Golden Brown)
+                - generic [ref=f15e537]: 1 pack
+              - generic [ref=f15e539]:
+                - generic [ref=f15e540]:
+                  - generic [ref=f15e541]: ₹516
+                  - generic [ref=f15e542]: ₹645
+                - button "ADD" [ref=f15e544]
+        - button "16 mins Streax Insta Shampoo Hair Colour (Dark Brown 3) 25 ml ₹46 ₹48 ADD" [ref=f15e547] [cursor=pointer]:
+          - generic [ref=f15e550]:
+            - generic [ref=f15e551]: 16 mins
+            - generic [ref=f15e557]:
+              - generic [ref=f15e558]:
+                - generic [ref=f15e559]: Streax Insta Shampoo Hair Colour (Dark Brown 3)
+                - generic [ref=f15e561]: 25 ml
+              - generic [ref=f15e563]:
+                - generic [ref=f15e564]:
+                  - generic [ref=f15e565]: ₹46
+                  - generic [ref=f15e566]: ₹48
+                - button "ADD" [ref=f15e568]
+        - button "16 mins Paradyes Rich Burgundy Permanent Hair Colour, 3.16 (Rich Burgundy 3.16) 60 g ₹290 ₹299 ADD 2 options" [ref=f15e571] [cursor=pointer]:
+          - generic [ref=f15e574]:
+            - generic [ref=f15e575]: 16 mins
+            - generic [ref=f15e581]:
+              - generic [ref=f15e582]:
+                - generic [ref=f15e583]: Paradyes Rich Burgundy Permanent Hair Colour, 3.16 (Rich Burgundy 3.16)
+                - generic [ref=f15e585]: 60 g
+              - generic [ref=f15e587]:
+                - generic [ref=f15e588]:
+                  - generic [ref=f15e589]: ₹290
+                  - generic [ref=f15e590]: ₹299
+                - button "ADD 2 options" [ref=f15e592]:
+                  - generic [ref=f15e593]: ADD
+                  - generic [ref=f15e594]: 2 options
+        - button "26% OFF 16 mins L'Oreal Paris Excellence Crème Shade 1 Black 1 pack ₹565 ₹769 ADD" [ref=f15e597] [cursor=pointer]:
+          - generic [ref=f15e598]: 26% OFF
+          - generic [ref=f15e607]:
+            - generic [ref=f15e608]: 16 mins
+            - generic [ref=f15e614]:
+              - generic [ref=f15e615]:
+                - generic [ref=f15e616]: L'Oreal Paris Excellence Crème Shade 1 Black
+                - generic [ref=f15e618]: 1 pack
+              - generic [ref=f15e620]:
+                - generic [ref=f15e621]:
+                  - generic [ref=f15e622]: ₹565
+                  - generic [ref=f15e623]: ₹769
+                - button "ADD" [ref=f15e625]
+        - button "20% OFF 16 mins Paradyes Berry Plum Glossy Tint Hair Colour (Deep Plum) 160 g ₹516 ₹645 ADD" [ref=f15e628] [cursor=pointer]:
+          - generic [ref=f15e629]: 20% OFF
+          - generic [ref=f15e635]:
+            - generic [ref=f15e636]: 16 mins
+            - generic [ref=f15e642]:
+              - generic [ref=f15e643]:
+                - generic [ref=f15e644]: Paradyes Berry Plum Glossy Tint Hair Colour (Deep Plum)
+                - generic [ref=f15e646]: 160 g
+              - generic [ref=f15e648]:
+                - generic [ref=f15e649]:
+                  - generic [ref=f15e650]: ₹516
+                  - generic [ref=f15e651]: ₹645
+                - button "ADD" [ref=f15e653]
+        - button "16 mins Patanjali Kesh Kanti Herbal Henna 150 g ₹70 ADD" [ref=f15e656] [cursor=pointer]:
+          - generic [ref=f15e659]:
+            - generic [ref=f15e660]: 16 mins
+            - generic [ref=f15e666]:
+              - generic [ref=f15e667]:
+                - generic [ref=f15e668]: Patanjali Kesh Kanti Herbal Henna
+                - generic [ref=f15e670]: 150 g
+              - generic [ref=f15e672]:
+                - generic [ref=f15e673]: ₹70
+                - button "ADD" [ref=f15e675]
+        - button "16% OFF 16 mins RENEE Cover Up Hair Powder (Black) 4 g ₹625 ₹750 ADD" [ref=f15e678] [cursor=pointer]:
+          - generic [ref=f15e679]: 16% OFF
+          - generic [ref=f15e685]:
+            - generic [ref=f15e686]: 16 mins
+            - generic [ref=f15e692]:
+              - generic [ref=f15e693]:
+                - generic [ref=f15e694]: RENEE Cover Up Hair Powder (Black)
+                - generic [ref=f15e696]: 4 g
+              - generic [ref=f15e698]:
+                - generic [ref=f15e699]:
+                  - generic [ref=f15e700]: ₹625
+                  - generic [ref=f15e701]: ₹750
+                - button "ADD" [ref=f15e703]
+        - button "26% OFF 16 mins L'Oreal Paris Excellence Crème Shade 3 Darkest Brown 1 pack ₹565 ₹769 ADD" [ref=f15e706] [cursor=pointer]:
+          - generic [ref=f15e707]: 26% OFF
+          - generic [ref=f15e716]:
+            - generic [ref=f15e717]: 16 mins
+            - generic [ref=f15e723]:
+              - generic [ref=f15e724]:
+                - generic [ref=f15e725]: L'Oreal Paris Excellence Crème Shade 3 Darkest Brown
+                - generic [ref=f15e727]: 1 pack
+              - generic [ref=f15e729]:
+                - generic [ref=f15e730]:
+                  - generic [ref=f15e731]: ₹565
+                  - generic [ref=f15e732]: ₹769
+                - button "ADD" [ref=f15e734]
+        - button "14% OFF 16 mins Garnier Color Naturals Hair Colour (Darkest Brown) 1 pack ₹204 ₹239 ADD" [ref=f15e737] [cursor=pointer]:
+          - generic [ref=f15e738]: 14% OFF
+          - generic [ref=f15e744]:
+            - generic [ref=f15e745]: 16 mins
+            - generic [ref=f15e751]:
+              - generic [ref=f15e752]:
+                - generic [ref=f15e753]: Garnier Color Naturals Hair Colour (Darkest Brown)
+                - generic [ref=f15e755]: 1 pack
+              - generic [ref=f15e757]:
+                - generic [ref=f15e758]:
+                  - generic [ref=f15e759]: ₹204
+                  - generic [ref=f15e760]: ₹239
+                - button "ADD" [ref=f15e762]
+        - button "16 mins L'Oreal Paris Casting Crème Gloss 200 Ebony Black 21 g + 24 ml ₹268 ₹269 ADD 2 options" [ref=f15e765] [cursor=pointer]:
+          - generic [ref=f15e768]:
+            - generic [ref=f15e769]: 16 mins
+            - generic [ref=f15e775]:
+              - generic [ref=f15e776]:
+                - generic [ref=f15e777]: L'Oreal Paris Casting Crème Gloss 200 Ebony Black
+                - generic [ref=f15e779]: 21 g + 24 ml
+              - generic [ref=f15e781]:
+                - generic [ref=f15e782]:
+                  - generic [ref=f15e783]: ₹268
+                  - generic [ref=f15e784]: ₹269
+                - button "ADD 2 options" [ref=f15e786]:
+                  - generic [ref=f15e787]: ADD
+                  - generic [ref=f15e788]: 2 options
+        - button "16 mins Mamaearth Natural Henna Hair Colour (Dark Roast Coffee) 200 g ₹249 ADD 2 options" [ref=f15e791] [cursor=pointer]:
+          - generic [ref=f15e794]:
+            - generic [ref=f15e795]: 16 mins
+            - generic [ref=f15e801]:
+              - generic [ref=f15e802]:
+                - generic [ref=f15e803]: Mamaearth Natural Henna Hair Colour (Dark Roast Coffee)
+                - generic [ref=f15e805]: 200 g
+              - generic [ref=f15e807]:
+                - generic [ref=f15e808]: ₹249
+                - button "ADD 2 options" [ref=f15e810]:
+                  - generic [ref=f15e811]: ADD
+                  - generic [ref=f15e812]: 2 options
+        - button "16 mins L'Oreal Paris Excellence Crème Shade 3 Dark Brown 1 pack ₹299 ADD" [ref=f15e815] [cursor=pointer]:
+          - generic [ref=f15e821]:
+            - generic [ref=f15e822]: 16 mins
+            - generic [ref=f15e828]:
+              - generic [ref=f15e829]:
+                - generic [ref=f15e830]: L'Oreal Paris Excellence Crème Shade 3 Dark Brown
+                - generic [ref=f15e832]: 1 pack
+              - generic [ref=f15e834]:
+                - generic [ref=f15e835]: ₹299
+                - button "ADD" [ref=f15e837]
+        - button "20% OFF 16 mins Paradyes Hazel Brown Glossy Tint Hair Colour Kit (Light Brown) 1 pack ₹516 ₹645 ADD" [ref=f15e840] [cursor=pointer]:
+          - generic [ref=f15e841]: 20% OFF
+          - generic [ref=f15e847]:
+            - generic [ref=f15e848]: 16 mins
+            - generic [ref=f15e854]:
+              - generic [ref=f15e855]:
+                - generic [ref=f15e856]: Paradyes Hazel Brown Glossy Tint Hair Colour Kit (Light Brown)
+                - generic [ref=f15e858]: 1 pack
+              - generic [ref=f15e860]:
+                - generic [ref=f15e861]:
+                  - generic [ref=f15e862]: ₹516
+                  - generic [ref=f15e863]: ₹645
+                - button "ADD" [ref=f15e865]
+      - generic [ref=f15e869]:
+        - paragraph [ref=f15e870]: Hair colour has become an essential part of modern grooming and self-expression. Whether you want to cover greys, enhance your natural shade, or experiment with a bold new look, choosing the right hair colour plays a significant role in your overall appearance.
+        - paragraph [ref=f15e871]: When you choose to buy hair color online, you gain access to a wide variety of options that cater to different hair types, preferences, and lifestyles. Platforms like Blinkit make it easy to explore hair colouring products that help you achieve salon-like results at home.
+        - paragraph [ref=f15e872]: From natural black and brown tones to trendy shades and herbal alternatives, hair colour today is more versatile, safer, and easier to use than ever before.
+        - paragraph [ref=f15e873]
+        - heading [level=2] [ref=f15e874]:
+          - strong [ref=f15e875]: Understanding Hair Color and Its Purpose
+        - paragraph [ref=f15e876]: Hair colour is used not only for aesthetic enhancement but also for maintaining a polished and youthful appearance.
+        - heading [level=3] [ref=f15e877]:
+          - strong [ref=f15e878]: Covering Grey Hair
+        - paragraph [ref=f15e879]: One of the most common reasons for using hair colour is to cover grey strands and restore a uniform look.
+        - heading [level=3] [ref=f15e880]:
+          - strong [ref=f15e881]: Enhancing Natural Hair Tone
+        - paragraph [ref=f15e882]: Hair colour can enhance your natural shade, adding depth, shine, and dimension.
+        - heading [level=3] [ref=f15e883]:
+          - strong [ref=f15e884]: Experimenting with Style
+        - paragraph [ref=f15e885]: Modern hair colour products allow you to explore new looks without long-term commitment.
+        - heading [level=3] [ref=f15e886]:
+          - strong [ref=f15e887]: Boosting Confidence
+        - paragraph [ref=f15e888]: A fresh hair colour can instantly uplift your appearance and confidence.
+        - paragraph [ref=f15e889]
+        - heading [level=2] [ref=f15e890]:
+          - strong [ref=f15e891]: Types of Hair Color Available Online
+        - paragraph [ref=f15e892]: When you buy hair color online, you will find different types suited for various needs.
+        - heading [level=3] [ref=f15e893]:
+          - strong [ref=f15e894]: Permanent Hair Color
+        - paragraph [ref=f15e895]: Permanent hair colour provides long-lasting results and complete grey coverage. It penetrates deep into the hair shaft and is ideal for those seeking a consistent look.
+        - heading [level=3] [ref=f15e896]:
+          - strong [ref=f15e897]: Semi-Permanent Hair Color
+        - paragraph [ref=f15e898]: Semi-permanent options are gentler and gradually fade over time, making them perfect for experimentation.
+        - heading [level=3] [ref=f15e899]:
+          - strong [ref=f15e900]: Temporary Hair Color
+        - paragraph [ref=f15e901]: Temporary colours are easy to apply and wash out quickly, ideal for special occasions or short-term changes.
+        - heading [level=3] [ref=f15e902]:
+          - strong [ref=f15e903]: Herbal and Natural Hair Color
+        - paragraph [ref=f15e904]: Natural options like henna-based colours are preferred by those looking for chemical-free alternatives.
+        - paragraph [ref=f15e905]
+        - heading [level=2] [ref=f15e906]:
+          - strong [ref=f15e907]: Popular Shades in Hair Color
+        - paragraph [ref=f15e908]: Choosing the right shade is crucial for achieving the desired look.
+        - heading [level=3] [ref=f15e909]:
+          - strong [ref=f15e910]: Black Shades
+        - paragraph [ref=f15e911]: Classic black shades offer a bold and polished appearance.
+        - heading [level=3] [ref=f15e912]:
+          - strong [ref=f15e913]: Brown Shades
+        - paragraph [ref=f15e914]: From darkest brown to medium brown, these shades provide a natural and subtle transformation.
+        - heading [level=3] [ref=f15e915]:
+          - strong [ref=f15e916]: Burgundy and Red Tones
+        - paragraph [ref=f15e917]: These shades add vibrancy and a modern touch.
+        - heading [level=3] [ref=f15e918]:
+          - strong [ref=f15e919]: Natural Henna Shades
+        - paragraph [ref=f15e920]: Henna-based colours provide earthy tones while conditioning the hair.
+        - paragraph [ref=f15e921]
+        - heading [level=2] [ref=f15e922]:
+          - strong [ref=f15e923]: Benefits of Buying Hair Color Online
+        - paragraph [ref=f15e924]: Shopping for hair colour online offers several advantages.
+        - heading [level=3] [ref=f15e925]:
+          - strong [ref=f15e926]: Wide Selection
+        - paragraph [ref=f15e927]: You can explore a variety of shades, formulations, and product types in one place.
+        - heading [level=3] [ref=f15e928]:
+          - strong [ref=f15e929]: Convenience
+        - paragraph [ref=f15e930]: Order your preferred hair colour from the comfort of your home.
+        - heading [level=3] [ref=f15e931]:
+          - strong [ref=f15e932]: Easy Comparison
+        - paragraph [ref=f15e933]: Compare ingredients, application methods, and benefits before making a choice.
+        - heading [level=3] [ref=f15e934]:
+          - strong [ref=f15e935]: Availability of Latest Trends
+        - paragraph [ref=f15e936]: Stay updated with new and trending hair colour options.
+        - paragraph [ref=f15e937]
+        - heading [level=2] [ref=f15e938]:
+          - strong [ref=f15e939]: Ingredients Used in Hair Color Products
+        - paragraph [ref=f15e940]: Understanding ingredients helps you make informed choices.
+        - heading [level=3] [ref=f15e941]:
+          - strong [ref=f15e942]: Ammonia-Free Formulas
+        - paragraph [ref=f15e943]: Many modern hair colours are designed without ammonia for a gentler experience.
+        - heading [level=3] [ref=f15e944]:
+          - strong [ref=f15e945]: Natural Extracts
+        - paragraph [ref=f15e946]: Herbal ingredients like henna, aloe vera, and indigo are commonly used in natural hair colours.
+        - heading [level=3] [ref=f15e947]:
+          - strong [ref=f15e948]: Conditioning Agents
+        - paragraph [ref=f15e949]: Hair colour products often include conditioners to maintain softness and shine.
+        - paragraph [ref=f15e950]
+        - heading [level=2] [ref=f15e951]:
+          - strong [ref=f15e952]: Choosing the Right Hair Color for Your Needs
+        - paragraph [ref=f15e953]: Selecting the right product depends on multiple factors.
+        - heading [level=3] [ref=f15e954]:
+          - strong [ref=f15e955]: Based on Hair Type
+        - paragraph [ref=f15e956]: Choose formulas that suit your hair texture and condition.
+        - heading [level=3] [ref=f15e957]:
+          - strong [ref=f15e958]: Based on Coverage Needs
+        - paragraph [ref=f15e959]: Select permanent colours for full coverage and temporary options for light changes.
+        - heading [level=3] [ref=f15e960]:
+          - strong [ref=f15e961]: Based on Lifestyle
+        - paragraph [ref=f15e962]: Consider low-maintenance options if you prefer minimal upkeep.
+        - paragraph [ref=f15e963]
+        - heading [level=2] [ref=f15e964]:
+          - strong [ref=f15e965]: How to Apply Hair Color at Home
+        - paragraph [ref=f15e966]: Hair colouring at home has become easier with ready-to-use kits.
+        - heading [level=3] [ref=f15e967]:
+          - strong [ref=f15e968]: Preparation
+        - paragraph [ref=f15e969]: Read instructions carefully and perform a patch test before application.
+        - heading [level=3] [ref=f15e970]:
+          - strong [ref=f15e971]: Application
+        - paragraph [ref=f15e972]: Apply evenly from roots to tips using the provided tools.
+        - heading [level=3] [ref=f15e973]:
+          - strong [ref=f15e974]: Processing Time
+        - paragraph [ref=f15e975]: Allow the colour to develop as per instructions.
+        - heading [level=3] [ref=f15e976]:
+          - strong [ref=f15e977]: Rinse and Care
+        - paragraph [ref=f15e978]: Wash thoroughly and use post-colour conditioner for best results.
+        - paragraph [ref=f15e979]
+        - heading [level=2] [ref=f15e980]:
+          - strong [ref=f15e981]: Hair Care After Coloring
+        - paragraph [ref=f15e982]: Proper care helps maintain colour and hair health.
+        - heading [level=3] [ref=f15e983]:
+          - strong [ref=f15e984]: Use Colour-Protect Products
+        - paragraph [ref=f15e985]:
+          - text: Choose shampoos and conditioners designed for coloured hair. You can explore suitable options under
+          - link [ref=f15e986] [cursor=pointer]:
+            - /url: https://blinkit.com/cn/shampoo-conditioner/cid/163/166
+            - strong [ref=f15e987]: https://blinkit.com/cn/shampoo-conditioner/cid/163/166
+          - text: for maintaining shine and smoothness.
+        - heading [level=3] [ref=f15e988]:
+          - strong [ref=f15e989]: Avoid Frequent Washing
+        - paragraph [ref=f15e990]: Excessive washing can fade hair colour faster.
+        - heading [level=3] [ref=f15e991]:
+          - strong [ref=f15e992]: Protect from Heat
+        - paragraph [ref=f15e993]: Limit heat styling to prevent damage.
+        - paragraph [ref=f15e994]
+        - heading [level=2] [ref=f15e995]:
+          - strong [ref=f15e996]: Natural Alternatives for Hair Coloring
+        - paragraph [ref=f15e997]: Many users prefer natural solutions for hair colouring.
+        - heading [level=3] [ref=f15e998]:
+          - strong [ref=f15e999]: Henna-Based Products
+        - paragraph [ref=f15e1000]: Henna is widely used for its conditioning and colouring properties.
+        - heading [level=3] [ref=f15e1001]:
+          - strong [ref=f15e1002]: Herbal Blends
+        - paragraph [ref=f15e1003]: Combinations of natural ingredients provide colour along with nourishment.
+        - heading [level=3] [ref=f15e1004]:
+          - strong [ref=f15e1005]: Benefits of Natural Hair Color
+        - list [ref=f15e1006]:
+          - listitem [ref=f15e1007]: Gentle on hair
+          - listitem [ref=f15e1008]: Free from harsh chemicals
+          - listitem [ref=f15e1009]: Improves hair texture
+        - paragraph [ref=f15e1010]
+        - heading [level=2] [ref=f15e1011]:
+          - strong [ref=f15e1012]: Hair Color Trends in India
+        - paragraph [ref=f15e1013]: Hair colouring trends continue to evolve.
+        - heading [level=3] [ref=f15e1014]:
+          - strong [ref=f15e1015]: Natural Look Preference
+        - paragraph [ref=f15e1016]: Subtle shades that enhance natural beauty are increasingly popular.
+        - heading [level=3] [ref=f15e1017]:
+          - strong [ref=f15e1018]: DIY Hair Coloring
+        - paragraph [ref=f15e1019]: More people are opting for at-home hair colouring solutions.
+        - heading [level=3] [ref=f15e1020]:
+          - strong [ref=f15e1021]: Herbal and Organic Shift
+        - paragraph [ref=f15e1022]: There is growing demand for chemical-free and herbal options.
+        - paragraph [ref=f15e1023]
+        - heading [level=2] [ref=f15e1024]:
+          - strong [ref=f15e1025]: Hair Color for Different Occasions
+        - paragraph [ref=f15e1026]: Hair colour can be tailored to suit various occasions.
+        - heading [level=3] [ref=f15e1027]:
+          - strong [ref=f15e1028]: Everyday Look
+        - paragraph [ref=f15e1029]: Natural shades are ideal for daily wear.
+        - heading [level=3] [ref=f15e1030]:
+          - strong [ref=f15e1031]: Festive Styling
+        - paragraph [ref=f15e1032]: Bold shades can enhance festive and celebratory looks.
+        - heading [level=3] [ref=f15e1033]:
+          - strong [ref=f15e1034]: Professional Appearance
+        - paragraph [ref=f15e1035]: Subtle tones are preferred for workplace settings.
+        - paragraph [ref=f15e1036]
+        - heading [level=2] [ref=f15e1037]:
+          - strong [ref=f15e1038]: Pairing Hair Color with Overall Grooming
+        - paragraph [ref=f15e1039]: Hair colour is just one aspect of personal grooming.
+        - heading [level=3] [ref=f15e1040]:
+          - strong [ref=f15e1041]: Skincare and Makeup
+        - paragraph [ref=f15e1042]:
+          - text: Complement your look with products from
+          - link [ref=f15e1043] [cursor=pointer]:
+            - /url: https://blinkit.com/cn/beauty-and-makeup/cid/13/98
+            - strong [ref=f15e1044]: https://blinkit.com/cn/beauty-and-makeup/cid/13/98
+          - text: to achieve a complete appearance.
+        - heading [level=3] [ref=f15e1045]:
+          - strong [ref=f15e1046]: Fragrance and Styling
+        - paragraph [ref=f15e1047]: Personal grooming extends beyond hair colour to overall presentation.
+        - heading [level=3] [ref=f15e1048]:
+          - strong [ref=f15e1049]: Nutrition and Wellness
+        - paragraph [ref=f15e1050]: Healthy hair also depends on proper nutrition.
+        - paragraph [ref=f15e1051]
+        - heading [level=2] [ref=f15e1052]:
+          - strong [ref=f15e1053]: Common Mistakes to Avoid While Coloring Hair
+        - paragraph [ref=f15e1054]: Being aware of mistakes helps achieve better results.
+        - heading [level=3] [ref=f15e1055]:
+          - strong [ref=f15e1056]: Skipping Patch Test
+        - paragraph [ref=f15e1057]: Always perform a patch test to avoid allergic reactions.
+        - heading [level=3] [ref=f15e1058]:
+          - strong [ref=f15e1059]: Choosing Wrong Shade
+        - paragraph [ref=f15e1060]: Select a shade that complements your skin tone.
+        - heading [level=3] [ref=f15e1061]:
+          - strong [ref=f15e1062]: Overlapping Color
+        - paragraph [ref=f15e1063]: Avoid repeated application on already coloured hair.
+        - paragraph [ref=f15e1064]
+        - heading [level=2] [ref=f15e1065]:
+          - strong [ref=f15e1066]: Storage Tips for Hair Color Products
+        - paragraph [ref=f15e1067]: Proper storage ensures product effectiveness.
+        - heading [level=3] [ref=f15e1068]:
+          - strong [ref=f15e1069]: Keep in Cool and Dry Place
+        - paragraph [ref=f15e1070]: Avoid exposure to heat and moisture.
+        - heading [level=3] [ref=f15e1071]:
+          - strong [ref=f15e1072]: Seal Properly
+        - paragraph [ref=f15e1073]: Ensure packaging is tightly closed after use.
+        - heading [level=3] [ref=f15e1074]:
+          - strong [ref=f15e1075]: Follow Expiry Dates
+        - paragraph [ref=f15e1076]: Do not use expired products.
+        - paragraph [ref=f15e1077]
+        - heading [level=2] [ref=f15e1078]:
+          - strong [ref=f15e1079]: Exploring Hair Color Options Online
+        - paragraph [ref=f15e1080]: When you buy hair color online, you get access to a variety of solutions tailored to your needs. From permanent colours to herbal alternatives, the options available today cater to both modern styling and natural preferences.
+        - paragraph [ref=f15e1081]: With platforms like Blinkit, exploring hair colour products becomes simple, convenient, and aligned with your lifestyle, helping you achieve your desired look with ease.
+        - paragraph [ref=f15e1082]
+        - heading [level=2] [ref=f15e1083]:
+          - strong [ref=f15e1084]: Frequently Asked Questions
+        - heading [level=4] [ref=f15e1085]:
+          - strong [ref=f15e1086]: What is the best type of hair colour for beginners?
+        - paragraph [ref=f15e1087]: For beginners, semi-permanent or ammonia-free hair colours are ideal as they are easy to apply, less damaging, and gradually fade over time without harsh lines.
+        - paragraph [ref=f15e1088]
+        - heading [level=4] [ref=f15e1089]:
+          - strong [ref=f15e1090]: How long does hair colour last?
+        - paragraph [ref=f15e1091]: The duration depends on the type of hair colour. Permanent colours last longer, while semi-permanent and temporary colours fade after a few washes.
+        - paragraph [ref=f15e1092]
+        - heading [level=4] [ref=f15e1093]:
+          - strong [ref=f15e1094]: Is hair colouring safe for regular use?
+        - paragraph [ref=f15e1095]: Yes, modern hair colours are designed to be safe when used as directed. Choosing ammonia-free or herbal options can further reduce potential damage.
+        - paragraph [ref=f15e1096]
+        - heading [level=4] [ref=f15e1097]:
+          - strong [ref=f15e1098]: Can hair colour damage hair?
+        - paragraph [ref=f15e1099]: Excessive use or improper application may cause dryness or damage. Using conditioning treatments and proper aftercare helps maintain hair health.
+        - paragraph [ref=f15e1100]
+        - heading [level=4] [ref=f15e1101]:
+          - strong [ref=f15e1102]: How do I choose the right hair colour shade?
+        - paragraph [ref=f15e1103]: Choose a shade that complements your skin tone and natural hair colour. Natural shades are usually safer for first-time users.
+        - paragraph [ref=f15e1104]
+        - heading [level=4] [ref=f15e1105]:
+          - strong [ref=f15e1106]: Do I need to bleach my hair before colouring?
+        - paragraph [ref=f15e1107]: Bleaching is only required for lighter or vibrant shades. For darker shades like black or brown, bleaching is usually not necessary.
+        - paragraph [ref=f15e1108]
+        - heading [level=4] [ref=f15e1109]:
+          - strong [ref=f15e1110]: Can I colour my hair at home?
+        - paragraph [ref=f15e1111]: Yes, many hair colour kits are designed for easy home application with clear instructions and tools included.
+        - paragraph [ref=f15e1112]
+        - heading [level=4] [ref=f15e1113]:
+          - strong [ref=f15e1114]: How often should I colour my hair?
+        - paragraph [ref=f15e1115]: It depends on hair growth and fading, but generally every 4–6 weeks is recommended for maintaining consistent colour.
+        - paragraph [ref=f15e1116]
+        - heading [level=4] [ref=f15e1117]:
+          - strong [ref=f15e1118]: How can I maintain hair colour for longer?
+        - paragraph [ref=f15e1119]: Use colour-protect shampoos, avoid excessive washing, and limit heat styling to maintain colour vibrancy.
+        - paragraph [ref=f15e1120]
+        - heading [level=4] [ref=f15e1121]:
+          - strong [ref=f15e1122]: Where can I buy hair colour online?
+        - paragraph [ref=f15e1123]: You can conveniently buy hair colour online from platforms like Blinkit, offering a wide range of options.
+    - generic [ref=f15e1124]: U
+  - generic [ref=f15e1127]:
+    - generic [ref=f15e1128]: India's last minute app - blinkit
+    - generic [ref=f15e1129]: +

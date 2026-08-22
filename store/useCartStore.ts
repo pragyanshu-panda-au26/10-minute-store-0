@@ -9,9 +9,13 @@ export interface Product {
   originalPrice?: number;
   category: string;
   imageUrl: string;
+  /** Full gallery for the PDP carousel — always leads with imageUrl. */
+  images?: string[];
   weight?: string;
   stock?: number;
   rating?: number;
+  /** Number of ratings behind the average — surfaced as "(N)" on the card. */
+  ratingCount?: number;
   deliveryTime?: string;
   brand?: string | null;
   isVeg?: boolean;
@@ -94,6 +98,13 @@ const broadcastDraftCart = (items: CartItem[]) => {
 interface CartStore {
   items: CartItem[];
   appliedPromo: PromoCode | null;
+  /**
+   * Optional delivery-partner tip in rupees. Owned by the cart because that's
+   * where the customer picks it (Blinkit-parity), read at checkout so the
+   * value survives the cart→checkout navigation without a reset.
+   */
+  tip: number;
+  setTip: (n: number) => void;
   /** `variant` overrides product.price/label if provided. */
   addItem: (product: Product, variant?: ProductVariantLite | null) => void;
   decreaseQuantity: (productId: string, variantId?: string | null) => void;
@@ -122,6 +133,14 @@ export const useCartStore = create<CartStore>()(
     (set, get) => ({
   items: [],
   appliedPromo: null,
+  tip: 0,
+
+  // Non-negative integer only — anything else is a UI bug on the caller's side
+  // and would poison the bill math. We clamp defensively instead of trusting it.
+  setTip: (n) => {
+    const clean = Number.isFinite(n) && n > 0 ? Math.round(n) : 0;
+    set({ tip: clean });
+  },
 
   addItem: (product, variant) => {
     const currentItems = get().items;
@@ -209,7 +228,9 @@ export const useCartStore = create<CartStore>()(
   },
 
   clearCart: () => {
-    set({ items: [], appliedPromo: null });
+    // Reset tip on cart clear — a tip attached to a now-empty cart is stale
+    // and would otherwise carry into whatever the customer adds next.
+    set({ items: [], appliedPromo: null, tip: 0 });
     broadcastDraftCart([]);
   },
 
@@ -330,6 +351,7 @@ export const useCartStore = create<CartStore>()(
       partialize: (state) => ({
         items: state.items,
         appliedPromo: state.appliedPromo,
+        tip: state.tip,
       }),
     }
   )

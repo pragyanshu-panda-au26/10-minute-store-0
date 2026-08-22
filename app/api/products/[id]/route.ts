@@ -20,6 +20,7 @@ export const GET = handler(async (_req: NextRequest, { params }: Params) => {
 const patchSchema = z.object({
   name: z.string().min(1).max(200).optional(),
   description: z.string().max(2000).optional(),
+  brand: z.string().max(80).nullable().optional(),
   category: z.string().optional(),
   subcategoryId: z.string().nullable().optional(),
   price: z.number().positive().optional(),
@@ -28,7 +29,9 @@ const patchSchema = z.object({
   stock: z.number().int().nonnegative().optional(),
   weight: z.string().min(1).max(60).optional(),
   imageUrl: z.string().url().optional(),
+  images: z.array(z.string().url()).max(9).optional(),
   rating: z.number().min(0).max(5).optional(),
+  ratingCount: z.number().int().nonnegative().optional(),
   tags: z.array(z.string()).optional(),
   isActive: z.boolean().optional(),
 });
@@ -46,6 +49,7 @@ export const PATCH = handler(async (req: NextRequest, { params }: Params) => {
     data: {
       ...(body.name !== undefined ? { name: body.name } : {}),
       ...(body.description !== undefined ? { description: body.description } : {}),
+      ...(body.brand !== undefined ? { brand: body.brand } : {}),
       ...(body.category !== undefined ? { categoryId: body.category } : {}),
       ...(body.subcategoryId !== undefined ? { subcategoryId: body.subcategoryId } : {}),
       ...(body.price !== undefined ? { price: toPaise(body.price) } : {}),
@@ -58,7 +62,9 @@ export const PATCH = handler(async (req: NextRequest, { params }: Params) => {
       ...(body.stock !== undefined ? { stock: body.stock } : {}),
       ...(body.weight !== undefined ? { weight: body.weight } : {}),
       ...(body.imageUrl !== undefined ? { imageUrl: body.imageUrl } : {}),
+      ...(body.images !== undefined ? { images: body.images } : {}),
       ...(body.rating !== undefined ? { rating: body.rating } : {}),
+      ...(body.ratingCount !== undefined ? { ratingCount: body.ratingCount } : {}),
       ...(body.tags !== undefined ? { tags: body.tags } : {}),
       ...(body.isActive !== undefined ? { isActive: body.isActive } : {}),
     },

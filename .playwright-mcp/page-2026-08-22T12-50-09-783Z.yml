@@ -1,0 +1,660 @@
+- generic [ref=e138]:
+  - banner [ref=e140]:
+    - generic [ref=e141]:
+      - generic [ref=e3285]: œ
+      - generic [ref=e143] [cursor=pointer]:
+        - generic [ref=e144]: Delivery in 9 minutes
+        - generic [ref=e145]: KIIT Rd, Patia, Bhubaneswar, Odisha 751024, India
+    - generic [ref=e164]: "!"
+  - generic [ref=e170]:
+    - generic [ref=e183]:
+      - generic [ref=e184]: 0 items
+      - generic [ref=e185]: ₹ 0
+    - generic [ref=e187]: View Cart
+  - generic [ref=e3293]:
+    - generic [ref=e3296]:
+      - heading "Vegetables & Fruits" [level=1] [ref=e3298]
+      - generic [ref=e3300]:
+        - generic [ref=e3302]:
+          - button "All" [ref=e3305] [cursor=pointer]
+          - button "Fresh Vegetables" [ref=e3315] [cursor=pointer]
+          - button "Fresh Fruits" [ref=e3324] [cursor=pointer]
+          - button "Exotics" [ref=e3333] [cursor=pointer]
+          - button "Coriander & Others" [ref=e3342] [cursor=pointer]
+          - button "Freshly Cut & Sprouts" [ref=e3351] [cursor=pointer]
+          - button "Flowers & Leaves" [ref=e3360] [cursor=pointer]
+          - button "Seasonal" [ref=e3369] [cursor=pointer]
+          - button "Frozen Veg" [ref=e3377] [cursor=pointer]
+        - generic [ref=e3385]:
+          - button "16% OFF 9 mins Banana (Kadali) 3 pcs ₹36 ₹43 ADD" [active] [ref=e3387] [cursor=pointer]:
+            - generic [ref=e3388]: 16% OFF
+            - generic [ref=e3395]:
+              - generic [ref=e3396]: 9 mins
+              - generic [ref=e3403]:
+                - generic [ref=e3404]:
+                  - generic [ref=e3405]: Banana (Kadali)
+                  - generic [ref=e3407]: 3 pcs
+                - generic [ref=e3409]:
+                  - generic [ref=e3410]:
+                    - generic [ref=e3411]: ₹36
+                    - generic [ref=e3412]: ₹43
+                  - button "ADD" [ref=e3414]
+          - button "23% OFF 9 mins Potato (Aloo) 1 kg ₹20 ₹26 ADD 2 options" [ref=e3417] [cursor=pointer]:
+            - generic [ref=e3418]: 23% OFF
+            - generic [ref=e3425]:
+              - generic [ref=e3426]: 9 mins
+              - generic [ref=e3433]:
+                - generic [ref=e3434]:
+                  - generic [ref=e3435]: Potato (Aloo)
+                  - generic [ref=e3437]: 1 kg
+                - generic [ref=e3439]:
+                  - generic [ref=e3440]:
+                    - generic [ref=e3441]: ₹20
+                    - generic [ref=e3442]: ₹26
+                  - button "ADD 2 options" [ref=e3444]:
+                    - generic [ref=e3445]: ADD
+                    - generic [ref=e3446]: 2 options
+          - button "20% OFF 9 mins Onion (Pyaz) 1 kg ₹60 ₹75 ADD 2 options" [ref=e3449] [cursor=pointer]:
+            - generic [ref=e3450]: 20% OFF
+            - generic [ref=e3457]:
+              - generic [ref=e3458]: 9 mins
+              - generic [ref=e3465]:
+                - generic [ref=e3466]:
+                  - generic [ref=e3467]: Onion (Pyaz)
+                  - generic [ref=e3469]: 1 kg
+                - generic [ref=e3471]:
+                  - generic [ref=e3472]:
+                    - generic [ref=e3473]: ₹60
+                    - generic [ref=e3474]: ₹75
+                  - button "ADD 2 options" [ref=e3476]:
+                    - generic [ref=e3477]: ADD
+                    - generic [ref=e3478]: 2 options
+          - button "17% OFF 9 mins Yellaki Banana (Kadali) 500 g ₹55 ₹67 ADD" [ref=e3481] [cursor=pointer]:
+            - generic [ref=e3482]: 17% OFF
+            - generic [ref=e3489]:
+              - generic [ref=e3490]: 9 mins
+              - generic [ref=e3497]:
+                - generic [ref=e3498]:
+                  - generic [ref=e3499]: Yellaki Banana (Kadali)
+                  - generic [ref=e3501]: 500 g
+                - generic [ref=e3503]:
+                  - generic [ref=e3504]:
+                    - generic [ref=e3505]: ₹55
+                    - generic [ref=e3506]: ₹67
+                  - button "ADD" [ref=e3508]
+          - button "15% OFF 9 mins Green Chilli (Lanka) 100 g ₹16 ₹19 ADD" [ref=e3511] [cursor=pointer]:
+            - generic [ref=e3512]: 15% OFF
+            - generic [ref=e3519]:
+              - generic [ref=e3520]: 9 mins
+              - generic [ref=e3526]:
+                - generic [ref=e3527]:
+                  - generic [ref=e3528]: Green Chilli (Lanka)
+                  - generic [ref=e3530]: 100 g
+                - generic [ref=e3532]:
+                  - generic [ref=e3533]:
+                    - generic [ref=e3534]: ₹16
+                    - generic [ref=e3535]: ₹19
+                  - button "ADD" [ref=e3537]
+          - button "16% OFF 9 mins Green Cucumber (Kakudi) 500 g ₹31 ₹37 ADD" [ref=e3540] [cursor=pointer]:
+            - generic [ref=e3541]: 16% OFF
+            - generic [ref=e3548]:
+              - generic [ref=e3549]: 9 mins
+              - generic [ref=e3555]:
+                - generic [ref=e3556]:
+                  - generic [ref=e3557]: Green Cucumber (Kakudi)
+                  - generic [ref=e3559]: 500 g
+                - generic [ref=e3561]:
+                  - generic [ref=e3562]:
+                    - generic [ref=e3563]: ₹31
+                    - generic [ref=e3564]: ₹37
+                  - button "ADD" [ref=e3566]
+          - button "17% OFF 9 mins Coriander Bunch (Dhaniya) 100 g ₹23 ₹28 ADD" [ref=e3569] [cursor=pointer]:
+            - generic [ref=e3570]: 17% OFF
+            - generic [ref=e3576]:
+              - generic [ref=e3577]: 9 mins
+              - generic [ref=e3583]:
+                - generic [ref=e3584]:
+                  - generic [ref=e3585]: Coriander Bunch (Dhaniya)
+                  - generic [ref=e3587]: 100 g
+                - generic [ref=e3589]:
+                  - generic [ref=e3590]:
+                    - generic [ref=e3591]: ₹23
+                    - generic [ref=e3592]: ₹28
+                  - button "ADD" [ref=e3594]
+          - button "18% OFF 9 mins Desi Tomato (Tamatar) 500 g ₹26 ₹32 ADD 2 options" [ref=e3597] [cursor=pointer]:
+            - generic [ref=e3598]: 18% OFF
+            - generic [ref=e3604]:
+              - generic [ref=e3605]: 9 mins
+              - generic [ref=e3611]:
+                - generic [ref=e3612]:
+                  - generic [ref=e3613]: Desi Tomato (Tamatar)
+                  - generic [ref=e3615]: 500 g
+                - generic [ref=e3617]:
+                  - generic [ref=e3618]:
+                    - generic [ref=e3619]: ₹26
+                    - generic [ref=e3620]: ₹32
+                  - button "ADD 2 options" [ref=e3622]:
+                    - generic [ref=e3623]: ADD
+                    - generic [ref=e3624]: 2 options
+          - button "14% OFF 9 mins Ginger (Ada) 200 g ₹43 ₹50 ADD" [ref=e3627] [cursor=pointer]:
+            - generic [ref=e3628]: 14% OFF
+            - generic [ref=e3634]:
+              - generic [ref=e3635]: 9 mins
+              - generic [ref=e3641]:
+                - generic [ref=e3642]:
+                  - generic [ref=e3643]: Ginger (Ada)
+                  - generic [ref=e3645]: 200 g
+                - generic [ref=e3647]:
+                  - generic [ref=e3648]:
+                    - generic [ref=e3649]: ₹43
+                    - generic [ref=e3650]: ₹50
+                  - button "ADD" [ref=e3652]
+          - button "12% OFF 9 mins Green Capsicum 250 g ₹34 ₹39 ADD" [ref=e3655] [cursor=pointer]:
+            - generic [ref=e3656]: 12% OFF
+            - generic [ref=e3662]:
+              - generic [ref=e3663]: 9 mins
+              - generic [ref=e3669]:
+                - generic [ref=e3670]:
+                  - generic [ref=e3671]: Green Capsicum
+                  - generic [ref=e3673]: 250 g
+                - generic [ref=e3675]:
+                  - generic [ref=e3676]:
+                    - generic [ref=e3677]: ₹34
+                    - generic [ref=e3678]: ₹39
+                  - button "ADD" [ref=e3680]
+          - button "20% OFF 9 mins Button Mushroom (Chhatu) 180 g ₹54 ₹68 ADD" [ref=e3683] [cursor=pointer]:
+            - generic [ref=e3684]: 20% OFF
+            - generic [ref=e3690]:
+              - generic [ref=e3691]: 9 mins
+              - generic [ref=e3697]:
+                - generic [ref=e3698]:
+                  - generic [ref=e3699]: Button Mushroom (Chhatu)
+                  - generic [ref=e3701]: 180 g
+                - generic [ref=e3703]:
+                  - generic [ref=e3704]:
+                    - generic [ref=e3705]: ₹54
+                    - generic [ref=e3706]: ₹68
+                  - button "ADD" [ref=e3708]
+          - button "21% OFF 9 mins Orange Carrot (Gajar) 500 g ₹33 ₹42 ADD" [ref=e3711] [cursor=pointer]:
+            - generic [ref=e3712]: 21% OFF
+            - generic [ref=e3718]:
+              - generic [ref=e3719]: 9 mins
+              - generic [ref=e3725]:
+                - generic [ref=e3726]:
+                  - generic [ref=e3727]: Orange Carrot (Gajar)
+                  - generic [ref=e3729]: 500 g
+                - generic [ref=e3731]:
+                  - generic [ref=e3732]:
+                    - generic [ref=e3733]: ₹33
+                    - generic [ref=e3734]: ₹42
+                  - button "ADD" [ref=e3736]
+          - button "13% OFF 9 mins Lemon (Kagaji Lembu) 200 g ₹38 ₹44 ADD" [ref=e3739] [cursor=pointer]:
+            - generic [ref=e3740]: 13% OFF
+            - generic [ref=e3746]:
+              - generic [ref=e3747]: 9 mins
+              - generic [ref=e3753]:
+                - generic [ref=e3754]:
+                  - generic [ref=e3755]: Lemon (Kagaji Lembu)
+                  - generic [ref=e3757]: 200 g
+                - generic [ref=e3759]:
+                  - generic [ref=e3760]:
+                    - generic [ref=e3761]: ₹38
+                    - generic [ref=e3762]: ₹44
+                  - button "ADD" [ref=e3764]
+          - button "19% OFF 9 mins Garlic (Lasuna) 200 g ₹51 ₹63 ADD" [ref=e3767] [cursor=pointer]:
+            - generic [ref=e3768]: 19% OFF
+            - generic [ref=e3774]:
+              - generic [ref=e3775]: 9 mins
+              - generic [ref=e3781]:
+                - generic [ref=e3782]:
+                  - generic [ref=e3783]: Garlic (Lasuna)
+                  - generic [ref=e3785]: 200 g
+                - generic [ref=e3787]:
+                  - generic [ref=e3788]:
+                    - generic [ref=e3789]: ₹51
+                    - generic [ref=e3790]: ₹63
+                  - button "ADD" [ref=e3792]
+          - button "21% OFF 9 mins Hybrid Tomato (Tamatar) 500 g ₹26 ₹33 ADD 2 options" [ref=e3795] [cursor=pointer]:
+            - generic [ref=e3796]: 21% OFF
+            - generic [ref=e3802]:
+              - generic [ref=e3803]: 9 mins
+              - generic [ref=e3809]:
+                - generic [ref=e3810]:
+                  - generic [ref=e3811]: Hybrid Tomato (Tamatar)
+                  - generic [ref=e3813]: 500 g
+                - generic [ref=e3815]:
+                  - generic [ref=e3816]:
+                    - generic [ref=e3817]: ₹26
+                    - generic [ref=e3818]: ₹33
+                  - button "ADD 2 options" [ref=e3820]:
+                    - generic [ref=e3821]: ADD
+                    - generic [ref=e3822]: 2 options
+          - button "19% OFF 9 mins French Beans - 250 g (Sabji) 250 g ₹38 ₹47 ADD" [ref=e3825] [cursor=pointer]:
+            - generic [ref=e3826]: 19% OFF
+            - generic [ref=e3832]:
+              - generic [ref=e3833]: 9 mins
+              - generic [ref=e3839]:
+                - generic [ref=e3840]:
+                  - generic [ref=e3841]: French Beans - 250 g (Sabji)
+                  - generic [ref=e3843]: 250 g
+                - generic [ref=e3845]:
+                  - generic [ref=e3846]:
+                    - generic [ref=e3847]: ₹38
+                    - generic [ref=e3848]: ₹47
+                  - button "ADD" [ref=e3850]
+          - button "19% OFF 9 mins Red Delicious Apple - Imported (Sau) 225 g ₹134 ₹166 ADD" [ref=e3853] [cursor=pointer]:
+            - generic [ref=e3854]: 19% OFF
+            - generic [ref=e3860]:
+              - generic [ref=e3861]: 9 mins
+              - generic [ref=e3867]:
+                - generic [ref=e3868]:
+                  - generic [ref=e3869]: Red Delicious Apple - Imported (Sau)
+                  - generic [ref=e3871]: 225 g
+                - generic [ref=e3873]:
+                  - generic [ref=e3874]:
+                    - generic [ref=e3875]: ₹134
+                    - generic [ref=e3876]: ₹166
+                  - button "ADD" [ref=e3878]
+          - button "22% OFF 9 mins Indian Guava (Pijuli) 350 g ₹66 ₹85 ADD" [ref=e3881] [cursor=pointer]:
+            - generic [ref=e3882]: 22% OFF
+            - generic [ref=e3888]:
+              - generic [ref=e3889]: 9 mins
+              - generic [ref=e3895]:
+                - generic [ref=e3896]:
+                  - generic [ref=e3897]: Indian Guava (Pijuli)
+                  - generic [ref=e3899]: 350 g
+                - generic [ref=e3901]:
+                  - generic [ref=e3902]:
+                    - generic [ref=e3903]: ₹66
+                    - generic [ref=e3904]: ₹85
+                  - button "ADD" [ref=e3906]
+          - button "16% OFF 9 mins Pointed Gourd (250 g) (Potala) 250 g ₹20 ₹24 ADD" [ref=e3909] [cursor=pointer]:
+            - generic [ref=e3910]: 16% OFF
+            - generic [ref=e3916]:
+              - generic [ref=e3917]: 9 mins
+              - generic [ref=e3923]:
+                - generic [ref=e3924]:
+                  - generic [ref=e3925]: Pointed Gourd (250 g) (Potala)
+                  - generic [ref=e3927]: 250 g
+                - generic [ref=e3929]:
+                  - generic [ref=e3930]:
+                    - generic [ref=e3931]: ₹20
+                    - generic [ref=e3932]: ₹24
+                  - button "ADD" [ref=e3934]
+          - button "17% OFF 9 mins Green Pumpkin (Kaddu) 400 g ₹24 ₹29 ADD" [ref=e3937] [cursor=pointer]:
+            - generic [ref=e3938]: 17% OFF
+            - generic [ref=e3944]:
+              - generic [ref=e3945]: 9 mins
+              - generic [ref=e3951]:
+                - generic [ref=e3952]:
+                  - generic [ref=e3953]: Green Pumpkin (Kaddu)
+                  - generic [ref=e3955]: 400 g
+                - generic [ref=e3957]:
+                  - generic [ref=e3958]:
+                    - generic [ref=e3959]: ₹24
+                    - generic [ref=e3960]: ₹29
+                  - button "ADD" [ref=e3962]
+          - button "18% OFF 9 mins Curry Leaves (Bhursunga Patra) 50 g ₹18 ₹22 ADD" [ref=e3965] [cursor=pointer]:
+            - generic [ref=e3966]: 18% OFF
+            - generic [ref=e3972]:
+              - generic [ref=e3973]: 9 mins
+              - generic [ref=e3979]:
+                - generic [ref=e3980]:
+                  - generic [ref=e3981]: Curry Leaves (Bhursunga Patra)
+                  - generic [ref=e3983]: 50 g
+                - generic [ref=e3985]:
+                  - generic [ref=e3986]:
+                    - generic [ref=e3987]: ₹18
+                    - generic [ref=e3988]: ₹22
+                  - button "ADD" [ref=e3990]
+          - button "20% OFF 9 mins Lady Finger (Bhendi) 250 g ₹19 ₹24 ADD 2 options" [ref=e3993] [cursor=pointer]:
+            - generic [ref=e3994]: 20% OFF
+            - generic [ref=e4000]:
+              - generic [ref=e4001]: 9 mins
+              - generic [ref=e4007]:
+                - generic [ref=e4008]:
+                  - generic [ref=e4009]: Lady Finger (Bhendi)
+                  - generic [ref=e4011]: 250 g
+                - generic [ref=e4013]:
+                  - generic [ref=e4014]:
+                    - generic [ref=e4015]: ₹19
+                    - generic [ref=e4016]: ₹24
+                  - button "ADD 2 options" [ref=e4018]:
+                    - generic [ref=e4019]: ADD
+                    - generic [ref=e4020]: 2 options
+          - button "17% OFF 9 mins Mini Orange 250 g (Narangi) 250 g ₹94 ₹114 ADD" [ref=e4023] [cursor=pointer]:
+            - generic [ref=e4024]: 17% OFF
+            - generic [ref=e4030]:
+              - generic [ref=e4031]: 9 mins
+              - generic [ref=e4037]:
+                - generic [ref=e4038]:
+                  - generic [ref=e4039]: Mini Orange 250 g (Narangi)
+                  - generic [ref=e4041]: 250 g
+                - generic [ref=e4043]:
+                  - generic [ref=e4044]:
+                    - generic [ref=e4045]: ₹94
+                    - generic [ref=e4046]: ₹114
+                  - button "ADD" [ref=e4048]
+          - button "18% OFF 9 mins Mint Leaves (Pudina Patra) 100 g ₹39 ₹48 ADD" [ref=e4051] [cursor=pointer]:
+            - generic [ref=e4052]: 18% OFF
+            - generic [ref=e4058]:
+              - generic [ref=e4059]: 9 mins
+              - generic [ref=e4065]:
+                - generic [ref=e4066]:
+                  - generic [ref=e4067]: Mint Leaves (Pudina Patra)
+                  - generic [ref=e4069]: 100 g
+                - generic [ref=e4071]:
+                  - generic [ref=e4072]:
+                    - generic [ref=e4073]: ₹39
+                    - generic [ref=e4074]: ₹48
+                  - button "ADD" [ref=e4076]
+          - button "15% OFF 9 mins Brinjal - Bharta (Baigana) 500 g ₹43 ₹51 ADD" [ref=e4079] [cursor=pointer]:
+            - generic [ref=e4080]: 15% OFF
+            - generic [ref=e4086]:
+              - generic [ref=e4087]: 9 mins
+              - generic [ref=e4093]:
+                - generic [ref=e4094]:
+                  - generic [ref=e4095]: Brinjal - Bharta (Baigana)
+                  - generic [ref=e4097]: 500 g
+                - generic [ref=e4099]:
+                  - generic [ref=e4100]:
+                    - generic [ref=e4101]: ₹43
+                    - generic [ref=e4102]: ₹51
+                  - button "ADD" [ref=e4104]
+          - button "18% OFF 9 mins Pooja Flower Mix (Phula Mix) 100 g ₹49 ₹60 ADD" [ref=e4107] [cursor=pointer]:
+            - generic [ref=e4108]: 18% OFF
+            - generic [ref=e4114]:
+              - generic [ref=e4115]: 9 mins
+              - generic [ref=e4121]:
+                - generic [ref=e4122]:
+                  - generic [ref=e4123]: Pooja Flower Mix (Phula Mix)
+                  - generic [ref=e4125]: 100 g
+                - generic [ref=e4127]:
+                  - generic [ref=e4128]:
+                    - generic [ref=e4129]: ₹49
+                    - generic [ref=e4130]: ₹60
+                  - button "ADD" [ref=e4132]
+          - button "15% OFF 9 mins Cabbage (Bandhakopi) 400 g ₹38 ₹45 ADD" [ref=e4135] [cursor=pointer]:
+            - generic [ref=e4136]: 15% OFF
+            - generic [ref=e4142]:
+              - generic [ref=e4143]: 9 mins
+              - generic [ref=e4149]:
+                - generic [ref=e4150]:
+                  - generic [ref=e4151]: Cabbage (Bandhakopi)
+                  - generic [ref=e4153]: 400 g
+                - generic [ref=e4155]:
+                  - generic [ref=e4156]:
+                    - generic [ref=e4157]: ₹38
+                    - generic [ref=e4158]: ₹45
+                  - button "ADD" [ref=e4160]
+          - button "22% OFF 9 mins Pineapple Cut (Sapuri) 200 g ₹68 ₹88 ADD" [ref=e4163] [cursor=pointer]:
+            - generic [ref=e4164]: 22% OFF
+            - generic [ref=e4170]:
+              - generic [ref=e4171]: 9 mins
+              - generic [ref=e4177]:
+                - generic [ref=e4178]:
+                  - generic [ref=e4179]: Pineapple Cut (Sapuri)
+                  - generic [ref=e4181]: 200 g
+                - generic [ref=e4183]:
+                  - generic [ref=e4184]:
+                    - generic [ref=e4185]: ₹68
+                    - generic [ref=e4186]: ₹88
+                  - button "ADD" [ref=e4188]
+          - button "15% OFF 9 mins Raw Banana (Kancha Kadali) 3 pcs ₹37 ₹44 ADD" [ref=e4191] [cursor=pointer]:
+            - generic [ref=e4192]: 15% OFF
+            - generic [ref=e4198]:
+              - generic [ref=e4199]: 9 mins
+              - generic [ref=e4205]:
+                - generic [ref=e4206]:
+                  - generic [ref=e4207]: Raw Banana (Kancha Kadali)
+                  - generic [ref=e4209]: 3 pcs
+                - generic [ref=e4211]:
+                  - generic [ref=e4212]:
+                    - generic [ref=e4213]: ₹37
+                    - generic [ref=e4214]: ₹44
+                  - button "ADD" [ref=e4216]
+          - button "15% OFF 9 mins Pomegranate Peeled (Bedaana) 100 g ₹64 ₹76 ADD" [ref=e4219] [cursor=pointer]:
+            - generic [ref=e4220]: 15% OFF
+            - generic [ref=e4226]:
+              - generic [ref=e4227]: 9 mins
+              - generic [ref=e4233]:
+                - generic [ref=e4234]:
+                  - generic [ref=e4235]: Pomegranate Peeled (Bedaana)
+                  - generic [ref=e4237]: 100 g
+                - generic [ref=e4239]:
+                  - generic [ref=e4240]:
+                    - generic [ref=e4241]: ₹64
+                    - generic [ref=e4242]: ₹76
+                  - button "ADD" [ref=e4244]
+      - generic [ref=e4247]:
+        - generic [ref=e4248]:
+          - heading [level=2] [ref=e4249]:
+            - strong [ref=e4250]: Buy Fresh Fruits and Vegetables Online
+          - paragraph [ref=e4251]
+          - paragraph [ref=e4252]: Fresh fruits and vegetables are essential daily grocery items used for cooking, salads, snacks, juices, and healthy meals. From onions, tomatoes, cucumbers, green chillies, coriander, lemons, and capsicum to bananas and exotic produce, fresh produce helps support balanced nutrition and everyday cooking needs. Fruits and vegetables are commonly used in households, restaurants, cafes, and meal preparation routines.
+          - paragraph [ref=e4253]
+          - paragraph [ref=e4254]:
+            - text: Buy Fresh Fruits & Vegetables online from Blinkit and get doorstep delivery with easy returns for complete peace of mind. Explore products from popular brands like Freshbury and Green Earth. You can also browse related categories such as
+            - link "Fresh Vegetables" [ref=e4255] [cursor=pointer]:
+              - /url: https://blinkit.com/dc/vegetables-fruits/fresh-vegetables/?collection_uuid=OTg3NjU0MzIxMjM0NTMzNzE%3D&collection_group_id=11370
+            - text: and
+            - link "Exotic Fruits & Vegetables" [ref=e4256] [cursor=pointer]:
+              - /url: https://blinkit.com/dc/vegetables-fruits/exotics/?collection_uuid=OTg3NjU0MzIxMjM0NTMzNzE%3D&collection_group_id=11372
+            - text: for more fresh grocery options.
+          - heading [level=2] [ref=e4257]:
+            - strong [ref=e4258]: Types of Fresh Fruits & Vegetables
+          - heading [level=4] [ref=e4259]
+          - heading [level=4] [ref=e4260]:
+            - strong [ref=e4261]: Fresh Vegetables
+          - paragraph [ref=e4262]
+          - paragraph [ref=e4263]: Fresh vegetables are commonly used in everyday cooking and meal preparation.
+          - paragraph [ref=e4264]
+          - paragraph [ref=e4265]:
+            - strong [ref=e4266]: "Leafy & Green Vegetables:"
+            - text: Includes coriander, green chillies, capsicum, and cucumbers.
+          - paragraph [ref=e4267]
+          - paragraph [ref=e4268]:
+            - strong [ref=e4269]: "Cooking Essentials:"
+            - text: Onions, tomatoes, and lemons are useful for daily recipes and curries.
+          - heading [level=4] [ref=e4270]
+          - heading [level=4] [ref=e4271]:
+            - strong [ref=e4272]: Fresh Fruits
+          - paragraph [ref=e4273]
+          - paragraph [ref=e4274]: Fresh fruits are commonly consumed as snacks, breakfast items, and healthy refreshments.
+          - paragraph [ref=e4275]
+          - paragraph [ref=e4276]:
+            - strong [ref=e4277]: "Bananas & Seasonal Fruits:"
+            - text: Suitable for snacking, smoothies, and fruit bowls.
+          - paragraph [ref=e4278]
+          - paragraph [ref=e4279]:
+            - strong [ref=e4280]: "Exotic Produce:"
+            - text: Includes premium fruits and vegetables for salads and gourmet meals.
+          - heading [level=2] [ref=e4281]:
+            - strong [ref=e4282]: Uses of Fresh Fruits & Vegetables
+          - heading [level=4] [ref=e4283]
+          - heading [level=4] [ref=e4284]:
+            - strong [ref=e4285]: Daily Cooking & Meal Preparation
+          - paragraph [ref=e4286]
+          - paragraph [ref=e4287]: Fresh vegetables are essential ingredients for Indian and international dishes.
+          - list [ref=e4288]:
+            - listitem [ref=e4289]:
+              - strong [ref=e4290]: "Cooking Ingredients:"
+              - text: Used in curries, salads, sandwiches, and side dishes.
+            - listitem [ref=e4291]:
+              - strong [ref=e4292]: "Everyday Grocery Essentials:"
+              - text: Suitable for regular home cooking needs.
+            - listitem [ref=e4293]:
+              - strong [ref=e4294]: "Fresh Taste:"
+              - text: Helps improve flavour and texture in meals.
+          - heading [level=4] [ref=e4295]
+          - heading [level=4] [ref=e4296]:
+            - strong [ref=e4297]: Healthy Eating & Snacking
+          - paragraph [ref=e4298]
+          - paragraph [ref=e4299]: Fresh fruits are commonly consumed for balanced nutrition and quick snacks.
+          - list [ref=e4300]:
+            - listitem [ref=e4301]:
+              - strong [ref=e4302]: "Nutritious Food Choices:"
+              - text: Suitable for healthy meal planning.
+            - listitem [ref=e4303]:
+              - strong [ref=e4304]: "Fruit Bowls & Smoothies:"
+              - text: Bananas and fresh fruits are useful for drinks and breakfast meals.
+            - listitem [ref=e4305]:
+              - strong [ref=e4306]: "Hydrating Produce:"
+              - text: Cucumbers and lemons are commonly used in refreshing recipes.
+          - heading [level=4] [ref=e4307]
+          - heading [level=4] [ref=e4308]:
+            - strong [ref=e4309]: Salads & Fresh Recipes
+          - paragraph [ref=e4310]
+          - paragraph [ref=e4311]: Fresh vegetables and fruits are useful for salads and light meal preparations.
+          - list [ref=e4312]:
+            - listitem [ref=e4313]:
+              - strong [ref=e4314]: "Salad Preparation:"
+              - text: Cucumbers, tomatoes, and capsicum are commonly used in salads.
+            - listitem [ref=e4315]:
+              - strong [ref=e4316]: "Fresh Garnishing:"
+              - text: Coriander and lemons help enhance food presentation and flavour.
+            - listitem [ref=e4317]:
+              - strong [ref=e4318]: "Healthy Side Dishes:"
+              - text: Suitable for balanced meals and snacks.
+          - heading [level=2] [ref=e4319]:
+            - strong [ref=e4320]: Benefits of Fresh Fruits & Vegetables
+          - heading [level=4] [ref=e4321]
+          - heading [level=4] [ref=e4322]:
+            - strong [ref=e4323]: Supports Healthy Eating
+          - paragraph [ref=e4324]
+          - paragraph [ref=e4325]: Fresh fruits and vegetables are commonly included in balanced daily diets.
+          - heading [level=4] [ref=e4326]
+          - heading [level=4] [ref=e4327]:
+            - strong [ref=e4328]: Useful for Everyday Cooking
+          - paragraph [ref=e4329]
+          - paragraph [ref=e4330]: Vegetables help simplify meal preparation for households and kitchens.
+          - heading [level=4] [ref=e4331]
+          - heading [level=4] [ref=e4332]:
+            - strong [ref=e4333]: Fresh & Versatile Ingredients
+          - paragraph [ref=e4334]
+          - paragraph [ref=e4335]: Fruits and vegetables can be used in snacks, curries, juices, salads, and side dishes.
+          - heading [level=4] [ref=e4336]
+          - heading [level=4] [ref=e4337]:
+            - strong [ref=e4338]: Suitable for Multiple Recipes
+          - paragraph [ref=e4339]
+          - paragraph [ref=e4340]: Fresh produce is useful for Indian cooking, healthy meals, and gourmet dishes.
+          - heading [level=4] [ref=e4341]
+          - heading [level=4] [ref=e4342]:
+            - strong [ref=e4343]: Convenient Grocery Shopping
+          - paragraph [ref=e4344]
+          - paragraph [ref=e4345]: Online delivery makes it easy to buy fresh fruits and vegetables from home.
+          - paragraph [ref=e4346]
+          - heading [level=2] [ref=e4347]:
+            - strong [ref=e4348]: Frequently Asked Questions
+          - paragraph [ref=e4349]
+          - heading [level=3] [ref=e4350]:
+            - strong [ref=e4351]: 1. What products are included in fresh fruits & vegetables?
+          - paragraph [ref=e4352]
+          - paragraph [ref=e4353]: Fresh fruits & vegetables include onions, tomatoes, cucumbers, bananas, capsicum, lemons, coriander, and seasonal produce.
+          - heading [level=3] [ref=e4354]
+          - heading [level=3] [ref=e4355]:
+            - strong [ref=e4356]: 2. Are fresh vegetables useful for daily cooking?
+          - paragraph [ref=e4357]
+          - paragraph [ref=e4358]: Yes, fresh vegetables are essential ingredients for curries, salads, snacks, and everyday meals.
+          - heading [level=3] [ref=e4359]
+          - heading [level=3] [ref=e4360]:
+            - strong [ref=e4361]: 3. What are exotic fruits & vegetables?
+          - paragraph [ref=e4362]
+          - paragraph [ref=e4363]: Exotic fruits & vegetables are premium and specialty produce used for gourmet cooking and salads.
+          - heading [level=3] [ref=e4364]
+          - heading [level=3] [ref=e4365]:
+            - strong [ref=e4366]: 4. Can fresh fruits be used for smoothies and snacks?
+          - paragraph [ref=e4367]
+          - paragraph [ref=e4368]: Yes, fresh fruits like bananas are commonly used for smoothies, breakfast bowls, and healthy snacks.
+          - heading [level=3] [ref=e4369]
+          - heading [level=3] [ref=e4370]:
+            - strong [ref=e4371]: 5. Where can I buy fresh fruits & vegetables online?
+          - paragraph [ref=e4372]
+          - paragraph [ref=e4373]: You can buy a wide range of fresh fruits & vegetables online from Blinkit with fast doorstep delivery across multiple cities in India.
+        - generic [ref=e4374]:
+          - generic [ref=e4375]:
+            - heading [level=2] [ref=e4376]:
+              - text: Buy All at
+              - link "Online grocery store" [ref=e4377] [cursor=pointer]:
+                - /url: /
+              - text: in india
+            - generic [ref=e4378]: Are you super fond of online shopping because you hate crowded supermarkets? Now you don't need to be worry as Blinkit is delivering All at your doorstep with easy returns for your complete peace of mind.
+            - generic [ref=e4379]: Get All delivered to your home. you can check All price before buying.
+            - generic [ref=e4381]: We deliver All at Delhi, Gurgaon, Kolkata, Lucknow, Mumbai, Bengaluru, Ahmedabad, Noida, Ghaziabad, Faridabad, Hyderabad, Jaipur, Pune, Chennai, Chandigarh, Ludhiana, Vadodara, Meerut, Kanpur, Panchkula, Kharar, Amritsar, Bhopal, Indore, Zirakpur, Jalandhar, Dehradun, Agra, Mohali, Goa, Patiala, Sonipat, Bhiwadi, Kota, Rohtak, Bahadurgarh, Haridwar, Bathinda, Kochi, Jodhpur
+            - generic [ref=e4382]:
+              - text: Buy from several popular brands like
+              - link "Freshbury," [ref=e4383] [cursor=pointer]:
+                - /url: /brand/Freshbury
+              - link "G Fresh." [ref=e4384] [cursor=pointer]:
+                - /url: /brand/G Fresh
+          - generic [ref=e4385]:
+            - heading "All Price List" [level=2] [ref=e4386]
+            - table [ref=e4387]:
+              - row [ref=e4388]:
+                - columnheader "All" [ref=e4389]
+                - columnheader "Price" [ref=e4390]
+              - row [ref=e4391]:
+                - cell [ref=e4392]:
+                  - text: "1."
+                  - link "Banana (Kadali)" [ref=e4393] [cursor=pointer]:
+                    - /url: /prn/banana-kadali/prid/3874
+                - cell "Rs.36" [ref=e4394]
+              - row [ref=e4395]:
+                - cell [ref=e4396]:
+                  - text: "2."
+                  - link "Potato (Aloo)" [ref=e4397] [cursor=pointer]:
+                    - /url: /prn/potato-aloo/prid/199435
+                - cell "Rs.20" [ref=e4398]
+              - row [ref=e4399]:
+                - cell [ref=e4400]:
+                  - text: "3."
+                  - link "Onion (Pyaz)" [ref=e4401] [cursor=pointer]:
+                    - /url: /prn/onion-pyaz/prid/530158
+                - cell "Rs.60" [ref=e4402]
+              - row [ref=e4403]:
+                - cell [ref=e4404]:
+                  - text: "4."
+                  - link "Yellaki Banana (Kadali)" [ref=e4405] [cursor=pointer]:
+                    - /url: /prn/yellaki-banana-kadali/prid/424416
+                - cell "Rs.55" [ref=e4406]
+              - row [ref=e4407]:
+                - cell [ref=e4408]:
+                  - text: "5."
+                  - link "Green Chilli (Lanka)" [ref=e4409] [cursor=pointer]:
+                    - /url: /prn/green-chilli-lanka/prid/423735
+                - cell "Rs.16" [ref=e4410]
+              - row [ref=e4411]:
+                - cell [ref=e4412]:
+                  - text: "6."
+                  - link "Green Cucumber (Kakudi)" [ref=e4413] [cursor=pointer]:
+                    - /url: /prn/green-cucumber-kakudi/prid/10088
+                - cell "Rs.31" [ref=e4414]
+              - row [ref=e4415]:
+                - cell [ref=e4416]:
+                  - text: "7."
+                  - link "Coriander Bunch (Dhaniya)" [ref=e4417] [cursor=pointer]:
+                    - /url: /prn/coriander-bunch-dhaniya/prid/3889
+                - cell "Rs.23" [ref=e4418]
+              - row [ref=e4419]:
+                - cell [ref=e4420]:
+                  - text: "8."
+                  - link "Desi Tomato (Tamatar)" [ref=e4421] [cursor=pointer]:
+                    - /url: /prn/desi-tomato-tamatar/prid/366032
+                - cell "Rs.26" [ref=e4422]
+              - row [ref=e4423]:
+                - cell [ref=e4424]:
+                  - text: "9."
+                  - link "Ginger (Ada)" [ref=e4425] [cursor=pointer]:
+                    - /url: /prn/ginger-ada/prid/95032
+                - cell "Rs.43" [ref=e4426]
+              - row [ref=e4427]:
+                - cell [ref=e4428]:
+                  - text: "10."
+                  - link "Green Capsicum" [ref=e4429] [cursor=pointer]:
+                    - /url: /prn/green-capsicum/prid/3888
+                - cell "Rs.34" [ref=e4430]
+            - emphasis [ref=e4431]: This data was last updated on 8/22/2026
+    - generic [ref=e4432]: U
+  - generic [ref=e1658]:
+    - generic [ref=e1659]: India's last minute app - blinkit
+    - generic [ref=e1660]: +

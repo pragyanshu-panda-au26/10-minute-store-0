@@ -1,0 +1,115 @@
+- generic [ref=e3]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - link [ref=e7] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e19] [cursor=pointer]: Select Location
+    - link "! Search \"butter\" Search \"paneer\" Search \"chocolate\" Search \"curd\" Search \"rice\" Search \"egg\" Search \"chips\"" [ref=e27] [cursor=pointer]:
+      - /url: /s/
+      - generic [ref=e28]: "!"
+      - generic:
+        - generic:
+          - generic [ref=e29]: Search "butter"
+          - generic [ref=e30]: Search "paneer"
+          - generic [ref=e31]: Search "chocolate"
+          - generic [ref=e32]: Search "curd"
+          - generic [ref=e33]: Search "rice"
+          - generic [ref=e34]: Search "egg"
+          - generic [ref=e35]: Search "chips"
+    - generic [ref=e36]:
+      - generic [ref=e37] [cursor=pointer]: Login
+      - generic [ref=e40]:
+        - generic [ref=e41]: r
+        - generic [ref=e42]: My Cart
+  - generic [ref=e46]:
+    - contentinfo [ref=e47]:
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - generic [ref=e50]: Useful Links
+          - list [ref=e51]:
+            - listitem [ref=e52]:
+              - list [ref=e53]:
+                - listitem [ref=e54]:
+                  - link "Blog" [ref=e55] [cursor=pointer]:
+                    - /url: /blog
+                - listitem [ref=e56]:
+                  - link "Privacy" [ref=e57] [cursor=pointer]:
+                    - /url: /privacy
+                - listitem [ref=e58]:
+                  - link "Terms" [ref=e59] [cursor=pointer]:
+                    - /url: /terms
+                - listitem [ref=e60]:
+                  - link "FAQs" [ref=e61] [cursor=pointer]:
+                    - /url: /faq
+                - listitem [ref=e62]:
+                  - link "Security" [ref=e63] [cursor=pointer]:
+                    - /url: /security
+                - listitem [ref=e64]:
+                  - link "Contact" [ref=e65] [cursor=pointer]:
+                    - /url: /contactUs
+            - listitem [ref=e66]:
+              - list [ref=e67]:
+                - listitem [ref=e68]:
+                  - link "Partner" [ref=e69] [cursor=pointer]:
+                    - /url: /partner
+                - listitem [ref=e70]:
+                  - link "Franchise" [ref=e71] [cursor=pointer]:
+                    - /url: /franchise
+                - listitem [ref=e72]:
+                  - link "Seller" [ref=e73] [cursor=pointer]:
+                    - /url: /seller
+                - listitem [ref=e74]:
+                  - link "Warehouse" [ref=e75] [cursor=pointer]:
+                    - /url: /warehouse-partner
+                - listitem [ref=e76]:
+                  - link "Deliver" [ref=e77] [cursor=pointer]:
+                    - /url: /delivery
+                - listitem [ref=e78]:
+                  - link "Resources" [ref=e79] [cursor=pointer]:
+                    - /url: /resources
+            - listitem [ref=e80]:
+              - list [ref=e81]:
+                - listitem [ref=e82]:
+                  - link "Recipes" [ref=e83] [cursor=pointer]:
+                    - /url: /recipes
+                - listitem [ref=e84]:
+                  - link "Bistro" [ref=e85] [cursor=pointer]:
+                    - /url: https://bistro.blinkit.com
+                - listitem [ref=e86]:
+                  - link "District" [ref=e87] [cursor=pointer]:
+                    - /url: https://www.district.in/
+                - listitem [ref=e88]:
+                  - link "Blinkit Ambulance" [ref=e89] [cursor=pointer]:
+                    - /url: /ambulance
+                - listitem [ref=e90]:
+                  - link "Feeding India" [ref=e91] [cursor=pointer]:
+                    - /url: https://www.feedingindia.org?utm_source=blinkit&source=blinkit
+        - generic [ref=e92]:
+          - generic [ref=e93]:
+            - generic [ref=e94]: Categories
+            - link "see all" [ref=e95] [cursor=pointer]:
+              - /url: /categories
+          - list [ref=e96]:
+            - listitem [ref=e97]:
+              - link "Print Store" [ref=e98] [cursor=pointer]:
+                - /url: /print
+            - listitem [ref=e99]:
+              - link "E-Gift Cards" [ref=e100] [cursor=pointer]:
+                - /url: /cn/e-cards/cid/416/4301
+            - listitem [ref=e101]:
+              - link "Rakhi Gifts" [ref=e102] [cursor=pointer]:
+                - /url: /dc/?collection_uuid=4981b5da-20ea-439a-bd29-4a13e3b59f82
+    - generic [ref=e104]:
+      - generic [ref=e105]: © Blink Commerce Private Limited, 2016-2026
+      - generic [ref=e106]:
+        - generic [ref=e107]: Download App
+        - generic [ref=e108]:
+          - generic [ref=e109] [cursor=pointer]
+          - generic [ref=e110] [cursor=pointer]
+      - generic [ref=e113]:
+        - generic [ref=e114] [cursor=pointer]
+        - generic [ref=e118] [cursor=pointer]
+        - generic [ref=e122] [cursor=pointer]
+        - generic [ref=e129] [cursor=pointer]
+        - generic [ref=e135] [cursor=pointer]
+    - generic [ref=e137]: “Blinkit” is owned & managed by "Blink Commerce Private Limited" and is not related, linked or interconnected in whatsoever manner or nature, to “GROFFR.COM” which is a real estate services business operated by “Redstone Consultancy Services Private Limited”.

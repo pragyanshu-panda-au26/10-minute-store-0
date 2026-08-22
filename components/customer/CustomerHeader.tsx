@@ -1,10 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Search, User, ChevronDown, Locate, Mic } from "lucide-react";
 import { useUserStore } from "@/store/useUserStore";
 import LocationPickerModal from "@/components/customer/LocationPickerModal";
+
+// Default terms used until /api/store-settings responds — matches the Prisma
+// column default so the header never renders a bare "Search"...".
+const DEFAULT_SEARCH_TERMS = [
+  "bread", "milk", "eggs", "chips", "paneer", "curd", "rice", "chocolate",
+];
 
 interface CustomerHeaderProps {
   searchQuery: string;
@@ -19,6 +25,37 @@ export default function CustomerHeader({
   const activeAddr = getActiveAddress();
 
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+
+  // Rotating placeholder — fetches admin-configured terms on mount, then
+  // cycles through them every ~3s. Falls back to a bundled default so we
+  // never show a bare "Search" if the API is slow / disabled.
+  const [terms, setTerms] = useState<string[]>(DEFAULT_SEARCH_TERMS);
+  const [termIdx, setTermIdx] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/store-settings");
+        const data = await res.json();
+        if (cancelled) return;
+        if (data?.success && Array.isArray(data.searchPlaceholders) && data.searchPlaceholders.length > 0) {
+          setTerms(data.searchPlaceholders);
+        }
+      } catch {
+        // Silent — keep defaults. The header must never break on a settings fetch.
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
+    if (terms.length <= 1) return;
+    const t = setInterval(() => setTermIdx((i) => (i + 1) % terms.length), 3000);
+    return () => clearInterval(t);
+  }, [terms.length]);
+
+  const currentPlaceholder = `Search "${terms[termIdx % terms.length]}"`;
 
   return (
     <>
@@ -38,10 +75,14 @@ export default function CustomerHeader({
                   10m
                 </Link>
                 <div>
-                  {/* Headline */}
+                  {/* Headline — Blinkit-parity: primary line surfaces the ETA
+                      so first-time visitors see "how fast" at a glance, even
+                      before an address is chosen. The brand name is already
+                      carried by the "10m" emblem next to this block, so a
+                      second brand line here would be redundant. */}
                   <div className="flex items-center gap-1.5">
                     <Link href="/" className="text-sm sm:text-base font-black tracking-tight text-slate-950">
-                      10minute in <span className="font-black text-slate-950">10 minutes</span>
+                      Delivery in <span className="font-black text-slate-950">~10 min</span>
                     </Link>
                   </div>
 
@@ -107,7 +148,7 @@ export default function CustomerHeader({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder='Search "ice-cream", "tomatoes", "milk"...'
+                placeholder={currentPlaceholder}
                 className="w-full rounded-2xl border border-slate-200/90 bg-white py-2.5 pl-10 pr-9 text-xs font-bold text-slate-900 placeholder-slate-400 transition-all focus:border-slate-950 focus:bg-white focus:outline-none focus:ring-4 focus:ring-slate-950/10 shadow-sm"
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3">

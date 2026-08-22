@@ -9,6 +9,7 @@ import {
   AlertTriangle,
   Search,
   MapPin,
+  X,
 } from "lucide-react";
 import { GEOFENCE_CENTER } from "@/lib/geofence";
 import { useUserStore } from "@/store/useUserStore";
@@ -34,6 +35,12 @@ const CACHE_TTL_MS = 60 * 60 * 1000;
 // across browser sessions the way the serviceability cache does, because
 // then a returning customer never gets the location ask.
 const BROWSE_ONLY_FLAG = "satyug_browse_only_v1";
+
+// Sentinel store id emitted when the user is browsing without a delivery
+// address yet. The products API ignores an unknown `store_id` and returns the
+// same catalog, so this is enough to unblock `fetchProducts()` in the parent
+// while we still know at the caller side that no real store is bound.
+const STORE_BROWSE_ONLY = "STORE_BROWSE_ONLY";
 
 interface CachedServiceability {
   storeId: string;
@@ -83,6 +90,10 @@ export default function GatedServiceabilityModal({
     // add-to-cart / checkout paths will prompt again when it actually matters.
     try {
       if (sessionStorage.getItem(BROWSE_ONLY_FLAG) === "1") {
+        // Fire the parent callback so `fetchProducts()` runs on this
+        // session-continuation, otherwise the catalog stays empty on every
+        // reload after the very first "Just browsing" tap.
+        onServiceableConfirmed(STORE_BROWSE_ONLY);
         setPhase("serviceable");
         return;
       }
@@ -351,6 +362,74 @@ export default function GatedServiceabilityModal({
     return null;
   }
 
+  // ─── PROMPT PHASE — NON-BLOCKING TOP STRIP ─────────────────────
+  // Blinkit-parity: the shopper should see the catalog immediately and
+  // decide about location on their own time. A blocking full-screen overlay
+  // here was the biggest bounce cause — every hesitant first-time visitor
+  // was staring at a modal instead of merchandise.
+  //
+  // The strip sits under the header (top-14 clears CustomerHeader's height on
+  // mobile), stays visible while the shopper scrolls, and offers three paths:
+  // GPS, manual address (via a "Set location" tap that promotes to the modal
+  // via the loading path), or dismiss. Loading + out-of-zone remain modal
+  // because they're transient / require attention.
+  if (phase === "prompt") {
+    const dismissBrowseOnly = () => {
+      try { sessionStorage.setItem(BROWSE_ONLY_FLAG, "1"); } catch {}
+      onServiceableConfirmed(STORE_BROWSE_ONLY);
+      setPhase("serviceable");
+    };
+
+    return (
+      <div className="sticky top-14 z-40 mx-3 mt-2 rounded-2xl border border-amber-300/80 bg-amber-50 shadow-md animate-in slide-in-from-top-2">
+        <div className="flex items-center gap-3 px-3 py-2.5">
+          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-amber-400 text-slate-950">
+            <Navigation className="h-4 w-4" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-[11px] font-black text-slate-900 leading-tight">
+              Set your delivery location
+            </p>
+            <p className="text-[10px] text-slate-700 leading-tight mt-0.5">
+              We&rsquo;ll show what&rsquo;s in stock and how fast we can deliver.
+            </p>
+          </div>
+          <button
+            onClick={handleRequestBrowserLocation}
+            className="flex-shrink-0 rounded-xl bg-slate-950 px-2.5 py-1.5 text-[10px] font-black text-white hover:bg-slate-800 active:scale-95 transition-all cursor-pointer"
+          >
+            Use GPS
+          </button>
+          <button
+            onClick={dismissBrowseOnly}
+            aria-label="Dismiss location prompt"
+            className="flex-shrink-0 rounded-full p-1 text-slate-500 hover:bg-amber-100 hover:text-slate-900 cursor-pointer"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+        {/* Dev-only bypass — still available in the strip so QA can hop into
+            the Paradip fixture with one tap. Never renders in production. */}
+        {process.env.NODE_ENV !== "production" && (
+          <button
+            onClick={() =>
+              handleVerifyCoordinates(
+                GEOFENCE_CENTER.lat,
+                GEOFENCE_CENTER.lng,
+                "Paradip Store Hub"
+              )
+            }
+            className="w-full border-t border-amber-200 px-3 py-1.5 text-[10px] font-black text-emerald-700 hover:bg-amber-100 cursor-pointer"
+          >
+            <MapPin className="inline h-3 w-3 mr-1 text-emerald-700" />
+            Test: use Paradip Store Hub ({GEOFENCE_CENTER.lat.toFixed(4)}, {GEOFENCE_CENTER.lng.toFixed(4)})
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  // ─── LOADING + OUT-OF-ZONE PHASES — BLOCKING MODAL ────────────
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Dark Blur Overlay */}
@@ -375,67 +454,10 @@ export default function GatedServiceabilityModal({
           </div>
         )}
 
-        {/* PHASE 2: LAUNCH PROMPT (LOCATION PERMISSION REQUIRED) */}
-        {phase === "prompt" && (
-          <div className="space-y-5 text-center">
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-amber-400/15 border border-amber-400/30 text-amber-400 shadow-inner">
-              <Navigation className="h-10 w-10 text-amber-400 animate-bounce" />
-            </div>
-
-            <div className="space-y-1.5">
-              <h2 className="text-xl font-black tracking-tight text-white">
-                Where should we deliver?
-              </h2>
-              <p className="text-xs text-slate-300 leading-relaxed px-2">
-                We&rsquo;ll show you what&rsquo;s in stock nearby and how quickly we can get it to you.
-              </p>
-            </div>
-
-            <div className="space-y-2.5">
-              <button
-                onClick={handleRequestBrowserLocation}
-                className="w-full flex items-center justify-center gap-2 rounded-2xl bg-amber-400 py-3.5 text-xs font-black text-slate-950 hover:bg-amber-300 shadow-lg shadow-amber-400/20 active:scale-95 transition-all cursor-pointer"
-              >
-                <Compass className="h-4 w-4 text-slate-950" /> Use my current location
-              </button>
-
-              {/* "Just browsing" escape — the single biggest funnel win from
-                  the UX audit. A hesitant first-time visitor no longer bounces
-                  because they don't want to grant GPS; they can look at the
-                  catalog and get prompted again at the moment it matters
-                  (add-to-cart / checkout). Flag is session-scoped so a
-                  returning customer still gets the location ask next visit. */}
-              <button
-                onClick={() => {
-                  try { sessionStorage.setItem(BROWSE_ONLY_FLAG, "1"); } catch {}
-                  setPhase("serviceable");
-                }}
-                className="w-full flex items-center justify-center gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 py-2.5 text-xs font-bold text-slate-300 hover:bg-slate-800 transition-all cursor-pointer"
-              >
-                Just browsing for now
-              </button>
-
-              {/* Bypass button — dev/QA only. In production this let anyone
-                  fake their location to the geofence centre and skip the
-                  serviceability check with one tap. Gated on NODE_ENV so the
-                  bundle doesn't ship it to real users. */}
-              {process.env.NODE_ENV !== "production" && (
-                <button
-                  onClick={() =>
-                    handleVerifyCoordinates(
-                      GEOFENCE_CENTER.lat,
-                      GEOFENCE_CENTER.lng,
-                      "Paradip Store Hub"
-                    )
-                  }
-                  className="w-full flex items-center justify-center gap-1.5 rounded-2xl border border-slate-800 bg-slate-950 py-2.5 text-xs font-bold text-emerald-400 hover:bg-slate-800 transition-all cursor-pointer"
-                >
-                  <MapPin className="h-3.5 w-3.5 text-emerald-400" /> Test Paradip Store Hub ({GEOFENCE_CENTER.lat.toFixed(4)}, {GEOFENCE_CENTER.lng.toFixed(4)})
-                </button>
-              )}
-            </div>
-          </div>
-        )}
+        {/* NOTE: the `prompt` phase is now rendered as a non-blocking top
+            strip above this modal branch (Blinkit-parity — catalog visible
+            immediately, decide about location on your own time). Only the
+            transient `loading` and error `out_of_zone` phases still block. */}
 
         {/* PHASE 3: 403 FORBIDDEN / OUT OF ZONE SCREEN */}
         {phase === "out_of_zone" && (

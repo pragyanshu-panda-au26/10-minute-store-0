@@ -74,6 +74,7 @@ export default function InventoryView({
   const [form, setForm] = useState({
     sku: "SKU-SL-" + Math.floor(1000 + Math.random() * 9000),
     name: "",
+    brand: "",
     category: "vegetables",
     subcategory: "Daily Veggies",
     costPrice: "25",
@@ -83,7 +84,54 @@ export default function InventoryView({
     weight: "500 g",
     imageUrl: "",
     description: "Farm fresh organic produce harvested today.",
+    ratingCount: "0",
   });
+  // Additional images for the PDP carousel — max 9 beyond the primary.
+  // Held separately from `form` because it's a variable-length list.
+  const [extraImages, setExtraImages] = useState<string[]>([]);
+  const [isUploadingExtra, setIsUploadingExtra] = useState(false);
+  const extraImageInputRef = useRef<HTMLInputElement>(null);
+
+  // Distinct brand values already in the catalog — feeds the brand
+  // autocomplete so we don't collect Amul / amul / AMUL variants.
+  const brandSuggestions = Array.from(
+    new Set(
+      products
+        .map((p) => (p.brand || "").trim())
+        .filter((b) => b.length > 0)
+    )
+  ).sort();
+
+  // Upload one extra image (carousel slide) — same Cloudinary endpoint as
+  // the primary image, but the returned URL is appended to `extraImages`
+  // instead of replacing `form.imageUrl`.
+  const handleExtraImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (extraImages.length >= 9) {
+      alert("Max 9 additional images per product.");
+      return;
+    }
+    setIsUploadingExtra(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      if (res.ok && data.url) {
+        setExtraImages((prev) => [...prev, data.url]);
+      } else {
+        alert(data.message || "Failed to upload additional image.");
+      }
+    } catch (err) {
+      console.error("Cloudinary extra upload error:", err);
+      alert("Additional image upload failed. Please try again.");
+    } finally {
+      setIsUploadingExtra(false);
+      // Reset so re-selecting the same file still fires onChange.
+      if (extraImageInputRef.current) extraImageInputRef.current.value = "";
+    }
+  };
 
   // Upload Product Image to Cloudinary Endpoint
   const handleImageFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -203,6 +251,7 @@ export default function InventoryView({
     onAddProduct({
       sku: form.sku,
       name: form.name.trim(),
+      brand: form.brand.trim() || null,
       category: form.category,
       subcategory: form.subcategory,
       costPrice: parseFloat(form.costPrice) || 0,
@@ -211,7 +260,9 @@ export default function InventoryView({
       stock: parseInt(form.stock) || 0,
       weight: form.weight.trim(),
       imageUrl: getFinalImageUrl(),
+      images: extraImages.slice(),
       description: form.description.trim(),
+      ratingCount: parseInt(form.ratingCount) || 0,
     });
 
     setIsAddModalOpen(false);
@@ -225,6 +276,7 @@ export default function InventoryView({
     onUpdateProduct(editingProduct.id, {
       sku: form.sku,
       name: form.name.trim(),
+      brand: form.brand.trim() || null,
       category: form.category,
       subcategory: form.subcategory,
       costPrice: parseFloat(form.costPrice) || 0,
@@ -233,7 +285,9 @@ export default function InventoryView({
       stock: parseInt(form.stock) || 0,
       weight: form.weight.trim(),
       imageUrl: getFinalImageUrl(),
+      images: extraImages.slice(),
       description: form.description.trim(),
+      ratingCount: parseInt(form.ratingCount) || 0,
     });
 
     setEditingProduct(null);
@@ -245,6 +299,7 @@ export default function InventoryView({
     setForm({
       sku: p.sku || "SKU-SL-" + Math.floor(1000 + Math.random() * 9000),
       name: p.name,
+      brand: p.brand ?? "",
       category: p.category,
       subcategory: p.subcategory || "Daily Items",
       costPrice: (p.costPrice || Math.round(p.price * 0.7)).toString(),
@@ -254,13 +309,16 @@ export default function InventoryView({
       weight: p.weight,
       imageUrl: p.imageUrl || "",
       description: p.description || "",
+      ratingCount: (p.ratingCount ?? 0).toString(),
     });
+    setExtraImages(p.images ?? []);
   };
 
   const resetForm = () => {
     setForm({
       sku: "SKU-SL-" + Math.floor(1000 + Math.random() * 9000),
       name: "",
+      brand: "",
       category: "vegetables",
       subcategory: "Daily Veggies",
       costPrice: "25",
@@ -270,7 +328,9 @@ export default function InventoryView({
       weight: "500 g",
       imageUrl: "", // Empty default -> Image is optional!
       description: "",
+      ratingCount: "0",
     });
+    setExtraImages([]);
   };
 
   const handleAddCategory = (e: React.FormEvent) => {
@@ -701,6 +761,45 @@ export default function InventoryView({
                 />
               </div>
 
+              {/* Brand + Review count row — brand feeds the PDP "Explore all
+                  from Brand X" pill; review count feeds the card "(N)" chip
+                  Blinkit shows next to the rating. Both are optional. */}
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-slate-300 font-bold mb-1">
+                    Brand <span className="text-[10px] text-slate-500 font-normal">(optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    list="brand-suggestions"
+                    value={form.brand}
+                    onChange={(e) => setForm({ ...form, brand: e.target.value })}
+                    placeholder="e.g. Amul, Britannia"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white focus:border-emerald-500 focus:outline-none"
+                  />
+                  {/* Datalist feeds off existing brand values so admins pick
+                      an existing spelling instead of creating variants. */}
+                  <datalist id="brand-suggestions">
+                    {brandSuggestions.map((b) => (
+                      <option key={b} value={b} />
+                    ))}
+                  </datalist>
+                </div>
+                <div>
+                  <label className="block text-slate-300 font-bold mb-1">
+                    Review count <span className="text-[10px] text-slate-500 font-normal">(optional)</span>
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={form.ratingCount}
+                    onChange={(e) => setForm({ ...form, ratingCount: e.target.value })}
+                    placeholder="e.g. 1250"
+                    className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white focus:border-emerald-500 focus:outline-none"
+                  />
+                </div>
+              </div>
+
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <label className="block text-slate-300 font-bold mb-1">Category</label>
@@ -842,6 +941,83 @@ export default function InventoryView({
                     )}
                   </p>
                 </div>
+              </div>
+
+              {/* ADDITIONAL PDP CAROUSEL IMAGES — up to 9 extras beyond the
+                  primary. Feeds Product.images which the customer-facing
+                  ProductDetailModal renders as a swipeable carousel. */}
+              <div className="space-y-2 rounded-2xl bg-slate-950 p-3.5 border border-slate-800">
+                <div className="flex items-center justify-between">
+                  <label className="block text-slate-300 font-bold flex items-center gap-1.5">
+                    <ImageIcon className="h-4 w-4 text-purple-400" />
+                    Additional images
+                    <span className="text-[10px] text-slate-400 font-normal">
+                      (max 9 · appear in the PDP carousel after the primary)
+                    </span>
+                  </label>
+                  <span className="text-[10px] font-semibold text-slate-500">
+                    {extraImages.length}/9
+                  </span>
+                </div>
+
+                <input
+                  ref={extraImageInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleExtraImageChange}
+                  className="hidden"
+                />
+
+                <div className="flex flex-wrap gap-2">
+                  {extraImages.map((url, i) => (
+                    <div
+                      key={`${url}-${i}`}
+                      className="relative h-14 w-14 overflow-hidden rounded-xl border border-slate-800 bg-slate-900 flex-shrink-0 group"
+                    >
+                      <Image
+                        src={url}
+                        alt={`Extra ${i + 1}`}
+                        fill
+                        unoptimized
+                        className="object-cover"
+                      />
+                      {/* Remove — visible on hover; also always tappable on
+                          touch since group-hover doesn't fire without a mouse. */}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setExtraImages((prev) => prev.filter((_, idx) => idx !== i))
+                        }
+                        className="absolute inset-x-0 bottom-0 bg-slate-950/80 text-[10px] font-bold text-rose-300 hover:text-rose-100 py-0.5 cursor-pointer"
+                        aria-label={`Remove additional image ${i + 1}`}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                  {extraImages.length < 9 && (
+                    <button
+                      type="button"
+                      disabled={isUploadingExtra}
+                      onClick={() => extraImageInputRef.current?.click()}
+                      className="flex h-14 w-14 items-center justify-center rounded-xl border border-dashed border-slate-700 bg-slate-900 text-purple-300 hover:border-purple-500 hover:text-purple-200 disabled:opacity-50 cursor-pointer"
+                      title="Upload another image"
+                    >
+                      {isUploadingExtra ? (
+                        <Loader2 className="h-4 w-4 animate-spin text-purple-300" />
+                      ) : (
+                        <Plus className="h-4 w-4 text-purple-300" />
+                      )}
+                    </button>
+                  )}
+                </div>
+                {extraImages.length === 0 && (
+                  <p className="text-[11px] text-slate-500 leading-snug">
+                    No extra images yet. The PDP shows the primary image alone —
+                    add pack-back, ingredients panel, or lifestyle shots for a
+                    Blinkit-style carousel.
+                  </p>
+                )}
               </div>
 
               <div className="flex gap-2 pt-2">

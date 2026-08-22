@@ -50,6 +50,8 @@ interface Settings {
   slotDurationMinutes: number;
   slotCapacity: number;
   slotLeadMinutes: number;
+  /** Rotating storefront search-bar placeholders. */
+  searchPlaceholders: string[];
   open?: boolean;
   reason?: string | null;
 }
@@ -92,6 +94,9 @@ export default function AdminSettingsPage() {
         slotDurationMinutes: data.slotDurationMinutes ?? 60,
         slotCapacity: data.slotCapacity ?? 20,
         slotLeadMinutes: data.slotLeadMinutes ?? 30,
+        searchPlaceholders: Array.isArray(data.searchPlaceholders)
+          ? data.searchPlaceholders
+          : [],
         open: data.open,
         reason: data.closed_reason,
       });
@@ -556,10 +561,134 @@ export default function AdminSettingsPage() {
                   Save slot config
                 </button>
               </section>
+
+              {/* ─── Storefront search suggestions ───────────────────
+                  Rotating placeholder chips shown in the storefront header
+                  search bar. Cycle every ~3s on the customer side. Server
+                  dedupes + caps at 12; we cap the input at 12 too so the
+                  admin sees the same limit. */}
+              <SearchPlaceholderEditor
+                value={s.searchPlaceholders}
+                onChange={(next) => setS({ ...s, searchPlaceholders: next })}
+                onSave={() => save({ searchPlaceholders: s.searchPlaceholders })}
+                saving={saving}
+              />
             </>
           )}
         </main>
       </div>
     </div>
+  );
+}
+
+/**
+ * Chip editor for the storefront search-bar rotating placeholders.
+ * Feeds StoreSetting.searchPlaceholders — server dedupes + caps at 12, so we
+ * cap the input at 12 too for a matching visual.
+ */
+function SearchPlaceholderEditor({
+  value,
+  onChange,
+  onSave,
+  saving,
+}: {
+  value: string[];
+  onChange: (next: string[]) => void;
+  onSave: () => void;
+  saving: boolean;
+}) {
+  const [draft, setDraft] = useState("");
+  const CAP = 12;
+
+  const add = () => {
+    const clean = draft.trim();
+    if (!clean) return;
+    if (value.includes(clean)) {
+      setDraft("");
+      return;
+    }
+    if (value.length >= CAP) return;
+    onChange([...value, clean]);
+    setDraft("");
+  };
+
+  const remove = (idx: number) => {
+    onChange(value.filter((_, i) => i !== idx));
+  };
+
+  return (
+    <section className="rounded-2xl border border-slate-800 bg-slate-900 p-4 sm:p-5 space-y-4">
+      <div className="flex items-center gap-2.5">
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/20 text-amber-400">
+          <Compass className="h-4 w-4" />
+        </div>
+        <div>
+          <h2 className="text-sm font-black text-white">Search suggestions</h2>
+          <p className="text-[11px] text-slate-400">
+            Words that cycle in the storefront search bar placeholder. Max {CAP}.
+          </p>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {value.length === 0 && (
+          <p className="text-[11px] text-slate-500">
+            No suggestions yet. Add a few (e.g. <em>bread</em>, <em>milk</em>,
+            <em> eggs</em>) so the search bar feels alive.
+          </p>
+        )}
+        {value.map((chip, idx) => (
+          <span
+            key={`${chip}-${idx}`}
+            className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/10 pl-3 pr-1 py-1 text-[11px] font-bold text-amber-300"
+          >
+            {chip}
+            <button
+              type="button"
+              onClick={() => remove(idx)}
+              aria-label={`Remove ${chip}`}
+              className="flex h-5 w-5 items-center justify-center rounded-full text-amber-300 hover:bg-amber-500/20 hover:text-amber-100 cursor-pointer"
+            >
+              ×
+            </button>
+          </span>
+        ))}
+      </div>
+
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={draft}
+          maxLength={40}
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              add();
+            }
+          }}
+          placeholder='e.g. "chocolate"'
+          disabled={value.length >= CAP}
+          className="flex-1 rounded-xl border border-slate-800 bg-slate-950 px-3 py-2 text-xs text-white focus:border-amber-500 focus:outline-none disabled:opacity-50"
+        />
+        <button
+          type="button"
+          onClick={add}
+          disabled={!draft.trim() || value.length >= CAP}
+          className="rounded-xl bg-amber-500 px-3 py-2 text-xs font-black text-slate-950 hover:bg-amber-400 disabled:opacity-40 cursor-pointer"
+        >
+          + Add
+        </button>
+      </div>
+
+      <button
+        onClick={onSave}
+        disabled={saving}
+        className="flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2 text-xs font-extrabold text-slate-950 shadow disabled:opacity-60 cursor-pointer"
+      >
+        {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
+        Save search suggestions
+      </button>
+    </section>
   );
 }

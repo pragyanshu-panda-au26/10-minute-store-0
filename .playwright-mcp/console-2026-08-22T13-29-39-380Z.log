@@ -1,0 +1,10 @@
+[     150ms] [ERROR] The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy. @ https://10-minute-store-0.vercel.app/profile:0
+[ 3918623ms] [ERROR] The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy. @ https://10-minute-store-0.vercel.app/:0
+[ 3920256ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://10-minute-store-0.vercel.app/api/auth/me:0
+[ 3920290ms] [INFO] Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner. @ https://10-minute-store-0.vercel.app/:0
+[ 3921945ms] [ERROR] The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy. @ https://10-minute-store-0.vercel.app/:0
+[ 3922315ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://10-minute-store-0.vercel.app/api/auth/me:0
+[ 3923029ms] [INFO] Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner. @ https://10-minute-store-0.vercel.app/:0
+[ 3931880ms] [ERROR] The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy. @ https://10-minute-store-0.vercel.app/:0
+[ 3932187ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://10-minute-store-0.vercel.app/api/auth/me:0
+[ 3932285ms] [INFO] Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner. @ https://10-minute-store-0.vercel.app/:0

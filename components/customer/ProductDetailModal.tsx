@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { Product, ProductVariantLite, useCartStore } from "@/store/useCartStore";
-import { ExtendedProduct } from "@/lib/dummyData";
+import { CATEGORIES, ExtendedProduct } from "@/lib/dummyData";
 import {
   X,
   Plus,
@@ -69,10 +69,13 @@ export default function ProductDetailModal({
         onClick={onClose}
       />
 
-      {/* PDP Modal Panel */}
-      <div className="relative z-10 w-full max-w-xl overflow-hidden rounded-3xl bg-white text-slate-900 shadow-2xl animate-in zoom-in-95 duration-200">
+      {/* PDP Modal Panel — flex column so the header + footer stay pinned
+          inside the panel and only the body scrolls. Guarantees the
+          Add-to-Basket CTA is always visible without scrolling the modal off
+          the viewport on small phones. */}
+      <div className="relative z-10 flex w-full max-w-xl flex-col max-h-[92vh] overflow-hidden rounded-3xl bg-white text-slate-900 shadow-2xl animate-in zoom-in-95 duration-200">
         {/* Header Bar */}
-        <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50 px-5 py-3.5">
+        <div className="flex flex-shrink-0 items-center justify-between border-b border-slate-100 bg-slate-50 px-5 py-3.5">
           <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500">
             Product Details
           </span>
@@ -84,36 +87,35 @@ export default function ProductDetailModal({
           </button>
         </div>
 
-        <div className="max-h-[80vh] overflow-y-auto p-6 space-y-6">
-          {/* Top Section: High-Res Image & Highlights */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {/* Top Section: High-Res Image Carousel & Highlights */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
-            {/* Image Container */}
-            <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 flex items-center justify-center">
-              {discount > 0 && (
-                <span className="absolute left-3 top-3 z-10 rounded-full bg-emerald-600 px-2.5 py-1 text-xs font-bold text-white shadow-sm">
-                  {discount}% OFF
-                </span>
-              )}
-
-              {!imageError && product.imageUrl ? (
-                <Image
-                  src={product.imageUrl}
-                  alt={product.name}
-                  fill
-                  unoptimized
-                  className="object-cover"
-                  onError={() => setImageError(true)}
-                />
-              ) : (
-                <span className="text-6xl">📦</span>
-              )}
-            </div>
+            {/* Image Carousel — Blinkit-parity. Falls back to a single image
+                when `product.images` is empty or absent. Dots pager tap =
+                jump to slide; body swipe uses native scroll-snap so we don't
+                take a runtime dep on a carousel library. */}
+            <ImageCarousel
+              images={
+                (product.images && product.images.length > 0
+                  ? product.images
+                  : [product.imageUrl]
+                ).filter(Boolean)
+              }
+              alt={product.name}
+              discount={discount}
+              onFail={() => setImageError(true)}
+              hadError={imageError}
+            />
 
             {/* Core Info */}
             <div className="space-y-3">
               <div>
-                <span className="inline-block rounded-lg bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700 uppercase">
-                  {product.category}
+                <span className="inline-block rounded-lg bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">
+                  {/* Resolve the category slug (e.g. "grocery_kitchen") to its
+                      human name from CATEGORIES. Falls back to the raw slug
+                      only if we don't recognise it. */}
+                  {CATEGORIES.find((c) => c.id === product.category)?.name ||
+                    product.category}
                 </span>
                 <h2 className="mt-1 text-lg font-black text-slate-900 leading-tight">
                   {product.name}
@@ -272,8 +274,10 @@ export default function ProductDetailModal({
           </div>
         </div>
 
-        {/* Footer Action Bar */}
-        <div className="border-t border-slate-100 bg-slate-50 p-4 flex items-center justify-between">
+        {/* Footer Action Bar — flex-shrink-0 pins it below the scrollable
+            body so the price + CTA stay visible while the shopper reads
+            the ingredients / nutrition sections. */}
+        <div className="flex-shrink-0 border-t border-slate-100 bg-slate-50 p-4 flex items-center justify-between">
           <div>
             <p className="text-[10px] uppercase font-bold text-slate-400">Total Price</p>
             <p className="text-base font-black text-slate-900">₹{product.price}</p>
@@ -316,6 +320,109 @@ export default function ProductDetailModal({
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+/**
+ * Swipeable PDP image gallery. Uses CSS scroll-snap for native touch handling
+ * (no runtime carousel dep) plus a dot pager. When only one image is given
+ * the dots hide and it renders exactly like the old single-image view.
+ */
+function ImageCarousel({
+  images,
+  alt,
+  discount,
+  hadError,
+  onFail,
+}: {
+  images: string[];
+  alt: string;
+  discount: number;
+  hadError: boolean;
+  onFail: () => void;
+}) {
+  const [active, setActive] = useState(0);
+  // Per-slide error set — a single broken image should not blank the entire
+  // carousel. Only when EVERY slide fails do we fall back to the 📦 glyph.
+  const [failedIndices, setFailedIndices] = useState<Set<number>>(new Set());
+  const scrollerRef = useRef<HTMLDivElement | null>(null);
+
+  const onScroll = () => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    // Slide-per-frame math: which slide is closest to scrollLeft
+    const idx = Math.round(el.scrollLeft / el.clientWidth);
+    if (idx !== active) setActive(idx);
+  };
+
+  const jump = (i: number) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
+  };
+
+  const usable = images.length > 0 ? images : [];
+  const hasMany = usable.length > 1;
+  const allFailed = usable.length > 0 && failedIndices.size >= usable.length;
+
+  return (
+    <div className="relative">
+      <div
+        ref={scrollerRef}
+        onScroll={onScroll}
+        className="relative flex aspect-square w-full snap-x snap-mandatory overflow-x-auto rounded-2xl border border-slate-100 bg-slate-50 no-scrollbar"
+      >
+        {discount > 0 && (
+          <span className="absolute left-3 top-3 z-10 rounded-full bg-emerald-600 px-2.5 py-1 text-xs font-bold text-white shadow-sm">
+            {discount}% OFF
+          </span>
+        )}
+        {usable.length === 0 || allFailed ? (
+          <span className="mx-auto flex items-center justify-center text-6xl">📦</span>
+        ) : (
+          usable.map((src, i) => (
+            <div
+              key={`${src}-${i}`}
+              className="relative aspect-square w-full flex-shrink-0 snap-center"
+            >
+              <Image
+                src={src}
+                alt={`${alt} ${i + 1}`}
+                fill
+                unoptimized
+                className="object-cover"
+                onError={() => {
+                  setFailedIndices((prev) => {
+                    const next = new Set(prev);
+                    next.add(i);
+                    return next;
+                  });
+                  // Still notify the parent for legacy state, but do not
+                  // let it blank the whole gallery.
+                  onFail();
+                }}
+              />
+            </div>
+          ))
+        )}
+      </div>
+
+      {hasMany && (
+        <div className="mt-2 flex items-center justify-center gap-1.5">
+          {usable.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              aria-label={`Show image ${i + 1}`}
+              onClick={() => jump(i)}
+              className={`h-1.5 rounded-full transition-all ${
+                i === active ? "w-5 bg-emerald-600" : "w-1.5 bg-slate-300 hover:bg-slate-400"
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

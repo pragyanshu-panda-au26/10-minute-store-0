@@ -5,6 +5,14 @@ import { Product, useCartStore } from "@/store/useCartStore";
 import { Plus, Minus, Star } from "lucide-react";
 import { useState } from "react";
 
+// "(1,234)" for counts < 100k, "(12k)" beyond — matches how Blinkit shows
+// review counts on card chips. Kept local because it's only used here.
+function formatReviewCount(n: number): string {
+  if (n >= 100_000) return `${Math.round(n / 1000)}k`;
+  if (n >= 10_000) return `${(n / 1000).toFixed(1).replace(/\.0$/, "")}k`;
+  return n.toLocaleString("en-IN");
+}
+
 interface ProductCardProps {
   product: Product;
   onSelect?: () => void;
@@ -101,9 +109,11 @@ export default function ProductCard({ product, onSelect }: ProductCardProps) {
       {/* Product Details */}
       <div className="flex flex-1 flex-col justify-between">
         <div>
-          {/* Weight / Unit */}
+          {/* Weight / Unit — lowercase to match Blinkit's `500 g` / `1 kg`
+              typographic convention. Uppercase reads as a shouting label
+              (`500 G`) which is out of place for a small chip. */}
           {product.weight && (
-            <p className="text-[10px] sm:text-[11px] font-bold tracking-wider text-slate-400 uppercase">
+            <p className="text-[10px] sm:text-[11px] font-bold tracking-wide text-slate-400">
               {product.weight}
             </p>
           )}
@@ -113,15 +123,28 @@ export default function ProductCard({ product, onSelect }: ProductCardProps) {
             {product.name}
           </h3>
 
-          {/* Rating */}
-          {product.rating && (
+          {/* Rating — Blinkit-parity: show the review count "(N)" when we
+              have it, since a naked star rating is a well-known trust anti-
+              pattern (the count is what makes an average believable). Falls
+              back to the star pill when we've never had reviews. */}
+          {typeof product.ratingCount === "number" && product.ratingCount > 0 ? (
+            <div className="mt-1 flex items-center gap-1">
+              <div className="flex items-center gap-0.5 rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] sm:text-[11px] font-extrabold text-amber-800 border border-amber-200/60">
+                <Star className="h-2.5 w-2.5 fill-amber-400 text-amber-400" />
+                {product.rating}
+                <span className="text-slate-500 font-semibold ml-0.5">
+                  ({formatReviewCount(product.ratingCount)})
+                </span>
+              </div>
+            </div>
+          ) : product.rating ? (
             <div className="mt-1 flex items-center gap-1">
               <div className="flex items-center gap-0.5 rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] sm:text-[11px] font-extrabold text-amber-800 border border-amber-200/60">
                 <Star className="h-2.5 w-2.5 fill-amber-400 text-amber-400" />
                 {product.rating}
               </div>
             </div>
-          )}
+          ) : null}
         </div>
 
         {/* Pricing row — sits above a full-width action strip so the ADD

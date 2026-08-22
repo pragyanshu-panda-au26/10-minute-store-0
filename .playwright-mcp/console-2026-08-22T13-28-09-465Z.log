@@ -1,0 +1,1 @@
+[     795ms] [ERROR] The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy. @ https://10-minute-store-0.vercel.app/auth?redirect=%2Forders:0

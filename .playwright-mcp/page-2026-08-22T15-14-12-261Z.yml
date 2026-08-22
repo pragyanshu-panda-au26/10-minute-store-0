@@ -1,0 +1,17 @@
+- main [ref=f65e3]:
+  - generic [ref=f65e4]:
+    - generic [ref=f65e6]:
+      - button "Basket" [ref=f65e7] [cursor=pointer]
+      - generic [ref=f65e10]: Secure Checkout
+    - main [ref=f65e14]
+    - button "Sign in to pay ₹0" [disabled] [ref=f65e43] [cursor=pointer]
+    - navigation [ref=f65e46]:
+      - generic [ref=f65e47]:
+        - link "Home" [ref=f65e48] [cursor=pointer]:
+          - /url: /
+        - link "Categories" [ref=f65e54] [cursor=pointer]:
+          - /url: /#categories
+        - link "Orders" [ref=f65e62] [cursor=pointer]:
+          - /url: /orders
+        - link "Profile" [ref=f65e69] [cursor=pointer]:
+          - /url: /profile
