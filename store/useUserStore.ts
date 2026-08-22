@@ -52,7 +52,10 @@ interface UserStore {
   hydrateSession: () => Promise<void>;
   applySession: (user: { id: string; name?: string | null; phone: string; email?: string | null; addresses?: Address[] }) => void;
 
-  updateProfile: (fields: Partial<Omit<UserProfile, "addresses" | "activeAddressId">>) => void;
+  updateProfile: (
+    fields: Partial<Pick<UserProfile, "name" | "email">>
+  ) => Promise<void>;
+  deleteAccount: () => Promise<void>;
   addAddress: (address: Omit<Address, "id">) => Promise<Address | null>;
   updateAddress: (id: string, fields: Partial<Address>) => Promise<void>;
   deleteAddress: (id: string) => Promise<void>;
@@ -149,8 +152,47 @@ export const useUserStore = create<UserStore>()(
         });
       },
 
-      updateProfile: (fields) => {
-        set({ profile: { ...get().profile, ...fields } });
+      updateProfile: async (fields) => {
+        // Optimistic local update — the customer's typed value is
+        // reflected instantly. If the server rejects the write we roll
+        // back to the pre-edit snapshot and re-throw so the caller can
+        // show an error.
+        const before = get().profile;
+        set({ profile: { ...before, ...fields } });
+        if (!get().isLoggedIn) {
+          // Guest users can't PATCH themselves; the local edit is all
+          // they get (and will be discarded on sign-out anyway).
+          return;
+        }
+        try {
+          const data = await api<{ user: { id: string; name: string | null; email: string | null; phone: string } }>(
+            "/api/customers/me",
+            {
+              method: "PATCH",
+              body: JSON.stringify(fields),
+            }
+          );
+          // Reconcile from server truth in case it normalised anything
+          // (email lower-casing, name trimming).
+          set({
+            profile: {
+              ...get().profile,
+              name: data.user.name ?? "",
+              email: data.user.email ?? "",
+            },
+          });
+        } catch (err) {
+          set({ profile: before });
+          throw err;
+        }
+      },
+
+      deleteAccount: async () => {
+        // Server soft-deletes + clears the auth cookie. Client wipes
+        // the persisted store so any cached name/addresses don't
+        // survive a page refresh.
+        await api("/api/customers/me", { method: "DELETE" });
+        set({ isLoggedIn: false, profile: GUEST_PROFILE });
       },
 
       addAddress: async (newAddr) => {

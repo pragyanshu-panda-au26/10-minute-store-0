@@ -7,6 +7,9 @@ import { useUserStore } from "@/store/useUserStore";
 import { useThemeStore } from "@/store/useThemeStore";
 import MobileBottomNav from "@/components/customer/MobileBottomNav";
 import LocationPickerModal from "@/components/customer/LocationPickerModal";
+import AddressBookModal from "@/components/customer/AddressBookModal";
+import EditProfileModal from "@/components/customer/EditProfileModal";
+import DeleteAccountModal from "@/components/customer/DeleteAccountModal";
 import { useOrderPushSubscription } from "@/components/customer/useOrderPushSubscription";
 import {
   ArrowLeft,
@@ -23,6 +26,8 @@ import {
   Loader2,
   ChevronRight,
   LogOut,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 
 /**
@@ -50,6 +55,9 @@ export default function ProfilePage() {
   }, [initTheme]);
 
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const [isAddressBookOpen, setIsAddressBookOpen] = useState(false);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
   const [sensitiveItemsHidden, setSensitiveItemsHidden] = useState(true);
 
   const handleSignOut = () => {
@@ -74,10 +82,31 @@ export default function ProfilePage() {
           <User className="h-12 w-12 text-slate-800 dark:text-slate-200" />
         </div>
 
-        <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">Your account</h1>
-        <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mt-0.5 font-mono">
-          {profile.phone || "Not signed in"}
+        {/* Customer name (or a friendly stand-in) headlines the account
+            card; the phone becomes the secondary line and the email
+            appears below that when set. The Edit affordance sits inline
+            so the customer knows it's tap-to-change, not read-only. */}
+        <h1 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
+          {profile.name?.trim() || (isLoggedIn ? "Add your name" : "Not signed in")}
+        </h1>
+        <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-0.5 font-mono">
+          {profile.phone || "—"}
         </p>
+        {profile.email && (
+          <p className="text-[11px] font-medium text-slate-600 dark:text-slate-400 mt-0.5">
+            {profile.email}
+          </p>
+        )}
+        {isLoggedIn && (
+          <button
+            type="button"
+            onClick={() => setIsEditProfileOpen(true)}
+            className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white dark:bg-slate-900 px-3 py-1.5 text-[11px] font-black text-slate-800 dark:text-slate-200 shadow-sm border border-slate-200 dark:border-slate-800 hover:border-emerald-400 active:scale-95 transition-all"
+          >
+            <Pencil className="h-3 w-3" />
+            Edit details
+          </button>
+        )}
       </div>
 
       <main className="mx-auto max-w-xl px-4 space-y-4 -mt-1">
@@ -255,40 +284,63 @@ export default function ProfilePage() {
           </div>
         )}
 
-        {/* YOUR INFORMATION — only the working "Address book" row remains. */}
+        {/* YOUR INFORMATION — Address book now opens the proper CRUD
+            surface (list + add + edit + delete), not the quick-pick
+            LocationPickerModal. That modal is still used from the
+            header's location switcher where "pick where to deliver" is
+            the actual job. */}
         <div className="space-y-1.5">
           <h2 className="px-1 text-xs font-extrabold text-slate-900 dark:text-white">Your information</h2>
           <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800/80 shadow-xs overflow-hidden text-xs font-bold text-slate-800 dark:text-slate-200">
             <button
-              onClick={() => setIsLocationModalOpen(true)}
+              onClick={() => setIsAddressBookOpen(true)}
               className="w-full flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors text-left cursor-pointer"
             >
               <div className="flex items-center gap-3">
                 <BookOpen className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                <span>Address book</span>
+                <div className="flex flex-col">
+                  <span>Address book</span>
+                  <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 tracking-normal normal-case">
+                    {profile.addresses.filter(a => a.id !== "addr_empty" && (a.houseNo || a.area)).length} saved
+                  </span>
+                </div>
               </div>
               <ChevronRight className="h-4 w-4 text-slate-400" />
             </button>
           </div>
         </div>
 
-        {/* ACCOUNT — sign out only. Every other Other-Information row was
-            a dead placeholder; see file-level comment. */}
-        <div className="space-y-1.5">
-          <h2 className="px-1 text-xs font-extrabold text-slate-900 dark:text-white">Account</h2>
-          <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 shadow-xs overflow-hidden text-xs font-bold text-slate-800 dark:text-slate-200">
-            <button
-              onClick={handleSignOut}
-              className="w-full flex items-center justify-between p-3.5 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors text-left cursor-pointer"
-            >
-              <div className="flex items-center gap-3 font-extrabold">
-                <LogOut className="h-4 w-4 text-rose-600" />
-                <span>Sign out</span>
-              </div>
-              <ChevronRight className="h-4 w-4 text-rose-400" />
-            </button>
+        {/* ACCOUNT — Sign out + Delete account. Both are irreversible-ish
+            (sign-out is a click to reverse; delete is genuinely one-way),
+            so they share a card with a divider and delete carries a
+            confirmation modal that requires typing a phrase. */}
+        {isLoggedIn && (
+          <div className="space-y-1.5">
+            <h2 className="px-1 text-xs font-extrabold text-slate-900 dark:text-white">Account</h2>
+            <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 divide-y divide-slate-100 dark:divide-slate-800/80 shadow-xs overflow-hidden text-xs font-bold text-slate-800 dark:text-slate-200">
+              <button
+                onClick={handleSignOut}
+                className="w-full flex items-center justify-between p-3.5 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors text-left cursor-pointer"
+              >
+                <div className="flex items-center gap-3 font-extrabold">
+                  <LogOut className="h-4 w-4 text-rose-600" />
+                  <span>Sign out</span>
+                </div>
+                <ChevronRight className="h-4 w-4 text-rose-400" />
+              </button>
+              <button
+                onClick={() => setIsDeleteAccountOpen(true)}
+                className="w-full flex items-center justify-between p-3.5 text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors text-left cursor-pointer"
+              >
+                <div className="flex items-center gap-3 font-extrabold">
+                  <Trash2 className="h-4 w-4 text-rose-700" />
+                  <span>Delete account</span>
+                </div>
+                <ChevronRight className="h-4 w-4 text-rose-400" />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="text-center pt-2 pb-4 space-y-1">
           <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400">10minute store v18.19.0</p>
@@ -301,6 +353,18 @@ export default function ProfilePage() {
       <LocationPickerModal
         isOpen={isLocationModalOpen}
         onClose={() => setIsLocationModalOpen(false)}
+      />
+      <AddressBookModal
+        isOpen={isAddressBookOpen}
+        onClose={() => setIsAddressBookOpen(false)}
+      />
+      <EditProfileModal
+        isOpen={isEditProfileOpen}
+        onClose={() => setIsEditProfileOpen(false)}
+      />
+      <DeleteAccountModal
+        isOpen={isDeleteAccountOpen}
+        onClose={() => setIsDeleteAccountOpen(false)}
       />
 
       <MobileBottomNav />
