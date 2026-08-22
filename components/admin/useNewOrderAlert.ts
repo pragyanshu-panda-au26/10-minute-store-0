@@ -106,7 +106,7 @@ export function useNewOrderAlert(orders: AdminOrder[]) {
     if (typeof window === "undefined" || !("Notification" in window)) return;
     if (Notification.permission !== "granted") return;
     try {
-      const n = new Notification("New order · Satyug", {
+      const n = new Notification("New order · 10minute", {
         body: `#${order.orderNumber ?? order.id} · ${order.customerName} · ₹${order.totalPrice}`,
         tag: `order-${order.id}`, // dedupes if multiple fire
         requireInteraction: false,

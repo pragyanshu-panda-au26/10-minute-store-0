@@ -4,6 +4,7 @@ import { z } from "zod";
 import { fail, handler, ok, parseJson } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 import { isTestPhone } from "@/lib/testOtp";
+import { enforceRateLimit } from "@/lib/rateLimit";
 
 /**
  * POST /api/send-otp
@@ -31,25 +32,103 @@ function normalizePhone(input: string): string {
 }
 
 type SmsResult =
-  | { ok: true }
-  | { ok: false; status: number; code?: number; message: string; moreInfo?: string };
+  | { ok: true; provider: "hanuotp" | "twilio" }
+  | { ok: false; provider: "hanuotp" | "twilio"; status: number; code?: number; message: string; moreInfo?: string };
 
-async function trySendSms(phone: string, otp: string): Promise<SmsResult | "no_provider"> {
+/**
+ * HanuOTP — the primary Indian SMS provider (India-native DLT-approved
+ * template gateway, reliable to Indian carriers where Twilio international
+ * routes get intermittently blocked). Called with a 10-digit local number
+ * (the API rejects E.164 with the leading +91), the OTP, and an API key.
+ *
+ *   GET https://api.hanuotp.in/sms-otp.php
+ *       ?number=<10-digit>
+ *       &OTP=<6-digit>
+ *       &apikey=<key>
+ *       &templatesid=<templateId>
+ */
+async function trySendHanuOtp(phone: string, otp: string): Promise<SmsResult | "no_provider"> {
+  const apiKey = process.env.HANUOTP_API_KEY;
+  if (!apiKey) return "no_provider";
+  const template = process.env.HANUOTP_TEMPLATE_ID || "default";
+
+  // Provider expects the local 10-digit number, not E.164. Normalize back.
+  const localDigits = phone.replace(/\D/g, "").slice(-10);
+  if (localDigits.length !== 10) {
+    return {
+      ok: false,
+      provider: "hanuotp",
+      status: 400,
+      message: `HanuOTP requires a 10-digit Indian phone; got "${phone}"`,
+    };
+  }
+
+  const url = new URL("https://api.hanuotp.in/sms-otp.php");
+  url.searchParams.set("number", localDigits);
+  url.searchParams.set("OTP", otp);
+  url.searchParams.set("apikey", apiKey);
+  url.searchParams.set("templatesid", template);
+
+  try {
+    const res = await fetch(url.toString(), { method: "GET" });
+    // Provider responds JSON. Their exact success key isn't documented in the
+    // snippet we were given ("console.log(JSON.parse(data))"), so we treat
+    // HTTP 2xx + any of the common truthy markers as success.
+    const text = await res.text();
+    let data: any = null;
+    try { data = JSON.parse(text); } catch { /* body may be plain text */ }
+
+    const providerOk =
+      res.ok &&
+      // Accept any of these common shapes without being brittle about the key
+      (data?.status === "success" ||
+        data?.status === true ||
+        data?.success === true ||
+        /success|sent|ok/i.test(String(data?.message ?? text)));
+
+    if (providerOk) {
+      console.log(`[HanuOTP] queued to=${localDigits} response=${text.slice(0, 120)}`);
+      return { ok: true, provider: "hanuotp" };
+    }
+
+    console.error(
+      `[HanuOTP] send FAILED  status=${res.status}  body=${text.slice(0, 200)}`
+    );
+    return {
+      ok: false,
+      provider: "hanuotp",
+      status: res.status,
+      message: data?.message || text.slice(0, 200) || "HanuOTP request failed",
+    };
+  } catch (err: any) {
+    console.error("[HanuOTP] network error:", err);
+    return {
+      ok: false,
+      provider: "hanuotp",
+      status: 0,
+      message: err?.message ?? "HanuOTP network error",
+    };
+  }
+}
+
+/**
+ * Twilio — fallback provider. Only used if HanuOTP isn't configured OR
+ * if HanuOTP returned a hard failure (network error, 5xx). Kept so the
+ * existing Twilio setup keeps working for anyone on the older config.
+ */
+async function trySendTwilio(phone: string, otp: string): Promise<SmsResult | "no_provider"> {
   const sid = process.env.TWILIO_ACCOUNT_SID;
   const auth = process.env.TWILIO_AUTH_TOKEN;
   const from = process.env.TWILIO_FROM_NUMBER;
 
-  if (!sid || !auth || !from) {
-    console.log(`[DEV OTP] ${phone} → ${otp}  (no Twilio creds set)`);
-    return "no_provider";
-  }
+  if (!sid || !auth || !from) return "no_provider";
 
   try {
     const basicAuth = btoa(`${sid}:${auth}`);
     const params = new URLSearchParams({
       To: phone,
       From: from,
-      Body: `Your Satyug verification code is ${otp}. Valid for 5 minutes.`,
+      Body: `Your 10minute verification code is ${otp}. Valid for 5 minutes.`,
     });
     const res = await fetch(
       `https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`,
@@ -65,12 +144,12 @@ async function trySendSms(phone: string, otp: string): Promise<SmsResult | "no_p
     const data: any = await res.json().catch(() => ({}));
 
     if (!res.ok) {
-      // Loud logging — this is exactly what you'll paste to debug
       console.error(
         `[Twilio] send FAILED  status=${res.status}  code=${data?.code}  message="${data?.message}"  moreInfo=${data?.more_info}`
       );
       return {
         ok: false,
+        provider: "twilio",
         status: res.status,
         code: data?.code,
         message: data?.message || "Twilio request failed",
@@ -78,15 +157,41 @@ async function trySendSms(phone: string, otp: string): Promise<SmsResult | "no_p
       };
     }
     console.log(`[Twilio] queued sid=${data?.sid} to=${phone}`);
-    return { ok: true };
+    return { ok: true, provider: "twilio" };
   } catch (err: any) {
     console.error("[Twilio] network error:", err);
     return {
       ok: false,
+      provider: "twilio",
       status: 0,
       message: err?.message ?? "Twilio network error",
     };
   }
+}
+
+/**
+ * Provider chain: HanuOTP first (India-native, DLT-compliant). If HanuOTP
+ * isn't configured we fall through to Twilio. If HanuOTP is configured but
+ * the send fails, we still try Twilio when it's available so a single
+ * provider hiccup doesn't lock the customer out. Returns "no_provider"
+ * only when neither is configured.
+ */
+async function trySendSms(phone: string, otp: string): Promise<SmsResult | "no_provider"> {
+  const hanu = await trySendHanuOtp(phone, otp);
+  if (hanu !== "no_provider") {
+    if (hanu.ok) return hanu;
+    // Hard failure — try Twilio if it's configured; otherwise return the
+    // HanuOTP error so the client sees a real reason.
+    const twilio = await trySendTwilio(phone, otp);
+    if (twilio === "no_provider") return hanu;
+    return twilio;
+  }
+  const twilio = await trySendTwilio(phone, otp);
+  if (twilio === "no_provider") {
+    console.log(`[DEV OTP] ${phone} → ${otp}  (no SMS provider configured)`);
+    return "no_provider";
+  }
+  return twilio;
 }
 
 export const POST = handler(async (req: NextRequest) => {
@@ -94,6 +199,15 @@ export const POST = handler(async (req: NextRequest) => {
   if (body instanceof NextResponse) return body;
 
   const phone = normalizePhone(body.phone);
+
+  // Twilio SMS costs real money; a bare send-otp endpoint is the classic
+  // burn-your-bill target. Two windows: per phone (blocks resend spam
+  // from the intended user) and per IP (blocks the fan-out attack that
+  // rotates the To number).
+  const denied =
+    enforceRateLimit(req, { bucket: "send-otp:phone", perMinute: 2, perHour: 6, perDay: 20, keyExtra: phone }) ||
+    enforceRateLimit(req, { bucket: "send-otp:ip", perMinute: 10, perHour: 60, perDay: 200 });
+  if (denied) return denied;
 
   // Test-phone shortcut — skip Twilio entirely, return the master code so
   // the client can autofill. Works in prod too, only for allowlisted phones.

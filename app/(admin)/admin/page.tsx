@@ -25,6 +25,7 @@ export default function AdminPage() {
     orders,
     loading: ordersLoading,
     fetchOrders,
+    subscribeAdminStream,
     updateOrderStatus,
   } = useOrderStore();
 
@@ -37,13 +38,11 @@ export default function AdminPage() {
     updateStock,
   } = useProductStore();
 
-  // Initial fetch + poll every 20s so new customer orders show up quickly
+  // SSE for orders (live, no polling), one-shot fetch for products.
   useEffect(() => {
-    fetchOrders();
     fetchProducts({ includeInactive: true });
-    const interval = setInterval(fetchOrders, 20000);
-    return () => clearInterval(interval);
-  }, [fetchOrders, fetchProducts]);
+    return subscribeAdminStream();
+  }, [subscribeAdminStream, fetchProducts]);
 
   // New-order audio + browser notification
   const alert = useNewOrderAlert(orders);

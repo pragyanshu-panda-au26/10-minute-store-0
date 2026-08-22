@@ -8,6 +8,7 @@ import { useCartStore } from "@/store/useCartStore";
 import { useProductStore } from "@/store/useProductStore";
 import { AdminOrder } from "@/lib/adminDummyData";
 import MobileBottomNav from "@/components/customer/MobileBottomNav";
+import { OrdersListSkeleton } from "@/components/customer/Skeleton";
 import {
   ArrowLeft,
   History,
@@ -116,9 +117,9 @@ export default function OrderHistoryPage() {
           </div>
         )}
         {loading && orders.length === 0 ? (
-          <div className="flex items-center justify-center py-16 text-slate-400 text-xs gap-2">
-            <Loader2 className="h-4 w-4 animate-spin text-emerald-600" /> Loading your orders…
-          </div>
+          // Skeleton stack instead of the previous spinner — the shape gives
+          // the customer a preview of what the list will look like.
+          <OrdersListSkeleton rows={3} />
         ) : orders.length === 0 ? (
           <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center space-y-3 shadow-xs">
             <History className="mx-auto h-12 w-12 text-slate-300" />
@@ -254,7 +255,7 @@ export default function OrderHistoryPage() {
                   TAX INVOICE #{selectedInvoiceOrder.orderNumber || selectedInvoiceOrder.id}
                 </h3>
                 <p className="text-[11px] text-slate-500">
-                  Veloz Technologies Private Limited • GSTIN: 21AABCV1234F1Z0
+                  10minute — operated by Veloz Technologies Pvt Ltd • GSTIN 21AABCV1234F1Z0
                 </p>
               </div>
               <button

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AUTH_COOKIE_NAME, JwtPayload, verifyJwtToken } from "@/lib/auth";
 import { ZodError, ZodSchema } from "zod";
+import { prisma } from "@/lib/prisma";
+import { log, requestIdFrom } from "@/lib/log";
 
 /**
  * Universal Mobile (Android / iOS) & Web API Helpers
@@ -90,7 +92,9 @@ export function handleOptions(req?: NextRequest) {
 
 /**
  * Try to authenticate the request. Returns `null` if unauthenticated.
- * Accepts either the auth cookie or a `Bearer <token>` header (used by Android & iOS apps).
+ * Accepts either the auth cookie or a `Bearer <token>` header (used by
+ * Android & iOS apps). Signature verification only — does NOT check that
+ * the token is still active (see checkTokenVersion below).
  */
 export async function getAuth(req: NextRequest): Promise<JwtPayload | null> {
   const cookieToken = req.cookies.get(AUTH_COOKIE_NAME)?.value;
@@ -99,14 +103,66 @@ export async function getAuth(req: NextRequest): Promise<JwtPayload | null> {
   return verifyJwtToken(token);
 }
 
-/** Return the user payload or a 401 response — use with `if ("json" in x) return x`. */
+/**
+ * Confirm the JWT's tokenVersion matches the live DB row. Bumping the DB
+ * column (on block / password change / logout-everywhere) invalidates every
+ * outstanding session in one write, without waiting for JWT expiry.
+ *
+ * Absent tokenVersion on the payload means the JWT was issued before this
+ * mechanism existed; treat it as invalid so old sessions are re-issued on
+ * next login rather than getting a free pass forever.
+ *
+ * Returns `true` if the session is still active.
+ */
+async function checkTokenVersion(payload: JwtPayload): Promise<boolean> {
+  try {
+    if (payload.role === "admin") {
+      const admin = await prisma.admin.findUnique({
+        where: { id: payload.userId },
+        select: { tokenVersion: true },
+      });
+      if (!admin) return false;
+      return admin.tokenVersion === (payload.tokenVersion ?? -1);
+    }
+    const customer = await prisma.customer.findUnique({
+      where: { id: payload.userId },
+      select: { tokenVersion: true, isBlocked: true },
+    });
+    if (!customer) return false;
+    if (customer.isBlocked) return false;
+    return customer.tokenVersion === (payload.tokenVersion ?? -1);
+  } catch (err) {
+    // Prisma outage — fail open on the version check (the signature still
+    // matched, so we haven't lost auth) and log loudly. Alternative "fail
+    // closed" would take the whole app down whenever Neon hiccups.
+    console.error("[requireAuth] tokenVersion DB check failed:", err);
+    return true;
+  }
+}
+
+/**
+ * Return the user payload or a 401/403 response.
+ *
+ *   const auth = await requireAuth(req, "customer");
+ *   if (auth instanceof NextResponse) return auth;
+ *
+ * By default this also validates tokenVersion against the DB so revocation
+ * takes effect on the next request. Pass `{ skipRevocationCheck: true }`
+ * only for endpoints that must not touch the DB on every hit (e.g. a
+ * high-QPS read that is safe with a stale session for a few minutes).
+ */
 export async function requireAuth(
   req: NextRequest,
-  role?: "customer" | "admin"
+  role?: "customer" | "admin",
+  opts?: { skipRevocationCheck?: boolean }
 ): Promise<JwtPayload | NextResponse> {
   const payload = await getAuth(req);
   if (!payload) return fail("Authentication required", 401);
   if (role && payload.role !== role) return fail("Forbidden", 403);
+  if (!opts?.skipRevocationCheck) {
+    const active = await checkTokenVersion(payload);
+    if (!active) return fail("Session expired. Please sign in again.", 401);
+  }
   return payload;
 }
 
@@ -128,19 +184,33 @@ export async function parseJson<T>(
   return result.data;
 }
 
-/** Wrap an async handler and turn thrown errors into 500 JSON envelopes with CORS. */
+/**
+ * Wrap an async handler and turn thrown errors into 500 JSON envelopes with
+ * CORS. Also stamps a request id on every response for correlation with the
+ * structured log lines (see lib/log.ts).
+ */
 export function handler<Args extends unknown[]>(
   fn: (...args: Args) => Promise<NextResponse>
 ): (...args: Args) => Promise<NextResponse> {
   return async (...args: Args) => {
+    // First arg is always the Request when this wrapper is used on route
+    // exports. Fall back gracefully if a caller uses it differently.
+    const req = args[0] as NextRequest | undefined;
+    const requestId = req ? requestIdFrom(req) : requestIdFrom(null);
     try {
-      return await fn(...args);
+      const res = await fn(...args);
+      res.headers.set("X-Request-Id", requestId);
+      return res;
     } catch (err) {
       if (err instanceof ZodError) {
-        return fail("Validation failed", 400, err.flatten());
+        const res = fail("Validation failed", 400, err.flatten());
+        res.headers.set("X-Request-Id", requestId);
+        return res;
       }
-      console.error("[API error]", err);
-      return fail("Internal server error", 500);
+      log.error("Unhandled route error", { requestId, route: req?.nextUrl?.pathname }, err);
+      const res = fail("Internal server error", 500);
+      res.headers.set("X-Request-Id", requestId);
+      return res;
     }
   };
 }

@@ -1,19 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { fail, getAuth, handler, ok, parseJson, requireAuth } from "@/lib/api";
-import { getDb, saveDb, SupportTicket } from "@/lib/db";
+import { prisma } from "@/lib/prisma";
+import { enforceRateLimit } from "@/lib/rateLimit";
 
 /**
- * Support ticket endpoint.
+ * Support ticket endpoint — Prisma-backed.
  *
- *   POST /api/support   → any authenticated customer submits an issue
- *   GET  /api/support   → admin-only listing of open + resolved tickets
+ *   POST /api/support   → anyone (rate-limited) submits an issue
+ *   GET  /api/support   → admin-only listing
  *
- * Persistence uses the file-DB fallback because there is no dedicated Prisma
- * table for tickets yet. On serverless hosts (Vercel prod) the file DB is
- * in-memory only — the ticket survives long enough for the admin dashboard
- * to pick it up but does not persist across cold starts. Good enough as a
- * v1 replacement for the previous "form goes nowhere" behavior.
+ * Previously written into the file DB (`data/satyug_db.json` or in-memory on
+ * serverless). Now durable in Postgres — the admin support inbox survives a
+ * cold start.
  */
 
 const bodySchema = z.object({
@@ -22,23 +21,30 @@ const bodySchema = z.object({
 
 export const POST = handler(async (req: NextRequest) => {
   const auth = await getAuth(req);
+
+  // Unauthenticated submissions are OK for the "not signed in yet" case,
+  // but it's a spam channel without a rate limit. Clamp per IP + optional user.
+  const denied = enforceRateLimit(req, {
+    bucket: "support:submit",
+    perMinute: 3,
+    perHour: 15,
+    perDay: 30,
+    keyExtra: auth?.userId,
+  });
+  if (denied) return denied;
+
   const body = await parseJson(req, bodySchema);
   if (body instanceof NextResponse) return body;
 
-  const ticket: SupportTicket = {
-    id: "tkt_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-    customerId: auth?.userId ?? null,
-    customerPhone: auth?.phone ?? null,
-    customerName: auth?.name ?? null,
-    message: body.message,
-    status: "open",
-    createdAt: new Date().toISOString(),
-  };
-
-  const db = getDb();
-  if (!db.supportTickets) db.supportTickets = [];
-  db.supportTickets.unshift(ticket);
-  saveDb(db);
+  const ticket = await prisma.supportTicket.create({
+    data: {
+      customerId: auth?.userId ?? null,
+      customerPhone: auth?.phone ?? null,
+      customerName: auth?.name ?? null,
+      message: body.message,
+      status: "open",
+    },
+  });
 
   return ok({ ticket }, { status: 201 });
 });
@@ -47,6 +53,12 @@ export const GET = handler(async (req: NextRequest) => {
   const auth = await requireAuth(req, "admin");
   if (auth instanceof NextResponse) return auth;
 
-  const tickets = (getDb().supportTickets ?? []).slice(0, 200);
+  const { searchParams } = new URL(req.url);
+  const status = searchParams.get("status"); // "open" | "resolved" | null (all)
+  const tickets = await prisma.supportTicket.findMany({
+    where: status ? { status } : {},
+    orderBy: { createdAt: "desc" },
+    take: 200,
+  });
   return ok({ tickets });
 });

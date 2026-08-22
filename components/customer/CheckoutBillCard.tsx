@@ -38,7 +38,19 @@ interface CheckoutBillCardProps {
   onNotesChange: (notes: string) => void;
 }
 
-const TIP_CHIPS = [0, 10, 20, 30, 50];
+// UX-19 — tip presets keyed to subtotal, not fixed rupee amounts. A ₹50 tip
+// on a ₹99 order reads as "half my meal is a tip"; the same ₹50 on ₹899
+// barely registers. Percent-anchored + snapped to the nearest ₹5 keeps the
+// number legible while staying proportional.
+const TIP_PERCENTS = [0, 3, 5, 7] as const;
+
+function suggestTip(subtotal: number, pct: number): number {
+  if (pct === 0) return 0;
+  // Minimum tip suggestion is ₹5 — anything smaller reads as insulting.
+  const raw = (subtotal * pct) / 100;
+  const rounded = Math.round(raw / 5) * 5;
+  return Math.max(5, rounded);
+}
 
 const INSTRUCTION_PRESETS: { label: string; icon: any; text: string }[] = [
   { label: "Don't ring bell", icon: BellOff, text: "Please don't ring the bell." },
@@ -84,11 +96,12 @@ export default function CheckoutBillCard({
               100 % goes to the owner delivering your order.
             </p>
             <div className="mt-2.5 flex flex-wrap gap-2">
-              {TIP_CHIPS.map((amount) => {
+              {TIP_PERCENTS.map((pct) => {
+                const amount = suggestTip(bill.subtotal, pct);
                 const active = tip === amount;
                 return (
                   <button
-                    key={amount}
+                    key={pct}
                     type="button"
                     onClick={() => onTipChange(amount)}
                     className={`rounded-full border px-3 py-1 text-xs font-black transition-all ${
@@ -96,8 +109,9 @@ export default function CheckoutBillCard({
                         ? "border-rose-600 bg-rose-600 text-white shadow"
                         : "border-rose-200 bg-white text-rose-700 hover:border-rose-300"
                     }`}
+                    title={pct === 0 ? "No tip" : `${pct}% of ₹${bill.subtotal}`}
                   >
-                    {amount === 0 ? "No tip" : `₹${amount}`}
+                    {pct === 0 ? "No tip" : `₹${amount}`}
                   </button>
                 );
               })}

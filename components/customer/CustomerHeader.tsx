@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { MapPin, Search, Zap, ShoppingBag, User, ChevronDown, Locate, Mic } from "lucide-react";
-import { useCartStore } from "@/store/useCartStore";
+import { Search, User, ChevronDown, Locate, Mic } from "lucide-react";
 import { useUserStore } from "@/store/useUserStore";
 import LocationPickerModal from "@/components/customer/LocationPickerModal";
 
@@ -16,9 +15,6 @@ export default function CustomerHeader({
   searchQuery,
   setSearchQuery,
 }: CustomerHeaderProps) {
-  const { getTotalItems } = useCartStore();
-  const totalItems = getTotalItems();
-
   const { profile, getActiveAddress } = useUserStore();
   const activeAddr = getActiveAddress();
 
@@ -84,21 +80,20 @@ export default function CustomerHeader({
                 </div>
               </div>
 
-              {/* Mobile Right Controls: Circular User Profile Pill & Cart Count */}
+              {/* Mobile right control — profile only.
+                  UX-14: the cart icon here was one of three overlapping
+                  entry points to the basket (this + bottom-nav Cart tab +
+                  the floating "N items · View Cart" strip). Two of those
+                  are now removed; the floating strip is the single
+                  authoritative cart affordance on mobile because it also
+                  surfaces the running total. */}
               <div className="flex items-center gap-2 md:hidden">
                 <Link
                   href="/profile"
                   className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-slate-950 shadow-xs border border-amber-300"
+                  aria-label="Your profile"
                 >
                   <User className="h-4 w-4 text-slate-950" />
-                </Link>
-                <Link href="/cart" className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-xs">
-                  <ShoppingBag className="h-4 w-4 text-white" />
-                  {totalItems > 0 && (
-                    <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-[9px] font-black text-slate-950 shadow-2xs">
-                      {totalItems}
-                    </span>
-                  )}
                 </Link>
               </div>
             </div>

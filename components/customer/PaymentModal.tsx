@@ -58,7 +58,7 @@ export default function PaymentModal({
             </div>
             <div>
               <h3 className="text-base font-black text-slate-900">
-                Satyug Secure Checkout
+                10minute Secure Checkout
               </h3>
               <p className="text-xs text-slate-500">
                 256-Bit SSL Encrypted Gateway

@@ -19,9 +19,17 @@ export const PATCH = handler(async (req: NextRequest, { params }: Params) => {
   const body = await parseJson(req, patchSchema);
   if (body instanceof NextResponse) return body;
 
+  // If we're blocking (or unblocking) a customer, bump tokenVersion so any
+  // outstanding JWT is invalidated immediately — otherwise a blocked user
+  // would keep ordering for up to 7 days on their existing session.
+  const shouldBumpVersion = body.isBlocked !== undefined;
+
   const customer = await prisma.customer.update({
     where: { id },
-    data: body,
+    data: {
+      ...body,
+      ...(shouldBumpVersion ? { tokenVersion: { increment: 1 } } : {}),
+    },
     include: { orders: { select: { total: true } }, _count: { select: { orders: true } } },
   });
   return ok({ customer: serializeCustomer(customer) });

@@ -18,15 +18,12 @@ import {
   MoveDiagonal,
 } from "lucide-react";
 import { Address, useUserStore } from "@/store/useUserStore";
+import { Skeleton } from "@/components/customer/Skeleton";
 
 // Leaflet accesses `window` at import time — must not run during SSR.
 const AddressPinMap = dynamic(() => import("./AddressPinMap"), {
   ssr: false,
-  loading: () => (
-    <div className="h-48 w-full flex items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-slate-400 text-xs gap-2">
-      <Loader2 className="h-4 w-4 animate-spin" /> Loading map…
-    </div>
-  ),
+  loading: () => <Skeleton className="h-48 w-full rounded-2xl" />,
 });
 
 /**

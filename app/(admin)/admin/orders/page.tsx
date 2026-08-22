@@ -11,13 +11,12 @@ import { Menu } from "lucide-react";
 export default function AdminOrdersPage() {
   const [selectedOrder, setSelectedOrder] = useState<AdminOrder | null>(null);
   const [isOpenMobile, setIsOpenMobile] = useState(false);
-  const { orders, fetchOrders, updateOrderStatus } = useOrderStore();
+  const { orders, subscribeAdminStream, updateOrderStatus } = useOrderStore();
 
   useEffect(() => {
-    fetchOrders();
-    const t = setInterval(fetchOrders, 20000);
-    return () => clearInterval(t);
-  }, [fetchOrders]);
+    // Live server-sent events feed. Replaces the old 20 s poll loop.
+    return subscribeAdminStream();
+  }, [subscribeAdminStream]);
 
   const handleUpdateStatus = async (id: string, status: OrderStatus) => {
     await updateOrderStatus(id, status);

@@ -21,8 +21,8 @@ import type { MetadataRoute } from "next";
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Satyug 10-Minute Store",
-    short_name: "Satyug",
+    name: "10minute Store",
+    short_name: "10minute",
     description:
       "Groceries, fresh fruits, vegetables, dairy & essentials delivered in 10 minutes by your neighbourhood store owner.",
     start_url: "/",

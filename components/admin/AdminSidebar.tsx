@@ -15,6 +15,7 @@ import {
   Zap,
   ShoppingCart,
   Building2,
+  LifeBuoy,
   LogOut,
 } from "lucide-react";
 
@@ -28,6 +29,7 @@ export type AdminTab =
   | "coupons"
   | "banners"
   | "delivery_rules"
+  | "support"
   | "settings";
 
 interface AdminSidebarProps {
@@ -35,6 +37,7 @@ interface AdminSidebarProps {
   setActiveTab: (tab: AdminTab) => void;
   pendingOrdersCount: number;
   lowStockCount: number;
+  openTicketsCount?: number;
   isOpenMobile: boolean;
   setIsOpenMobile: (open: boolean) => void;
 }
@@ -44,6 +47,7 @@ export default function AdminSidebar({
   setActiveTab,
   pendingOrdersCount,
   lowStockCount,
+  openTicketsCount = 0,
   isOpenMobile,
   setIsOpenMobile,
 }: AdminSidebarProps) {
@@ -59,6 +63,7 @@ export default function AdminSidebar({
     { id: "coupons", href: "/admin/coupons", label: "Coupon Engine", icon: Tag },
     { id: "banners", href: "/admin/banners", label: "Hero Banners", icon: ImageIcon },
     { id: "delivery_rules", href: "/admin/delivery-rules", label: "Delivery Rules & Zone", icon: Sliders },
+    { id: "support", href: "/admin/support", label: "Support Inbox", icon: LifeBuoy, badge: openTicketsCount > 0 ? openTicketsCount : undefined, color: "bg-rose-500 text-white" },
     { id: "settings", href: "/admin/settings", label: "Store Settings", icon: Sliders, color: "bg-emerald-500/20 text-emerald-400" },
   ];
 
@@ -162,7 +167,7 @@ export default function AdminSidebar({
           <div className="flex items-center gap-2 text-slate-400 mb-1">
             <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
             <span className="text-[11px] font-bold text-slate-300">
-              10minute store Portal
+              10minute store portal
             </span>
           </div>
         </div>

@@ -100,7 +100,7 @@ export default function InstallAppButton() {
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-xs font-black text-slate-900">
-            {isIOS ? "Add Satyug to your Home Screen" : "Install Satyug on your phone"}
+            {isIOS ? "Add 10minute to your Home Screen" : "Install 10minute on your phone"}
           </p>
           <p className="text-[11px] text-slate-500 line-clamp-1">
             {isIOS

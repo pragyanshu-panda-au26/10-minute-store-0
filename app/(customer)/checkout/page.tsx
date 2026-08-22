@@ -12,17 +12,20 @@ import AddressFormModal from "@/components/customer/AddressFormModal";
 import AddressPicker from "@/components/customer/AddressPicker";
 import DeliverySlotPicker from "@/components/customer/DeliverySlotPicker";
 import CheckoutBillCard from "@/components/customer/CheckoutBillCard";
+import { CheckoutSkeleton } from "@/components/customer/Skeleton";
 import { computeBill } from "@/lib/pricing";
+import { useOrderPushSubscription } from "@/components/customer/useOrderPushSubscription";
+import OrderPlacedCelebration from "@/components/customer/OrderPlacedCelebration";
 import {
   ArrowLeft,
   QrCode,
   Banknote,
   ShieldCheck,
-  CheckCircle2,
   Lock,
   ChevronRight,
   Loader2,
   AlertCircle,
+  Bell,
 } from "lucide-react";
 
 type PaymentMethod = "razorpay" | "cod";
@@ -50,6 +53,11 @@ export default function CheckoutPage() {
   const { items, getTotalItems, getTotalPrice, getDiscountAmount, clearCart, appliedPromo } =
     useCartStore();
   const { isLoggedIn, hydrating, hydrateSession, profile, getActiveAddress } = useUserStore();
+  // Peak-end moment for the notification ask — post-order success is when
+  // the customer most wants to hear about their delivery. Hook is safe to
+  // call even before the success screen renders; the toggle only appears
+  // if push is supported and they haven't already opted in.
+  const push = useOrderPushSubscription();
 
   useEffect(() => {
     hydrateSession();
@@ -95,7 +103,7 @@ export default function CheckoutPage() {
         key: orderData.keyId,
         amount: orderData.amount,
         currency: orderData.currency,
-        name: "Satyug 10-Minute Store",
+        name: "10minute Store",
         description: `Order ${orderData.orderNumber}`,
         order_id: orderData.razorpayOrderId,
         prefill: {
@@ -225,15 +233,22 @@ export default function CheckoutPage() {
       </header>
 
       <main className="mx-auto max-w-xl px-4 py-4 space-y-4">
-        {confirmedOrderId ? (
+        {hydrating && !confirmedOrderId ? (
+          // Session rehydrate — show the same shape the customer is about
+          // to see rather than a bare spinner.
+          <CheckoutSkeleton />
+        ) : confirmedOrderId ? (
           <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center space-y-4 shadow-sm">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
-              <CheckCircle2 className="h-10 w-10" />
-            </div>
+            {/* Peak-end moment. Confetti + live ETA countdown replace the
+                static green tick — this is the emotional apex of the whole
+                purchase and the visual customers remember later. Respects
+                prefers-reduced-motion; fires a subtle haptic on supported
+                mobile devices. */}
+            <OrderPlacedCelebration active={true} etaMinutes={10} />
             <span className="inline-block rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">
               Order placed!
             </span>
-            <h2 className="text-xl font-black text-slate-900">Satyug Express</h2>
+            <h2 className="text-xl font-black text-slate-900">10minute Express</h2>
             <p className="text-xs text-slate-500">
               Order #{" "}
               <strong className="text-slate-900 font-mono">{confirmedOrderId}</strong>
@@ -242,6 +257,43 @@ export default function CheckoutPage() {
               <p className="font-bold text-emerald-700">Delivering to {activeAddr.label}</p>
               <p className="text-slate-600 mt-0.5">{fullAddress}</p>
             </div>
+
+            {/* Peak-end nudge for web-push. Shown only when the browser
+                supports it AND the customer hasn't already opted in AND the
+                permission hasn't been hard-denied. Dismisses itself on tap
+                (subscribed state flips) — no persistent "remind me later"
+                to keep the confirmation screen from getting noisy. */}
+            {push.supported && !push.subscribed && push.status !== "denied" && (
+              <button
+                onClick={() => push.enable()}
+                disabled={push.busy}
+                className="w-full flex items-center justify-between gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-3 text-left hover:bg-emerald-50 disabled:opacity-60"
+              >
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 flex-shrink-0">
+                    {push.busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Bell className="h-4 w-4" />}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-extrabold text-emerald-900 leading-tight">
+                      Get a ping when it&rsquo;s on the way
+                    </p>
+                    <p className="text-[11px] text-emerald-800/80 leading-tight mt-0.5 truncate">
+                      Turn on notifications for status updates.
+                    </p>
+                  </div>
+                </div>
+                <span className="text-xs font-black text-emerald-700 flex-shrink-0">
+                  Turn on
+                </span>
+              </button>
+            )}
+            {push.subscribed && (
+              <p className="flex items-center justify-center gap-1.5 text-[11px] font-semibold text-emerald-700">
+                <Bell className="h-3 w-3" />
+                Notifications on — we&rsquo;ll tell you the moment it moves.
+              </p>
+            )}
+
             <div className="flex gap-2">
               <button
                 onClick={() => router.push(`/orders/${confirmedOrderId}/track`)}

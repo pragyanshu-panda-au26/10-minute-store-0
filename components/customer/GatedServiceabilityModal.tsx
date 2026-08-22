@@ -24,6 +24,13 @@ interface GatedServiceabilityModalProps {
 const CACHE_KEY = "satyug_serviceability_v2";
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
+// Session-only flag: user tapped "Just browsing" — don't re-prompt until
+// they either navigate away or hit an action that needs an address (add
+// to cart, checkout). Session-scoped is deliberate: it should NOT persist
+// across browser sessions the way the serviceability cache does, because
+// then a returning customer never gets the location ask.
+const BROWSE_ONLY_FLAG = "satyug_browse_only_v1";
+
 interface CachedServiceability {
   storeId: string;
   storeName?: string;
@@ -67,6 +74,16 @@ export default function GatedServiceabilityModal({
    * "Allow location" button.
    */
   useEffect(() => {
+    // "Just browsing" — user opted to look at the catalog without setting
+    // a delivery address yet. Skip the modal entirely for this session; the
+    // add-to-cart / checkout paths will prompt again when it actually matters.
+    try {
+      if (sessionStorage.getItem(BROWSE_ONLY_FLAG) === "1") {
+        setPhase("serviceable");
+        return;
+      }
+    } catch {}
+
     try {
       const raw = localStorage.getItem(CACHE_KEY);
       if (!raw) return;
@@ -149,7 +166,7 @@ export default function GatedServiceabilityModal({
         try { localStorage.removeItem(CACHE_KEY); } catch {}
         if (data.reason === "out_of_zone") {
           setErrorMsg(
-            `Your location (${lat.toFixed(4)}, ${lng.toFixed(4)}) is ${data.distance_km || "several"} km away from our active 3 km Paradip delivery hub.`
+            `You're about ${data.distance_km || "a few"} km outside our current delivery area. We're expanding — try again in a few weeks.`
           );
         } else {
           setErrorMsg(data.message || "Coordinates are outside delivery zone.");
@@ -319,10 +336,10 @@ export default function GatedServiceabilityModal({
             </div>
             <div className="space-y-1">
               <h3 className="text-base font-extrabold text-white">
-                Checking Delivery Serviceability…
+                Checking if we deliver to you…
               </h3>
               <p className="text-xs text-slate-400 max-w-xs">
-                Verifying your coordinates against our 3 km express store geofence.
+                Should only take a couple of seconds.
               </p>
             </div>
           </div>
@@ -337,10 +354,10 @@ export default function GatedServiceabilityModal({
 
             <div className="space-y-1.5">
               <h2 className="text-xl font-black tracking-tight text-white">
-                Location Access Required
+                Where should we deliver?
               </h2>
               <p className="text-xs text-slate-300 leading-relaxed px-2">
-                We deliver fresh groceries in <strong>10 minutes</strong>. Tap the button below to prompt your browser for location permission.
+                We&rsquo;ll show you what&rsquo;s in stock nearby and how quickly we can get it to you.
               </p>
             </div>
 
@@ -349,7 +366,23 @@ export default function GatedServiceabilityModal({
                 onClick={handleRequestBrowserLocation}
                 className="w-full flex items-center justify-center gap-2 rounded-2xl bg-amber-400 py-3.5 text-xs font-black text-slate-950 hover:bg-amber-300 shadow-lg shadow-amber-400/20 active:scale-95 transition-all cursor-pointer"
               >
-                <Compass className="h-4 w-4 text-slate-950" /> Allow Location Permission (GPS)
+                <Compass className="h-4 w-4 text-slate-950" /> Use my current location
+              </button>
+
+              {/* "Just browsing" escape — the single biggest funnel win from
+                  the UX audit. A hesitant first-time visitor no longer bounces
+                  because they don't want to grant GPS; they can look at the
+                  catalog and get prompted again at the moment it matters
+                  (add-to-cart / checkout). Flag is session-scoped so a
+                  returning customer still gets the location ask next visit. */}
+              <button
+                onClick={() => {
+                  try { sessionStorage.setItem(BROWSE_ONLY_FLAG, "1"); } catch {}
+                  setPhase("serviceable");
+                }}
+                className="w-full flex items-center justify-center gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 py-2.5 text-xs font-bold text-slate-300 hover:bg-slate-800 transition-all cursor-pointer"
+              >
+                Just browsing for now
               </button>
 
               {/* Bypass button — dev/QA only. In production this let anyone
@@ -383,10 +416,10 @@ export default function GatedServiceabilityModal({
               </div>
               <div>
                 <h3 className="text-sm font-extrabold text-white">
-                  Location Check Status
+                  We don&rsquo;t deliver here yet
                 </h3>
                 <p className="text-[11px] text-rose-400 font-semibold">
-                  3 km Store Geofence Check
+                  You&rsquo;re just outside our delivery area.
                 </p>
               </div>
             </div>

@@ -7,6 +7,7 @@ import { useUserStore } from "@/store/useUserStore";
 import { useThemeStore } from "@/store/useThemeStore";
 import MobileBottomNav from "@/components/customer/MobileBottomNav";
 import LocationPickerModal from "@/components/customer/LocationPickerModal";
+import { useOrderPushSubscription } from "@/components/customer/useOrderPushSubscription";
 import {
   ArrowLeft,
   User,
@@ -17,6 +18,9 @@ import {
   Moon,
   EyeOff,
   BookOpen,
+  Bell,
+  BellOff,
+  Loader2,
   ChevronRight,
   LogOut,
 } from "lucide-react";
@@ -36,7 +40,8 @@ import {
  */
 export default function ProfilePage() {
   const router = useRouter();
-  const { profile, signOut } = useUserStore();
+  const { profile, isLoggedIn, signOut } = useUserStore();
+  const push = useOrderPushSubscription();
 
   const { theme, setTheme, initTheme } = useThemeStore();
 
@@ -48,7 +53,7 @@ export default function ProfilePage() {
   const [sensitiveItemsHidden, setSensitiveItemsHidden] = useState(true);
 
   const handleSignOut = () => {
-    if (confirm("Are you sure you want to sign out of your 10minute account?")) {
+    if (confirm("Sign out of your 10minute account?")) {
       signOut();
       router.push("/auth");
     }
@@ -193,6 +198,63 @@ export default function ProfilePage() {
           </div>
         </div>
 
+        {/* NOTIFICATIONS — web-push toggle for order status updates.
+            Hidden entirely on browsers that don't support push (older iOS
+            Safari, WebViews without notification API). Also hidden for
+            guests, since a subscription without a signed-in customerId
+            would land in the DB with no one to fan out to. */}
+        {isLoggedIn && push.supported && (
+          <div className="flex items-center justify-between rounded-2xl bg-white dark:bg-slate-900 p-4 shadow-xs border border-slate-200/60 dark:border-slate-800">
+            <div className="flex items-start gap-3">
+              <div
+                className={`flex h-9 w-9 items-center justify-center rounded-xl flex-shrink-0 mt-0.5 ${
+                  push.subscribed
+                    ? "bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400"
+                    : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400"
+                }`}
+              >
+                {push.subscribed ? <Bell className="h-4 w-4" /> : <BellOff className="h-4 w-4" />}
+              </div>
+              <div>
+                <h3 className="text-xs font-extrabold text-slate-900 dark:text-white">
+                  Order updates
+                </h3>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium max-w-[220px] leading-snug">
+                  {push.status === "denied"
+                    ? "Notifications blocked. Turn them on in your browser's site settings for this page."
+                    : push.subscribed
+                      ? "You'll get a native notification when your order status changes."
+                      : "Get a notification the moment your order is packed, out for delivery, or delivered."}
+                </p>
+              </div>
+            </div>
+
+            {/* Toggle button. Disabled while permission is denied — that
+                requires the customer to fix it in browser settings, not
+                something we can trigger from JS. */}
+            <button
+              onClick={() => (push.subscribed ? push.disable() : push.enable())}
+              disabled={push.busy || push.status === "denied"}
+              className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 ${
+                push.subscribed ? "bg-emerald-600" : "bg-slate-300 dark:bg-slate-700"
+              }`}
+              aria-label={push.subscribed ? "Turn off order notifications" : "Turn on order notifications"}
+            >
+              {push.busy ? (
+                <span className="absolute inset-0 flex items-center justify-center">
+                  <Loader2 className="h-3 w-3 animate-spin text-white" />
+                </span>
+              ) : (
+                <span
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                    push.subscribed ? "translate-x-5" : "translate-x-0"
+                  }`}
+                />
+              )}
+            </button>
+          </div>
+        )}
+
         {/* YOUR INFORMATION — only the working "Address book" row remains. */}
         <div className="space-y-1.5">
           <h2 className="px-1 text-xs font-extrabold text-slate-900 dark:text-white">Your information</h2>
@@ -231,7 +293,7 @@ export default function ProfilePage() {
         <div className="text-center pt-2 pb-4 space-y-1">
           <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400">10minute store v18.19.0</p>
           <p className="text-[10px] text-slate-400 dark:text-slate-500">
-            Operating under Veloz Technologies Private Limited
+            Operated by Veloz Technologies Private Limited
           </p>
         </div>
       </main>

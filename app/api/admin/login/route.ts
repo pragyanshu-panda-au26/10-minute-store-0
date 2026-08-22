@@ -4,6 +4,7 @@ import { z } from "zod";
 import { fail, handler, ok, parseJson } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 import { setAuthCookie, signJwtToken } from "@/lib/auth";
+import { enforceRateLimit } from "@/lib/rateLimit";
 
 const bodySchema = z.object({
   email: z.string().email().max(120),
@@ -13,6 +14,16 @@ const bodySchema = z.object({
 export const POST = handler(async (req: NextRequest) => {
   const body = await parseJson(req, bodySchema);
   if (body instanceof NextResponse) return body;
+
+  // Two-dimensional rate limit on admin login — per email (blocks targeting
+  // a specific admin) AND per IP (blocks a spray across many emails from one
+  // attacker). The bcrypt cost is enough to make offline attacks expensive;
+  // this closes the online path.
+  const email = body.email.toLowerCase().trim();
+  const denied =
+    enforceRateLimit(req, { bucket: "admin-login:email", perMinute: 5, perHour: 20, keyExtra: email }) ||
+    enforceRateLimit(req, { bucket: "admin-login:ip", perMinute: 10, perHour: 60 });
+  if (denied) return denied;
 
   const admin = await prisma.admin.findUnique({
     where: { email: body.email.toLowerCase().trim() },
@@ -30,6 +41,7 @@ export const POST = handler(async (req: NextRequest) => {
     email: admin.email,
     name: admin.name,
     role: "admin",
+    tokenVersion: admin.tokenVersion,
   });
 
   const response = ok({

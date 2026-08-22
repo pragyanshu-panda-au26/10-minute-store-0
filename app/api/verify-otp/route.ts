@@ -5,6 +5,7 @@ import { fail, handler, ok, parseJson } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 import { setAuthCookie, signJwtToken } from "@/lib/auth";
 import { isMasterOtpAccepted, isTestPhone } from "@/lib/testOtp";
+import { enforceRateLimit } from "@/lib/rateLimit";
 
 /**
  * POST /api/verify-otp
@@ -35,6 +36,15 @@ export const POST = handler(async (req: NextRequest) => {
 
   const phone = normalizePhone(body.phone);
   const otp = body.otp.trim();
+
+  // Attempts on verify are cheaper than send, but we still need to stop
+  // the online-brute-force of a 6-digit code. The per-challenge counter
+  // in Prisma caps attempts at 5, but that's per challenge — an attacker
+  // just requests fresh challenges. Rate-limit here too.
+  const denied =
+    enforceRateLimit(req, { bucket: "verify-otp:phone", perMinute: 5, perHour: 20, keyExtra: phone }) ||
+    enforceRateLimit(req, { bucket: "verify-otp:ip", perMinute: 20, perHour: 120 });
+  if (denied) return denied;
 
   // Master OTP bypass — dev mode OR test-phone allowlist. See lib/testOtp.ts.
   const bypass = isMasterOtpAccepted(phone, otp);
@@ -91,6 +101,9 @@ export const POST = handler(async (req: NextRequest) => {
     phone: customer.phone,
     name: customer.name ?? "Customer",
     role: "customer",
+    // Baked into the JWT so requireAuth can reject stale tokens after a
+    // block, password change, or logout-everywhere. See lib/api.ts.
+    tokenVersion: customer.tokenVersion,
   });
 
   const response = ok({

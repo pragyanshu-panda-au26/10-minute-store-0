@@ -177,7 +177,7 @@ export default function TrackOrderPage({
                   <Store className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-white">Satyug 10-Minute Store</h3>
+                  <h3 className="text-xs font-bold text-white">10minute Store</h3>
                   <p className="text-[11px] text-slate-400 mt-0.5">
                     The store owner delivers your order in person.
                   </p>

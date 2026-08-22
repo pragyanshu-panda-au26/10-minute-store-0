@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Product, useCartStore } from "@/store/useCartStore";
-import { Plus, Minus, Clock, Star } from "lucide-react";
+import { Plus, Minus, Star } from "lucide-react";
 import { useState } from "react";
 
 interface ProductCardProps {
@@ -49,8 +49,25 @@ export default function ProductCard({ product, onSelect }: ProductCardProps) {
   return (
     <div
       onClick={handleCardClick}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-200/90 bg-white p-3.5 shadow-2xs transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300/80 hover:shadow-xl cursor-pointer touch-manipulation"
+      // "In cart" affordance (UX-11) — a subtle emerald ring around the whole
+      // card when quantity > 0 tells the customer at a glance that this item
+      // is already in their basket. Recognition beats recall: without it, the
+      // stepper alone was the only cue and read as "this card looks different"
+      // rather than "you added this".
+      className={`group relative flex flex-col justify-between overflow-hidden rounded-3xl border bg-white p-3.5 shadow-2xs transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer touch-manipulation ${
+        quantity > 0
+          ? "border-emerald-500 ring-2 ring-emerald-500/30 shadow-emerald-500/10"
+          : "border-slate-200/90 hover:border-emerald-300/80"
+      }`}
     >
+      {/* "In cart" ribbon — top-right corner when there's a live quantity.
+          Displaces the delivery-time chip so we're not stacking two badges. */}
+      {quantity > 0 && (
+        <span className="absolute right-3 top-3 z-10 flex items-center gap-1 rounded-full bg-emerald-600 px-2 py-0.5 text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-white shadow-xs pointer-events-none">
+          In cart · {quantity}
+        </span>
+      )}
+
       {/* Discount Badge */}
       {discount > 0 && (
         <span className="absolute left-3 top-3 z-10 rounded-full bg-gradient-to-r from-emerald-600 to-teal-600 px-2.5 py-0.5 text-[9px] sm:text-[10px] font-black text-white shadow-xs pointer-events-none">
@@ -58,13 +75,10 @@ export default function ProductCard({ product, onSelect }: ProductCardProps) {
         </span>
       )}
 
-      {/* Delivery Time Badge */}
-      {product.deliveryTime && (
-        <span className="absolute right-3 top-3 z-10 flex items-center gap-1 rounded-full bg-slate-950/80 px-2 py-0.5 text-[9px] sm:text-[10px] font-bold text-white backdrop-blur-md border border-white/10 pointer-events-none">
-          <Clock className="h-2.5 w-2.5 text-amber-400" />
-          {product.deliveryTime}
-        </span>
-      )}
+      {/* UX-12 — per-card "10 min" chip removed. The whole app promises
+          10-minute delivery in the header; repeating it on every card
+          taught customers to skip the badge as decoration. Delivery time
+          still lives on the PDP where it earns its place. */}
 
       {/* Product Image Container */}
       <div className="relative mb-3 flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl bg-slate-50/80 pointer-events-none">
@@ -110,61 +124,63 @@ export default function ProductCard({ product, onSelect }: ProductCardProps) {
           )}
         </div>
 
-        {/* Pricing & Add to Cart Controls */}
-        <div className="mt-3 flex items-center justify-between pt-1">
-          <div className="flex flex-col">
-            <div className="flex items-baseline gap-1">
-              <span className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
-                ₹{product.price}
-              </span>
-              {product.originalPrice && (
-                <span className="text-[10px] sm:text-xs text-slate-400 line-through font-medium">
-                  ₹{product.originalPrice}
-                </span>
-              )}
-            </div>
-          </div>
+        {/* Pricing row — sits above a full-width action strip so the ADD
+            button is centred against the card, not floating in the top-right
+            dead zone of the left column. UX-10. */}
+        <div className="mt-3 flex items-baseline gap-1.5 pt-1">
+          <span className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
+            ₹{product.price}
+          </span>
+          {product.originalPrice && (
+            <span className="text-[10px] sm:text-xs text-slate-400 line-through font-medium">
+              ₹{product.originalPrice}
+            </span>
+          )}
+        </div>
 
-          {/* Quantity Controls / ADD button */}
-          <div onClick={(e) => e.stopPropagation()} className="relative z-20">
-            {quantity === 0 ? (
+        {/* Full-width action strip. Fitts's Law: bigger target, centered on
+            the card, reachable by either thumb regardless of grip. Replaces
+            the small right-corner button from before. */}
+        <div onClick={(e) => e.stopPropagation()} className="relative z-20 mt-2">
+          {quantity === 0 ? (
+            <button
+              type="button"
+              onClick={handleAdd}
+              disabled={isOutOfStock}
+              className={`w-full flex items-center justify-center gap-1.5 rounded-xl border py-2.5 text-xs font-black tracking-wide shadow-2xs transition-all active:scale-[0.97] cursor-pointer touch-manipulation ${
+                isOutOfStock
+                  ? "border-slate-300 bg-slate-100 text-slate-400 cursor-not-allowed"
+                  : "border-emerald-600 bg-emerald-50/90 text-emerald-700 hover:bg-emerald-600 hover:text-white"
+              }`}
+            >
+              <Plus className="h-4 w-4" />
+              {isOutOfStock ? "OUT OF STOCK" : "ADD"}
+            </button>
+          ) : (
+            <div className="w-full flex items-center justify-between rounded-xl bg-emerald-600 text-white shadow-md">
+              <button
+                type="button"
+                onClick={handleMinus}
+                aria-label="Remove one"
+                className="flex h-10 w-11 items-center justify-center hover:bg-emerald-700 rounded-l-xl active:scale-90 cursor-pointer touch-manipulation"
+              >
+                <Minus className="h-4 w-4" />
+              </button>
+              <span className="flex-1 text-center text-sm font-black tabular-nums">
+                {quantity}
+              </span>
               <button
                 type="button"
                 onClick={handleAdd}
-                disabled={isOutOfStock}
-                className={`flex items-center gap-1 rounded-xl border px-3.5 py-1.5 text-xs font-black shadow-2xs transition-all active:scale-90 cursor-pointer touch-manipulation ${
-                  isOutOfStock
-                    ? "border-slate-300 bg-slate-100 text-slate-400 cursor-not-allowed"
-                    : "border-emerald-600 bg-emerald-50/90 text-emerald-700 hover:bg-emerald-600 hover:text-white"
-                }`}
+                disabled={atMax}
+                aria-label={atMax ? `Only ${stock} in stock` : "Add one more"}
+                title={atMax ? `Only ${stock} in stock` : undefined}
+                className="flex h-10 w-11 items-center justify-center hover:bg-emerald-700 rounded-r-xl active:scale-90 cursor-pointer touch-manipulation disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <Plus className="h-3.5 w-3.5" />
-                {isOutOfStock ? "OUT" : "ADD"}
+                <Plus className="h-4 w-4" />
               </button>
-            ) : (
-              <div className="flex items-center rounded-xl bg-emerald-600 text-white shadow-md">
-                <button
-                  type="button"
-                  onClick={handleMinus}
-                  className="flex h-7 w-7 items-center justify-center hover:bg-emerald-700 rounded-l-xl active:scale-90 cursor-pointer touch-manipulation"
-                >
-                  <Minus className="h-3.5 w-3.5" />
-                </button>
-                <span className="w-6 text-center text-xs font-black">
-                  {quantity}
-                </span>
-                <button
-                  type="button"
-                  onClick={handleAdd}
-                  disabled={atMax}
-                  title={atMax ? `Only ${stock} in stock` : undefined}
-                  className="flex h-7 w-7 items-center justify-center hover:bg-emerald-700 rounded-r-xl active:scale-90 cursor-pointer touch-manipulation disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  <Plus className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

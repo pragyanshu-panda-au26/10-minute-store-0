@@ -17,7 +17,7 @@ interface SupportModalProps {
 
 const FAQS = [
   {
-    q: "How does Satyug 10-minute delivery work?",
+    q: "How does 10minute delivery work?",
     a: "We operate hyper-local dark stores equipped with real-time inventory management across Bhubaneswar. Orders are packed within 2 minutes and personally delivered by the store owner.",
   },
   {
@@ -72,7 +72,7 @@ export default function SupportModal({ isOpen, onClose }: SupportModalProps) {
                 Support & FAQs
               </h3>
               <p className="text-xs text-slate-500">
-                Satyug Lifestyle Customer Assistance
+                10minute Customer Assistance
               </p>
             </div>
           </div>

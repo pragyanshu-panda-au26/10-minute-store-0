@@ -10,9 +10,9 @@ import CategoryHierarchy from "@/components/customer/CategoryHierarchy";
 import MobileCategoryGrid from "@/components/customer/MobileCategoryGrid";
 import ProductDetailModal from "@/components/customer/ProductDetailModal";
 import GatedServiceabilityModal from "@/components/customer/GatedServiceabilityModal";
+import ReorderBasketRail from "@/components/customer/ReorderBasketRail";
 import MobileBottomNav from "@/components/customer/MobileBottomNav";
 import InstallAppButton from "@/components/customer/InstallAppButton";
-import SmartSearchBar from "@/components/customer/SmartSearchBar";
 import SortFilterBar, {
   applySortFilters,
   DEFAULT_FILTERS,
@@ -95,13 +95,20 @@ export default function CustomerPage() {
 
 
 
+      {/* Reorder-your-basket rail — auto-hides for guests, first-time
+          customers, and anyone with items already in their cart. Highest-
+          conversion single element on the entire home page for repeat users. */}
+      <ReorderBasketRail />
+
       {/* Dynamic Promotional Hero Banner Carousel */}
       <div className="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8">
         <BannerCarousel />
       </div>
 
-      {/* MOBILE BLINKIT-STYLE VISUAL CATEGORY GRID (VISIBLE ON PHONE UX) */}
-      <div className="md:hidden mt-3">
+      {/* MOBILE BLINKIT-STYLE VISUAL CATEGORY GRID (VISIBLE ON PHONE UX).
+          `#categories` anchor makes the bottom-nav Categories tab
+          scroll straight here when tapped from the home page. */}
+      <div id="categories" className="md:hidden mt-3 scroll-mt-20">
         <MobileCategoryGrid
           selectedCategory={selectedCategory}
           selectedSubcategory={selectedSubcategory}
@@ -161,21 +168,24 @@ export default function CustomerPage() {
 
           {/* Product Grid & Subcategories */}
           <main className="flex-1">
-            {/* Hierarchical Subcategory Pills Filter */}
-            <CategoryHierarchy
-              selectedCategory={selectedCategory}
-              selectedSubcategory={selectedSubcategory}
-              onSelectSubcategory={setSelectedSubcategory}
-            />
-
-            {/* Search bar */}
-            <div className="mb-3">
-              <SmartSearchBar
-                value={searchQuery}
-                onChange={setSearchQuery}
-                products={products as ExtendedProduct[]}
+            {/* Hierarchical subcategory pills — desktop only (UX-05).
+                On mobile the MobileCategoryGrid above IS the taxonomy — the
+                same subcategories were being rendered twice (image tiles
+                then pills) which offered the same choice in two dialects. */}
+            <div className="hidden md:block">
+              <CategoryHierarchy
+                selectedCategory={selectedCategory}
+                selectedSubcategory={selectedSubcategory}
+                onSelectSubcategory={setSelectedSubcategory}
               />
             </div>
+
+            {/* The in-content search bar used to live here — removed as part
+                of the UX audit (UX-04). CustomerHeader already contains the
+                same input in its second row, always above the fold on mobile.
+                Two inputs bound to the same state was noise. If desktop-only
+                SmartSearch (autosuggest) is wanted back, wire it into the
+                header md: block instead of below the fold. */}
 
             {/* Section heading + sort/filter row */}
             <div className="mb-3 flex items-center justify-between gap-3">
@@ -190,15 +200,21 @@ export default function CustomerPage() {
               </div>
             </div>
 
-            <div className="mb-4">
-              <SortFilterBar
-                products={searchAndCategoryFiltered}
-                sort={sortKey}
-                onSortChange={setSortKey}
-                filters={filters}
-                onFiltersChange={setFilters}
-              />
-            </div>
+            {/* UX-09 — sort / filter is UI weight before a value when the
+                category is small. For 8 items or fewer the customer can
+                scan the whole grid faster than they can pick a filter, and
+                the chip row takes more screen than the products on mobile. */}
+            {searchAndCategoryFiltered.length >= 8 && (
+              <div className="mb-4">
+                <SortFilterBar
+                  products={searchAndCategoryFiltered}
+                  sort={sortKey}
+                  onSortChange={setSortKey}
+                  filters={filters}
+                  onFiltersChange={setFilters}
+                />
+              </div>
+            )}
 
             {loading && products.length === 0 && (
               <div className="flex items-center justify-center py-16 text-slate-400 text-xs gap-2">

@@ -45,8 +45,17 @@ export function isTestPhone(phone: string): boolean {
 export function isMasterOtpAccepted(phone: string, otp: string): boolean {
   const master = process.env.DEV_OTP_MASTER_CODE;
   if (!master || otp !== master) return false;
-  // In dev: master accepted for any phone.
-  if (process.env.NODE_ENV !== "production") return true;
-  // In prod: master accepted only for allowlisted test phones.
-  return isTestPhone(phone);
+
+  // Test-phone allowlist wins in every environment — a QA number can still
+  // use the master code even in production.
+  if (isTestPhone(phone)) return true;
+
+  // "Any phone accepts the master code" is a dangerous shortcut — it means
+  // any preview or staging build that inherits the master code accepts
+  // `123456` for anyone's phone number. Require an EXPLICIT opt-in env
+  // (`ALLOW_MASTER_OTP=1`) so a copied env var doesn't silently open the
+  // door on the wrong environment. NODE_ENV alone was too easy to trip.
+  if (process.env.ALLOW_MASTER_OTP === "1") return true;
+
+  return false;
 }

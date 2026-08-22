@@ -14,7 +14,7 @@ import {
 
 const FAQS = [
   {
-    q: "How does Satyug 10-minute delivery work?",
+    q: "How does 10minute delivery work?",
     a: "We operate hyper-local dark stores equipped with real-time inventory management across Bhubaneswar. Orders are packed within 2 minutes and personally delivered by the store owner.",
   },
   {

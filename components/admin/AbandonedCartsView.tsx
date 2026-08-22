@@ -47,7 +47,7 @@ export default function AbandonedCartsView() {
         id: "live_active_cart",
         customerName: profile.name || "Live Active Customer",
         customerPhone: profile.phone || "+91 88602 69736",
-        customerEmail: profile.email || "customer@10minute.com",
+        customerEmail: profile.email || "customer@10minute.local",
         items: orderItems,
         totalValue: totalVal,
         totalItems: itemsCount,

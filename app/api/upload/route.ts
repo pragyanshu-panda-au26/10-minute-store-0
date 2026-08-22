@@ -18,7 +18,12 @@ import { uploadToCloudinary } from "@/lib/cloudinary";
  */
 
 const MAX_BYTES = 8 * 1024 * 1024; // 8 MB
-const ALLOWED = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml"];
+// SVG is deliberately EXCLUDED — SVGs can carry inline <script> and event
+// handlers that execute when the file is viewed same-origin. If a legitimate
+// need for SVG uploads shows up later, run every incoming file through a
+// server-side sanitizer (DOMPurify with jsdom) before handing it to
+// Cloudinary — do NOT just add "image/svg+xml" back to this list.
+const ALLOWED = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
 export const POST = handler(async (req: NextRequest) => {
   const auth = await requireAuth(req, "admin");

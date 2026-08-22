@@ -8,23 +8,23 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Satyug | 10-minute Groceries",
-    template: "%s · Satyug",
+    default: "10minute | Groceries in 10 minutes",
+    template: "%s · 10minute",
   },
   description:
     "Get groceries, fresh fruits, vegetables, dairy, snacks, and household essentials delivered in 10 minutes.",
-  applicationName: "Satyug",
+  applicationName: "10minute",
   // PWA / iOS Home-Screen goodies
   appleWebApp: {
     capable: true,
-    title: "Satyug",
+    title: "10minute",
     statusBarStyle: "default",
   },
   formatDetection: { telephone: false },
   openGraph: {
     type: "website",
-    siteName: "Satyug",
-    title: "Satyug | 10-minute Groceries",
+    siteName: "10minute",
+    title: "10minute | Groceries in 10 minutes",
     description:
       "Groceries in 10 minutes — delivered by your neighbourhood store owner.",
   },

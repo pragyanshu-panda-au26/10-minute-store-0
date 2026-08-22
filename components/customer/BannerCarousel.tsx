@@ -46,7 +46,7 @@ export default function BannerCarousel() {
       <div className="relative overflow-hidden rounded-3xl p-5 sm:p-6 text-white shadow-xl border border-white/10 bg-gradient-to-r from-emerald-900 via-teal-800 to-slate-950 min-h-[145px] flex items-center">
         <div>
           <span className="flex items-center gap-1 rounded-full bg-amber-400/20 px-3 py-1 text-[11px] font-black text-amber-300 border border-amber-400/30 backdrop-blur-md w-fit">
-            <Sparkles className="h-3.5 w-3.5" /> Satyug 10-min Store
+            <Sparkles className="h-3.5 w-3.5" /> 10minute Store
           </span>
           <h2 className="mt-2.5 text-xl font-black tracking-tight sm:text-2xl text-white">
             Groceries in 10 minutes

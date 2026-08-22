@@ -50,9 +50,11 @@ export interface DatabaseSchema {
     imageUrl: string;
     isActive: boolean;
   }[];
+  /** @deprecated Support tickets moved to Prisma (`SupportTicket`). */
   supportTickets?: SupportTicket[];
 }
 
+/** @deprecated Kept only for old file-DB dumps that still reference the field. */
 export interface SupportTicket {
   id: string;
   customerId?: string | null;

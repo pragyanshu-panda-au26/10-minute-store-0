@@ -8,6 +8,8 @@ import { getDb, saveDb } from "@/lib/db";
 import { AdminOrder } from "@/lib/adminDummyData";
 import { computeOpenState, getStoreSettings } from "@/lib/storeSettings";
 import { validateSlotBooking } from "@/lib/deliverySlots";
+import { orderConfirmationEmail, sendEmail } from "@/lib/email";
+import { sendOrderSms } from "@/lib/sms";
 
 /**
  * GET /api/orders
@@ -28,8 +30,13 @@ export const GET = handler(async (req: NextRequest) => {
   const from = fromStr ? new Date(fromStr) : null;
   const to = toStr ? new Date(toStr) : null;
 
-  let orders: any[] = [];
-
+  // Prisma is the ONE source of truth on the read path. The previous
+  // implementation merged file-DB rows into the response as a "just in case"
+  // resilience layer — that quietly produced two-brains state where different
+  // requests saw different truths depending on which serverless instance
+  // answered. If Prisma is genuinely down we now return 503 so the client can
+  // retry with backoff, instead of masking the outage with stale data.
+  let orders: any[];
   try {
     const prismaOrders = await prisma.order.findMany({
       where: {
@@ -59,30 +66,8 @@ export const GET = handler(async (req: NextRequest) => {
     });
     orders = prismaOrders.map(serializeOrder);
   } catch (err) {
-    console.warn("Prisma orders query failed, falling back to file DB:", err);
-  }
-
-  // Fallback / sync with persistent file DB.
-  // IMPORTANT: for a customer request, filter by customerId so we never leak
-  // other customers' orders when the Prisma query returns nothing (or when
-  // the file DB has records the Prisma DB doesn't).
-  const db = getDb();
-  const allFileOrders = db.orders || [];
-  const fileOrders =
-    auth.role === "customer"
-      ? allFileOrders.filter((o: any) => o.customerId === auth.userId)
-      : allFileOrders;
-
-  if (orders.length === 0 && fileOrders.length > 0) {
-    orders = fileOrders;
-  } else if (fileOrders.length > 0) {
-    // Merge file orders with database orders to ensure no lost records
-    const existingIds = new Set(orders.map((o) => o.id));
-    for (const fo of fileOrders) {
-      if (!existingIds.has(fo.id)) {
-        orders.push(fo);
-      }
-    }
+    console.error("[/api/orders] Prisma orders query failed:", err);
+    return fail("Orders service is temporarily unavailable. Please try again.", 503);
   }
 
   return ok({ orders });
@@ -360,6 +345,36 @@ paymentStatus: "pending",
   } catch (e) {
     console.warn("File DB save order error:", e);
   }
+
+  // Confirmation email + SMS — fire-and-forget so a slow SMTP or SMS hop
+  // can never hold up the order response. Never throw out of this block.
+  const totalRupees = Number(
+    createdOrder.total ?? createdOrder.totalPrice ?? toRupees(totalPaise)
+  );
+
+  if ((customer as any).email) {
+    const tmpl = orderConfirmationEmail({
+      to: (customer as any).email,
+      customerName: (customer as any).name,
+      orderNumber: createdOrder.orderNumber,
+      totalRupees,
+      itemsCount: body.items.reduce((n, i) => n + i.quantity, 0),
+      deliveryAddress: body.deliveryAddress,
+      paymentMethod: body.paymentMethod,
+    });
+    void sendEmail({ to: (customer as any).email, ...tmpl });
+  }
+
+  // Order-confirmation SMS. Uses whatever DLT template you registered in
+  // MSG91 for the `order_confirmed` status. If none is registered, this
+  // no-ops silently — orders still succeed.
+  void sendOrderSms({
+    phone: userPhone,
+    customerName: (customer as any).name ?? userName,
+    orderNumber: createdOrder.orderNumber,
+    status: "order_confirmed",
+    totalRupees,
+  });
 
   return ok({ order: createdOrder }, { status: 201 });
 });

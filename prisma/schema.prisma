@@ -22,6 +22,10 @@ model Customer {
   name          String?
   email         String?
   isBlocked     Boolean   @default(false)
+  // Bumped to invalidate every outstanding JWT for this account — used on
+  // block, on sign-out-everywhere, or on any credential/permission change.
+  // Baked into the JWT at sign time; checked in requireAuth on every request.
+  tokenVersion  Int       @default(0)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   addresses     Address[]
@@ -35,6 +39,9 @@ model Admin {
   email        String   @unique
   name         String
   passwordHash String
+  // Same purpose as Customer.tokenVersion — bump to kill every outstanding
+  // admin session (e.g. after a password change).
+  tokenVersion Int      @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
@@ -338,6 +345,70 @@ model StoreSetting {
   slotLeadMinutes      Int     @default(30) // earliest slot must start at least N min from now
   updatedAt          DateTime @updatedAt
   createdAt          DateTime @default(now())
+}
+
+/**
+ * Web-push subscription. One row per (customer, browser/device) pair — a
+ * given customer may have several if they've opted in on multiple browsers.
+ * Written by `POST /api/push/subscribe`; consumed by lib/push.ts on order
+ * status changes to fan out notifications.
+ *
+ * The unique constraint on `endpoint` prevents duplicates when the same
+ * browser re-subscribes (e.g. after clearing site data + re-opting in).
+ */
+model PushSubscription {
+  id         String   @id @default(cuid())
+  customerId String?
+  endpoint   String   @unique
+  p256dh     String
+  auth       String
+  userAgent  String?
+  createdAt  DateTime @default(now())
+  lastUsedAt DateTime @default(now())
+
+  @@index([customerId])
+}
+
+/**
+ * Support ticket — customer help request from `/support`. Previously lived
+ * in the file-DB and lost data across serverless cold starts. Now durable.
+ */
+model SupportTicket {
+  id            String   @id @default(cuid())
+  customerId    String?
+  customerPhone String?
+  customerName  String?
+  message       String
+  status        String   @default("open") // "open" | "resolved"
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+/**
+ * Dark-store hub (physical fulfilment location). Multi-store setups store
+ * per-store lat/lng, service radius, and staff-facing display metadata here.
+ * A single-store deployment can leave this table with one row.
+ */
+model DarkStore {
+  id           String   @id @default(cuid())
+  name         String
+  code         String?  @unique
+  address      String
+  city         String
+  pincode      String
+  lat          Float
+  lng          Float
+  radiusKm     Float    @default(3)
+  etaMinutes   Int      @default(10)
+  isActive     Boolean  @default(true)
+  contactPhone String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isActive])
 }
 
 model AbandonedCart {

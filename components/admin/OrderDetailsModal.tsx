@@ -62,7 +62,7 @@ export default function OrderDetailsModal({
   const waDigits = (order.customerPhone || "").replace(/\D/g, "").replace(/^0+/, "");
   const waNumber = waDigits.length === 10 ? `91${waDigits}` : waDigits;
   const waMessage = encodeURIComponent(
-    `Hi ${order.customerName?.split(" ")[0] || "there"}! This is your Satyug order #${orderKey} — total ₹${order.totalPrice}. Everything on track!`
+    `Hi ${order.customerName?.split(" ")[0] || "there"}! This is your 10minute order #${orderKey} — total ₹${order.totalPrice}. Everything on track!`
   );
   const whatsappUrl = waNumber ? `https://wa.me/${waNumber}?text=${waMessage}` : null;
 

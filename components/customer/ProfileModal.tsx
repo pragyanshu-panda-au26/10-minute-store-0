@@ -72,7 +72,7 @@ export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
   };
 
   const handleSignOut = () => {
-    if (confirm("Are you sure you want to sign out of your Satyug account?")) {
+    if (confirm("Sign out of your 10minute account?")) {
       signOut();
       onClose();
     }

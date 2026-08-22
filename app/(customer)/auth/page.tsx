@@ -7,7 +7,6 @@ import MobileBottomNav from "@/components/customer/MobileBottomNav";
 import {
   ArrowLeft,
   Phone,
-  Mail,
   KeyRound,
   CheckCircle2,
   ArrowRight,
@@ -19,10 +18,15 @@ export default function AuthPage() {
   const router = useRouter();
   const [step, setStep] = useState<"login" | "otp" | "success">("login");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [serverMsg, setServerMsg] = useState<string | null>(null);
+  // UX-21 — visible resend countdown so the customer knows exactly when
+  // they can tap "Resend" instead of thrashing an invisible rate limit.
+  // Rate-limit on the server is 2 sends/min per phone; 30 s is comfortably
+  // under that and matches customer expectations from every other OTP flow.
+  const [resendIn, setResendIn] = useState(0);
+  const RESEND_COOLDOWN_SEC = 30;
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const { applySession } = useUserStore();
@@ -35,6 +39,14 @@ export default function AuthPage() {
     const t = setTimeout(() => router.replace("/"), 700);
     return () => clearTimeout(t);
   }, [step, router]);
+
+  // Countdown tick — decrements every second while > 0. Only runs on the
+  // OTP step, and only while there's time left.
+  useEffect(() => {
+    if (step !== "otp" || resendIn <= 0) return;
+    const t = setInterval(() => setResendIn((r) => Math.max(0, r - 1)), 1000);
+    return () => clearInterval(t);
+  }, [step, resendIn]);
 
   const handleSendTwilioOtp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,9 +64,10 @@ export default function AuthPage() {
       if (data.success) {
         setServerMsg(data.message);
         setStep("otp");
+        setResendIn(RESEND_COOLDOWN_SEC);
         setTimeout(() => inputRefs.current[0]?.focus(), 100);
       } else {
-        setServerMsg(data.message || "Failed to send Twilio SMS OTP");
+        setServerMsg(data.message || "Couldn't send the code. Try again in a moment.");
       }
     } catch (err: any) {
       // Real network / server failure — surface it to the user instead of
@@ -139,7 +152,7 @@ export default function AuthPage() {
             <ArrowLeft className="h-4 w-4" /> Store
           </button>
           <h1 className="text-base font-black text-slate-900">
-            Twilio SMS Sign In
+            Sign in to 10minute
           </h1>
           <div className="w-10" />
         </div>
@@ -154,10 +167,10 @@ export default function AuthPage() {
                   <Zap className="h-7 w-7 text-blue-600" />
                 </div>
                 <h2 className="text-xl font-black text-slate-900">
-                  Satyug Sign In
+                  10minute Sign In
                 </h2>
                 <p className="text-xs text-slate-500 mt-1">
-                  Twilio 6-digit SMS OTP Authentication
+                  We&rsquo;ll text you a 6-digit code to verify your number.
                 </p>
               </div>
 
@@ -178,28 +191,19 @@ export default function AuthPage() {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Email Address (Optional)
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="name@example.com"
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50 p-2.5 pl-9 text-xs font-semibold text-slate-900 focus:border-blue-500 focus:outline-none"
-                  />
-                </div>
-              </div>
+              {/* Email field removed at the sign-in step — UX-20. It was
+                  collected here but never sent to the server (POST body is
+                  only { phone }) and no verify-email flow uses it. Every
+                  extra field at auth costs % conversion; we ask for email
+                  later at first order or in profile settings, where it earns
+                  its place because it powers the invoice + receipt email. */}
 
               <button
                 type="submit"
                 disabled={loading}
                 className="w-full flex items-center justify-center gap-2 rounded-2xl bg-blue-600 py-3.5 text-xs font-extrabold text-white shadow-md hover:bg-blue-500 transition-all disabled:opacity-75"
               >
-                {loading ? "Requesting Twilio Gateway..." : "Get Twilio SMS OTP Code"}
+                {loading ? "Sending code…" : "Send verification code"}
                 <ArrowRight className="h-4 w-4" />
               </button>
             </form>
@@ -210,7 +214,7 @@ export default function AuthPage() {
               <div className="mx-auto mb-2 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-700">
                 <KeyRound className="h-7 w-7" />
               </div>
-              <h2 className="text-xl font-black text-slate-900">Verify Twilio SMS OTP</h2>
+              <h2 className="text-xl font-black text-slate-900">Enter your code</h2>
               <p className="text-xs text-slate-500">
                 Enter 6-digit SMS code sent to <strong>{phone}</strong>
               </p>
@@ -241,6 +245,32 @@ export default function AuthPage() {
               >
                 {loading ? "Verifying..." : "Verify & Complete Sign In"}
               </button>
+
+              {/* UX-21 — visible resend cooldown. Without this the customer
+                  types the code they never got, hits verify, sees "Invalid
+                  OTP", and bounces. Now the resend button appears the
+                  moment they can actually use it. */}
+              <div className="text-center text-[11px] font-semibold text-slate-500">
+                {resendIn > 0 ? (
+                  <>
+                    Didn&rsquo;t get the code? <span className="text-slate-700 font-bold tabular-nums">Resend in 0:{resendIn.toString().padStart(2, "0")}</span>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      // Reuse the send-OTP handler in a fake submit event —
+                      // the server rate-limit gives us the safety net if the
+                      // customer manages to hammer it despite the cooldown.
+                      handleSendTwilioOtp({ preventDefault: () => {} } as any);
+                    }}
+                    disabled={loading}
+                    className="text-blue-700 font-bold hover:underline disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    Resend code
+                  </button>
+                )}
+              </div>
             </form>
           )}
 
@@ -278,7 +308,7 @@ export default function AuthPage() {
 
           <div className="mt-4 flex items-center justify-center gap-1 text-[10px] text-slate-400 pt-3 border-t border-slate-100">
             <ShieldCheck className="h-3.5 w-3.5 text-blue-600" />
-            <span>Twilio Verified REST API Authorization Key</span>
+            <span>Your number stays on file only to reach you about orders.</span>
           </div>
         </div>
       </main>

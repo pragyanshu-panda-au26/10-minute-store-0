@@ -6,17 +6,28 @@ import { NextResponse } from "next/server";
  * so we don't need `jsonwebtoken` or `jose`.
  */
 
-const JWT_SECRET =
-  process.env.JWT_SECRET || "satyug_dev_only_secret_do_not_use_in_prod";
+const DEV_FALLBACK_SECRET = "satyug_dev_only_secret_do_not_use_in_prod";
+const RAW_SECRET = process.env.JWT_SECRET || DEV_FALLBACK_SECRET;
 
-if (
-  process.env.NODE_ENV === "production" &&
-  JWT_SECRET === "satyug_dev_only_secret_do_not_use_in_prod"
-) {
-  console.error(
-    "SECURITY: JWT_SECRET env var is not set in production. Refusing to run."
-  );
+// Production must not boot with the dev fallback secret. Also enforce a
+// minimum length — a short HMAC key is trivially brute-forceable and
+// makes every JWT in the fleet forge-able. This runs at module load so
+// any code path that touches auth crashes the invocation loudly instead
+// of quietly issuing tokens anyone can sign.
+if (process.env.NODE_ENV === "production") {
+  if (RAW_SECRET === DEV_FALLBACK_SECRET) {
+    throw new Error(
+      "SECURITY: JWT_SECRET env var is not set in production. Refusing to run."
+    );
+  }
+  if (RAW_SECRET.length < 32) {
+    throw new Error(
+      `SECURITY: JWT_SECRET is only ${RAW_SECRET.length} chars. Use at least 32 (openssl rand -base64 48).`
+    );
+  }
 }
+
+const JWT_SECRET = RAW_SECRET;
 
 export const AUTH_COOKIE_NAME = "satyug_auth_token";
 
@@ -26,6 +37,10 @@ export interface JwtPayload {
   email?: string;
   name: string;
   role: "customer" | "admin";
+  // Stamped at sign time from Customer/Admin.tokenVersion. Bumping the DB
+  // column invalidates every JWT issued before the bump — see requireAuth
+  // in lib/api.ts for the check.
+  tokenVersion?: number;
   iat?: number;
   exp?: number;
 }
