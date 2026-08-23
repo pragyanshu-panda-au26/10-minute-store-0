@@ -62,6 +62,15 @@ export function serializeProduct(
     })(),
     rating: p.rating,
     ratingCount: p.ratingCount,
+    // Blinkit-parity attribute fields — surfaced on the PDP as key-feature
+    // chips (type / shelfLife / countryOfOrigin) plus optional ingredients
+    // and nutrition sections. All null-safe; the PDP hides any that are
+    // empty so fresh produce doesn't render an empty "Shelf life —" row.
+    type: p.type ?? null,
+    shelfLife: p.shelfLife ?? null,
+    countryOfOrigin: p.countryOfOrigin ?? null,
+    ingredients: p.ingredients ?? null,
+    nutrition: (p.nutrition as Record<string, string> | null) ?? null,
     deliveryTime: `${p.deliveryMinutes} mins`,
     deliveryMinutes: p.deliveryMinutes,
     tags: p.tags,

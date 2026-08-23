@@ -53,6 +53,15 @@ const createSchema = z.object({
   rating: z.number().min(0).max(5).optional(),
   ratingCount: z.number().int().nonnegative().optional(),
   tags: z.array(z.string()).optional(),
+  // Phase C attribute fields — all optional / nullable. `nutrition` is a
+  // flat string→string map (energy, protein, carbs, etc.) so units survive
+  // (e.g. "215 kcal", "4.2 g"). Server validates keys are strings; UI
+  // decides which subset to show.
+  type: z.string().max(120).optional().nullable(),
+  shelfLife: z.string().max(120).optional().nullable(),
+  countryOfOrigin: z.string().max(80).optional().nullable(),
+  ingredients: z.string().max(4000).optional().nullable(),
+  nutrition: z.record(z.string(), z.string()).optional().nullable(),
 });
 
 export const POST = handler(async (req: NextRequest) => {
@@ -84,6 +93,15 @@ export const POST = handler(async (req: NextRequest) => {
       rating: body.rating ?? 4.5,
       ratingCount: body.ratingCount ?? 0,
       tags: body.tags ?? [],
+      type: body.type ?? null,
+      shelfLife: body.shelfLife ?? null,
+      countryOfOrigin: body.countryOfOrigin ?? "India",
+      ingredients: body.ingredients ?? null,
+      // Empty-object nutrition writes as null so the PDP hides the section.
+      nutrition:
+        body.nutrition && Object.keys(body.nutrition).length > 0
+          ? body.nutrition
+          : null,
     },
     include: { subcategory: true },
   });

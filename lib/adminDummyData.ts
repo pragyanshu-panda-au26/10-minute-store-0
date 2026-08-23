@@ -23,6 +23,12 @@ export interface AdminProduct {
   ratingCount?: number;
   deliveryTime?: string;
   tags?: string[];
+  // Phase C attribute fields — surfaced on the PDP.
+  type?: string | null;
+  shelfLife?: string | null;
+  countryOfOrigin?: string | null;
+  ingredients?: string | null;
+  nutrition?: Record<string, string> | null;
 }
 
 export interface DarkStore {

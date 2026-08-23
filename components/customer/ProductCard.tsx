@@ -83,6 +83,18 @@ export default function ProductCard({ product, onSelect }: ProductCardProps) {
         </span>
       )}
 
+      {/* "N options" chip — surfaces variant availability without pushing
+          the shopper into a full PDP. Renders below the discount badge so
+          it doesn't collide with the "In cart" ribbon on the opposite
+          corner. Tapping the card still opens the PDP where the variant
+          picker lives. Only appears when there are truly multiple pack
+          options — a single-SKU product looks the same as before. */}
+      {(product.variants?.length ?? 0) > 1 && (
+        <span className="absolute left-3 top-9 z-10 rounded-full bg-slate-900/85 px-2 py-0.5 text-[9px] font-black text-white pointer-events-none">
+          {product.variants!.length} options
+        </span>
+      )}
+
       {/* UX-12 — per-card "10 min" chip removed. The whole app promises
           10-minute delivery in the header; repeating it on every card
           taught customers to skip the badge as decoration. Delivery time

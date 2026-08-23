@@ -34,6 +34,12 @@ const patchSchema = z.object({
   ratingCount: z.number().int().nonnegative().optional(),
   tags: z.array(z.string()).optional(),
   isActive: z.boolean().optional(),
+  // Phase C attribute fields — same shape + rules as the create schema.
+  type: z.string().max(120).nullable().optional(),
+  shelfLife: z.string().max(120).nullable().optional(),
+  countryOfOrigin: z.string().max(80).nullable().optional(),
+  ingredients: z.string().max(4000).nullable().optional(),
+  nutrition: z.record(z.string(), z.string()).nullable().optional(),
 });
 
 export const PATCH = handler(async (req: NextRequest, { params }: Params) => {
@@ -67,6 +73,20 @@ export const PATCH = handler(async (req: NextRequest, { params }: Params) => {
       ...(body.ratingCount !== undefined ? { ratingCount: body.ratingCount } : {}),
       ...(body.tags !== undefined ? { tags: body.tags } : {}),
       ...(body.isActive !== undefined ? { isActive: body.isActive } : {}),
+      ...(body.type !== undefined ? { type: body.type } : {}),
+      ...(body.shelfLife !== undefined ? { shelfLife: body.shelfLife } : {}),
+      ...(body.countryOfOrigin !== undefined ? { countryOfOrigin: body.countryOfOrigin } : {}),
+      ...(body.ingredients !== undefined ? { ingredients: body.ingredients } : {}),
+      // Same empty-object-to-null coercion as POST so the PDP hides the
+      // nutrition block instead of rendering an empty table.
+      ...(body.nutrition !== undefined
+        ? {
+            nutrition:
+              body.nutrition && Object.keys(body.nutrition).length > 0
+                ? body.nutrition
+                : null,
+          }
+        : {}),
     },
     include: { subcategory: true },
   });

@@ -1,0 +1,618 @@
+- generic [active] [ref=f1e1]:
+  - main [ref=f1e3]:
+    - generic [ref=f1e4]:
+      - generic [ref=f1e5]:
+        - generic [ref=f1e6]:
+          - generic [ref=f1e10]:
+            - paragraph [ref=f1e11]: Set your delivery location
+            - paragraph [ref=f1e12]: We’ll show what’s in stock and how fast we can deliver.
+          - button "Use GPS" [ref=f1e13] [cursor=pointer]
+          - button "Dismiss location prompt" [ref=f1e14] [cursor=pointer]
+        - 'button "Test: use Paradip Store Hub (20.2877, 86.6091)" [ref=f1e18] [cursor=pointer]'
+      - generic [ref=f1e24]:
+        - generic [ref=f1e25]:
+          - generic [ref=f1e26]:
+            - link "10m" [ref=f1e27] [cursor=pointer]:
+              - /url: /
+            - generic [ref=f1e28]:
+              - link "Delivery in ~10 min" [ref=f1e30] [cursor=pointer]:
+                - /url: /
+              - button "No address selected" [ref=f1e31] [cursor=pointer]
+          - link "Your profile" [ref=f1e36] [cursor=pointer]:
+            - /url: /profile
+        - textbox "Search \"curd\"" [ref=f1e41] [cursor=pointer]
+      - generic [ref=f1e48]:
+        - generic [ref=f1e49]:
+          - generic [ref=f1e50]:
+            - generic [ref=f1e51]: 10minute Flash Deal
+            - generic [ref=f1e55]:
+              - text: "Use code:"
+              - strong [ref=f1e59]: SATYUG50
+          - heading "Fresh Fruits & Organic Veggies" [level=2] [ref=f1e60]
+          - paragraph [ref=f1e61]: Get UP TO 40% OFF on daily essentials.
+        - generic [ref=f1e62]:
+          - generic [ref=f1e63]:
+            - button "Banner 1" [ref=f1e64] [cursor=pointer]
+            - button "Banner 2" [ref=f1e65] [cursor=pointer]
+          - generic [ref=f1e66]:
+            - button "Previous banner" [ref=f1e67] [cursor=pointer]
+            - button "Next banner" [ref=f1e70] [cursor=pointer]
+      - generic [ref=f1e74]:
+        - generic [ref=f1e75]:
+          - heading "🥬 Grocery & Kitchen" [level=3] [ref=f1e77]:
+            - generic [ref=f1e78]: 🥬
+            - generic [ref=f1e79]: Grocery & Kitchen
+          - generic [ref=f1e80]:
+            - button "Vegetables & Fruits Vegetables & Fruits" [ref=f1e81] [cursor=pointer]:
+              - img "Vegetables & Fruits" [ref=f1e83]
+              - generic [ref=f1e84]: Vegetables & Fruits
+            - button "Atta, Rice & Dal Atta, Rice & Dal" [ref=f1e85] [cursor=pointer]:
+              - img "Atta, Rice & Dal" [ref=f1e87]
+              - generic [ref=f1e88]: Atta, Rice & Dal
+            - button "Oil, Ghee & Masala Oil, Ghee & Masala" [ref=f1e89] [cursor=pointer]:
+              - img "Oil, Ghee & Masala" [ref=f1e91]
+              - generic [ref=f1e92]: Oil, Ghee & Masala
+            - button "Dairy, Bread & Eggs Dairy, Bread & Eggs" [ref=f1e93] [cursor=pointer]:
+              - img "Dairy, Bread & Eggs" [ref=f1e95]
+              - generic [ref=f1e96]: Dairy, Bread & Eggs
+            - button "Dry Fruits & Cereals Dry Fruits & Cereals" [ref=f1e97] [cursor=pointer]:
+              - img "Dry Fruits & Cereals" [ref=f1e99]
+              - generic [ref=f1e100]: Dry Fruits & Cereals
+            - button "Chicken, Meat & Fish Chicken, Meat & Fish" [ref=f1e101] [cursor=pointer]:
+              - img "Chicken, Meat & Fish" [ref=f1e103]
+              - generic [ref=f1e104]: Chicken, Meat & Fish
+            - button "Kitchenware & Appliances Kitchenware & Appliances" [ref=f1e105] [cursor=pointer]:
+              - img "Kitchenware & Appliances" [ref=f1e107]
+              - generic [ref=f1e108]: Kitchenware & Appliances
+        - generic [ref=f1e109]:
+          - heading "🍿 Snacks & Drinks" [level=3] [ref=f1e111]:
+            - generic [ref=f1e112]: 🍿
+            - generic [ref=f1e113]: Snacks & Drinks
+          - generic [ref=f1e114]:
+            - button "Bakery & Biscuits Bakery & Biscuits" [ref=f1e115] [cursor=pointer]:
+              - img "Bakery & Biscuits" [ref=f1e117]
+              - generic [ref=f1e118]: Bakery & Biscuits
+            - button "Chips & Namkeen Chips & Namkeen" [ref=f1e119] [cursor=pointer]:
+              - img "Chips & Namkeen" [ref=f1e121]
+              - generic [ref=f1e122]: Chips & Namkeen
+            - button "Sweets & Chocolates Sweets & Chocolates" [ref=f1e123] [cursor=pointer]:
+              - img "Sweets & Chocolates" [ref=f1e125]
+              - generic [ref=f1e126]: Sweets & Chocolates
+            - button "Drinks & Juices Drinks & Juices" [ref=f1e127] [cursor=pointer]:
+              - img "Drinks & Juices" [ref=f1e129]
+              - generic [ref=f1e130]: Drinks & Juices
+            - button "Tea, Coffee & Milk Drinks Tea, Coffee & Milk Drinks" [ref=f1e131] [cursor=pointer]:
+              - img "Tea, Coffee & Milk Drinks" [ref=f1e133]
+              - generic [ref=f1e134]: Tea, Coffee & Milk Drinks
+            - button "Instant Food Instant Food" [ref=f1e135] [cursor=pointer]:
+              - img "Instant Food" [ref=f1e137]
+              - generic [ref=f1e138]: Instant Food
+            - button "Sauces & Spreads Sauces & Spreads" [ref=f1e139] [cursor=pointer]:
+              - img "Sauces & Spreads" [ref=f1e141]
+              - generic [ref=f1e142]: Sauces & Spreads
+            - button "Ice Creams & More Ice Creams & More" [ref=f1e143] [cursor=pointer]:
+              - img "Ice Creams & More" [ref=f1e145]
+              - generic [ref=f1e146]: Ice Creams & More
+            - button "Paan Corner Paan Corner" [ref=f1e147] [cursor=pointer]:
+              - img "Paan Corner" [ref=f1e149]
+              - generic [ref=f1e150]: Paan Corner
+        - generic [ref=f1e151]:
+          - heading "✨ Beauty & Personal Care" [level=3] [ref=f1e153]:
+            - generic [ref=f1e154]: ✨
+            - generic [ref=f1e155]: Beauty & Personal Care
+          - generic [ref=f1e156]:
+            - button "Bath & Body Bath & Body" [ref=f1e157] [cursor=pointer]:
+              - img "Bath & Body" [ref=f1e159]
+              - generic [ref=f1e160]: Bath & Body
+            - button "Hair Care Hair Care" [ref=f1e161] [cursor=pointer]:
+              - img "Hair Care" [ref=f1e163]
+              - generic [ref=f1e164]: Hair Care
+            - button "Skin & Face Care Skin & Face Care" [ref=f1e165] [cursor=pointer]:
+              - img "Skin & Face Care" [ref=f1e167]
+              - generic [ref=f1e168]: Skin & Face Care
+            - button "Beauty & Cosmetics Beauty & Cosmetics" [ref=f1e169] [cursor=pointer]:
+              - img "Beauty & Cosmetics" [ref=f1e171]
+              - generic [ref=f1e172]: Beauty & Cosmetics
+            - button "Feminine Hygiene Feminine Hygiene" [ref=f1e173] [cursor=pointer]:
+              - img "Feminine Hygiene" [ref=f1e175]
+              - generic [ref=f1e176]: Feminine Hygiene
+            - button "Baby Care Baby Care" [ref=f1e177] [cursor=pointer]:
+              - img "Baby Care" [ref=f1e179]
+              - generic [ref=f1e180]: Baby Care
+            - button "Health & Pharma Health & Pharma" [ref=f1e181] [cursor=pointer]:
+              - img "Health & Pharma" [ref=f1e183]
+              - generic [ref=f1e184]: Health & Pharma
+            - button "Sexual Wellness Sexual Wellness" [ref=f1e185] [cursor=pointer]:
+              - img "Sexual Wellness" [ref=f1e187]
+              - generic [ref=f1e188]: Sexual Wellness
+        - generic [ref=f1e189]:
+          - heading "🏠 Home, Electronics & Others" [level=3] [ref=f1e191]:
+            - generic [ref=f1e192]: 🏠
+            - generic [ref=f1e193]: Home, Electronics & Others
+          - generic [ref=f1e194]:
+            - button "Home & Lifestyle Home & Lifestyle" [ref=f1e195] [cursor=pointer]:
+              - img "Home & Lifestyle" [ref=f1e197]
+              - generic [ref=f1e198]: Home & Lifestyle
+            - button "Cleaners & Repellents Cleaners & Repellents" [ref=f1e199] [cursor=pointer]:
+              - img "Cleaners & Repellents" [ref=f1e201]
+              - generic [ref=f1e202]: Cleaners & Repellents
+            - button "Electronics & Appliances Electronics & Appliances" [ref=f1e203] [cursor=pointer]:
+              - img "Electronics & Appliances" [ref=f1e205]
+              - generic [ref=f1e206]: Electronics & Appliances
+            - button "Stationery & Games Stationery & Games" [ref=f1e207] [cursor=pointer]:
+              - img "Stationery & Games" [ref=f1e209]
+              - generic [ref=f1e210]: Stationery & Games
+            - button "Pet Care Pet Care" [ref=f1e211] [cursor=pointer]:
+              - img "Pet Care" [ref=f1e213]
+              - generic [ref=f1e214]: Pet Care
+        - generic [ref=f1e215]:
+          - heading "🔥 LIT (Specialty)" [level=3] [ref=f1e217]:
+            - generic [ref=f1e218]: 🔥
+            - generic [ref=f1e219]: LIT (Specialty)
+          - generic [ref=f1e220]:
+            - button "Tobacco & Smoking Essentials Tobacco & Smoking Essentials" [ref=f1e221] [cursor=pointer]:
+              - img "Tobacco & Smoking Essentials" [ref=f1e223]
+              - generic [ref=f1e224]: Tobacco & Smoking Essentials
+            - button "Hookah & Accessories Hookah & Accessories" [ref=f1e225] [cursor=pointer]:
+              - img "Hookah & Accessories" [ref=f1e227]
+              - generic [ref=f1e228]: Hookah & Accessories
+            - button "Adult & Novelty Products Adult & Novelty Products" [ref=f1e229] [cursor=pointer]:
+              - img "Adult & Novelty Products" [ref=f1e231]
+              - generic [ref=f1e232]: Adult & Novelty Products
+            - button "Specialty Cosmetics Specialty Cosmetics" [ref=f1e233] [cursor=pointer]:
+              - img "Specialty Cosmetics" [ref=f1e235]
+              - generic [ref=f1e236]: Specialty Cosmetics
+      - generic [ref=f1e237]:
+        - generic [ref=f1e239]:
+          - heading "🔥 Hot deals" [level=3] [ref=f1e240]
+          - paragraph [ref=f1e241]: Biggest discounts, delivered in minutes.
+        - generic [ref=f1e242]:
+          - generic [ref=f1e244] [cursor=pointer]:
+            - generic: 24% OFF
+            - generic:
+              - img "Fresh Hybrid Capsicum Green"
+            - generic [ref=f1e245]:
+              - generic [ref=f1e246]:
+                - paragraph [ref=f1e247]: 250 g
+                - heading "Fresh Hybrid Capsicum Green" [level=3] [ref=f1e248]
+                - generic [ref=f1e250]:
+                  - text: "4.7"
+                  - generic [ref=f1e253]: (4,172)
+              - generic [ref=f1e254]:
+                - generic [ref=f1e255]: ₹42
+                - generic [ref=f1e256]: ₹55
+              - button "ADD" [ref=f1e258]
+          - generic [ref=f1e261] [cursor=pointer]:
+            - generic: 24% OFF
+            - generic:
+              - img "Organic Farm Fresh Tomatoes"
+            - generic [ref=f1e262]:
+              - generic [ref=f1e263]:
+                - paragraph [ref=f1e264]: 500 g
+                - heading "Organic Farm Fresh Tomatoes" [level=3] [ref=f1e265]
+                - generic [ref=f1e267]:
+                  - text: "4.8"
+                  - generic [ref=f1e270]: (12.6k)
+              - generic [ref=f1e271]:
+                - generic [ref=f1e272]: ₹38
+                - generic [ref=f1e273]: ₹50
+              - button "ADD" [ref=f1e275]
+          - generic [ref=f1e278] [cursor=pointer]:
+            - generic: 17% OFF
+            - generic:
+              - img "Fresh Red Onion (Pyaz)"
+            - generic [ref=f1e279]:
+              - generic [ref=f1e280]:
+                - paragraph [ref=f1e281]: 1 kg
+                - heading "Fresh Red Onion (Pyaz)" [level=3] [ref=f1e282]
+                - generic [ref=f1e284]:
+                  - text: "4.9"
+                  - generic [ref=f1e287]: (891)
+              - generic [ref=f1e288]:
+                - generic [ref=f1e289]: ₹29
+                - generic [ref=f1e290]: ₹35
+              - button "ADD" [ref=f1e292]
+          - generic [ref=f1e295] [cursor=pointer]:
+            - generic: 16% OFF
+            - generic:
+              - img "Fortune Sunlite Refined Sunflower Oil"
+            - generic [ref=f1e296]:
+              - generic [ref=f1e297]:
+                - paragraph [ref=f1e298]: 1 L Pouch
+                - heading "Fortune Sunlite Refined Sunflower Oil" [level=3] [ref=f1e299]
+                - generic [ref=f1e300]: "4.8"
+              - generic [ref=f1e304]:
+                - generic [ref=f1e305]: ₹135
+                - generic [ref=f1e306]: ₹160
+              - button "ADD" [ref=f1e308]
+          - generic [ref=f1e311] [cursor=pointer]:
+            - generic: 15% OFF
+            - generic:
+              - img "Nivea Body Milk Nourishing Body Lotion"
+            - generic [ref=f1e312]:
+              - generic [ref=f1e313]:
+                - paragraph [ref=f1e314]: 400 ml
+                - heading "Nivea Body Milk Nourishing Body Lotion" [level=3] [ref=f1e315]
+                - generic [ref=f1e316]: "4.8"
+              - generic [ref=f1e320]:
+                - generic [ref=f1e321]: ₹299
+                - generic [ref=f1e322]: ₹350
+              - button "ADD" [ref=f1e324]
+          - generic [ref=f1e327] [cursor=pointer]:
+            - generic: 13% OFF
+            - generic:
+              - img "Colin Glass & Surface Cleaner Spray"
+            - generic [ref=f1e328]:
+              - generic [ref=f1e329]:
+                - paragraph [ref=f1e330]: 500 ml
+                - heading "Colin Glass & Surface Cleaner Spray" [level=3] [ref=f1e331]
+                - generic [ref=f1e332]: "4.7"
+              - generic [ref=f1e336]:
+                - generic [ref=f1e337]: ₹105
+                - generic [ref=f1e338]: ₹120
+              - button "ADD" [ref=f1e340]
+          - generic [ref=f1e343] [cursor=pointer]:
+            - generic: 13% OFF
+            - generic:
+              - img "Aashirvaad Shuddh Chakki Atta"
+            - generic [ref=f1e344]:
+              - generic [ref=f1e345]:
+                - paragraph [ref=f1e346]: 5 kg
+                - heading "Aashirvaad Shuddh Chakki Atta" [level=3] [ref=f1e347]
+                - generic [ref=f1e348]: "4.9"
+              - generic [ref=f1e352]:
+                - generic [ref=f1e353]: ₹245
+                - generic [ref=f1e354]: ₹280
+              - button "ADD" [ref=f1e356]
+          - generic [ref=f1e359] [cursor=pointer]:
+            - generic: 12% OFF
+            - generic:
+              - img "Fresh White Farm Eggs"
+            - generic [ref=f1e360]:
+              - generic [ref=f1e361]:
+                - paragraph [ref=f1e362]: 6 pcs pack
+                - heading "Fresh White Farm Eggs" [level=3] [ref=f1e363]
+                - generic [ref=f1e364]: "4.8"
+              - generic [ref=f1e368]:
+                - generic [ref=f1e369]: ₹79
+                - generic [ref=f1e370]: ₹90
+              - button "ADD" [ref=f1e372]
+          - generic [ref=f1e375] [cursor=pointer]:
+            - generic: 11% OFF
+            - generic:
+              - img "Coca-Cola Zero Sugar"
+            - generic [ref=f1e376]:
+              - generic [ref=f1e377]:
+                - paragraph [ref=f1e378]: 300 ml Can
+                - heading "Coca-Cola Zero Sugar" [level=3] [ref=f1e379]
+                - generic [ref=f1e380]: "4.7"
+              - generic [ref=f1e384]:
+                - generic [ref=f1e385]: ₹40
+                - generic [ref=f1e386]: ₹45
+              - button "ADD" [ref=f1e388]
+          - generic [ref=f1e391] [cursor=pointer]:
+            - generic: 11% OFF
+            - generic:
+              - img "Coca-Cola Zero Sugar"
+            - generic [ref=f1e392]:
+              - generic [ref=f1e393]:
+                - paragraph [ref=f1e394]: 300 ml Can
+                - heading "Coca-Cola Zero Sugar" [level=3] [ref=f1e395]
+                - generic [ref=f1e396]: "4.7"
+              - generic [ref=f1e400]:
+                - generic [ref=f1e401]: ₹40
+                - generic [ref=f1e402]: ₹45
+              - button "ADD" [ref=f1e404]
+          - generic [ref=f1e407] [cursor=pointer]:
+            - generic: 10% OFF
+            - generic:
+              - img "Britannia 100% Whole Wheat Bread"
+            - generic [ref=f1e408]:
+              - generic [ref=f1e409]:
+                - paragraph [ref=f1e410]: 400 g
+                - heading "Britannia 100% Whole Wheat Bread" [level=3] [ref=f1e411]
+                - generic [ref=f1e412]: "4.8"
+              - generic [ref=f1e416]:
+                - generic [ref=f1e417]: ₹45
+                - generic [ref=f1e418]: ₹50
+              - button "ADD" [ref=f1e420]
+          - generic [ref=f1e423] [cursor=pointer]:
+            - generic: 10% OFF
+            - generic:
+              - img "Britannia 100% Whole Wheat Bread"
+            - generic [ref=f1e424]:
+              - generic [ref=f1e425]:
+                - paragraph [ref=f1e426]: 400 g
+                - heading "Britannia 100% Whole Wheat Bread" [level=3] [ref=f1e427]
+                - generic [ref=f1e428]: "4.8"
+              - generic [ref=f1e432]:
+                - generic [ref=f1e433]: ₹45
+                - generic [ref=f1e434]: ₹50
+              - button "ADD" [ref=f1e436]
+      - generic [ref=f1e438]:
+        - generic [ref=f1e440]:
+          - heading "🥬 Your daily fresh needs" [level=3] [ref=f1e441]
+          - paragraph [ref=f1e442]: Vegetables & fruits, restocked every morning.
+        - generic [ref=f1e443]:
+          - generic [ref=f1e445] [cursor=pointer]:
+            - generic: 17% OFF
+            - generic:
+              - img "Fresh Red Onion (Pyaz)"
+            - generic [ref=f1e446]:
+              - generic [ref=f1e447]:
+                - paragraph [ref=f1e448]: 1 kg
+                - heading "Fresh Red Onion (Pyaz)" [level=3] [ref=f1e449]
+                - generic [ref=f1e451]:
+                  - text: "4.9"
+                  - generic [ref=f1e454]: (891)
+              - generic [ref=f1e455]:
+                - generic [ref=f1e456]: ₹29
+                - generic [ref=f1e457]: ₹35
+              - button "ADD" [ref=f1e459]
+          - generic [ref=f1e462] [cursor=pointer]:
+            - generic: 24% OFF
+            - generic:
+              - img "Fresh Hybrid Capsicum Green"
+            - generic [ref=f1e463]:
+              - generic [ref=f1e464]:
+                - paragraph [ref=f1e465]: 250 g
+                - heading "Fresh Hybrid Capsicum Green" [level=3] [ref=f1e466]
+                - generic [ref=f1e468]:
+                  - text: "4.7"
+                  - generic [ref=f1e471]: (4,172)
+              - generic [ref=f1e472]:
+                - generic [ref=f1e473]: ₹42
+                - generic [ref=f1e474]: ₹55
+              - button "ADD" [ref=f1e476]
+          - generic [ref=f1e479] [cursor=pointer]:
+            - generic: 24% OFF
+            - generic:
+              - img "Organic Farm Fresh Tomatoes"
+            - generic [ref=f1e480]:
+              - generic [ref=f1e481]:
+                - paragraph [ref=f1e482]: 500 g
+                - heading "Organic Farm Fresh Tomatoes" [level=3] [ref=f1e483]
+                - generic [ref=f1e485]:
+                  - text: "4.8"
+                  - generic [ref=f1e488]: (12.6k)
+              - generic [ref=f1e489]:
+                - generic [ref=f1e490]: ₹38
+                - generic [ref=f1e491]: ₹50
+              - button "ADD" [ref=f1e493]
+      - main [ref=f1e497]:
+        - generic [ref=f1e499]:
+          - heading "All Products" [level=2] [ref=f1e500]
+          - paragraph [ref=f1e501]: 16 items
+        - generic [ref=f1e503]:
+          - button "Sort · Popularity" [ref=f1e505] [cursor=pointer]:
+            - text: Sort ·
+            - generic [ref=f1e506]: Popularity
+          - button "Filter" [ref=f1e509] [cursor=pointer]
+        - generic [ref=f1e511]:
+          - generic [ref=f1e513] [cursor=pointer]:
+            - generic: 6% OFF
+            - generic:
+              - img "Amul Pasteurised Butter"
+            - generic [ref=f1e514]:
+              - generic [ref=f1e515]:
+                - paragraph [ref=f1e516]: 100 g
+                - heading "Amul Pasteurised Butter" [level=3] [ref=f1e517]
+                - generic [ref=f1e518]: "5"
+              - generic [ref=f1e522]:
+                - generic [ref=f1e523]: ₹58
+                - generic [ref=f1e524]: ₹62
+              - button "ADD" [ref=f1e526]
+          - generic [ref=f1e529] [cursor=pointer]:
+            - generic: 7% OFF
+            - generic:
+              - img "Maggi 2-Minute Masala Noodles"
+            - generic [ref=f1e530]:
+              - generic [ref=f1e531]:
+                - paragraph [ref=f1e532]: 70 g Pack
+                - heading "Maggi 2-Minute Masala Noodles" [level=3] [ref=f1e533]
+                - generic [ref=f1e534]: "4.9"
+              - generic [ref=f1e538]:
+                - generic [ref=f1e539]: ₹14
+                - generic [ref=f1e540]: ₹15
+              - button "ADD" [ref=f1e542]
+          - generic [ref=f1e545] [cursor=pointer]:
+            - generic: 7% OFF
+            - generic:
+              - img "Amul Taaza Toned Milk"
+            - generic [ref=f1e546]:
+              - generic [ref=f1e547]:
+                - paragraph [ref=f1e548]: 500 ml
+                - heading "Amul Taaza Toned Milk" [level=3] [ref=f1e549]
+                - generic [ref=f1e550]: "4.9"
+              - generic [ref=f1e554]:
+                - generic [ref=f1e555]: ₹28
+                - generic [ref=f1e556]: ₹30
+              - button "ADD" [ref=f1e558]
+          - generic [ref=f1e561] [cursor=pointer]:
+            - generic:
+              - img "Lay's India's Magic Masala Potato Chips"
+            - generic [ref=f1e562]:
+              - generic [ref=f1e563]:
+                - paragraph [ref=f1e564]: 50 g
+                - heading "Lay's India's Magic Masala Potato Chips" [level=3] [ref=f1e565]
+                - generic [ref=f1e567]:
+                  - text: "4.9"
+                  - generic [ref=f1e570]: (12.5k)
+              - generic [ref=f1e571]:
+                - generic [ref=f1e572]: ₹20
+                - generic [ref=f1e573]: ₹20
+              - button "ADD" [ref=f1e575]
+          - generic [ref=f1e578] [cursor=pointer]:
+            - generic: 13% OFF
+            - generic:
+              - img "Aashirvaad Shuddh Chakki Atta"
+            - generic [ref=f1e579]:
+              - generic [ref=f1e580]:
+                - paragraph [ref=f1e581]: 5 kg
+                - heading "Aashirvaad Shuddh Chakki Atta" [level=3] [ref=f1e582]
+                - generic [ref=f1e583]: "4.9"
+              - generic [ref=f1e587]:
+                - generic [ref=f1e588]: ₹245
+                - generic [ref=f1e589]: ₹280
+              - button "ADD" [ref=f1e591]
+          - generic [ref=f1e594] [cursor=pointer]:
+            - generic: 17% OFF
+            - generic:
+              - img "Fresh Red Onion (Pyaz)"
+            - generic [ref=f1e595]:
+              - generic [ref=f1e596]:
+                - paragraph [ref=f1e597]: 1 kg
+                - heading "Fresh Red Onion (Pyaz)" [level=3] [ref=f1e598]
+                - generic [ref=f1e600]:
+                  - text: "4.9"
+                  - generic [ref=f1e603]: (891)
+              - generic [ref=f1e604]:
+                - generic [ref=f1e605]: ₹29
+                - generic [ref=f1e606]: ₹35
+              - button "ADD" [ref=f1e608]
+          - generic [ref=f1e611] [cursor=pointer]:
+            - generic: 15% OFF
+            - generic:
+              - img "Nivea Body Milk Nourishing Body Lotion"
+            - generic [ref=f1e612]:
+              - generic [ref=f1e613]:
+                - paragraph [ref=f1e614]: 400 ml
+                - heading "Nivea Body Milk Nourishing Body Lotion" [level=3] [ref=f1e615]
+                - generic [ref=f1e616]: "4.8"
+              - generic [ref=f1e620]:
+                - generic [ref=f1e621]: ₹299
+                - generic [ref=f1e622]: ₹350
+              - button "ADD" [ref=f1e624]
+          - generic [ref=f1e627] [cursor=pointer]:
+            - generic: 16% OFF
+            - generic:
+              - img "Fortune Sunlite Refined Sunflower Oil"
+            - generic [ref=f1e628]:
+              - generic [ref=f1e629]:
+                - paragraph [ref=f1e630]: 1 L Pouch
+                - heading "Fortune Sunlite Refined Sunflower Oil" [level=3] [ref=f1e631]
+                - generic [ref=f1e632]: "4.8"
+              - generic [ref=f1e636]:
+                - generic [ref=f1e637]: ₹135
+                - generic [ref=f1e638]: ₹160
+              - button "ADD" [ref=f1e640]
+          - generic [ref=f1e643] [cursor=pointer]:
+            - generic: 10% OFF
+            - generic:
+              - img "Britannia 100% Whole Wheat Bread"
+            - generic [ref=f1e644]:
+              - generic [ref=f1e645]:
+                - paragraph [ref=f1e646]: 400 g
+                - heading "Britannia 100% Whole Wheat Bread" [level=3] [ref=f1e647]
+                - generic [ref=f1e648]: "4.8"
+              - generic [ref=f1e652]:
+                - generic [ref=f1e653]: ₹45
+                - generic [ref=f1e654]: ₹50
+              - button "ADD" [ref=f1e656]
+          - generic [ref=f1e659] [cursor=pointer]:
+            - generic: 12% OFF
+            - generic:
+              - img "Fresh White Farm Eggs"
+            - generic [ref=f1e660]:
+              - generic [ref=f1e661]:
+                - paragraph [ref=f1e662]: 6 pcs pack
+                - heading "Fresh White Farm Eggs" [level=3] [ref=f1e663]
+                - generic [ref=f1e664]: "4.8"
+              - generic [ref=f1e668]:
+                - generic [ref=f1e669]: ₹79
+                - generic [ref=f1e670]: ₹90
+              - button "ADD" [ref=f1e672]
+          - generic [ref=f1e675] [cursor=pointer]:
+            - generic: 10% OFF
+            - generic:
+              - img "Britannia 100% Whole Wheat Bread"
+            - generic [ref=f1e676]:
+              - generic [ref=f1e677]:
+                - paragraph [ref=f1e678]: 400 g
+                - heading "Britannia 100% Whole Wheat Bread" [level=3] [ref=f1e679]
+                - generic [ref=f1e680]: "4.8"
+              - generic [ref=f1e684]:
+                - generic [ref=f1e685]: ₹45
+                - generic [ref=f1e686]: ₹50
+              - button "ADD" [ref=f1e688]
+          - generic [ref=f1e691] [cursor=pointer]:
+            - generic: 24% OFF
+            - generic:
+              - img "Organic Farm Fresh Tomatoes"
+            - generic [ref=f1e692]:
+              - generic [ref=f1e693]:
+                - paragraph [ref=f1e694]: 500 g
+                - heading "Organic Farm Fresh Tomatoes" [level=3] [ref=f1e695]
+                - generic [ref=f1e697]:
+                  - text: "4.8"
+                  - generic [ref=f1e700]: (12.6k)
+              - generic [ref=f1e701]:
+                - generic [ref=f1e702]: ₹38
+                - generic [ref=f1e703]: ₹50
+              - button "ADD" [ref=f1e705]
+          - generic [ref=f1e708] [cursor=pointer]:
+            - generic: 11% OFF
+            - generic:
+              - img "Coca-Cola Zero Sugar"
+            - generic [ref=f1e709]:
+              - generic [ref=f1e710]:
+                - paragraph [ref=f1e711]: 300 ml Can
+                - heading "Coca-Cola Zero Sugar" [level=3] [ref=f1e712]
+                - generic [ref=f1e713]: "4.7"
+              - generic [ref=f1e717]:
+                - generic [ref=f1e718]: ₹40
+                - generic [ref=f1e719]: ₹45
+              - button "ADD" [ref=f1e721]
+          - generic [ref=f1e724] [cursor=pointer]:
+            - generic: 11% OFF
+            - generic:
+              - img "Coca-Cola Zero Sugar"
+            - generic [ref=f1e725]:
+              - generic [ref=f1e726]:
+                - paragraph [ref=f1e727]: 300 ml Can
+                - heading "Coca-Cola Zero Sugar" [level=3] [ref=f1e728]
+                - generic [ref=f1e729]: "4.7"
+              - generic [ref=f1e733]:
+                - generic [ref=f1e734]: ₹40
+                - generic [ref=f1e735]: ₹45
+              - button "ADD" [ref=f1e737]
+          - generic [ref=f1e740] [cursor=pointer]:
+            - generic: 13% OFF
+            - generic:
+              - img "Colin Glass & Surface Cleaner Spray"
+            - generic [ref=f1e741]:
+              - generic [ref=f1e742]:
+                - paragraph [ref=f1e743]: 500 ml
+                - heading "Colin Glass & Surface Cleaner Spray" [level=3] [ref=f1e744]
+                - generic [ref=f1e745]: "4.7"
+              - generic [ref=f1e749]:
+                - generic [ref=f1e750]: ₹105
+                - generic [ref=f1e751]: ₹120
+              - button "ADD" [ref=f1e753]
+          - generic [ref=f1e756] [cursor=pointer]:
+            - generic: 24% OFF
+            - generic:
+              - img "Fresh Hybrid Capsicum Green"
+            - generic [ref=f1e757]:
+              - generic [ref=f1e758]:
+                - paragraph [ref=f1e759]: 250 g
+                - heading "Fresh Hybrid Capsicum Green" [level=3] [ref=f1e760]
+                - generic [ref=f1e762]:
+                  - text: "4.7"
+                  - generic [ref=f1e765]: (4,172)
+              - generic [ref=f1e766]:
+                - generic [ref=f1e767]: ₹42
+                - generic [ref=f1e768]: ₹55
+              - button "ADD" [ref=f1e770]
+      - navigation [ref=f1e772]:
+        - generic [ref=f1e773]:
+          - link "Home" [ref=f1e774] [cursor=pointer]:
+            - /url: /
+          - link "Categories" [ref=f1e781] [cursor=pointer]:
+            - /url: /#categories
+          - link "Orders" [ref=f1e790] [cursor=pointer]:
+            - /url: /orders
+          - link "Profile" [ref=f1e797] [cursor=pointer]:
+            - /url: /profile
+  - button "Open Next.js Dev Tools" [ref=f1e808] [cursor=pointer]
+  - alert [ref=f1e812]

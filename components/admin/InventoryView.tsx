@@ -92,6 +92,55 @@ export default function InventoryView({
   const [isUploadingExtra, setIsUploadingExtra] = useState(false);
   const extraImageInputRef = useRef<HTMLInputElement>(null);
 
+  // Phase C attribute fields — kept in their own state buckets so the
+  // main `form` object stays lean. Both blocks default collapsed on the
+  // Add flow (so produce SKUs don't stare at empty nutrition tables) and
+  // open automatically on the Edit flow if the product already has values.
+  const [attrType, setAttrType] = useState("");
+  const [attrShelfLife, setAttrShelfLife] = useState("");
+  const [attrCountry, setAttrCountry] = useState("India");
+  const [attrIngredients, setAttrIngredients] = useState("");
+  // Ordered so the admin form matches how the PDP renders (energy → sodium).
+  const NUTRITION_KEYS = [
+    "servingSize",
+    "energy",
+    "protein",
+    "carbs",
+    "sugar",
+    "fat",
+    "satFat",
+    "transFat",
+    "sodium",
+    "fibre",
+  ] as const;
+  const NUTRITION_LABELS: Record<string, string> = {
+    servingSize: "Serving Size",
+    energy: "Energy",
+    protein: "Protein",
+    carbs: "Carbohydrates",
+    sugar: "Total Sugars",
+    fat: "Fat",
+    satFat: "Saturated Fat",
+    transFat: "Trans Fat",
+    sodium: "Sodium",
+    fibre: "Fibre",
+  };
+  const NUTRITION_HINTS: Record<string, string> = {
+    servingSize: "e.g. 100 g",
+    energy: "e.g. 215 kcal",
+    protein: "e.g. 4.2 g",
+    carbs: "e.g. 32 g",
+    sugar: "e.g. 3 g",
+    fat: "e.g. 8 g",
+    satFat: "e.g. 2 g",
+    transFat: "0 g",
+    sodium: "e.g. 320 mg",
+    fibre: "e.g. 1.5 g",
+  };
+  const [nutrition, setNutrition] = useState<Record<string, string>>({});
+  const [showAttrSection, setShowAttrSection] = useState(false);
+  const [showNutritionSection, setShowNutritionSection] = useState(false);
+
   // Distinct brand values already in the catalog — feeds the brand
   // autocomplete so we don't collect Amul / amul / AMUL variants.
   const brandSuggestions = Array.from(
@@ -246,6 +295,23 @@ export default function InventoryView({
     return CATEGORY_DEFAULT_IMAGES[form.category] || "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&auto=format&fit=crop&q=80";
   };
 
+  // Fold the Phase C attribute state back into what the API expects. Empty
+  // strings become nulls; the nutrition map drops empty rows so the PDP
+  // doesn't render blank cells.
+  const buildAttrPayload = () => {
+    const cleanNutrition: Record<string, string> = {};
+    for (const [k, v] of Object.entries(nutrition)) {
+      if (v && v.trim()) cleanNutrition[k] = v.trim();
+    }
+    return {
+      type: attrType.trim() || null,
+      shelfLife: attrShelfLife.trim() || null,
+      countryOfOrigin: attrCountry.trim() || null,
+      ingredients: attrIngredients.trim() || null,
+      nutrition: Object.keys(cleanNutrition).length > 0 ? cleanNutrition : null,
+    };
+  };
+
   const handleAddSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onAddProduct({
@@ -263,6 +329,7 @@ export default function InventoryView({
       images: extraImages.slice(),
       description: form.description.trim(),
       ratingCount: parseInt(form.ratingCount) || 0,
+      ...buildAttrPayload(),
     });
 
     setIsAddModalOpen(false);
@@ -288,6 +355,7 @@ export default function InventoryView({
       images: extraImages.slice(),
       description: form.description.trim(),
       ratingCount: parseInt(form.ratingCount) || 0,
+      ...buildAttrPayload(),
     });
 
     setEditingProduct(null);
@@ -312,6 +380,19 @@ export default function InventoryView({
       ratingCount: (p.ratingCount ?? 0).toString(),
     });
     setExtraImages(p.images ?? []);
+    setAttrType(p.type ?? "");
+    setAttrShelfLife(p.shelfLife ?? "");
+    setAttrCountry(p.countryOfOrigin ?? "India");
+    setAttrIngredients(p.ingredients ?? "");
+    setNutrition(p.nutrition ?? {});
+    // Auto-open the collapsible when the product already has values so the
+    // admin isn't hunting for their own data.
+    setShowAttrSection(
+      Boolean(p.type || p.shelfLife || (p.countryOfOrigin && p.countryOfOrigin !== "India"))
+    );
+    setShowNutritionSection(
+      Boolean(p.ingredients || (p.nutrition && Object.keys(p.nutrition).length > 0))
+    );
   };
 
   const resetForm = () => {
@@ -331,6 +412,13 @@ export default function InventoryView({
       ratingCount: "0",
     });
     setExtraImages([]);
+    setAttrType("");
+    setAttrShelfLife("");
+    setAttrCountry("India");
+    setAttrIngredients("");
+    setNutrition({});
+    setShowAttrSection(false);
+    setShowNutritionSection(false);
   };
 
   const handleAddCategory = (e: React.FormEvent) => {
@@ -1017,6 +1105,139 @@ export default function InventoryView({
                     add pack-back, ingredients panel, or lifestyle shots for a
                     Blinkit-style carousel.
                   </p>
+                )}
+              </div>
+
+              {/* PHASE C: PRODUCT DETAILS — Blinkit-parity Key Features
+                  chips block on the PDP. All three fields are optional
+                  and hidden by default for produce SKUs. */}
+              <div className="rounded-2xl bg-slate-950 border border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setShowAttrSection((v) => !v)}
+                  className="w-full flex items-center justify-between px-3.5 py-3 text-xs font-black text-slate-300 hover:bg-slate-900 rounded-2xl cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    <FileText className="h-4 w-4 text-purple-400" />
+                    Product Details
+                    <span className="text-[10px] text-slate-500 font-normal">
+                      Type · Shelf Life · Country of Origin
+                    </span>
+                  </span>
+                  <span className="text-[10px] text-slate-500">
+                    {showAttrSection ? "Hide" : "Show"}
+                  </span>
+                </button>
+                {showAttrSection && (
+                  <div className="space-y-2.5 px-3.5 pb-3.5 border-t border-slate-800 pt-3">
+                    <div>
+                      <label className="block text-slate-300 font-bold mb-1">
+                        Type <span className="text-[10px] text-slate-500 font-normal">(e.g. Namkeen &amp; Mixtures)</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={attrType}
+                        onChange={(e) => setAttrType(e.target.value)}
+                        placeholder="Namkeen & Mixtures / Body Wash / Cold Brew Coffee"
+                        className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white focus:border-emerald-500 focus:outline-none"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-slate-300 font-bold mb-1">
+                          Shelf Life
+                        </label>
+                        <input
+                          type="text"
+                          value={attrShelfLife}
+                          onChange={(e) => setAttrShelfLife(e.target.value)}
+                          placeholder="e.g. 180 days"
+                          className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white focus:border-emerald-500 focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-slate-300 font-bold mb-1">
+                          Country of Origin
+                        </label>
+                        <input
+                          type="text"
+                          value={attrCountry}
+                          onChange={(e) => setAttrCountry(e.target.value)}
+                          placeholder="India"
+                          className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white focus:border-emerald-500 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* PHASE C: INGREDIENTS & NUTRITION — free-text ingredients
+                  paragraph plus a structured table of per-serving nutrition
+                  values. Rows admin leaves blank simply don't appear on
+                  the PDP, so this doubles as the API-shape encoder. */}
+              <div className="rounded-2xl bg-slate-950 border border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setShowNutritionSection((v) => !v)}
+                  className="w-full flex items-center justify-between px-3.5 py-3 text-xs font-black text-slate-300 hover:bg-slate-900 rounded-2xl cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    <FileText className="h-4 w-4 text-amber-400" />
+                    Ingredients &amp; Nutrition
+                    <span className="text-[10px] text-slate-500 font-normal">
+                      Packaged FMCG only
+                    </span>
+                  </span>
+                  <span className="text-[10px] text-slate-500">
+                    {showNutritionSection ? "Hide" : "Show"}
+                  </span>
+                </button>
+                {showNutritionSection && (
+                  <div className="space-y-3 px-3.5 pb-3.5 border-t border-slate-800 pt-3">
+                    <div>
+                      <label className="block text-slate-300 font-bold mb-1">
+                        Ingredients
+                      </label>
+                      <textarea
+                        rows={3}
+                        value={attrIngredients}
+                        onChange={(e) => setAttrIngredients(e.target.value)}
+                        maxLength={4000}
+                        placeholder="Paste the ingredient list from the pack — one paragraph is fine."
+                        className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white focus:border-emerald-500 focus:outline-none resize-none"
+                      />
+                      <p className="text-[10px] text-slate-500 mt-0.5 text-right">
+                        {attrIngredients.length}/4000
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-slate-300 font-bold mb-1.5">
+                        Nutritional information
+                        <span className="text-[10px] text-slate-500 font-normal ml-1">
+                          (leave blank to hide a row)
+                        </span>
+                      </p>
+                      <div className="grid grid-cols-2 gap-2">
+                        {NUTRITION_KEYS.map((k) => (
+                          <div key={k}>
+                            <label className="block text-[10px] font-bold uppercase text-slate-400 mb-0.5">
+                              {NUTRITION_LABELS[k]}
+                            </label>
+                            <input
+                              type="text"
+                              value={nutrition[k] ?? ""}
+                              onChange={(e) =>
+                                setNutrition((prev) => ({ ...prev, [k]: e.target.value }))
+                              }
+                              placeholder={NUTRITION_HINTS[k]}
+                              className="w-full rounded-lg border border-slate-800 bg-slate-950 p-2 text-white focus:border-emerald-500 focus:outline-none"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 

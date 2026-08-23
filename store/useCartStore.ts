@@ -20,6 +20,14 @@ export interface Product {
   brand?: string | null;
   isVeg?: boolean;
   variants?: ProductVariantLite[];
+  // Phase C attribute fields — surfaced on the PDP as key-feature chips
+  // and optional ingredients/nutrition sections. All optional; missing
+  // values are hidden entirely (not rendered as empty rows).
+  type?: string | null;
+  shelfLife?: string | null;
+  countryOfOrigin?: string | null;
+  ingredients?: string | null;
+  nutrition?: Record<string, string> | null;
 }
 
 /** Lightweight variant shape carried in the cart / catalog. */

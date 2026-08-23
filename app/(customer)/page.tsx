@@ -265,6 +265,40 @@ export default function CustomerPage() {
               </div>
             </div>
 
+            {/* Mobile L3 chip rail — Blinkit-parity. When a specific
+                category is picked, show its subcategories as a horizontal
+                pill row above the grid so shoppers can hop between L3s
+                without scrolling back up to MobileCategoryGrid. Desktop
+                already has this via CategoryHierarchy in the sidebar, so
+                the rail is md:hidden. */}
+            {selectedCategory !== "all" &&
+              (() => {
+                const cat = CATEGORIES.find((c) => c.id === selectedCategory);
+                if (!cat || !cat.subcategories || cat.subcategories.length <= 1)
+                  return null;
+                return (
+                  <div className="md:hidden -mx-4 mb-3 flex gap-2 overflow-x-auto px-4 pb-1 no-scrollbar">
+                    {cat.subcategories.map((sub) => {
+                      const active = sub === selectedSubcategory;
+                      return (
+                        <button
+                          key={sub}
+                          type="button"
+                          onClick={() => setSelectedSubcategory(sub)}
+                          className={`flex-shrink-0 rounded-full border px-3 py-1.5 text-[11px] font-black transition-all cursor-pointer ${
+                            active
+                              ? "border-emerald-600 bg-emerald-600 text-white shadow"
+                              : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
+                          }`}
+                        >
+                          {sub === "All Items" ? "All" : sub}
+                        </button>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
+
             {/* UX-09 — sort / filter is UI weight before a value when the
                 category is small. For 8 items or fewer the customer can
                 scan the whole grid faster than they can pick a filter, and
