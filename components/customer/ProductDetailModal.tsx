@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Product, ProductVariantLite, useCartStore } from "@/store/useCartStore";
 import { CATEGORIES, ExtendedProduct } from "@/lib/dummyData";
@@ -24,28 +24,96 @@ interface ProductDetailModalProps {
 }
 
 export default function ProductDetailModal({
-  product,
+  product: initialProduct,
   onClose,
 }: ProductDetailModalProps) {
   const { items, addItem, decreaseQuantity } = useCartStore();
   const catalog = useProductStore((s) => s.products);
   const [imageError, setImageError] = useState(false);
 
+  // Merchandising pins — { [categoryId]: productId[] } from admin/settings.
+  // Fetched lazily on modal open so we don't pay for it on every home
+  // render. Failure to load = fall back to the algorithmic sort (no crash).
+  const [featuredByCategory, setFeaturedByCategory] = useState<
+    Record<string, string[]>
+  >({});
+  useEffect(() => {
+    let cancelled = false;
+    if (!initialProduct) return; // don't fetch while closed
+    fetch("/api/store-settings")
+      .then((r) => r.json())
+      .then((d) => {
+        if (cancelled) return;
+        setFeaturedByCategory(
+          (d?.featuredByCategory as Record<string, string[]>) ?? {}
+        );
+      })
+      .catch(() => {
+        /* ignore — algorithmic fallback is fine */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [initialProduct?.id]);
+
+  // ─── In-modal product hand-off ─────────────────────────────
+  // When a related-rail card is tapped INSIDE the PDP modal, we swap the
+  // shown product locally instead of unmount-remount. Preserves the modal
+  // (no fade-out flash), preserves cart context, and matches how Blinkit's
+  // PDP feels — same sheet, new content. When the prop itself changes
+  // (parent opened a different product) we sync.
+  const [activeProduct, setActiveProduct] = useState<ExtendedProduct | null>(
+    initialProduct
+  );
+  const scrollBodyRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    // Sync from prop → local. Also happens on close: `initialProduct` is null.
+    setActiveProduct(initialProduct);
+    // Reset image-error too so a broken image on product A doesn't hide
+    // the OK image on product B.
+    setImageError(false);
+    // Reset scroll to top so the shopper sees the swapped product's images
+    // first, not the middle of the previous product's nutrition table.
+    if (scrollBodyRef.current) scrollBodyRef.current.scrollTop = 0;
+  }, [initialProduct?.id]);
+
+  const swapTo = (p: ExtendedProduct) => {
+    setActiveProduct(p);
+    setImageError(false);
+    if (scrollBodyRef.current) scrollBodyRef.current.scrollTop = 0;
+  };
+
+  // Everything below reads `activeProduct` — the prop is only the initial
+  // seed. Alias it so the rest of the render is a mechanical rename.
+  const p2 = activeProduct;
+
   // ─── Variant selection ─────────────────────────────────────
   // If the product has explicit variants, show a picker. Otherwise the base
   // product acts as the sole "variant" (backward-compat).
-  const variants: ProductVariantLite[] = (product as any)?.variants ?? [];
+  const variants: ProductVariantLite[] = (p2 as any)?.variants ?? [];
   const hasVariants = variants.length > 0;
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     hasVariants
       ? (variants.find((v) => v.isDefault) ?? variants[0]).id
       : null
   );
+  // Reset the selected variant when the product swaps — a variant id from
+  // product A is meaningless on product B and would silently collapse the
+  // picker to `variants[0]` without honoring the new product's default.
+  useEffect(() => {
+    if (!p2) return;
+    const vs: ProductVariantLite[] = (p2 as any)?.variants ?? [];
+    setSelectedVariantId(
+      vs.length > 0 ? (vs.find((v) => v.isDefault) ?? vs[0]).id : null
+    );
+  }, [p2?.id]);
   const selectedVariant = hasVariants
     ? variants.find((v) => v.id === selectedVariantId) ?? variants[0]
     : null;
 
-  if (!product) return null;
+  if (!p2) return null;
+  // Local alias so the JSX below (untouched) reads from `product`.
+  const product = p2;
 
   // Effective display values — variant wins if selected.
   const effectivePrice = selectedVariant?.price ?? product.price;
@@ -90,7 +158,7 @@ export default function ProductDetailModal({
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div ref={scrollBodyRef} className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* Top Section: High-Res Image Carousel & Highlights */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
             {/* Image Carousel — Blinkit-parity. Falls back to a single image
@@ -123,6 +191,23 @@ export default function ProductDetailModal({
                 <h2 className="mt-1 text-lg font-black text-slate-900 leading-tight">
                   {product.name}
                 </h2>
+                {product.brand && (
+                  // Blinkit-parity "Explore all Amul" chip. Links to a
+                  // brand-filter listing so the shopper can browse the
+                  // brand's whole shelf without a search query. Local
+                  // <a> because Next.js's Link routes need the client-side
+                  // router which we already have; but this modal is a
+                  // client component so plain <a> is fine and avoids
+                  // circular imports.
+                  <a
+                    href={`/b/${encodeURIComponent(product.brand)}`}
+                    onClick={onClose}
+                    className="mt-1.5 inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50/70 px-2.5 py-0.5 text-[11px] font-black text-emerald-700 hover:bg-emerald-100"
+                  >
+                    Explore all {product.brand}
+                    <span aria-hidden>›</span>
+                  </a>
+                )}
                 {effectiveWeight && (
                   <p className="text-xs font-semibold text-slate-500 mt-0.5">
                     Pack: {effectiveWeight}
@@ -388,18 +473,27 @@ export default function ProductDetailModal({
             // Similar → same subcategory, fall back to same category, then
             // to any other product.
             const similar = pick([bySubcategory, byCategory, others]);
-            // Top in category → sort within same category by ratingCount,
-            // fall back to top-scored across the whole catalog.
-            const topInCategory = pick([
-              byCategory
-                .slice()
-                .sort(
-                  (a, b) =>
-                    (b.ratingCount ?? 0) - (a.ratingCount ?? 0) ||
-                    (b.rating ?? 0) - (a.rating ?? 0)
-                ),
-              topScored,
-            ]);
+            // Top in category → merchandising pins for this L2 lead the
+            // rail (admin-curated), then algorithmic sort fills the rest,
+            // and finally the whole-catalog top-scored list as a safety
+            // net for sparse categories.
+            const pinnedIds = new Set(
+              featuredByCategory[product.category] ?? []
+            );
+            const pinnedInOrder = (
+              featuredByCategory[product.category] ?? []
+            )
+              .map((pid) => others.find((p) => p.id === pid))
+              .filter((p): p is ExtendedProduct => Boolean(p));
+            const algorithmic = byCategory
+              .filter((p) => !pinnedIds.has(p.id))
+              .slice()
+              .sort(
+                (a, b) =>
+                  (b.ratingCount ?? 0) - (a.ratingCount ?? 0) ||
+                  (b.rating ?? 0) - (a.rating ?? 0)
+              );
+            const topInCategory = pick([pinnedInOrder, algorithmic, topScored]);
             // Placeholder co-occurrence signal — same category / different
             // subcategory, then fall back to any other. Swap this for real
             // order-line co-occurrence once order density is high enough.
@@ -410,16 +504,19 @@ export default function ProductDetailModal({
                   title="Similar products"
                   subtitle="Same shelf, similar picks."
                   products={similar}
+                  onSelect={swapTo}
                 />
                 <RelatedRail
                   title="Top in this category"
                   subtitle="Most-rated in the same aisle."
                   products={topInCategory}
+                  onSelect={swapTo}
                 />
                 <RelatedRail
                   title="People also bought"
                   subtitle="Frequently paired with this."
                   products={alsoBought}
+                  onSelect={swapTo}
                 />
               </>
             );
@@ -591,10 +688,12 @@ function RelatedRail({
   title,
   subtitle,
   products,
+  onSelect,
 }: {
   title: string;
   subtitle: string;
   products: ExtendedProduct[];
+  onSelect: (p: ExtendedProduct) => void;
 }) {
   // A rail with 1 product reads as broken; 2 or more looks intentional.
   // Blinkit itself sometimes shows 2-card rails on cold-start categories,
@@ -611,7 +710,12 @@ function RelatedRail({
       <div className="-mx-6 flex gap-3 overflow-x-auto px-6 pb-1 snap-x no-scrollbar">
         {products.map((p) => (
           <div key={p.id} className="w-36 flex-shrink-0 snap-start">
-            <ProductCard product={p} />
+            {/* onSelect wires the card's whole-body tap to the modal's
+                in-place product swap — no unmount/remount flash. ADD /
+                stepper clicks inside the card still stopPropagation, so
+                adding to cart from a related rail doesn't accidentally
+                swap the visible product. */}
+            <ProductCard product={p} onSelect={() => onSelect(p)} />
           </div>
         ))}
       </div>

@@ -9,6 +9,7 @@ export const GET = handler(async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const category = searchParams.get("category");
   const query = searchParams.get("q");
+  const brand = searchParams.get("brand");
   const storeId = searchParams.get("store_id");
   const includeInactive = searchParams.get("includeInactive") === "true";
 
@@ -16,6 +17,13 @@ export const GET = handler(async (req: NextRequest) => {
     where: {
       ...(includeInactive ? {} : { isActive: true }),
       ...(category && category !== "all" ? { categoryId: category } : {}),
+      // Brand filter — case-insensitive equals. Feeds the /b/[brand] route.
+      // We deliberately compare case-insensitively so "amul" and "AMUL"
+      // both hit the same collection; admins can still be sloppy without
+      // splitting the brand into ghost buckets.
+      ...(brand
+        ? { brand: { equals: brand, mode: "insensitive" } }
+        : {}),
       ...(query
         ? {
             OR: [

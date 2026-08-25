@@ -370,6 +370,11 @@ model StoreSetting {
   // Rotating placeholders shown in the storefront header search bar. Cycled
   // every ~3 s in the CustomerHeader. Edit from admin/settings.
   searchPlaceholders   String[] @default(["bread", "milk", "eggs", "chips", "paneer", "curd", "rice", "chocolate"])
+  // Merchandising pins — { [categoryId]: productId[] }. Feeds the PDP
+  // "Top in this category" rail: pinned products lead, then algorithmic
+  // sort fills the rest. Empty / missing categoryId falls back to the
+  // pure algorithmic sort we shipped in Phase C. Edit from admin/settings.
+  featuredByCategory   Json?
   updatedAt          DateTime @updatedAt
   createdAt          DateTime @default(now())
 }

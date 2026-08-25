@@ -29,6 +29,19 @@ export interface AdminProduct {
   countryOfOrigin?: string | null;
   ingredients?: string | null;
   nutrition?: Record<string, string> | null;
+  // Phase D variant editor payload. Persisted to /api/products/:id/variants
+  // AFTER the product itself saves — variants live in their own table and
+  // aren't accepted by POST/PATCH /api/products.
+  variants?: {
+    id?: string;
+    sku?: string;
+    label: string;
+    price: number; // rupees
+    originalPrice?: number | null; // rupees
+    stock: number;
+    isDefault?: boolean;
+    sortOrder?: number;
+  }[];
 }
 
 export interface DarkStore {

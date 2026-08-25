@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import AdminSidebar from "@/components/admin/AdminSidebar";
+import { CATEGORIES } from "@/lib/dummyData";
 import {
   Menu,
   Power,
@@ -52,6 +53,8 @@ interface Settings {
   slotLeadMinutes: number;
   /** Rotating storefront search-bar placeholders. */
   searchPlaceholders: string[];
+  /** Admin-curated merchandising pins per L2 category. */
+  featuredByCategory: Record<string, string[]>;
   open?: boolean;
   reason?: string | null;
 }
@@ -97,6 +100,10 @@ export default function AdminSettingsPage() {
         searchPlaceholders: Array.isArray(data.searchPlaceholders)
           ? data.searchPlaceholders
           : [],
+        featuredByCategory:
+          data.featuredByCategory && typeof data.featuredByCategory === "object"
+            ? (data.featuredByCategory as Record<string, string[]>)
+            : {},
         open: data.open,
         reason: data.closed_reason,
       });
@@ -573,6 +580,18 @@ export default function AdminSettingsPage() {
                 onSave={() => save({ searchPlaceholders: s.searchPlaceholders })}
                 saving={saving}
               />
+
+              {/* ─── Merchandising pins per category ─────────────────
+                  Pinned products lead the PDP "Top in this category" rail
+                  before the algorithmic sort. Server caps at 12 per L2. */}
+              <MerchandisingPinsEditor
+                value={s.featuredByCategory}
+                onChange={(next) => setS({ ...s, featuredByCategory: next })}
+                onSave={() =>
+                  save({ featuredByCategory: s.featuredByCategory })
+                }
+                saving={saving}
+              />
             </>
           )}
         </main>
@@ -689,6 +708,208 @@ function SearchPlaceholderEditor({
         {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
         Save search suggestions
       </button>
+    </section>
+  );
+}
+
+/**
+ * Per-category merchandising pinner. Feeds StoreSetting.featuredByCategory.
+ *
+ * UX: one card per L1 category (loaded from CATEGORIES). Each card shows
+ * the current pins as chips (with × to remove) and a dropdown to add a
+ * product from that category's inventory. Server dedupes + caps at 12
+ * pins per category, mirrored client-side so the admin sees the same limit.
+ *
+ * Products are fetched lazily on mount; loading state hides the pinner.
+ */
+function MerchandisingPinsEditor({
+  value,
+  onChange,
+  onSave,
+  saving,
+}: {
+  value: Record<string, string[]>;
+  onChange: (next: Record<string, string[]>) => void;
+  onSave: () => void;
+  saving: boolean;
+}) {
+  const CAP = 12;
+  const [products, setProducts] = useState<
+    { id: string; name: string; category: string; imageUrl?: string }[]
+  >([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/products?includeInactive=true", { credentials: "include" })
+      .then((r) => r.json())
+      .then((d) => {
+        if (cancelled) return;
+        if (!d.success) throw new Error(d.message);
+        setProducts(
+          (d.products ?? []).map((p: any) => ({
+            id: p.id,
+            name: p.name,
+            category: p.category,
+            imageUrl: p.imageUrl,
+          }))
+        );
+      })
+      .catch((e) => !cancelled && setError(e.message ?? "Load failed"))
+      .finally(() => !cancelled && setLoadingProducts(false));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const productsByCategory = new Map<string, typeof products>();
+  for (const p of products) {
+    const arr = productsByCategory.get(p.category) ?? [];
+    arr.push(p);
+    productsByCategory.set(p.category, arr);
+  }
+
+  const nameOf = (id: string) =>
+    products.find((p) => p.id === id)?.name ?? id;
+
+  const addPin = (catId: string, pid: string) => {
+    if (!pid) return;
+    const current = value[catId] ?? [];
+    if (current.includes(pid)) return;
+    if (current.length >= CAP) return;
+    onChange({ ...value, [catId]: [...current, pid] });
+  };
+  const removePin = (catId: string, pid: string) => {
+    const current = value[catId] ?? [];
+    const next = current.filter((x) => x !== pid);
+    const clone = { ...value };
+    if (next.length === 0) delete clone[catId];
+    else clone[catId] = next;
+    onChange(clone);
+  };
+  const clearAll = () => onChange({});
+
+  return (
+    <section className="space-y-4 rounded-2xl border border-slate-800 bg-slate-950 p-5">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <h2 className="text-sm font-black text-white flex items-center gap-2">
+            <Pencil className="h-4 w-4 text-cyan-400" />
+            Merchandising pins
+          </h2>
+          <p className="text-[11px] text-slate-500 mt-0.5">
+            Pinned products lead the PDP "Top in this category" rail before the
+            algorithmic sort. Max {CAP} per category.
+          </p>
+        </div>
+        <div className="flex gap-2">
+          {Object.keys(value).length > 0 && (
+            <button
+              onClick={clearAll}
+              className="flex items-center gap-1 rounded-xl border border-rose-500/40 bg-rose-950/50 px-3 py-1.5 text-[11px] font-bold text-rose-300 hover:bg-rose-950 cursor-pointer"
+            >
+              <Trash2 className="h-3 w-3" /> Clear all
+            </button>
+          )}
+          <button
+            onClick={onSave}
+            disabled={saving || loadingProducts}
+            className="flex items-center gap-2 rounded-xl bg-cyan-600 px-4 py-2 text-xs font-extrabold text-white shadow disabled:opacity-60 cursor-pointer"
+          >
+            {saving ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <Save className="h-3.5 w-3.5" />
+            )}
+            Save pins
+          </button>
+        </div>
+      </div>
+
+      {loadingProducts && (
+        <div className="text-xs text-slate-500 flex items-center gap-2">
+          <Loader2 className="h-3.5 w-3.5 animate-spin" /> Loading products…
+        </div>
+      )}
+      {error && (
+        <div className="text-xs text-rose-400">
+          {error}
+        </div>
+      )}
+
+      {!loadingProducts && !error && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {CATEGORIES.filter((c) => c.id !== "all").map((cat) => {
+            const pins = value[cat.id] ?? [];
+            const availableProducts = (productsByCategory.get(cat.id) ?? []).filter(
+              (p) => !pins.includes(p.id)
+            );
+            return (
+              <div
+                key={cat.id}
+                className="rounded-xl border border-slate-800 bg-slate-900 p-3 space-y-2"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-xs font-black text-white flex items-center gap-1.5">
+                    <span>{cat.icon}</span>
+                    {cat.name}
+                  </p>
+                  <span className="text-[10px] font-bold text-slate-500">
+                    {pins.length}/{CAP}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5 min-h-[24px]">
+                  {pins.length === 0 && (
+                    <span className="text-[10px] text-slate-500">
+                      No pins — algorithmic sort only.
+                    </span>
+                  )}
+                  {pins.map((pid, i) => (
+                    <span
+                      key={pid}
+                      className="inline-flex items-center gap-1 rounded-full border border-cyan-500/40 bg-cyan-950/60 px-2 py-0.5 text-[10px] font-bold text-cyan-200"
+                    >
+                      <span className="text-cyan-400">#{i + 1}</span>
+                      <span className="truncate max-w-[120px]">{nameOf(pid)}</span>
+                      <button
+                        type="button"
+                        onClick={() => removePin(cat.id, pid)}
+                        className="text-cyan-400 hover:text-rose-300 cursor-pointer"
+                        aria-label={`Remove ${nameOf(pid)} from ${cat.name} pins`}
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                {availableProducts.length > 0 && pins.length < CAP && (
+                  <select
+                    value=""
+                    onChange={(e) => {
+                      addPin(cat.id, e.target.value);
+                      e.currentTarget.value = "";
+                    }}
+                    className="w-full rounded-lg border border-slate-800 bg-slate-950 p-1.5 text-[11px] text-slate-300 focus:border-cyan-500 focus:outline-none cursor-pointer"
+                  >
+                    <option value="">Pin a product…</option>
+                    {availableProducts.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
+                {availableProducts.length === 0 && pins.length > 0 && (
+                  <p className="text-[10px] text-slate-500">
+                    All products in this category are pinned.
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 }

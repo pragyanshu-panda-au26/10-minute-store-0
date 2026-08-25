@@ -1,0 +1,85 @@
+- generic [active] [ref=f2e1]:
+  - main [ref=f2e3]:
+    - generic [ref=f2e148]:
+      - generic [ref=f2e151]:
+        - generic [ref=f2e153]:
+          - link "10m" [ref=f2e154] [cursor=pointer]:
+            - /url: /
+          - generic [ref=f2e155]:
+            - link "Delivery in ~10 min" [ref=f2e157] [cursor=pointer]:
+              - /url: /
+            - button "No address selected" [ref=f2e158] [cursor=pointer]
+        - textbox "Search \"chocolate\"" [ref=f2e163] [cursor=pointer]
+        - generic [ref=f2e168]:
+          - button "GPS Location" [ref=f2e169] [cursor=pointer]
+          - link "Guest" [ref=f2e173] [cursor=pointer]:
+            - /url: /profile
+      - generic [ref=f2e180]:
+        - link "Back to home" [ref=f2e181] [cursor=pointer]:
+          - /url: /
+        - generic [ref=f2e184]:
+          - heading "Grocery & Kitchen" [level=1] [ref=f2e185]
+          - paragraph [ref=f2e186]: 7 items across 7 shelves
+      - generic [ref=f2e187]:
+        - complementary [ref=f2e188]:
+          - generic [ref=f2e191]:
+            - button "All Items" [ref=f2e192] [cursor=pointer]
+            - button "Vegetables & Fruits" [ref=f2e193] [cursor=pointer]
+            - button "Atta, Rice & Dal" [ref=f2e194] [cursor=pointer]
+            - button "Oil, Ghee & Masala" [ref=f2e195] [cursor=pointer]
+            - button "Dairy, Bread & Eggs" [ref=f2e196] [cursor=pointer]
+            - button "Dry Fruits & Cereals" [ref=f2e197] [cursor=pointer]
+            - button "Chicken, Meat & Fish" [ref=f2e198] [cursor=pointer]
+            - button "Kitchenware & Appliances" [ref=f2e199] [cursor=pointer]
+        - generic [ref=f2e200]:
+          - heading "Vegetables & Fruits3 items" [level=2] [ref=f2e201]:
+            - text: Vegetables & Fruits
+            - generic [ref=f2e202]: 3 items
+          - generic [ref=f2e203]:
+            - generic [ref=f2e204] [cursor=pointer]:
+              - generic: 17% OFF
+              - generic:
+                - img "Fresh Red Onion (Pyaz)"
+              - generic [ref=f2e205]:
+                - generic [ref=f2e206]:
+                  - paragraph [ref=f2e207]: 1 kg
+                  - heading "Fresh Red Onion (Pyaz)" [level=3] [ref=f2e208]
+                  - generic [ref=f2e210]:
+                    - text: "4.9"
+                    - generic [ref=f2e213]: (891)
+                - generic [ref=f2e214]:
+                  - generic [ref=f2e215]: ₹29
+                  - generic [ref=f2e216]: ₹35
+                - button "ADD" [ref=f2e218]
+            - generic [ref=f2e220] [cursor=pointer]:
+              - generic: 24% OFF
+              - generic:
+                - img "Fresh Hybrid Capsicum Green"
+              - generic [ref=f2e221]:
+                - generic [ref=f2e222]:
+                  - paragraph [ref=f2e223]: 250 g
+                  - heading "Fresh Hybrid Capsicum Green" [level=3] [ref=f2e224]
+                  - generic [ref=f2e226]:
+                    - text: "4.7"
+                    - generic [ref=f2e229]: (4,172)
+                - generic [ref=f2e230]:
+                  - generic [ref=f2e231]: ₹42
+                  - generic [ref=f2e232]: ₹55
+                - button "ADD" [ref=f2e234]
+            - generic [ref=f2e236] [cursor=pointer]:
+              - generic: 24% OFF
+              - generic:
+                - img "Organic Farm Fresh Tomatoes"
+              - generic [ref=f2e237]:
+                - generic [ref=f2e238]:
+                  - paragraph [ref=f2e239]: 500 g
+                  - heading "Organic Farm Fresh Tomatoes" [level=3] [ref=f2e240]
+                  - generic [ref=f2e242]:
+                    - text: "4.8"
+                    - generic [ref=f2e245]: (12.6k)
+                - generic [ref=f2e246]:
+                  - generic [ref=f2e247]: ₹38
+                  - generic [ref=f2e248]: ₹50
+                - button "ADD" [ref=f2e250]
+  - button "Open Next.js Dev Tools" [ref=f2e143] [cursor=pointer]
+  - alert [ref=f2e147]

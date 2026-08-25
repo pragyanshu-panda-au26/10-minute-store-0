@@ -60,6 +60,13 @@ const patchSchema = z.object({
   slotLeadMinutes: z.number().int().min(0).max(720).optional(),
   // Rotating search placeholder chips. Server dedupes + caps to 12.
   searchPlaceholders: z.array(z.string().min(1).max(40)).max(24).optional(),
+  // Merchandising pins — { [categoryId]: productId[] }. Passing null wipes
+  // all pins. Passing an object replaces the whole map (per-category
+  // deltas are the client's job, keeps the API simple).
+  featuredByCategory: z
+    .record(z.string().min(1).max(60), z.array(z.string().min(1).max(60)).max(30))
+    .nullable()
+    .optional(),
 });
 
 /**

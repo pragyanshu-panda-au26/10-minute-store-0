@@ -141,6 +141,43 @@ export default function InventoryView({
   const [showAttrSection, setShowAttrSection] = useState(false);
   const [showNutritionSection, setShowNutritionSection] = useState(false);
 
+  // Phase D: variant editor. `variants === undefined` means "the admin
+  // never touched variants; leave whatever's in the DB alone." An empty
+  // array is a deliberate "delete all variants" action.
+  const [variantsDraft, setVariantsDraft] = useState<
+    NonNullable<AdminProduct["variants"]> | undefined
+  >(undefined);
+  const [showVariantsSection, setShowVariantsSection] = useState(false);
+  const addVariantRow = () => {
+    setVariantsDraft((prev) => [
+      ...(prev ?? []),
+      {
+        label: "",
+        price: parseFloat(form.price) || 0,
+        originalPrice: parseFloat(form.originalPrice) || undefined,
+        stock: 0,
+        isDefault: (prev?.length ?? 0) === 0,
+        sortOrder: (prev?.length ?? 0) + 1,
+      },
+    ]);
+  };
+  const updateVariantRow = (i: number, patch: Partial<NonNullable<AdminProduct["variants"]>[number]>) => {
+    setVariantsDraft((prev) => {
+      const list = [...(prev ?? [])];
+      list[i] = { ...list[i], ...patch };
+      // Enforce at-most-one default — flipping one on flips others off.
+      if (patch.isDefault === true) {
+        for (let j = 0; j < list.length; j++) {
+          if (j !== i) list[j] = { ...list[j], isDefault: false };
+        }
+      }
+      return list;
+    });
+  };
+  const removeVariantRow = (i: number) => {
+    setVariantsDraft((prev) => (prev ?? []).filter((_, j) => j !== i));
+  };
+
   // Distinct brand values already in the catalog — feeds the brand
   // autocomplete so we don't collect Amul / amul / AMUL variants.
   const brandSuggestions = Array.from(
@@ -330,6 +367,8 @@ export default function InventoryView({
       description: form.description.trim(),
       ratingCount: parseInt(form.ratingCount) || 0,
       ...buildAttrPayload(),
+      // undefined = don't touch server-side variants; empty array = wipe.
+      variants: variantsDraft,
     });
 
     setIsAddModalOpen(false);
@@ -356,6 +395,8 @@ export default function InventoryView({
       description: form.description.trim(),
       ratingCount: parseInt(form.ratingCount) || 0,
       ...buildAttrPayload(),
+      // undefined = don't touch server-side variants; empty array = wipe.
+      variants: variantsDraft,
     });
 
     setEditingProduct(null);
@@ -393,6 +434,11 @@ export default function InventoryView({
     setShowNutritionSection(
       Boolean(p.ingredients || (p.nutrition && Object.keys(p.nutrition).length > 0))
     );
+    // Variants — copy the server rows into local draft so edits stay
+    // client-side until save. Auto-open the section when there are
+    // existing variants so the admin isn't hunting for them.
+    setVariantsDraft(p.variants ? p.variants.map((v) => ({ ...v })) : []);
+    setShowVariantsSection((p.variants?.length ?? 0) > 0);
   };
 
   const resetForm = () => {
@@ -419,6 +465,10 @@ export default function InventoryView({
     setNutrition({});
     setShowAttrSection(false);
     setShowNutritionSection(false);
+    // Add-flow default: no variant edits (undefined → server keeps state).
+    // Edit-flow rehydrates in openEditModal after this runs.
+    setVariantsDraft(undefined);
+    setShowVariantsSection(false);
   };
 
   const handleAddCategory = (e: React.FormEvent) => {
@@ -1237,6 +1287,139 @@ export default function InventoryView({
                         ))}
                       </div>
                     </div>
+                  </div>
+                )}
+              </div>
+
+              {/* PHASE D: VARIANTS — pack-size selector on the PDP. Each
+                  row becomes a ProductVariant on save via a bulk-replace
+                  PUT to /api/products/:id/variants. Setting variants makes
+                  the "N options" chip appear on the customer card. */}
+              <div className="rounded-2xl bg-slate-950 border border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowVariantsSection((v) => !v);
+                    // Opening for the first time initializes the draft to
+                    // an empty array so an "empty save" is meaningful
+                    // (= delete all variants) instead of a no-op.
+                    if (variantsDraft === undefined) setVariantsDraft([]);
+                  }}
+                  className="w-full flex items-center justify-between px-3.5 py-3 text-xs font-black text-slate-300 hover:bg-slate-900 rounded-2xl cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    <Layers className="h-4 w-4 text-cyan-400" />
+                    Pack variants
+                    <span className="text-[10px] text-slate-500 font-normal">
+                      {(variantsDraft?.length ?? 0) > 0
+                        ? `${variantsDraft!.length} defined`
+                        : "e.g. 200 g / 500 g / 1 kg"}
+                    </span>
+                  </span>
+                  <span className="text-[10px] text-slate-500">
+                    {showVariantsSection ? "Hide" : "Show"}
+                  </span>
+                </button>
+                {showVariantsSection && (
+                  <div className="space-y-2 px-3.5 pb-3.5 border-t border-slate-800 pt-3">
+                    {(variantsDraft ?? []).length === 0 && (
+                      <p className="text-[11px] text-slate-500 leading-snug">
+                        No variants yet. Add pack sizes so the customer sees
+                        an "options" chip on the card and a variant picker
+                        on the PDP. The primary product SKU acts as the sole
+                        variant when this list is empty.
+                      </p>
+                    )}
+                    <div className="space-y-2">
+                      {(variantsDraft ?? []).map((v, i) => (
+                        <div
+                          key={i}
+                          className="rounded-xl border border-slate-800 bg-slate-900 p-2.5 space-y-2"
+                        >
+                          <div className="grid grid-cols-5 gap-1.5 items-end">
+                            <div className="col-span-2">
+                              <label className="block text-[10px] font-bold uppercase text-slate-400 mb-0.5">
+                                Label
+                              </label>
+                              <input
+                                type="text"
+                                required
+                                value={v.label}
+                                onChange={(e) => updateVariantRow(i, { label: e.target.value })}
+                                placeholder="500 g"
+                                className="w-full rounded-lg border border-slate-800 bg-slate-950 p-1.5 text-white focus:border-emerald-500 focus:outline-none"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[10px] font-bold uppercase text-slate-400 mb-0.5">
+                                Price ₹
+                              </label>
+                              <input
+                                type="number"
+                                min={0}
+                                required
+                                value={v.price}
+                                onChange={(e) => updateVariantRow(i, { price: parseFloat(e.target.value) || 0 })}
+                                className="w-full rounded-lg border border-slate-800 bg-slate-950 p-1.5 text-white focus:border-emerald-500 focus:outline-none"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[10px] font-bold uppercase text-slate-400 mb-0.5">
+                                MRP ₹
+                              </label>
+                              <input
+                                type="number"
+                                min={0}
+                                value={v.originalPrice ?? ""}
+                                onChange={(e) =>
+                                  updateVariantRow(i, {
+                                    originalPrice: e.target.value ? parseFloat(e.target.value) : null,
+                                  })
+                                }
+                                className="w-full rounded-lg border border-slate-800 bg-slate-950 p-1.5 text-white focus:border-emerald-500 focus:outline-none"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[10px] font-bold uppercase text-slate-400 mb-0.5">
+                                Stock
+                              </label>
+                              <input
+                                type="number"
+                                min={0}
+                                value={v.stock}
+                                onChange={(e) => updateVariantRow(i, { stock: parseInt(e.target.value) || 0 })}
+                                className="w-full rounded-lg border border-slate-800 bg-slate-950 p-1.5 text-white focus:border-emerald-500 focus:outline-none"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between text-[11px]">
+                            <label className="flex items-center gap-1.5 text-slate-300 cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={!!v.isDefault}
+                                onChange={(e) => updateVariantRow(i, { isDefault: e.target.checked })}
+                                className="rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-emerald-500 cursor-pointer"
+                              />
+                              Default variant
+                            </label>
+                            <button
+                              type="button"
+                              onClick={() => removeVariantRow(i)}
+                              className="flex items-center gap-1 rounded-lg px-2 py-1 text-rose-400 hover:bg-rose-950 cursor-pointer"
+                            >
+                              <Trash2 className="h-3 w-3" /> Remove
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={addVariantRow}
+                      className="w-full flex items-center justify-center gap-1.5 rounded-xl border border-dashed border-cyan-700 bg-cyan-950/40 px-3 py-2 text-xs font-bold text-cyan-300 hover:bg-cyan-950/70 cursor-pointer"
+                    >
+                      <Plus className="h-4 w-4" /> Add pack variant
+                    </button>
                   </div>
                 )}
               </div>

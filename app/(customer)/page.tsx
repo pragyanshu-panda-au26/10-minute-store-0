@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import CustomerHeader from "@/components/customer/CustomerHeader";
 import ProductCard from "@/components/customer/ProductCard";
 import CartDrawer from "@/components/customer/CartDrawer";
@@ -27,6 +28,7 @@ import { useThemeStore } from "@/store/useThemeStore";
 import { Loader2, SearchX, MapPin, History, HelpCircle, Lock, ShieldCheck } from "lucide-react";
 
 export default function CustomerPage() {
+  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>("All Items");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -63,21 +65,18 @@ export default function CustomerPage() {
   };
 
   const handleSelectCategoryAndSubcategory = (catId: string, subName: string) => {
+    // Blinkit-parity: a category tap routes to the category detail page
+    // (/c/[id]?sub=<subName>) so the shopper gets the split-view layout —
+    // left rail of subcategories + right product grid — and the back button
+    // returns to the home mega-grid. The "all" case is a no-op filter and
+    // stays in-page.
+    if (catId && catId !== "all") {
+      const qs = subName ? `?sub=${encodeURIComponent(subName)}` : "";
+      router.push(`/c/${catId}${qs}`);
+      return;
+    }
     setSelectedCategory(catId);
     setSelectedSubcategory(subName);
-    // Scroll the freshly-filtered grid into view so a category tap doesn't
-    // silently mutate a section the customer is scrolled miles above. Matches
-    // Blinkit — tap a category, the listing snaps into place.
-    if (typeof window !== "undefined") {
-      // Defer to the next frame so the state → re-render happens before the
-      // scroll, otherwise we scroll to the stale grid layout.
-      requestAnimationFrame(() => {
-        document.getElementById("all-products")?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      });
-    }
   };
 
   // Derived rails — sourced from the same product list so no extra API calls.

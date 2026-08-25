@@ -8,10 +8,8 @@ import {
   Compass,
   AlertTriangle,
   Search,
-  MapPin,
   X,
 } from "lucide-react";
-import { GEOFENCE_CENTER } from "@/lib/geofence";
 import { useUserStore } from "@/store/useUserStore";
 
 interface GatedServiceabilityModalProps {
@@ -408,23 +406,6 @@ export default function GatedServiceabilityModal({
             <X className="h-4 w-4" />
           </button>
         </div>
-        {/* Dev-only bypass — still available in the strip so QA can hop into
-            the Paradip fixture with one tap. Never renders in production. */}
-        {process.env.NODE_ENV !== "production" && (
-          <button
-            onClick={() =>
-              handleVerifyCoordinates(
-                GEOFENCE_CENTER.lat,
-                GEOFENCE_CENTER.lng,
-                "Paradip Store Hub"
-              )
-            }
-            className="w-full border-t border-amber-200 px-3 py-1.5 text-[10px] font-black text-emerald-700 hover:bg-amber-100 cursor-pointer"
-          >
-            <MapPin className="inline h-3 w-3 mr-1 text-emerald-700" />
-            Test: use Paradip Store Hub ({GEOFENCE_CENTER.lat.toFixed(4)}, {GEOFENCE_CENTER.lng.toFixed(4)})
-          </button>
-        )}
       </div>
     );
   }
@@ -517,20 +498,6 @@ export default function GatedServiceabilityModal({
                 className="w-full flex items-center justify-center gap-2 rounded-xl bg-amber-400 py-2.5 text-xs font-black text-slate-950 hover:bg-amber-300 shadow-md cursor-pointer"
               >
                 <Compass className="h-4 w-4" /> Retry HTML5 Geolocation API
-              </button>
-
-              <button
-                type="button"
-                onClick={() =>
-                  handleVerifyCoordinates(
-                    GEOFENCE_CENTER.lat,
-                    GEOFENCE_CENTER.lng,
-                    "Paradip Store Hub"
-                  )
-                }
-                className="w-full flex items-center justify-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-950/80 p-2.5 text-emerald-400 font-extrabold text-xs hover:bg-emerald-900/80 cursor-pointer"
-              >
-                <MapPin className="h-3.5 w-3.5 text-emerald-400" /> Verify Paradip Store Center ({GEOFENCE_CENTER.lat.toFixed(4)}, {GEOFENCE_CENTER.lng.toFixed(4)})
               </button>
             </div>
           </div>

@@ -39,6 +39,10 @@ export interface StoreSettingsShape {
   slotLeadMinutes: number;
   // Rotating placeholders for the storefront search bar.
   searchPlaceholders: string[];
+  // Admin-curated merchandising pins per L2 category. `{}` = no pins.
+  // Consumer of this map (customer PDP) puts pinned products first in the
+  // "Top in this category" rail before the algorithmic sort.
+  featuredByCategory: Record<string, string[]>;
 }
 
 const SINGLETON_ID = "singleton";
@@ -81,6 +85,8 @@ export async function getStoreSettings(): Promise<StoreSettingsShape> {
     slotCapacity: row.slotCapacity,
     slotLeadMinutes: row.slotLeadMinutes,
     searchPlaceholders: row.searchPlaceholders ?? [],
+    featuredByCategory:
+      (row.featuredByCategory as Record<string, string[]> | null) ?? {},
   };
 }
 
@@ -135,6 +141,22 @@ export async function updateStoreSettings(
             ).slice(0, 12),
           }
         : {}),
+      ...(patch.featuredByCategory !== undefined
+        ? {
+            // Normalise: drop empty productId arrays entirely, dedupe within
+            // each list, cap to 12 pins per category so the "Top in this
+            // category" rail doesn't turn into a scrollable spam bar.
+            featuredByCategory: (() => {
+              if (!patch.featuredByCategory) return null as any; // wipe all
+              const out: Record<string, string[]> = {};
+              for (const [cat, ids] of Object.entries(patch.featuredByCategory)) {
+                const clean = Array.from(new Set((ids ?? []).filter(Boolean))).slice(0, 12);
+                if (clean.length > 0) out[cat] = clean;
+              }
+              return out as any;
+            })(),
+          }
+        : {}),
     },
   });
   return {
@@ -154,6 +176,8 @@ export async function updateStoreSettings(
     slotCapacity: row.slotCapacity,
     slotLeadMinutes: row.slotLeadMinutes,
     searchPlaceholders: row.searchPlaceholders ?? [],
+    featuredByCategory:
+      (row.featuredByCategory as Record<string, string[]> | null) ?? {},
   };
 }
 

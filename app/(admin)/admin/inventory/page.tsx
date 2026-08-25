@@ -26,6 +26,7 @@ export default function AdminInventoryPage() {
     id: p.id,
     sku: p.sku,
     name: p.name,
+    brand: (p as any).brand ?? null,
     category: p.category,
     subcategory: p.subcategory ?? undefined,
     price: p.price,
@@ -33,9 +34,54 @@ export default function AdminInventoryPage() {
     costPrice: p.costPrice ?? undefined,
     stock: p.stock ?? 25,
     imageUrl: p.imageUrl,
+    // API returns images always-with-primary-leading; strip the primary so
+    // the admin edit form re-hydrates "additional" images distinctly.
+    images: ((p as any).images ?? []).filter((u: string) => u !== p.imageUrl),
     weight: p.weight || "1 unit",
     tags: p.tags,
+    ratingCount: (p as any).ratingCount ?? 0,
+    type: (p as any).type ?? null,
+    shelfLife: (p as any).shelfLife ?? null,
+    countryOfOrigin: (p as any).countryOfOrigin ?? null,
+    ingredients: (p as any).ingredients ?? null,
+    nutrition: (p as any).nutrition ?? null,
+    variants: (((p as any).variants ?? []) as any[]).map((v: any) => ({
+      id: v.id,
+      sku: v.sku,
+      label: v.label,
+      price: v.price,
+      originalPrice: v.originalPrice ?? null,
+      stock: v.stock,
+      isDefault: v.isDefault,
+      sortOrder: v.sortOrder,
+    })),
   }));
+
+  /**
+   * Post-save hook that syncs the variant table for a product. Called
+   * after createProduct / updateProduct returns. Skips the round-trip
+   * entirely when the admin didn't touch variants (undefined) — an
+   * explicit empty array still fires because that's "delete all variants",
+   * which is a meaningful action.
+   */
+  const syncVariants = async (
+    productId: string,
+    variants: AdminProduct["variants"] | undefined
+  ) => {
+    if (!variants) return; // undefined = no change
+    const res = await fetch(`/api/products/${productId}/variants`, {
+      method: "PUT",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ variants }),
+    });
+    if (!res.ok) {
+      console.warn("Variant sync failed:", await res.text());
+    }
+    // Refresh the catalog so admin table shows the new "options" count and
+    // the customer PDP variant picker pulls the fresh set.
+    await fetchProducts({ includeInactive: true });
+  };
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex">
@@ -65,20 +111,40 @@ export default function AdminInventoryPage() {
         <main className="flex-1 p-4 sm:p-6 max-w-7xl w-full mx-auto">
           <InventoryView
             products={adminProducts}
-            onAddProduct={(np) =>
-              createProduct({
-                name: np.name,
-                category: np.category,
-                price: np.price,
-                originalPrice: np.originalPrice,
-                costPrice: np.costPrice,
-                stock: np.stock,
-                weight: np.weight,
-                imageUrl: np.imageUrl,
-                tags: np.tags,
-              }).then(() => undefined)
-            }
-            onUpdateProduct={(id, fields) => updateProduct(id, fields as any).then(() => undefined)}
+            onAddProduct={async (np) => {
+              // Spread the full Phase B/C payload — brand, images,
+              // ratingCount, type, shelfLife, countryOfOrigin, ingredients,
+              // nutrition. `variants` is stripped because the products API
+              // doesn't accept it; we PUT them separately below.
+              const { variants, ...scalar } = np;
+              const created = await createProduct({
+                name: scalar.name,
+                brand: scalar.brand ?? null,
+                category: scalar.category,
+                price: scalar.price,
+                originalPrice: scalar.originalPrice,
+                costPrice: scalar.costPrice,
+                stock: scalar.stock,
+                weight: scalar.weight,
+                imageUrl: scalar.imageUrl,
+                images: scalar.images ?? [],
+                tags: scalar.tags,
+                ratingCount: scalar.ratingCount,
+                type: scalar.type ?? null,
+                shelfLife: scalar.shelfLife ?? null,
+                countryOfOrigin: scalar.countryOfOrigin ?? null,
+                ingredients: scalar.ingredients ?? null,
+                nutrition: scalar.nutrition ?? null,
+              } as any);
+              if (created?.id) {
+                await syncVariants(created.id, variants);
+              }
+            }}
+            onUpdateProduct={async (id, fields) => {
+              const { variants, ...scalar } = fields as AdminProduct;
+              await updateProduct(id, scalar as any);
+              await syncVariants(id, variants);
+            }}
             onDeleteProduct={(id) => deleteProduct(id).then(() => undefined)}
             onUpdateStock={(id, stock) => updateStock(id, stock).then(() => undefined)}
           />
