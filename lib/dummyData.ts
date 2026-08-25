@@ -98,8 +98,12 @@ export const CATEGORIES: Category[] = [
 
 export interface ExtendedProduct extends Product {
   sku?: string;
-  costPrice?: number;
-  subcategory?: string;
+  // API returns null for absent cost — keep both so server-sourced products
+  // (which may carry null) satisfy this shape without a cast.
+  costPrice?: number | null;
+  // Also allow null so server-sourced products (Prisma sends null when the
+  // FK isn't set) satisfy this shape without a cast at the call site.
+  subcategory?: string | null;
   description?: string;
   nutritionalInfo?: {
     calories: string;

@@ -13,14 +13,22 @@ const DEFAULT_SEARCH_TERMS = [
 ];
 
 interface CustomerHeaderProps {
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
+  // Optional so routes that don't drive an inline search (brand page,
+  // category detail) can drop the header in without wiring state. When
+  // omitted, the header keeps its own local query — typing there is a
+  // no-op the caller can't observe, matching the "search bar as visual
+  // affordance only" role those routes want.
+  searchQuery?: string;
+  setSearchQuery?: (query: string) => void;
 }
 
 export default function CustomerHeader({
-  searchQuery,
-  setSearchQuery,
-}: CustomerHeaderProps) {
+  searchQuery: searchQueryProp,
+  setSearchQuery: setSearchQueryProp,
+}: CustomerHeaderProps = {}) {
+  const [localSearchQuery, setLocalSearchQuery] = useState("");
+  const searchQuery = searchQueryProp ?? localSearchQuery;
+  const setSearchQuery = setSearchQueryProp ?? setLocalSearchQuery;
   const { profile, getActiveAddress } = useUserStore();
   const activeAddr = getActiveAddress();
 

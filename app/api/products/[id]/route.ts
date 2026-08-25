@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { fail, handler, ok, parseJson, requireAuth } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
@@ -50,44 +51,52 @@ export const PATCH = handler(async (req: NextRequest, { params }: Params) => {
   const body = await parseJson(req, patchSchema);
   if (body instanceof NextResponse) return body;
 
+  // Assemble the update payload as an UncheckedUpdateInput so foreign-key
+  // scalars (categoryId, subcategoryId) can be set directly. The
+  // conditional-spread pattern below confuses Prisma 7's union type
+  // (Update vs UncheckedUpdate); typing the object up-front pins it.
+  const data: Prisma.ProductUncheckedUpdateInput = {
+    ...(body.name !== undefined ? { name: body.name } : {}),
+    ...(body.description !== undefined ? { description: body.description } : {}),
+    ...(body.brand !== undefined ? { brand: body.brand } : {}),
+    ...(body.category !== undefined ? { categoryId: body.category } : {}),
+    ...(body.subcategoryId !== undefined ? { subcategoryId: body.subcategoryId } : {}),
+    ...(body.price !== undefined ? { price: toPaise(body.price) } : {}),
+    ...(body.originalPrice !== undefined
+      ? { originalPrice: body.originalPrice == null ? null : toPaise(body.originalPrice) }
+      : {}),
+    ...(body.costPrice !== undefined
+      ? { costPrice: body.costPrice == null ? null : toPaise(body.costPrice) }
+      : {}),
+    ...(body.stock !== undefined ? { stock: body.stock } : {}),
+    ...(body.weight !== undefined ? { weight: body.weight } : {}),
+    ...(body.imageUrl !== undefined ? { imageUrl: body.imageUrl } : {}),
+    ...(body.images !== undefined ? { images: body.images } : {}),
+    ...(body.rating !== undefined ? { rating: body.rating } : {}),
+    ...(body.ratingCount !== undefined ? { ratingCount: body.ratingCount } : {}),
+    ...(body.tags !== undefined ? { tags: body.tags } : {}),
+    ...(body.isActive !== undefined ? { isActive: body.isActive } : {}),
+    ...(body.type !== undefined ? { type: body.type } : {}),
+    ...(body.shelfLife !== undefined ? { shelfLife: body.shelfLife } : {}),
+    ...(body.countryOfOrigin !== undefined ? { countryOfOrigin: body.countryOfOrigin } : {}),
+    ...(body.ingredients !== undefined ? { ingredients: body.ingredients } : {}),
+    // Same empty-object-to-DbNull coercion as POST so the PDP hides the
+    // nutrition block instead of rendering an empty table. Nullable JSON
+    // columns need Prisma.DbNull (SQL NULL) — a bare `null` is rejected
+    // at the type level and would be ambiguous with a JSON `null` literal.
+    ...(body.nutrition !== undefined
+      ? {
+          nutrition:
+            body.nutrition && Object.keys(body.nutrition).length > 0
+              ? body.nutrition
+              : Prisma.DbNull,
+        }
+      : {}),
+  };
+
   const product = await prisma.product.update({
     where: { id },
-    data: {
-      ...(body.name !== undefined ? { name: body.name } : {}),
-      ...(body.description !== undefined ? { description: body.description } : {}),
-      ...(body.brand !== undefined ? { brand: body.brand } : {}),
-      ...(body.category !== undefined ? { categoryId: body.category } : {}),
-      ...(body.subcategoryId !== undefined ? { subcategoryId: body.subcategoryId } : {}),
-      ...(body.price !== undefined ? { price: toPaise(body.price) } : {}),
-      ...(body.originalPrice !== undefined
-        ? { originalPrice: body.originalPrice == null ? null : toPaise(body.originalPrice) }
-        : {}),
-      ...(body.costPrice !== undefined
-        ? { costPrice: body.costPrice == null ? null : toPaise(body.costPrice) }
-        : {}),
-      ...(body.stock !== undefined ? { stock: body.stock } : {}),
-      ...(body.weight !== undefined ? { weight: body.weight } : {}),
-      ...(body.imageUrl !== undefined ? { imageUrl: body.imageUrl } : {}),
-      ...(body.images !== undefined ? { images: body.images } : {}),
-      ...(body.rating !== undefined ? { rating: body.rating } : {}),
-      ...(body.ratingCount !== undefined ? { ratingCount: body.ratingCount } : {}),
-      ...(body.tags !== undefined ? { tags: body.tags } : {}),
-      ...(body.isActive !== undefined ? { isActive: body.isActive } : {}),
-      ...(body.type !== undefined ? { type: body.type } : {}),
-      ...(body.shelfLife !== undefined ? { shelfLife: body.shelfLife } : {}),
-      ...(body.countryOfOrigin !== undefined ? { countryOfOrigin: body.countryOfOrigin } : {}),
-      ...(body.ingredients !== undefined ? { ingredients: body.ingredients } : {}),
-      // Same empty-object-to-null coercion as POST so the PDP hides the
-      // nutrition block instead of rendering an empty table.
-      ...(body.nutrition !== undefined
-        ? {
-            nutrition:
-              body.nutrition && Object.keys(body.nutrition).length > 0
-                ? body.nutrition
-                : null,
-          }
-        : {}),
-    },
+    data,
     include: { subcategory: true },
   });
   return ok({ product: serializeProduct(product) });

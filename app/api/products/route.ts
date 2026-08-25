@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { z } from "zod";
 import { fail, handler, ok, parseJson, requireAuth } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
@@ -105,11 +106,14 @@ export const POST = handler(async (req: NextRequest) => {
       shelfLife: body.shelfLife ?? null,
       countryOfOrigin: body.countryOfOrigin ?? "India",
       ingredients: body.ingredients ?? null,
-      // Empty-object nutrition writes as null so the PDP hides the section.
+      // Empty-object nutrition writes as DB NULL so the PDP hides the
+      // section. Prisma nullable-JSON columns reject a bare `null` at the
+      // type level — you must opt into DbNull / JsonNull explicitly, which
+      // also disambiguates SQL NULL from a JSON `null` literal.
       nutrition:
         body.nutrition && Object.keys(body.nutrition).length > 0
           ? body.nutrition
-          : null,
+          : Prisma.DbNull,
     },
     include: { subcategory: true },
   });
