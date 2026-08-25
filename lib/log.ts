@@ -157,9 +157,21 @@ function emit(level: Level, message: string, ctx: LogContext = {}, err?: unknown
     ...scrub(ctx),
   };
   if (err) {
-    line.err = err instanceof Error
-      ? { name: err.name, message: scrubString(err.message), stack: err.stack }
-      : String(err);
+    if (err instanceof Error) {
+      line.err = { name: err.name, message: scrubString(err.message), stack: err.stack };
+    } else if (typeof err === "object") {
+      // Plain-object errors (Razorpay's `{ statusCode, error: {...} }`,
+      // fetch response bodies, etc.) used to serialize as `"[object Object]"`
+      // via `String(err)`, hiding every field we actually needed. Preserve
+      // the shape via JSON, falling back to string only if it's circular.
+      try {
+        line.err = scrub(err);
+      } catch {
+        line.err = String(err);
+      }
+    } else {
+      line.err = String(err);
+    }
   }
   const json = JSON.stringify(line);
   // eslint-disable-next-line no-console

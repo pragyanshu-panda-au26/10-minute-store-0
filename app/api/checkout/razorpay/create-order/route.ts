@@ -3,6 +3,7 @@ import { z } from "zod";
 import Razorpay from "razorpay";
 import { fail, handler, ok, parseJson, requireAuth } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
+import { log, requestIdFrom } from "@/lib/log";
 
 /**
  * POST /api/checkout/razorpay/create-order
@@ -42,16 +43,45 @@ export const POST = handler(async (req: NextRequest) => {
   if (order.paymentStatus === "paid") return fail("Order already paid", 409);
 
   const rzp = new Razorpay({ key_id: keyId, key_secret: keySecret });
-  const rzpOrder = await rzp.orders.create({
-    amount: order.total, // paise
-    currency: "INR",
-    receipt: order.orderNumber,
-    notes: {
-      orderId: order.id,
-      orderNumber: order.orderNumber,
-      customerId: order.customerId ?? "",
-    },
-  });
+
+  // Razorpay's SDK throws plain-object errors (`{ statusCode, error: {code,
+  // description, reason, ...} }`), not `Error` instances. Left uncaught,
+  // handler() would swallow them into a generic 500 with `[object Object]`
+  // in the log. Catch here so we can (a) log the real reason and (b) tell
+  // the client what actually went wrong instead of a bare 500.
+  // Razorpay's SDK types `orders.create` with two overloads (promise +
+  // callback), and TS picks the void one for `ReturnType`. Widen to `any`
+  // for the local binding — the runtime shape is the promise result.
+  let rzpOrder: any;
+  try {
+    rzpOrder = await rzp.orders.create({
+      amount: order.total, // paise
+      currency: "INR",
+      // Razorpay caps receipt at 40 chars — our SL-xxxxxx numbers fit, but
+      // guard anyway in case the format changes.
+      receipt: order.orderNumber.slice(0, 40),
+      notes: {
+        orderId: order.id,
+        orderNumber: order.orderNumber,
+        customerId: order.customerId ?? "",
+      },
+    });
+  } catch (err) {
+    const requestId = requestIdFrom(req);
+    log.error(
+      "Razorpay orders.create failed",
+      { requestId, route: "/api/checkout/razorpay/create-order", orderId: order.id, amount: order.total },
+      err
+    );
+    // Surface Razorpay's own reason so the checkout UI can show it.
+    const e = err as {
+      statusCode?: number;
+      error?: { code?: string; description?: string; reason?: string };
+    };
+    const description = e?.error?.description || e?.error?.reason || "Razorpay rejected the order";
+    const code = e?.error?.code ? ` (${e.error.code})` : "";
+    return fail(`Payment gateway error: ${description}${code}`, 502, e?.error ?? { raw: String(err) });
+  }
 
   await prisma.order.update({
     where: { id: order.id },
