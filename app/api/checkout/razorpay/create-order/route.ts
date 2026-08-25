@@ -32,6 +32,8 @@ export const POST = handler(async (req: NextRequest) => {
   const body = await parseJson(req, bodySchema);
   if (body instanceof NextResponse) return body;
 
+  const requestId = requestIdFrom(req);
+
   const order = await prisma.order.findFirst({
     where: {
       OR: [{ id: body.orderId }, { orderNumber: body.orderId }],
@@ -67,7 +69,6 @@ export const POST = handler(async (req: NextRequest) => {
       },
     });
   } catch (err) {
-    const requestId = requestIdFrom(req);
     log.error(
       "Razorpay orders.create failed",
       { requestId, route: "/api/checkout/razorpay/create-order", orderId: order.id, amount: order.total },
@@ -83,10 +84,35 @@ export const POST = handler(async (req: NextRequest) => {
     return fail(`Payment gateway error: ${description}${code}`, 502, e?.error ?? { raw: String(err) });
   }
 
-  await prisma.order.update({
-    where: { id: order.id },
-    data: { razorpayOrderId: rzpOrder.id },
-  });
+  // Second guarded step — persist the Razorpay orderId back to our DB.
+  // Wrapped separately because a failure here is a very different bug
+  // (Prisma / DB) from a Razorpay-side rejection, and the previous
+  // "Unhandled route error → [object Object]" log line was almost
+  // certainly this branch (the API probe confirmed Razorpay created the
+  // order successfully). If a unique-constraint violation fires because
+  // this DB row already has a razorpayOrderId (retry after a partial
+  // failure), we log-and-ignore — the fresh Razorpay id is what the
+  // client will use to actually pay, so returning success is correct.
+  try {
+    await prisma.order.update({
+      where: { id: order.id },
+      data: { razorpayOrderId: rzpOrder.id },
+    });
+  } catch (err) {
+    log.error(
+      "prisma.order.update(razorpayOrderId) failed",
+      {
+        requestId,
+        route: "/api/checkout/razorpay/create-order",
+        orderId: order.id,
+        razorpayOrderId: rzpOrder.id,
+      },
+      err
+    );
+    // Don't fail the whole checkout — the Razorpay order exists and the
+    // client can still complete payment against it. Verify webhook will
+    // reconcile via the notes.orderId we stamped above.
+  }
 
   return ok({
     razorpayOrderId: rzpOrder.id,

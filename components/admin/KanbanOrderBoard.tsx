@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminOrder, OrderStatus } from "@/lib/adminDummyData";
+import { AdminOrder, OrderStatus, PaymentMethod, PaymentStatus } from "@/lib/adminDummyData";
 import {
   Clock,
   PackageCheck,
@@ -9,7 +9,25 @@ import {
   MapPin,
   Boxes,
   ArrowRight,
+  Banknote,
+  CreditCard,
 } from "lucide-react";
+
+// Payment-method chip. Cash is the default we render when the field is
+// missing (older orders seeded before we tracked payment method).
+const PAYMENT_METHOD_META: Record<PaymentMethod, { label: string; className: string; Icon: any }> = {
+  cod:      { label: "COD",      className: "border-amber-500/40 bg-amber-500/10 text-amber-300", Icon: Banknote },
+  razorpay: { label: "Razorpay", className: "border-sky-500/40 bg-sky-500/10 text-sky-300",       Icon: CreditCard },
+};
+
+// Payment-status chip. `pending` = not yet paid (COD before delivery, or a
+// Razorpay attempt still in flight); the rest are self-explanatory.
+const PAYMENT_STATUS_META: Record<PaymentStatus, { label: string; className: string }> = {
+  pending:  { label: "Unpaid",  className: "border-slate-600/60 bg-slate-800 text-slate-300" },
+  paid:     { label: "Paid",    className: "border-emerald-500/40 bg-emerald-500/10 text-emerald-300" },
+  failed:   { label: "Failed",  className: "border-rose-500/40 bg-rose-500/10 text-rose-300" },
+  refunded: { label: "Refunded",className: "border-purple-500/40 bg-purple-500/10 text-purple-300" },
+};
 
 interface KanbanOrderBoardProps {
   orders: AdminOrder[];
@@ -84,6 +102,11 @@ export default function KanbanOrderBoard({
               <div className="space-y-3 flex-1 overflow-y-auto">
                 {colOrders.map((ord) => {
                   const next = NEXT_STATUS[ord.status];
+                  // Fall back defensively — older orders (seeded before we
+                  // captured payment info) can be missing these fields.
+                  const method = PAYMENT_METHOD_META[ord.paymentMethod ?? "cod"];
+                  const payStatus = PAYMENT_STATUS_META[ord.paymentStatus ?? "pending"];
+                  const MethodIcon = method.Icon;
                   return (
                     <div
                       key={ord.id}
@@ -105,6 +128,23 @@ export default function KanbanOrderBoard({
                         <MapPin className="h-3 w-3 text-rose-400 flex-shrink-0" />
                         <span className="truncate">{ord.deliveryAddress}</span>
                       </p>
+
+                      {/* Payment method + status pair — same row so the
+                          admin can triage cash-collection vs prepaid orders
+                          at a glance without opening the modal. */}
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span
+                          className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[10px] font-extrabold ${method.className}`}
+                        >
+                          <MethodIcon className="h-2.5 w-2.5" />
+                          {method.label}
+                        </span>
+                        <span
+                          className={`inline-flex items-center rounded-md border px-1.5 py-0.5 text-[10px] font-extrabold ${payStatus.className}`}
+                        >
+                          {payStatus.label}
+                        </span>
+                      </div>
 
                       {next && (
                         <button

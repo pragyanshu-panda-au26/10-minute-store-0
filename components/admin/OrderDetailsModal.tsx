@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AdminOrder, OrderStatus } from "@/lib/adminDummyData";
+import { AdminOrder, OrderStatus, PaymentMethod, PaymentStatus } from "@/lib/adminDummyData";
 import { staticMapUrl } from "@/lib/googleMaps";
 import {
   X,
@@ -22,7 +22,23 @@ import {
   Printer,
   IndianRupee,
   Banknote,
+  CreditCard,
+  Wallet,
 } from "lucide-react";
+
+// Payment chip metadata — matches the Kanban card so the admin sees the
+// same visual language on the card and inside the modal.
+const PAYMENT_METHOD_META: Record<PaymentMethod, { label: string; className: string; Icon: any }> = {
+  cod:      { label: "Cash on delivery", className: "border-amber-500/40 bg-amber-500/10 text-amber-300", Icon: Banknote },
+  razorpay: { label: "Razorpay (Prepaid)", className: "border-sky-500/40 bg-sky-500/10 text-sky-300",     Icon: CreditCard },
+};
+
+const PAYMENT_STATUS_META: Record<PaymentStatus, { label: string; className: string }> = {
+  pending:  { label: "Unpaid",   className: "border-slate-600/60 bg-slate-800 text-slate-300" },
+  paid:     { label: "Paid",     className: "border-emerald-500/40 bg-emerald-500/10 text-emerald-300" },
+  failed:   { label: "Failed",   className: "border-rose-500/40 bg-rose-500/10 text-rose-300" },
+  refunded: { label: "Refunded", className: "border-purple-500/40 bg-purple-500/10 text-purple-300" },
+};
 
 interface OrderDetailsModalProps {
   order: AdminOrder | null;
@@ -66,11 +82,18 @@ export default function OrderDetailsModal({
   );
   const whatsappUrl = waNumber ? `https://wa.me/${waNumber}?text=${waMessage}` : null;
 
-  const isCod = (order as any).paymentMethod === "cod";
-  const isPaid = (order as any).paymentStatus === "paid";
-  const isRefunded = (order as any).paymentStatus === "refunded";
+  // Fall back defensively — older orders (seeded before we captured
+  // payment info) can be missing these fields.
+  const paymentMethod: PaymentMethod = order.paymentMethod ?? "cod";
+  const paymentStatus: PaymentStatus = order.paymentStatus ?? "pending";
+  const isCod = paymentMethod === "cod";
+  const isPaid = paymentStatus === "paid";
+  const isRefunded = paymentStatus === "refunded";
   const canMarkPaid = isCod && !isPaid && !isRefunded;
   const canRefund = isPaid && !isRefunded && order.status !== "cancelled";
+  const methodMeta = PAYMENT_METHOD_META[paymentMethod];
+  const statusMeta = PAYMENT_STATUS_META[paymentStatus];
+  const MethodIcon = methodMeta.Icon;
 
   const handleStatusChange = async (newStatus: OrderStatus) => {
     setIsUpdating(true);
@@ -300,6 +323,57 @@ export default function OrderDetailsModal({
             </div>
           </div>
 
+          {/* Payment — method + status + refund amount if any. Sits above
+              the itemized list so the admin knows how to collect (or that
+              they've already been collected from) before they read what to
+              pack. */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-4 space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+              <Wallet className="h-3.5 w-3.5 text-emerald-400" />
+              Payment
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <p className="text-[10px] uppercase font-bold text-slate-500 mb-1">Method</p>
+                <span
+                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2 py-1 text-xs font-extrabold ${methodMeta.className}`}
+                >
+                  <MethodIcon className="h-3.5 w-3.5" />
+                  {methodMeta.label}
+                </span>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase font-bold text-slate-500 mb-1">Status</p>
+                <span
+                  className={`inline-flex items-center rounded-lg border px-2 py-1 text-xs font-extrabold ${statusMeta.className}`}
+                >
+                  {statusMeta.label}
+                </span>
+              </div>
+            </div>
+            {/* Refund line — only when we've actually paid something back.
+                Guards against the `refundAmount = 0` case (unrefunded
+                orders default to 0, we don't want a ghost row saying
+                "Refunded ₹0" everywhere). */}
+            {typeof order.refundAmount === "number" && order.refundAmount > 0 && (
+              <div className="flex items-center justify-between rounded-xl bg-purple-950/50 border border-purple-800/60 px-3 py-2 text-xs">
+                <span className="font-bold text-purple-200 flex items-center gap-1.5">
+                  <RotateCcw className="h-3.5 w-3.5" />
+                  Refunded to customer
+                </span>
+                <span className="font-black text-purple-300">₹{order.refundAmount}</span>
+              </div>
+            )}
+            {/* COD hint — tells the admin exactly how much to collect
+                on delivery for an unpaid cash order. */}
+            {isCod && !isPaid && !isRefunded && (
+              <p className="text-[11px] text-amber-300/90 flex items-center gap-1.5">
+                <Banknote className="h-3.5 w-3.5" />
+                Collect ₹{order.totalPrice} in cash from the customer on delivery.
+              </p>
+            )}
+          </div>
+
           {/* Itemized */}
           <div className="space-y-2">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">Items</h4>
@@ -409,8 +483,7 @@ export default function OrderDetailsModal({
             <span>₹{order.totalPrice}</span>
           </div>
           <div style={{ marginTop: 2, fontSize: 10 }}>
-            Payment: {(order as any).paymentMethod?.toUpperCase() ?? "COD"} ·{" "}
-            {(order as any).paymentStatus?.toUpperCase() ?? "PENDING"}
+            Payment: {paymentMethod.toUpperCase()} · {paymentStatus.toUpperCase()}
           </div>
           <div style={{ borderTop: "1px dashed black", margin: "4px 0" }} />
           <div style={{ textAlign: "center", fontSize: 9, marginTop: 4 }}>
