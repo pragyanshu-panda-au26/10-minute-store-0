@@ -114,6 +114,22 @@ export const POST = handler(async (req: NextRequest) => {
     // reconcile via the notes.orderId we stamped above.
   }
 
+  // Sanity-log the key prefix on every request so a mismatch between the
+  // server-side `RAZORPAY_KEY_ID` and whatever the browser's checkout is
+  // trying to use is immediately visible. Log the prefix only (never the
+  // full id — treat it like partial PII) so we don't leak the whole key
+  // into log storage. Concrete symptom this catches: a stale/dead key on
+  // Vercel silently 401'ing the browser's `/prefill/encrypt` call while
+  // the server still happily created the order.
+  log.info("Razorpay order handed off to browser", {
+    requestId,
+    route: "/api/checkout/razorpay/create-order",
+    orderId: order.id,
+    razorpayOrderId: rzpOrder.id,
+    keyIdPrefix: keyId.slice(0, 12),
+    mode: keyId.startsWith("rzp_live_") ? "live" : keyId.startsWith("rzp_test_") ? "test" : "unknown",
+  });
+
   return ok({
     razorpayOrderId: rzpOrder.id,
     amount: rzpOrder.amount,
